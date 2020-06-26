@@ -4,11 +4,16 @@ package net.axay.kspigot.chat
 
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
+import org.bukkit.entity.Player
 
 object KBungeeChat {
 
     inline fun buildComponent(builder: KBungeeComponentBuilder.() -> Unit): Array<out BaseComponent> {
         return KBungeeComponentBuilder().apply(builder).create()
+    }
+
+    fun Player.sendMessage(vararg components: BaseComponent) {
+        this.spigot().sendMessage(*components)
     }
 
 }
