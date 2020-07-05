@@ -1,5 +1,6 @@
 package net.axay.kspigot.extensions.events
 
+import net.axay.kspigot.annotations.UnsafeImplementation
 import org.bukkit.block.Block
 import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
@@ -19,6 +20,7 @@ val PlayerInteractEntityEvent.interactItem: ItemStack?
         }
     }
 
+@UnsafeImplementation
 val PlayerInteractEvent.clickedBlockExceptAir: Block?
     get() {
         val p: Player = this.player
