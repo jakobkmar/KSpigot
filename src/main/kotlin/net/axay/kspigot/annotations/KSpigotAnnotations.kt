@@ -1,3 +1,5 @@
+@file:Suppress("ClassName")
+
 package net.axay.kspigot.annotations
 
 /**
@@ -7,3 +9,11 @@ package net.axay.kspigot.annotations
  * to always give the expected results.
  */
 annotation class UnsafeImplementation
+
+/**
+ * This element uses [net.minecraft.server]
+ * in some way. Because of that, it is
+ * unstable and should be checked every time
+ * with a version change.
+ */
+annotation class NMS_1_16_1
