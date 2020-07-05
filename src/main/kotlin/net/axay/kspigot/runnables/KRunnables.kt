@@ -79,7 +79,7 @@ fun bukkitRunnable(
                     }
 
                     return
-                    
+
                 }
 
             }
