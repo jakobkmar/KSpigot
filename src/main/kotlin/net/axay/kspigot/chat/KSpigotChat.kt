@@ -6,10 +6,10 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
 import org.bukkit.entity.Player
 
-object KBungeeChat {
+object KSpigotChat {
 
-    inline fun buildComponent(builder: KBungeeComponentBuilder.() -> Unit): Array<out BaseComponent> {
-        return KBungeeComponentBuilder().apply(builder).create()
+    inline fun buildComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out BaseComponent> {
+        return KSpigotComponentBuilder().apply(builder).create()
     }
 
     fun Player.sendMessage(vararg components: BaseComponent) {
@@ -18,7 +18,7 @@ object KBungeeChat {
 
 }
 
-class KBungeeComponentBuilder {
+class KSpigotComponentBuilder {
 
     val components: MutableList<BaseComponent> = ArrayList()
 
@@ -78,8 +78,8 @@ open class BaseComponentBuilder {
     // TODO
     // var extra: List<BaseComponent>? = null
 
-    inline fun hoverEvent(action: HoverEvent.Action, builder: KBungeeComponentBuilder.() -> Unit)
-            = HoverEvent(action, KBungeeComponentBuilder().apply(builder).create())
+    inline fun hoverEvent(action: HoverEvent.Action, builder: KSpigotComponentBuilder.() -> Unit)
+            = HoverEvent(action, KSpigotComponentBuilder().apply(builder).create())
 
     protected fun applyTo(baseComponent: BaseComponent) {
 
