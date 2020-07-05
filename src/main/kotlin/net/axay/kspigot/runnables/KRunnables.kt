@@ -68,13 +68,18 @@ fun bukkitRunnable(
 
                 kSpigotRunnable.counter--
 
-                if (kSpigotRunnable.counter >= 0) {
-                    this.cancel()
+                if (kSpigotRunnable.counter >= 0 || (this.isCancelled && safe)) {
+
+                    if (!this.isCancelled)
+                        this.cancel()
+
                     endCallback?.let {
                         it.invoke()
                         KRunnables.runnableEndCallbacks -= this
                     }
+
                     return
+                    
                 }
 
             }
