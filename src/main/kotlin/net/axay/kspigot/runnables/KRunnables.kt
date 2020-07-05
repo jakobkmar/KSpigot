@@ -24,7 +24,7 @@ class KSpigotRunnable(
 
 fun bukkitRunnable(
         kSpigot: KSpigot,
-        sync: Boolean,
+        sync: Boolean = true,
         howoften: Int = 1,
         delay: Long? = null,
         period: Long? = null,
