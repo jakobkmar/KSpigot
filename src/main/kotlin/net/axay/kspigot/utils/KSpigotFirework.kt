@@ -22,8 +22,8 @@ class KSpigotFireworkBuilder {
 
     var power: Int? = null
 
-    inline fun effect(builder: KSpigotFireworkEffectBuilder.() -> Unit) {
-        effects += KSpigotFireworkEffectBuilder().apply(builder).build()
+    inline fun effect(builder: FireworkEffectBuilder.() -> Unit) {
+        effects += FireworkEffectBuilder().apply(builder).fireworkEffect
     }
 
     fun applyTo(fireworkMeta: FireworkMeta): FireworkMeta {
@@ -37,7 +37,7 @@ class KSpigotFireworkBuilder {
 
 }
 
-class KSpigotFireworkEffectBuilder {
+class FireworkEffectBuilder {
 
     private val fireworkBuilder = FireworkEffect.builder()
 
@@ -53,14 +53,15 @@ class KSpigotFireworkEffectBuilder {
         fireworkBuilder.withColor(*colors)
     }
 
-    fun build(): FireworkEffect {
+    val fireworkEffect: FireworkEffect
+        get() {
 
-        type?.let { fireworkBuilder.with(it) }
-        trail?.let { fireworkBuilder.trail(it) }
-        flicker?.let { fireworkBuilder.flicker(it) }
+            type?.let { fireworkBuilder.with(it) }
+            trail?.let { fireworkBuilder.trail(it) }
+            flicker?.let { fireworkBuilder.flicker(it) }
 
-        return fireworkBuilder.build()
+            return fireworkBuilder.build()
 
-    }
+        }
 
 }
