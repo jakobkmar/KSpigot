@@ -57,7 +57,7 @@ object KSpigotChat {
 
 class KSpigotComponentBuilder {
 
-    val components: MutableList<BaseComponent> = ArrayList()
+    val components = ArrayList<BaseComponent>()
 
     inline fun text(builder: TextComponentBuilder.() -> Unit) {
         val textComponent = TextComponentBuilder().apply(builder).textComponent
@@ -90,7 +90,7 @@ class KSpigotComponentBuilder {
     }
 
     fun append(baseComponent: BaseComponent) { components += baseComponent }
-    fun create(): Array<BaseComponent> = components.toTypedArray()
+    fun create() = components.toTypedArray()
 
 }
 
