@@ -16,6 +16,43 @@ object KSpigotChat {
         this.spigot().sendMessage(*components)
     }
 
+    /**
+     * Takes objects of the type [String] or [ChatColor],
+     * combines them to a message and sends it to the player.
+     */
+    fun Player.sendMessage(vararg messageParts: Any) {
+        sendMessage(buildComponent {
+
+            var currentColor = ChatColor.WHITE
+            val currentMessage = StringBuilder()
+
+            for (messagePart in messageParts.withIndex()) {
+
+                val index = messagePart.index
+                val value = messagePart.value
+
+                fun buildText() {
+                    text {
+                        text = currentMessage.toString()
+                        color = currentColor
+                    }
+                    currentMessage.clear()
+                }
+
+                if (value is String) {
+                    currentMessage.append(value)
+                    if (index == messageParts.lastIndex)
+                        buildText()
+                } else if (value is ChatColor) {
+                    buildText()
+                    currentColor = value
+                }
+
+            }
+
+        })
+    }
+
 }
 
 class KSpigotComponentBuilder {
