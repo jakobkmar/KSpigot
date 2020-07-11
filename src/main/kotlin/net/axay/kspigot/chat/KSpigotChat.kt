@@ -4,7 +4,7 @@ package net.axay.kspigot.chat
 
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
-import org.bukkit.entity.Player
+import org.bukkit.command.CommandSender
 
 object KSpigotChat {
 
@@ -12,7 +12,7 @@ object KSpigotChat {
         return KSpigotComponentBuilder().apply(builder).create()
     }
 
-    fun Player.sendMessage(vararg components: BaseComponent) {
+    fun CommandSender.sendMessage(vararg components: BaseComponent) {
         this.spigot().sendMessage(*components)
     }
 
@@ -20,24 +20,24 @@ object KSpigotChat {
      * Takes objects of the type [String] or [ChatColor],
      * combines them to a message and sends it to the player.
      */
-    fun Player.sendMessage(vararg messageParts: Any) {
+    fun CommandSender.sendMessage(vararg messageParts: Any) {
         sendMessage(buildComponent {
 
             var currentColor = ChatColor.WHITE
             val currentMessage = StringBuilder()
 
+            fun buildText() {
+                text {
+                    text = currentMessage.toString()
+                    color = currentColor
+                }
+                currentMessage.clear()
+            }
+
             for (messagePart in messageParts.withIndex()) {
 
                 val index = messagePart.index
                 val value = messagePart.value
-
-                fun buildText() {
-                    text {
-                        text = currentMessage.toString()
-                        color = currentColor
-                    }
-                    currentMessage.clear()
-                }
 
                 if (value is String) {
                     currentMessage.append(value)
