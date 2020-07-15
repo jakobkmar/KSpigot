@@ -4,7 +4,7 @@ import net.axay.kspigot.main.KSpigot
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-object KRunnables {
+class KRunnableHolder {
 
     val runnableEndCallbacks = HashMap<BukkitRunnable, () -> Unit>()
 
@@ -75,7 +75,7 @@ fun bukkitRunnable(
 
                     endCallback?.let {
                         it.invoke()
-                        KRunnables.runnableEndCallbacks -= this
+                        kSpigot.kRunnableHolder.runnableEndCallbacks -= this
                     }
 
                     return
@@ -88,7 +88,7 @@ fun bukkitRunnable(
 
         if (safe)
             if (endCallback != null)
-                KRunnables.runnableEndCallbacks[bukkitRunnable] = endCallback
+                kSpigot.kRunnableHolder.runnableEndCallbacks[bukkitRunnable] = endCallback
 
         if (sync)
             bukkitRunnable.runTaskTimer(kSpigot.plugin, realDelay, realPeriod)
