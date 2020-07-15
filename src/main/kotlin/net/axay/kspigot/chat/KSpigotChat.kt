@@ -7,53 +7,11 @@ import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Item
 import net.md_5.bungee.api.chat.hover.content.Text
-import org.bukkit.command.CommandSender
 
 object KSpigotChat {
 
     inline fun buildComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out BaseComponent> {
         return KSpigotComponentBuilder().apply(builder).create()
-    }
-
-    fun CommandSender.sendMessage(vararg components: BaseComponent) {
-        this.spigot().sendMessage(*components)
-    }
-
-    /**
-     * Takes objects of the type [String] or [ChatColor],
-     * combines them to a message and sends it to the player.
-     */
-    fun CommandSender.sendMessage(vararg messageParts: Any) {
-        sendMessage(buildComponent {
-
-            var currentColor = ChatColor.WHITE
-            val currentMessage = StringBuilder()
-
-            fun buildText() {
-                text {
-                    text = currentMessage.toString()
-                    color = currentColor
-                }
-                currentMessage.clear()
-            }
-
-            for (messagePart in messageParts.withIndex()) {
-
-                val index = messagePart.index
-                val value = messagePart.value
-
-                if (value is String) {
-                    currentMessage.append(value)
-                    if (index == messageParts.lastIndex)
-                        buildText()
-                } else if (value is ChatColor) {
-                    buildText()
-                    currentColor = value
-                }
-
-            }
-
-        })
     }
 
 }
