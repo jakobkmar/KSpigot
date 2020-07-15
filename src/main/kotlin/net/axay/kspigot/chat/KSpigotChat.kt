@@ -4,6 +4,9 @@ package net.axay.kspigot.chat
 
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
+import net.md_5.bungee.api.chat.hover.content.Entity
+import net.md_5.bungee.api.chat.hover.content.Item
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.command.CommandSender
 
 object KSpigotChat {
@@ -112,11 +115,20 @@ open class BaseComponentBuilder {
     var hoverEvent: HoverEvent? = null
     var clickEvent: ClickEvent? = null
 
-    // TODO
+    // TODO (genauer analysieren)
     // var extra: List<BaseComponent>? = null
 
-    inline fun hoverEvent(action: HoverEvent.Action, builder: KSpigotComponentBuilder.() -> Unit)
-            = HoverEvent(action, KSpigotComponentBuilder().apply(builder).create())
+    inline fun hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
+        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
+    }
+
+    fun hoverEventItem(id: String, count: Int, tag: ItemTag) {
+        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ITEM, Item(id, count, tag))
+    }
+
+    fun hoverEventEntity(type: String, id: String, baseComponent: BaseComponent) {
+        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ENTITY, Entity(type, id, baseComponent))
+    }
 
     protected fun applyTo(baseComponent: BaseComponent) {
 
