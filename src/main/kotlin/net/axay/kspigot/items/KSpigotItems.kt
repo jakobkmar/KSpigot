@@ -1,4 +1,4 @@
-package net.axay.kspigot.utils
+package net.axay.kspigot.items
 
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
