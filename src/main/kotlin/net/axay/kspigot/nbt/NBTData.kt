@@ -19,7 +19,7 @@ class NBTData {
 
     /**
      * This method gets the value
-     * at the given [key]. The returned type
+     * at the given [key]. The returned [dataType]
      * must be specified.
      * The returned value is null, if it
      * was not possible to find any value at
@@ -36,6 +36,8 @@ class NBTData {
     /**
      * This method sets some [value]
      * at the position of the given [key].
+     * The [dataType] of the given [value]
+     * must be specified.
      */
     operator fun <T> set(key: String, dataType: NBTDataType<T>, value: T) {
         dataType.writeToCompound(key, value, nbtTagCompound)
