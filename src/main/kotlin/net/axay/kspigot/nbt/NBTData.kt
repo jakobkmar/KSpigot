@@ -13,6 +13,10 @@ class NBTData {
         this.nbtTagCompound = nbtTagCompound ?: NBTTagCompound()
     }
 
+    constructor() {
+        this.nbtTagCompound = NBTTagCompound()
+    }
+
     constructor(nbtString: String) : this(MojangsonParser.parse(nbtString))
 
     fun serialize() = nbtTagCompound.toString()
