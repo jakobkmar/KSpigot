@@ -10,6 +10,6 @@ interface RegisterableListener : Listener {
      * Registers this listener
      * for the given instance of [kSpigot].
      */
-    fun registerListener(kSpigot: KSpigot) = Bukkit.getPluginManager().registerEvents(this, kSpigot.plugin)
+    fun registerListener(kSpigot: KSpigot) = Bukkit.getPluginManager().registerEvents(this, kSpigot)
 
 }

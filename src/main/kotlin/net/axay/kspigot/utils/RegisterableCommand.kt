@@ -14,7 +14,7 @@ interface RegisterableCommand : CommandExecutor {
      * false if not
      */
     fun registerCommand(commandName: String, kSpigot: KSpigot): Boolean {
-        kSpigot.plugin.getCommand(commandName)?.let {
+        kSpigot.getCommand(commandName)?.let {
             it.setExecutor(this)
             if (this is TabCompleter)
                 it.tabCompleter = this

@@ -44,14 +44,14 @@ fun bukkitRunnable(
 
         if (sync) {
             if (delay != null && delay >= 1)
-                Bukkit.getScheduler().runTaskLater(kSpigot.plugin, mergedRunnable, delay)
+                Bukkit.getScheduler().runTaskLater(kSpigot, mergedRunnable, delay)
             else
-                Bukkit.getScheduler().runTask(kSpigot.plugin, mergedRunnable)
+                Bukkit.getScheduler().runTask(kSpigot, mergedRunnable)
         } else {
             if (delay != null && delay >= 1)
-                Bukkit.getScheduler().runTaskLaterAsynchronously(kSpigot.plugin, mergedRunnable, delay)
+                Bukkit.getScheduler().runTaskLaterAsynchronously(kSpigot, mergedRunnable, delay)
             else
-                Bukkit.getScheduler().runTaskAsynchronously(kSpigot.plugin, mergedRunnable)
+                Bukkit.getScheduler().runTaskAsynchronously(kSpigot, mergedRunnable)
         }
 
     } else if (howoften > 1) {
@@ -91,16 +91,16 @@ fun bukkitRunnable(
                 kSpigot.kRunnableHolder.runnableEndCallbacks[bukkitRunnable] = endCallback
 
         if (sync)
-            bukkitRunnable.runTaskTimer(kSpigot.plugin, realDelay, realPeriod)
+            bukkitRunnable.runTaskTimer(kSpigot, realDelay, realPeriod)
         else
-            bukkitRunnable.runTaskTimerAsynchronously(kSpigot.plugin, realDelay, realPeriod)
+            bukkitRunnable.runTaskTimerAsynchronously(kSpigot, realDelay, realPeriod)
 
     }
 
 }
 
 fun bukkitSync(kSpigot: KSpigot, runnable: () -> Unit)
-        = Bukkit.getScheduler().runTask(kSpigot.plugin, runnable)
+        = Bukkit.getScheduler().runTask(kSpigot, runnable)
 
 fun bukkitAsync(kSpigot: KSpigot, runnable: () -> Unit)
-        = Bukkit.getScheduler().runTaskAsynchronously(kSpigot.plugin, runnable)
+        = Bukkit.getScheduler().runTaskAsynchronously(kSpigot, runnable)
