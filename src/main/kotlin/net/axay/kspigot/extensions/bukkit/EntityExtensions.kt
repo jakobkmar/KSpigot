@@ -1,13 +1,13 @@
 package net.axay.kspigot.extensions.bukkit
 
 import net.axay.kspigot.extensions.onlinePlayers
-import net.axay.kspigot.main.KSpigot
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.entity.Damageable
 import org.bukkit.entity.Entity
 import org.bukkit.entity.LivingEntity
 import org.bukkit.entity.Player
+import org.bukkit.plugin.Plugin
 
 /**
  * Checks if the entity is completely in water.
@@ -72,13 +72,13 @@ fun Player.feedSaturate() {
 /**
  * Hides the player for all [onlinePlayers].
  */
-fun Player.disappear(kSpigot: KSpigot) {
-    onlinePlayers.filter { it != this }.forEach { it.hidePlayer(kSpigot, this) }
+fun Player.disappear(plugin: Plugin) {
+    onlinePlayers.filter { it != this }.forEach { it.hidePlayer(plugin, this) }
 }
 
 /**
  * Shows the player for all [onlinePlayers].
  */
-fun Player.appear(kSpigot: KSpigot) {
-    onlinePlayers.filter { it != this }.forEach { it.showPlayer(kSpigot, this) }
+fun Player.appear(plugin: Plugin) {
+    onlinePlayers.filter { it != this }.forEach { it.showPlayer(plugin, this) }
 }
