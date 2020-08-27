@@ -26,8 +26,8 @@ dependencies {
     implementation(kotlin("stdlib"))
 
     // SPIGOT
-    compileOnly("org.spigotmc", "spigot", "1.16.1-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.16.1-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.16.2-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.16.2-R0.1-SNAPSHOT")
 
 }
 
