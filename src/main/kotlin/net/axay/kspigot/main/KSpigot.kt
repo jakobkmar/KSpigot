@@ -9,18 +9,41 @@ import org.bukkit.plugin.java.JavaPlugin
  * It should be initialized when a plugin using
  * kSpigot gets enabled.
  *
- * Do not forget to call the [shutdown] method
- * when your plugin gets disabled.
+ * **Instead** of overriding [onLoad()], [onEnable()]
+ * and [onDisable()] **override**:
+ * - [load()] (called first)
+ * - [startup()]  (called second)
+ * - [shutdown()] (called in the "end")
  */
-class KSpigot(val plugin: JavaPlugin) {
+abstract class KSpigot : JavaPlugin() {
 
     val kRunnableHolder = KRunnableHolder()
 
     /**
-     * This function should be invoked
-     * in the onDisable() method of your plugin.
+     * Called when the plugin was loaded
      */
-    fun shutdown() {
+    open fun load() { }
+
+    /**
+     * Called when the plugin was enabled
+     */
+    open fun startup() { }
+
+    /**
+     * Called when the plugin gets disabled
+     */
+    open fun shutdown() { }
+
+    final override fun onLoad() {
+        load()
+    }
+
+    final override fun onEnable() {
+        startup()
+    }
+
+    final override fun onDisable() {
+        shutdown()
         kRunnableHolder.shutdown()
     }
 
