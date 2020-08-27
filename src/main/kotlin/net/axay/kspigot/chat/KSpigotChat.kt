@@ -73,9 +73,6 @@ open class BaseComponentBuilder {
     var hoverEvent: HoverEvent? = null
     var clickEvent: ClickEvent? = null
 
-    // TODO (genauer analysieren)
-    // var extra: List<BaseComponent>? = null
-
     inline fun hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
         hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
     }
