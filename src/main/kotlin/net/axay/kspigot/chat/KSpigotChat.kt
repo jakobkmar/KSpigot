@@ -8,46 +8,35 @@ import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Item
 import net.md_5.bungee.api.chat.hover.content.Text
 
-object KSpigotChat {
-
-    inline fun buildComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out BaseComponent> {
-        return KSpigotComponentBuilder().apply(builder).create()
-    }
-
+inline fun chatComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out BaseComponent> {
+    return KSpigotComponentBuilder().apply(builder).create()
 }
 
 class KSpigotComponentBuilder {
 
-    val components = ArrayList<BaseComponent>()
+    private val components = ArrayList<BaseComponent>()
 
-    inline fun text(builder: TextComponentBuilder.() -> Unit) {
-        val textComponent = TextComponentBuilder().apply(builder).textComponent
-        if (textComponent != null)
-            append(textComponent)
+    inline fun text(text: String, builder: TextComponent.() -> Unit = { }) {
+        append(TextComponent(text).apply(builder))
     }
 
-    inline fun keybind(builder: KeybindComponentBuilder.() -> Unit) {
-        val keybindComponent = KeybindComponentBuilder().apply(builder).keybindComponent
-        if (keybindComponent != null)
-            append(keybindComponent)
+    inline fun keybind(keybind: String, builder: KeybindComponent.() -> Unit = { }) {
+        append(KeybindComponent(keybind).apply(builder))
     }
 
-    inline fun score(builder: ScoreComponentBuilder.() -> Unit) {
-        val scoreComponent = ScoreComponentBuilder().apply(builder).scoreComponent
-        if (scoreComponent != null)
-            append(scoreComponent)
+    inline fun score(name: String, objective: String, value: String?, builder: ScoreComponent.() -> Unit = { }) {
+        if (value != null)
+            append(ScoreComponent(name, objective, value).apply(builder))
+        else
+            append(ScoreComponent(name, objective).apply(builder))
     }
 
-    inline fun selector(builder: SelectorComponentBuilder.() -> Unit) {
-        val selectorComponent = SelectorComponentBuilder().apply(builder).selectorComponent
-        if (selectorComponent != null)
-            append(selectorComponent)
+    inline fun selector(selector: String, builder: SelectorComponent.() -> Unit = { }) {
+        append(SelectorComponent(selector).apply(builder))
     }
 
-    inline fun translatable(builder: TranslatableComponentBuilder.() -> Unit) {
-        val translatableComponent = TranslatableComponentBuilder().apply(builder).translatableComponent
-        if (translatableComponent != null)
-            append(translatableComponent)
+    inline fun translatable(translatable: String, with: Array<BaseComponent>, builder: TranslatableComponent.() -> Unit = { }) {
+        append(TranslatableComponent(translatable, with).apply(builder))
     }
 
     fun append(baseComponent: BaseComponent) { components += baseComponent }
@@ -55,133 +44,30 @@ class KSpigotComponentBuilder {
 
 }
 
-open class BaseComponentBuilder {
+/**
+ * BASE COMPONENT
+ */
 
-    // style
-    var color: ChatColor? = null
-    var font: String? = null
-    var bold: Boolean? = null
-    var italic: Boolean? = null
-    var underlined: Boolean? = null
-    var strikethrough: Boolean? = null
-    var obfuscated: Boolean? = null
+// extensions
 
-    // behaviour
-    var insertion: String? = null
-
-    // events
-    var hoverEvent: HoverEvent? = null
-    var clickEvent: ClickEvent? = null
-
-    inline fun hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
-        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
-    }
-
-    fun hoverEventItem(id: String, count: Int, tag: ItemTag) {
-        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ITEM, Item(id, count, tag))
-    }
-
-    fun hoverEventEntity(type: String, id: String, baseComponent: BaseComponent) {
-        hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ENTITY, Entity(type, id, baseComponent))
-    }
-
-    protected fun applyTo(baseComponent: BaseComponent) {
-
-        color?.let { baseComponent.color = it }
-        font?.let { baseComponent.font = it }
-        bold?.let { baseComponent.isBold = it }
-        italic?.let { baseComponent.isItalic = it }
-        underlined?.let { baseComponent.isUnderlined = it }
-        strikethrough?.let { baseComponent.isStrikethrough = it }
-        obfuscated?.let { baseComponent.isObfuscated = it }
-
-        insertion?.let { baseComponent.insertion = it }
-
-        hoverEvent?.let { baseComponent.hoverEvent = it }
-        clickEvent?.let { baseComponent.clickEvent = it }
-
-    }
-
+inline fun BaseComponent.hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
+    hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
 }
 
-class TextComponentBuilder : BaseComponentBuilder() {
-
-    var text: String? = null
-
-    val textComponent: TextComponent?
-        get() {
-            text?.let { curText ->
-                val toReturn = TextComponent(curText)
-                super.applyTo(toReturn)
-                return toReturn
-            }
-            return null
-        }
-
+fun BaseComponent.hoverEventItem(id: String, count: Int, tag: ItemTag) {
+    hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ITEM, Item(id, count, tag))
 }
 
-class KeybindComponentBuilder : BaseComponentBuilder() {
-
-    var keybind: String? = null
-
-    val keybindComponent: KeybindComponent?
-        get() {
-            val toReturn = KeybindComponent(keybind ?: return null)
-            super.applyTo(toReturn)
-            return toReturn
-        }
-
+fun BaseComponent.hoverEventEntity(type: String, id: String, baseComponent: BaseComponent) {
+    hoverEvent = HoverEvent(HoverEvent.Action.SHOW_ENTITY, Entity(type, id, baseComponent))
 }
 
-class ScoreComponentBuilder : BaseComponentBuilder() {
-
-    var name: String? = null
-    var objective: String? = null
-    var value: String? = null
-
-    val scoreComponent: ScoreComponent?
-        get() {
-            name?.let { curName -> objective?.let { curObjective ->
-                value?.let { curValue ->
-                    val toReturn = ScoreComponent(curName, curObjective, curValue)
-                    super.applyTo(toReturn)
-                    return toReturn
-                }
-                val toReturn = ScoreComponent(curName, curObjective)
-                super.applyTo(toReturn)
-                toReturn
-            } }
-            return null
-        }
-
+fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
+    clickEvent = ClickEvent(action, value)
 }
 
-class SelectorComponentBuilder : BaseComponentBuilder() {
+/**
+ * GLOBAL SHORTCUTS
+ */
 
-    var selector: String? = null
-
-    val selectorComponent: SelectorComponent?
-        get() {
-            val toReturn = SelectorComponent(selector ?: return null)
-            super.applyTo(toReturn)
-            return toReturn
-        }
-
-}
-
-class TranslatableComponentBuilder : BaseComponentBuilder() {
-
-    var translatable: String? = null
-    var with: MutableList<BaseComponent>? = null
-
-    val translatableComponent: TranslatableComponent?
-        get() {
-            translatable?.let { curTranslatable -> with?.let { curWith ->
-                val toReturn = TranslatableComponent(curTranslatable, *curWith.toTypedArray())
-                super.applyTo(toReturn)
-                return toReturn
-            } }
-            return null
-        }
-
-}
+fun c(hex: String): ChatColor = ChatColor.of(hex)
