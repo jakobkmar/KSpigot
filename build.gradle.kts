@@ -36,10 +36,8 @@ dependencies {
  */
 
 object BuildConstants {
-
     val JVM_VERSION = JavaVersion.VERSION_1_8
     const val JVM_VERSION_STRING = "1.8"
-
 }
 
 java.sourceCompatibility = BuildConstants.JVM_VERSION
