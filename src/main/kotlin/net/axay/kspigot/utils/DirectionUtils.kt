@@ -4,6 +4,10 @@ import com.google.common.base.Enums
 import org.bukkit.Location
 import org.bukkit.block.BlockFace
 
+/**
+ * This enum class is useful for determining
+ * vertical directions (pitch).
+ */
 enum class VerticalDirection {
 
     UP, DOWN, STRAIGHT;
@@ -26,6 +30,10 @@ enum class VerticalDirection {
 
 }
 
+/**
+ * This enum class is useful for determining
+ * cardinal directions (yaw).
+ */
 enum class CardinalDirection {
 
     NORTH, EAST, SOUTH, WEST;
