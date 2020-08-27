@@ -1,9 +1,9 @@
-object BuildConstants {
+/**
+ * PROJECT
+ */
 
-    val JVM_VERSION = JavaVersion.VERSION_1_8
-    const val JVM_VERSION_STRING = "1.8"
-
-}
+group = "net.axay"
+version = "1.16.1"
 
 plugins {
     java
@@ -11,32 +11,41 @@ plugins {
     maven
 }
 
-group = "net.axay"
-version = "1.16.1"
+/**
+ * DEPENDENCY MANAGEMENT
+ */
 
 repositories {
     mavenCentral()
-    mavenLocal()
+    mavenLocal() // for retrieving the local available binaries of spigot (use the BuildTools)
 }
 
 dependencies {
 
     // KOTLIN
-    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("stdlib"))
 
     // SPIGOT
     compileOnly("org.spigotmc", "spigot", "1.16.1-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.16.1-R0.1-SNAPSHOT")
 
 }
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = BuildConstants.JVM_VERSION
+/**
+ * BUILD
+ */
+
+object BuildConstants {
+
+    val JVM_VERSION = JavaVersion.VERSION_1_8
+    const val JVM_VERSION_STRING = "1.8"
+
 }
+
+java.sourceCompatibility = BuildConstants.JVM_VERSION
+
 tasks {
     compileKotlin {
-        kotlinOptions.jvmTarget = BuildConstants.JVM_VERSION_STRING
-    }
-    compileTestKotlin {
         kotlinOptions.jvmTarget = BuildConstants.JVM_VERSION_STRING
     }
 }
