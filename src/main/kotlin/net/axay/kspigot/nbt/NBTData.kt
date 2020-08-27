@@ -1,8 +1,8 @@
 package net.axay.kspigot.nbt
 
 import net.axay.kspigot.annotations.NMS_General
-import net.minecraft.server.v1_16_R1.MojangsonParser
-import net.minecraft.server.v1_16_R1.NBTTagCompound
+import net.minecraft.server.v1_16_R2.MojangsonParser
+import net.minecraft.server.v1_16_R2.NBTTagCompound
 
 @NMS_General
 class NBTData {
