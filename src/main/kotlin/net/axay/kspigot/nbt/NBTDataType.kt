@@ -3,9 +3,6 @@ package net.axay.kspigot.nbt
 import net.axay.kspigot.annotations.NMS_General
 import net.minecraft.server.v1_16_R1.*
 
-/**
- * @property T the JVM data type
- */
 @NMS_General
 interface NBTDataType<T> {
 
@@ -30,6 +27,10 @@ interface NBTDataType<T> {
 
 }
 
+/**
+ * @property T the JVM data type
+ * @property E the NBT data type
+ */
 private inline fun <T, reified E> nbtDataType(
         crossinline decodeNMS: (E) -> T,
         crossinline writeToCompound: (key: String, data: T, compound: NBTTagCompound) -> Unit
