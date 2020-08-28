@@ -70,4 +70,4 @@ fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
  * GLOBAL SHORTCUTS
  */
 
-fun c(hex: String): ChatColor = ChatColor.of(hex)
+fun col(hex: String): ChatColor = ChatColor.of(hex)
