@@ -12,15 +12,17 @@ Extensions marked with the `@UnsafeImplementaion` annotation do not promise to a
 
 ## First of all
 
-**Create an instance of KSpigot (the constructor requires your plugin instance)** <br>
-Do NOT create multiple instances!
+**Inherit from `KSpigot` instead of `JavaPlugin` in your main class** <br>
 ```kotlin
-val kSpigot = KSpigot(plugin)
+class MyPluginMain : KSpigot()
 ```
 
-**Inside of your `onDisable()` method, call:**
+**Replaced methods:**
+(override these instead)
 ```kotlin
-kSpigot.shutdown()
+onLoad() with load()
+onEnable() with startup()
+onDisable() with shutdown()
 ```
 
 ## Examples
@@ -49,48 +51,46 @@ bukkitRunnable(
 #### For items
 
 ```kotlin
-val wand = KSpigotItems.buildItem(Material.GOLD_BLOCK) {
-    
+val wand = itemStack(Material.GOLD_BLOCK) {
+           
     amount = 3
-
-    addEnchantment(Enchantment.KNOCKBACK, 2)
-
-    itemMeta {
-
-        displayName = "${ChatColor.GOLD}Magic wand"
-        unbreakable = true
-
-        addLore {
-            + "This wand is truly special."
-            + "Try it!"
-        }
-
-        customModelData = 1001
-
-        flag(ItemFlag.HIDE_UNBREAKABLE)
-
-    }
     
+    addEnchantment(Enchantment.KNOCKBACK, 2)
+    
+    meta {
+    
+       name = "${ChatColor.GOLD}Magic wand"
+       isUnbreakable = true
+    
+       addLore {
+           + "This wand is truly special."
+           + "Try it!"
+       }
+    
+       customModel = 1001
+    
+       flag(ItemFlag.HIDE_UNBREAKABLE)
+    
+    }
+           
 }
 ```
 
 #### For complex chat components
 
 ```kotlin
-KSpigotChat.buildComponent {
+chatComponent {
 
-    text {
-        text = "You got a friend request! "
-        color = ChatColor.of("#4FEA40")
-        bold = true
+    text("You got a friend request! ") {
+        color = col("#4FEA40")
+        isBold = true
     }
     
-    text { 
-        text = "[Accept]"
+    text("[Accept]") { 
         color = ChatColor.WHITE
-        clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "friend accept Foo")
+        clickEvent(ClickEvent.Action.RUN_COMMAND, "friend accept Foo")
         hoverEventText { 
-            text { text = "Click here to accept the friend request!"; color = ChatColor.RED }
+            text("Click here to accept the friend request!") { color = ChatColor.RED }
         }
     }
 
@@ -130,12 +130,21 @@ val deserializeMethod2 = NBTData.deserialize(serializedString)
 ### Simple extension methods / values (with kotlin getters)
 
 ```kotlin
+livingEntity.isInWater
+livingEntity.isHeadInWater
+entity.isFeetInWater
 entity.isGroundSolid
-entity.isInWater
-
+damageable.kill()
+livingEntity.heal()
+player.feed()
+player.saturate()
+player.feedSaturate()
+player.disappear(plugin)
+player.appear(plugin)
 vector.isFinite
-
 playerInteractEntityEvent.interactItem
+prepareItemCraftEvent.isCancelled
+prepareItemCraftEvent.cancel()
 ```
 
 ### Direction API
@@ -160,6 +169,33 @@ val identifier = CustomItemIdentifier(1001, Material.IRON_NUGGET)
 
 // get an itemstack with the custom model data applied
 val stack = identifier.itemStack
+```
+
+### Flexible and chainable geometry syntax
+Makes complex modification of locations and vectors more intuitive.Also, you can use any type of number (`Short`, `Int`, `Long`, `Float`, `Double`) you want. You do not have to mess with different data types.
+
+```kotlin
+loc increaseX 3 reduce vec(3.0, 1.5f, 3) increaseYZ 5.7
+loc + vecXY(3, 7f) - vecZ(3)
+loc - vec(x = 3, z = 5.6f) * 3 * vecXZ(7, 3.1)
+```
+
+### Listeners made easy
+Kotlins' language design allows you to create listeners in a very short way.
+
+```kotlin
+kSpigot.listen<PlayerMoveEvent> {
+    it.player.kick("Do not move!")
+}
+```
+NOTE: This method automatically registers the listener.
+
+The `listen<Event> { }` method returns the listener instance.
+
+The following extension methods can be used on any listener:
+```kotlin
+listener.register(plugin)
+listener.unregister()
 ```
 
 > Any questions? Feel free to contact me!
