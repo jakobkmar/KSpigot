@@ -82,3 +82,10 @@ fun Player.disappear(plugin: Plugin) {
 fun Player.appear(plugin: Plugin) {
     onlinePlayers.filter { it != this }.forEach { it.showPlayer(plugin, this) }
 }
+
+/**
+ * Kicks the player from the server.
+ */
+fun Player.kick(reason: String? = "You got kicked!") {
+    kickPlayer(reason)
+}
