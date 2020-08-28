@@ -6,8 +6,9 @@ import org.bukkit.plugin.java.JavaPlugin
 /**
  * This is the main instance of kSpigot.
  *
- * It should be initialized when a plugin using
- * kSpigot gets enabled.
+ * This class replaces (and inherits from) the
+ * JavaPlugin class. Your main plugin class should
+ * inherit from this abstract class.
  *
  * **Instead** of overriding [onLoad()], [onEnable()]
  * and [onDisable()] **override**:
