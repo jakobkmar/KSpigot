@@ -172,7 +172,7 @@ val stack = identifier.itemStack
 ```
 
 ### Flexible and chainable geometry syntax
-Makes complex modification of locations and vectors more intuitive.Also, you can use any type of number (`Short`, `Int`, `Long`, `Float`, `Double`) you want. You do not have to mess with different data types.
+Makes complex modification of locations and vectors more intuitive. Also, you can use any type of number (`Short`, `Int`, `Long`, `Float`, `Double`) you want. You do not have to mess with different data types.
 
 ```kotlin
 loc increaseX 3 reduce vec(3.0, 1.5f, 3) increaseYZ 5.7
