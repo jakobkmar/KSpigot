@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package net.axay.kspigot.utils
+package net.axay.kspigot.extensions.geometry
 
 import org.bukkit.Location
 import org.bukkit.util.Vector
