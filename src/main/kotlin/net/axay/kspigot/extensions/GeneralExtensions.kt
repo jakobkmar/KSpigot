@@ -20,3 +20,9 @@ val server by lazy { Bukkit.getServer() }
  * @see Bukkit.getPluginManager
  */
 val pluginManager by lazy { Bukkit.getPluginManager() }
+
+/**
+ * Broadcasts a message ([msg]) on the server.
+ * @see Bukkit.broadcastMessage
+ */
+fun broadcast(msg: String) = Bukkit.broadcastMessage(msg)
