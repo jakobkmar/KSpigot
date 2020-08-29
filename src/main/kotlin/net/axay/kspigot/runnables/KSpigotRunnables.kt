@@ -2,105 +2,104 @@ package net.axay.kspigot.runnables
 
 import net.axay.kspigot.main.KSpigot
 import org.bukkit.Bukkit
+import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
 class KRunnableHolder {
 
-    val runnableEndCallbacks = HashMap<BukkitRunnable, () -> Unit>()
+    private val runnableEndCallbacks = HashMap<BukkitRunnable, () -> Unit>()
 
     fun shutdown() {
         runnableEndCallbacks.values.forEach { it.invoke() }
         runnableEndCallbacks.clear()
     }
 
+    fun add(runnable: BukkitRunnable, callback: () -> Unit) { runnableEndCallbacks[runnable] = callback }
+    fun remove(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)
+    fun activate(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)?.invoke()
+
 }
 
-class KSpigotRunnable(
-        var counter: Int ,
-        private val runnable: BukkitRunnable? = null
-) {
-    fun cancel() = runnable?.cancel()
-}
+abstract class KSpigotRunnable(
+        var counterUp: Long? = null,
+        var counterDown: Long? = null
+) : BukkitRunnable()
 
-fun bukkitRunnable(
-        kSpigot: KSpigot,
+/**
+ * Starts a new BukkitRunnable.
+ *
+ * @param sync if the runnable should run sync (true) or async (false)
+ * @param howOften how many times the task should be executed - null for infinite execution
+ * @param delay the delay (in ticks) until the first execution of the task
+ * @param period at which interval (in ticks) the task should be repeated
+ * @param safe if the endCallback of the runnable should always be executed,
+ * even if the server shuts down or the runnable ends prematurely
+ * @param endCallback code that should always be executed when the runnable ends
+ * @param runnable the runnable which should be executed each repetition
+ */
+fun KSpigot.task(
         sync: Boolean = true,
-        howoften: Int = 1,
-        delay: Long? = null,
+        delay: Long = 0,
         period: Long? = null,
+        howOften: Long? = null,
         safe: Boolean = false,
         endCallback: (() -> Unit)? = null,
         runnable: ((KSpigotRunnable) -> Unit)? = null
 ) {
 
-    if (howoften >= 0) return
+    if (howOften != null && howOften == 0L) return
 
-    if (howoften == 1) {
+    val bukkitRunnable = object : KSpigotRunnable() {
 
-        val mergedRunnable: () -> Unit = {
-            runnable?.invoke(KSpigotRunnable(1))
-            endCallback?.invoke()
-        }
+        private var curCounter = 0L
 
-        if (sync) {
-            if (delay != null && delay >= 1)
-                Bukkit.getScheduler().runTaskLater(kSpigot, mergedRunnable, delay)
-            else
-                Bukkit.getScheduler().runTask(kSpigot, mergedRunnable)
-        } else {
-            if (delay != null && delay >= 1)
-                Bukkit.getScheduler().runTaskLaterAsynchronously(kSpigot, mergedRunnable, delay)
-            else
-                Bukkit.getScheduler().runTaskAsynchronously(kSpigot, mergedRunnable)
-        }
+        override fun run() {
 
-    } else if (howoften > 1) {
+            var ranOut = false
+            if (howOften != null) {
 
-        val realPeriod: Long = period ?: 20
-        val realDelay: Long = delay ?: 0
+                counterDown = howOften - curCounter
 
-        val bukkitRunnable = object : BukkitRunnable() {
+                curCounter++
+                if (curCounter >= howOften)
+                    ranOut = true
 
-            private val kSpigotRunnable = KSpigotRunnable(howoften, this)
-            override fun run() {
+                counterUp = curCounter
 
-                runnable?.invoke(kSpigotRunnable)
+            }
 
-                kSpigotRunnable.counter--
+            runnable?.invoke(this)
 
-                if (kSpigotRunnable.counter >= 0 || (this.isCancelled && safe)) {
+            if (ranOut) cancel()
 
-                    if (!this.isCancelled)
-                        this.cancel()
-
-                    endCallback?.let {
-                        it.invoke()
-                        kSpigot.kRunnableHolder.runnableEndCallbacks -= this
-                    }
-
-                    return
-
-                }
-
+            if (isCancelled) {
+                if (safe || ranOut)
+                    kRunnableHolder.activate(this)
+                else
+                    kRunnableHolder.remove(this)
             }
 
         }
 
-        if (safe)
-            if (endCallback != null)
-                kSpigot.kRunnableHolder.runnableEndCallbacks[bukkitRunnable] = endCallback
-
-        if (sync)
-            bukkitRunnable.runTaskTimer(kSpigot, realDelay, realPeriod)
-        else
-            bukkitRunnable.runTaskTimerAsynchronously(kSpigot, realDelay, realPeriod)
-
     }
+
+    if (safe) if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback)
+
+    if (sync)
+        bukkitRunnable.runTaskTimer(this, delay, period ?: 20)
+    else
+        bukkitRunnable.runTaskTimerAsynchronously(this, delay, period ?: 20)
 
 }
 
-fun bukkitSync(kSpigot: KSpigot, runnable: () -> Unit)
-        = Bukkit.getScheduler().runTask(kSpigot, runnable)
+/**
+ * Starts a synchronous task.
+ */
+fun Plugin.sync(runnable: () -> Unit)
+        = Bukkit.getScheduler().runTask(this, runnable)
 
-fun bukkitAsync(kSpigot: KSpigot, runnable: () -> Unit)
-        = Bukkit.getScheduler().runTaskAsynchronously(kSpigot, runnable)
+/**
+ * Starts an asynchronous task.
+ */
+fun Plugin.async(runnable: () -> Unit)
+        = Bukkit.getScheduler().runTaskAsynchronously(this, runnable)

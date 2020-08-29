@@ -30,21 +30,31 @@ onDisable() with shutdown()
 ### Simple runnables and schedulers:
 
 ```kotlin
-bukkitAsync(kSpigot) { /* short form for async schedulers */ }
+plugin.async { /* short form for async tasks */ }
 ```
 ```kotlin
-bukkitSync(kSpigot) { /* sync some code to bukkits main thread */ }
+plugin.sync { /* sync some code to bukkits main thread */ }
 ```
 
 ```kotlin
-bukkitRunnable(
-    kSpigot,
+kSpigot.task(
     sync = false,
-    howoften = 5,
     delay = 25,
-    period = 20
-) { /* runnable code */ }
+    period = 20,
+    howOften = 5
+) { 
+    // runnable code...
+
+    // you can access the following counter variables in here
+    println(counterUp) // starting from zero
+    println(counterDown) // starting from howOften
+}
 ```
+NOTE: The counters are nullable, because howOften is (when null) infinite.
+
+#### Safe runnables
+
+With the `kSpigot.task() { }` method you have the possibility to set the parameter `safe = true`. When doing this, the defined `endCallback` will be executed under any circumstances (except a major server crash). If you define `endCallback`, but do not set `safe = true` the `endCallback` will only be executed when the task ends, because the limit of `howOften` was reached.
 
 ### Powerful builders
 
