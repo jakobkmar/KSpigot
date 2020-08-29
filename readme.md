@@ -140,21 +140,21 @@ val deserializeMethod2 = NBTData.deserialize(serializedString)
 ### Simple extension methods / values (with kotlin getters)
 
 ```kotlin
-livingEntity.isInWater
-livingEntity.isHeadInWater
-entity.isFeetInWater
-entity.isGroundSolid
-damageable.kill()
-livingEntity.heal()
-player.feed()
-player.saturate()
-player.feedSaturate()
-player.disappear(plugin)
-player.appear(plugin)
-vector.isFinite
-playerInteractEntityEvent.interactItem
-prepareItemCraftEvent.isCancelled
-prepareItemCraftEvent.cancel()
+livingEntity.isInWater // checks if both feet and head are in water
+livingEntity.isHeadInWater // checks if the head (eye location) is in water
+entity.isFeetInWater // checks if the feet are in water
+entity.isGroundSolid // checks if the entity stands on a solid material
+damageable.kill() // instantly kills the damageable
+livingEntity.heal() // sets the health to the maximum health (if given - else throws Exception)
+player.feed() // sets the players food level to 20
+player.saturate() // sets the players saturation level to the current max value
+player.feedSaturate() // sets the players food and saturation level to 20
+player.disappear(plugin) // all other players won't be able to see the player anymore
+player.appear(plugin) // show the player to every other player
+vector.isFinite // checks if x, y and z of the vector are all finite
+playerInteractEntityEvent.interactItem // gets the item the player interacted with
+prepareItemCraftEvent.isCancelled // checks if the event isCancelled
+prepareItemCraftEvent.cancel() // cancels the PrepareItemCraftEvent
 ```
 
 ### Direction API
