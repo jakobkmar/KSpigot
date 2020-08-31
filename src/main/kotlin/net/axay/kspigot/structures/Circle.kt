@@ -1,7 +1,8 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package net.axay.kspigot.extensions.geometry
+package net.axay.kspigot.structures
 
+import net.axay.kspigot.extensions.geometry.SimpleLocation2D
 import net.axay.kspigot.particles.KSpigotParticle
 import org.bukkit.Location
 import org.bukkit.Material
