@@ -1,12 +1,12 @@
 package net.axay.kspigot.extensions.bukkit
 
+import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.extensions.onlinePlayers
+import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.entity.Damageable
-import org.bukkit.entity.Entity
-import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
+import org.bukkit.craftbukkit.v1_16_R2.CraftWorld
+import org.bukkit.entity.*
 import org.bukkit.plugin.Plugin
 
 /**
@@ -88,4 +88,16 @@ fun Player.appear(plugin: Plugin) {
  */
 fun Player.kick(reason: String? = "You got kicked!") {
     kickPlayer(reason)
+}
+
+/**
+ * Spawns an entity without any variations in color, type etc...
+ */
+@NMS_General
+fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
+    val craftWorld = world as? CraftWorld ?: return null
+    return craftWorld.createEntity(this, entityType.entityClass)?.let {
+        craftWorld.handle.addEntity(it)
+        return@let it.bukkitEntity
+    }
 }
