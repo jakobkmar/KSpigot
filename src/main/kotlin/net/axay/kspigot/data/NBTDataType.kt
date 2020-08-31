@@ -1,4 +1,4 @@
-package net.axay.kspigot.nbt
+package net.axay.kspigot.data
 
 import net.axay.kspigot.annotations.NMS_General
 import net.minecraft.server.v1_16_R2.*
