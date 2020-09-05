@@ -5,15 +5,29 @@ package net.axay.kspigot.game
 import net.axay.kspigot.extensions.broadcast
 import net.axay.kspigot.main.KSpigot
 import net.axay.kspigot.runnables.task
+import net.md_5.bungee.api.ChatColor
 
 class GamePhaseSystem(vararg gamePhases: GamePhase) {
     val gamePhases = gamePhases.toMutableList()
     fun begin(kSpigot: KSpigot) = gamePhases.removeAt(0).startIt(kSpigot, gamePhases)
 }
 
-fun counterMessage(prefix: String? = null, beginning: String, seconds: String, second: String): (Long) -> String = {
+fun counterMessage(
+    beginning: String,
+    seconds: String,
+    second: String,
+    prefix: String? = null,
+    suffix: String? = null
+): (Long) -> String {
+
     val realPrefix = prefix?.plus(" ") ?: ""
-    if (it <= 1L) "$realPrefix$beginning $it $second" else "$prefix $beginning $it $seconds"
+    val realSuffix = suffix ?: ""
+
+    return {
+        val realSeconds = if (it <= 1L) second else seconds
+        "$realPrefix${ChatColor.RESET}$beginning $it $realSeconds$realSuffix"
+    }
+
 }
 
 class GamePhase(
