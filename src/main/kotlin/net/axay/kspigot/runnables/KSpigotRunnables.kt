@@ -83,7 +83,7 @@ fun KSpigot.task(
 
     }
 
-    if (safe) if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback)
+    if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback)
 
     if (sync)
         bukkitRunnable.runTaskTimer(this, delay, period ?: 20)
