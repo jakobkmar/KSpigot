@@ -23,6 +23,7 @@ val pluginManager by lazy { Bukkit.getPluginManager() }
 
 /**
  * Broadcasts a message ([msg]) on the server.
+ * @return the number of recipients
  * @see Bukkit.broadcastMessage
  */
 fun broadcast(msg: String) = Bukkit.broadcastMessage(msg)
