@@ -3,6 +3,7 @@
 package net.axay.kspigot.structures
 
 import net.axay.kspigot.extensions.geometry.SimpleLocation2D
+import net.axay.kspigot.extensions.geometry.worldOrException
 import net.axay.kspigot.particles.KSpigotParticle
 import org.bukkit.Location
 import org.bukkit.Material
@@ -87,6 +88,6 @@ class ParticleCircle(radius: Number, val particle: KSpigotParticle) : Circle(rad
 
 class EntityCircle(radius: Number, val entityType: EntityType) : Circle(radius) {
     override fun setAt(loc: Location) {
-        loc.world?.spawnEntity(loc, entityType) ?: throw IllegalArgumentException("The world of the given location is null!")
+        loc.worldOrException.spawnEntity(loc, entityType)
     }
 }

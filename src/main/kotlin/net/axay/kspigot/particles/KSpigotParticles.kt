@@ -1,5 +1,6 @@
 package net.axay.kspigot.particles
 
+import net.axay.kspigot.extensions.geometry.worldOrException
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.entity.Player
@@ -15,7 +16,7 @@ data class KSpigotParticle(
 ) {
 
     fun spawnAt(loc: Location) {
-        loc.world?.spawnParticle(
+        loc.worldOrException.spawnParticle(
                 particle,
                 loc,
                 amount,
@@ -25,7 +26,7 @@ data class KSpigotParticle(
                 extra.toDouble(),
                 data,
                 force
-        ) ?: throw IllegalArgumentException("The world of the given location is null!")
+        )
     }
 
     fun spawnFor(player: Player) {
