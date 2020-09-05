@@ -66,7 +66,7 @@ inline fun <reified T : Event> SingleListener<T>.register(
  * @param onEvent the event callback
  */
 inline fun <reified T : Event> Plugin.listen(
-        priority: EventPriority,
+        priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false,
         crossinline onEvent: (T) -> Unit
 ): SingleListener<T> {
