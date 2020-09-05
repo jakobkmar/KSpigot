@@ -3,7 +3,7 @@
  */
 
 group = "net.axay"
-version = "1.16.1"
+version = "1.16.2"
 
 plugins {
     java
