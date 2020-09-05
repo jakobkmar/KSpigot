@@ -2,7 +2,7 @@ package net.axay.kspigot.event
 
 import net.axay.kspigot.extensions.pluginManager
 import org.bukkit.event.Event
-import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.plugin.Plugin
@@ -10,20 +10,69 @@ import org.bukkit.plugin.Plugin
 /**
  * Shortcut for registering this listener on the given plugin.
  */
-
 fun Listener.register(plugin: Plugin) = pluginManager.registerEvents(this, plugin)
 
+/**
+ * Shortcut for unregistering all events in this listener.
+ */
 fun Listener.unregister() = HandlerList.unregisterAll(this)
 
-fun <T : Event> Plugin.listen(onEvent: (T) -> Unit): SingleListener<T> {
+/**
+ * Registers the event with a custom event [executor].
+ *
+ * @param T the type of event
+ * @param priority the priority when multiple listeners handle this event
+ * @param ignoreCancelled if manual cancellation should be ignored
+ * @param executor handles incoming events
+ */
+inline fun <reified T : Event> Listener.register(
+        plugin: Plugin,
+        priority: EventPriority = EventPriority.NORMAL,
+        ignoreCancelled: Boolean = false,
+        noinline executor: (Listener, Event) -> Unit
+) {
+    pluginManager.registerEvent(T::class.java, this, priority, executor, plugin, ignoreCancelled)
+}
+
+/**
+ * This class represents a [Listener] with
+ * only one event to listen to.
+ */
+interface SingleListener<T : Event> : Listener {
+    fun onEvent(event: T)
+}
+
+/**
+ * Registers the [SingleListener] with its
+ * event listener.
+ *
+ * @param priority the priority when multiple listeners handle this event
+ * @param ignoreCancelled if manual cancellation should be ignored
+ */
+inline fun <reified T : Event> SingleListener<T>.register(
+        plugin: Plugin,
+        priority: EventPriority = EventPriority.NORMAL,
+        ignoreCancelled: Boolean = false
+) {
+    register<T>(plugin, priority, ignoreCancelled) { _, event ->
+        this.onEvent(event as T)
+    }
+}
+
+/**
+ * @param T the type of event to listen to
+ * @param priority the priority when multiple listeners handle this event
+ * @param ignoreCancelled if manual cancellation should be ignored
+ * @param onEvent the event callback
+ */
+inline fun <reified T : Event> Plugin.listen(
+        priority: EventPriority,
+        ignoreCancelled: Boolean = false,
+        crossinline onEvent: (T) -> Unit
+): SingleListener<T> {
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)
     }
-    listener.register(this)
+    listener.register(this, priority, ignoreCancelled)
     return listener
-}
-
-interface SingleListener<T : Event> : Listener {
-    @EventHandler
-    fun onEvent(event: T)
 }
