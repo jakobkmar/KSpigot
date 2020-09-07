@@ -57,17 +57,17 @@ abstract class Circle(val radius: Number) {
 
     final fun buildAtX(loc: Location) {
         for (it in fillLocations)
-            setAt(Location(loc.world, loc.x, loc.y + it.x, loc.z + it.x))
+            setAt(Location(loc.world, loc.x, loc.y + it.x, loc.z + it.y))
     }
 
     final fun buildAtY(loc: Location) {
         for (it in fillLocations)
-            setAt(Location(loc.world, loc.x + it.x, loc.y, loc.z + it.x))
+            setAt(Location(loc.world, loc.x + it.x, loc.y, loc.z + it.y))
     }
 
     final fun buildAtZ(loc: Location) {
         for (it in fillLocations)
-            setAt(Location(loc.world, loc.x + it.x, loc.y + it.x, loc.z))
+            setAt(Location(loc.world, loc.x + it.x, loc.y + it.y, loc.z))
     }
 
     abstract fun setAt(loc: Location)
