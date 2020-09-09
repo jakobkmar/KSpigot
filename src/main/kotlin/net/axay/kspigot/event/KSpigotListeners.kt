@@ -55,7 +55,7 @@ inline fun <reified T : Event> SingleListener<T>.register(
         ignoreCancelled: Boolean = false
 ) {
     register<T>(plugin, priority, ignoreCancelled) { _, event ->
-        this.onEvent(event as T)
+        (event as? T)?.let { this.onEvent(it) }
     }
 }
 
