@@ -1,6 +1,7 @@
 package net.axay.kspigot.structures
 
 import net.axay.kspigot.extensions.geometry.LocationArea
+import net.axay.kspigot.extensions.geometry.relationTo
 import org.bukkit.Location
 import org.bukkit.block.Block
 import org.bukkit.entity.Entity
@@ -11,13 +12,13 @@ import org.bukkit.entity.Entity
 fun LocationArea.loadStructure(includeBlocks: Boolean = true, includeEntities: Boolean = false)
     = Structure(
         if (includeBlocks)
-            fillBlocks.mapTo(HashSet()) { SingleStructureData(it.location, StructureDataBlock(it)) }
-        else
-            emptySet(),
+            fillBlocks.mapTo(HashSet()) {
+                SingleStructureData(it.location relationTo minLoc, StructureDataBlock(it)) }
+        else emptySet(),
         if (includeEntities)
-            entities.mapTo(HashSet()) { SingleStructureData(it.location, StructureDataEntity(it)) }
-        else
-            emptySet()
+            entities.mapTo(HashSet()) {
+                SingleStructureData(it.location relationTo minLoc, StructureDataEntity(it)) }
+        else emptySet()
     )
 
 /**

@@ -4,6 +4,8 @@ import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.data.NBTData
 import net.axay.kspigot.data.nbtData
 import net.axay.kspigot.extensions.bukkit.spawnCleanEntity
+import net.axay.kspigot.extensions.geometry.SimpleLocation3D
+import net.axay.kspigot.particles.KSpigotParticle
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
@@ -16,14 +18,16 @@ interface StructureData {
 }
 
 class SingleStructureData(
-        val location: Location,
+        val location: SimpleLocation3D,
         val structureData: StructureData
 )
 
 data class Structure(
-        val blocks: Set<SingleStructureData> = emptySet(),
-        val entities: Set<SingleStructureData> = emptySet()
-)
+        val structureData: Set<SingleStructureData>
+) {
+    constructor(vararg structureDataSets: Set<SingleStructureData>)
+            : this(structureDataSets.flatMapTo(HashSet()) { it })
+}
 
 /*
  * Structure data implementations.
@@ -62,9 +66,20 @@ data class StructureDataEntity(
 ) : StructureData {
 
     constructor(entity: Entity) : this(entity.type, entity.nbtData)
+    constructor(entityType: EntityType) : this(entityType, NBTData())
 
     override fun createAt(loc: Location) {
         loc.spawnCleanEntity(entityType)?.nbtData = nbtData
+    }
+
+}
+
+data class StructureDataParticle(
+        val particle: KSpigotParticle
+) : StructureData {
+
+    override fun createAt(loc: Location) {
+        particle.spawnAt(loc)
     }
 
 }
