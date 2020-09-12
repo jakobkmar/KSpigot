@@ -2,6 +2,7 @@
 
 package net.axay.kspigot.extensions.geometry
 
+import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.World
 import kotlin.math.max
@@ -38,6 +39,19 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
 
     }
 
+    val touchedChunks: Set<SimpleChunkLocation> by lazy {
+
+        val foundChunks = HashSet<SimpleChunkLocation>()
+
+        (minLoc.chunk.x until maxLoc.chunk.x + 1).forEach { curX ->
+        (minLoc.chunk.z until maxLoc.chunk.z + 1).forEach { curZ ->
+            foundChunks += SimpleChunkLocation(curX, curZ)
+        } }
+
+        return@lazy foundChunks
+
+    }
+
 }
 
 class LocationArea(loc1: Location, loc2: Location) {
@@ -58,5 +72,7 @@ class LocationArea(loc1: Location, loc2: Location) {
     val world: World get() = locationPair.world
     val minLoc: Location get() = locationPair.minLoc.withWorld(locationPair.world)
     val maxLoc: Location get() = locationPair.maxLoc.withWorld(locationPair.world)
+
+    val touchedChunks: Set<Chunk> get() = locationPair.touchedChunks.mapTo(HashSet()) { it.withWorld(world) }
 
 }
