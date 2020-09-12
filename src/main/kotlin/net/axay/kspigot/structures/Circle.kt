@@ -3,9 +3,8 @@
 package net.axay.kspigot.structures
 
 import net.axay.kspigot.extensions.geometry.SimpleLocation2D
-import net.axay.kspigot.extensions.geometry.worldOrException
+import net.axay.kspigot.extensions.geometry.SimpleLocation3D
 import net.axay.kspigot.particles.KSpigotParticle
-import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
@@ -55,39 +54,25 @@ abstract class Circle(val radius: Number) {
         this += SimpleLocation2D(first, second)
     }
 
-    final fun buildAtX(loc: Location) {
-        for (it in fillLocations)
-            setAt(Location(loc.world, loc.x, loc.y + it.x, loc.z + it.y))
-    }
+    val structure = Structure(
+            HashSet<SingleStructureData>().apply {
+                for (it in fillLocations)
+                    this += SingleStructureData(SimpleLocation3D(it.x, 0, it.y), data)
+            }
+    )
 
-    final fun buildAtY(loc: Location) {
-        for (it in fillLocations)
-            setAt(Location(loc.world, loc.x + it.x, loc.y, loc.z + it.y))
-    }
-
-    final fun buildAtZ(loc: Location) {
-        for (it in fillLocations)
-            setAt(Location(loc.world, loc.x + it.x, loc.y + it.y, loc.z))
-    }
-
-    abstract fun setAt(loc: Location)
+    abstract val data: StructureData
 
 }
 
-class BlockCircle(radius: Number, val material: Material) : Circle(radius) {
-    override fun setAt(loc: Location) {
-        loc.block.type = material
-    }
+class MaterialCircle(radius: Number, material: Material) : Circle(radius) {
+    override val data = StructureDataMaterial(material)
 }
 
-class ParticleCircle(radius: Number, val particle: KSpigotParticle) : Circle(radius) {
-    override fun setAt(loc: Location) {
-        particle.spawnAt(loc)
-    }
+class ParticleCircle(radius: Number, particle: KSpigotParticle) : Circle(radius) {
+    override val data = StructureDataParticle(particle)
 }
 
-class EntityCircle(radius: Number, val entityType: EntityType) : Circle(radius) {
-    override fun setAt(loc: Location) {
-        loc.worldOrException.spawnEntity(loc, entityType)
-    }
+class EntityCircle(radius: Number, entityType: EntityType) : Circle(radius) {
+    override val data = StructureDataEntity(entityType)
 }
