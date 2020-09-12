@@ -40,11 +40,15 @@ infix fun Location.reduceXZ(distance: Number) = substract(distance, 0.0, distanc
 fun Location.add(x: Number, y: Number, z: Number) = add(x.toDouble(), y.toDouble(), z.toDouble())
 fun Location.substract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
 
+infix fun Location.relationTo(loc: Location) = loc.subtract(this).toSimple()
+
 // operator functions
 operator fun Location.plus(vec: Vector) = add(vec)
 operator fun Location.minus(vec: Vector) = subtract(vec)
 operator fun Location.plus(loc: Location) = add(loc)
 operator fun Location.minus(loc: Location) = subtract(loc)
+operator fun Location.plus(loc: SimpleLocation3D) = add(loc.x, loc.y, loc.z)
+operator fun Location.minus(loc: SimpleLocation3D) = subtract(loc.x, loc.y, loc.z)
 
 /*
     VECTOR
