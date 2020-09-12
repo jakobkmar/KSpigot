@@ -15,6 +15,30 @@ interface StructureData {
     fun createAt(loc: Location)
 }
 
+class SingleStructureData(
+        val location: Location,
+        val structureData: StructureData
+)
+
+data class Structure(
+        val blocks: Set<SingleStructureData> = emptySet(),
+        val entities: Set<SingleStructureData> = emptySet()
+)
+
+/*
+ * Structure data implementations.
+ */
+
+data class StructureDataMaterial(
+        val material: Material
+) : StructureData {
+
+    override fun createAt(loc: Location) {
+        loc.block.type = material
+    }
+
+}
+
 data class StructureDataBlock(
         val material: Material,
         val blockData: BlockData
@@ -44,13 +68,3 @@ data class StructureDataEntity(
     }
 
 }
-
-class SingleStructureData(
-        val location: Location,
-        val structureData: StructureData
-)
-
-data class Structure(
-        val blocks: Set<SingleStructureData> = emptySet(),
-        val entities: Set<SingleStructureData> = emptySet()
-)
