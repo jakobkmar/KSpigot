@@ -45,12 +45,20 @@ val Location.blockLoc: Location get() = Location(world, blockX.toDouble(), block
 infix fun Location.relationTo(loc: Location) = this.subtract(loc).toSimple()
 
 // operator functions
+// immutable
 operator fun Location.plus(vec: Vector) = clone().add(vec)
 operator fun Location.minus(vec: Vector) = clone().subtract(vec)
 operator fun Location.plus(loc: Location) = clone().add(loc)
 operator fun Location.minus(loc: Location) = clone().subtract(loc)
 operator fun Location.plus(loc: SimpleLocation3D) = clone().add(loc.x, loc.y, loc.z)
 operator fun Location.minus(loc: SimpleLocation3D) = clone().subtract(loc.x, loc.y, loc.z)
+// mutable
+operator fun Location.plusAssign(vec: Vector) { add(vec) }
+operator fun Location.minusAssign(vec: Vector) { subtract(vec) }
+operator fun Location.plusAssign(loc: Location) { add(loc) }
+operator fun Location.minusAssign(loc: Location) { subtract(loc) }
+operator fun Location.plusAssign(loc: SimpleLocation3D) { add(loc.x, loc.y, loc.z) }
+operator fun Location.minusAssign(loc: SimpleLocation3D) { subtract(loc.x, loc.y, loc.z) }
 
 /*
     VECTOR
@@ -68,7 +76,13 @@ fun vecY(y: Number) = vec(y = y)
 fun vecZ(z: Number) = vec(z = z)
 
 // operator functions
+// immutable
 operator fun Vector.plus(vec: Vector) = clone().add(vec)
 operator fun Vector.minus(vec: Vector) = clone().subtract(vec)
 operator fun Vector.times(vec: Vector) = clone().multiply(vec)
 operator fun Vector.times(num: Number) = clone().multiply(num.toDouble())
+// mutable
+operator fun Vector.plusAssign(vec: Vector) { add(vec) }
+operator fun Vector.minusAssign(vec: Vector) { subtract(vec) }
+operator fun Vector.timesAssign(vec: Vector) { multiply(vec) }
+operator fun Vector.timesAssign(num: Number) { multiply(num.toDouble()) }
