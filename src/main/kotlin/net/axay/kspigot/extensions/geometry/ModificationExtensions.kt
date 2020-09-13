@@ -40,7 +40,9 @@ infix fun Location.reduceXZ(distance: Number) = substract(distance, 0.0, distanc
 fun Location.add(x: Number, y: Number, z: Number) = add(x.toDouble(), y.toDouble(), z.toDouble())
 fun Location.substract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
 
-infix fun Location.relationTo(loc: Location) = loc.subtract(this).toSimple()
+val Location.blockLoc: Location get() = Location(world, blockX.toDouble(), blockY.toDouble(), blockZ.toDouble())
+
+infix fun Location.relationTo(loc: Location) = this.subtract(loc).toSimple()
 
 // operator functions
 operator fun Location.plus(vec: Vector) = add(vec)
