@@ -52,7 +52,7 @@ class GamePhase(
         ) {
 
             if (counterMessage != null) {
-                val currentCounter = it.counterDown
+                val currentCounter = it.counterDownToOne
                 if (currentCounter?.isCounterValue == true)
                     broadcast(counterMessage.invoke(currentCounter))
             }

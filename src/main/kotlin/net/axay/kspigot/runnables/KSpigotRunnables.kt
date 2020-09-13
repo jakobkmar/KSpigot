@@ -22,7 +22,8 @@ class KRunnableHolder {
 
 abstract class KSpigotRunnable(
         var counterUp: Long? = null,
-        var counterDown: Long? = null
+        var counterDownToOne: Long? = null,
+        var counterDownToZero: Long? = null,
 ) : BukkitRunnable()
 
 /**
@@ -58,7 +59,8 @@ fun KSpigot.task(
             var ranOut = false
             if (howOften != null) {
 
-                counterDown = howOften - curCounter
+                counterDownToOne = howOften - curCounter
+                counterDownToZero = counterDownToOne?.minus(1)
 
                 curCounter++
                 if (curCounter >= howOften)
