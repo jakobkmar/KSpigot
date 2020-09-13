@@ -63,5 +63,6 @@ class GamePhase(
 
 private val Long.isCounterValue: Boolean get() = when (this) {
     1L, 2L, 3L, 4L, 5L, 10L, 15L, 20L, 30L -> true
+    0L -> false
     else -> this % 60 == 0L
 }
