@@ -12,7 +12,6 @@ import org.bukkit.util.Vector
 // INCREASE
 // all
 infix fun Location.increase(distance: Number) = add(distance, distance, distance)
-infix fun Location.increase(vec: Vector) = add(vec)
 // single
 infix fun Location.increaseX(distance: Number) = add(distance, 0.0, 0.0)
 infix fun Location.increaseY(distance: Number) = add(0.0, distance, 0.0)
@@ -25,7 +24,6 @@ infix fun Location.increaseXZ(distance: Number) = add(distance, 0.0, distance)
 // REDUCE
 // all
 infix fun Location.reduce(distance: Number) = substract(distance, distance, distance)
-infix fun Location.reduce(vec: Vector) = subtract(vec)
 // single
 infix fun Location.reduceX(distance: Number) = substract(distance, 0.0, 0.0)
 infix fun Location.reduceY(distance: Number) = substract(0.0, distance, 0.0)
@@ -59,6 +57,13 @@ operator fun Location.plusAssign(loc: Location) { add(loc) }
 operator fun Location.minusAssign(loc: Location) { subtract(loc) }
 operator fun Location.plusAssign(loc: SimpleLocation3D) { add(loc.x, loc.y, loc.z) }
 operator fun Location.minusAssign(loc: SimpleLocation3D) { subtract(loc.x, loc.y, loc.z) }
+// mutable with return
+infix fun Location.increase(vec: Vector) = add(vec)
+infix fun Location.reduce(vec: Vector) = subtract(vec)
+infix fun Location.increase(loc: Location) = add(loc)
+infix fun Location.reduce(loc: Location) = subtract(loc)
+infix fun Location.increase(loc: SimpleLocation3D) = add(loc.x, loc.y, loc.z)
+infix fun Location.reduce(loc: SimpleLocation3D) = subtract(loc.x, loc.y, loc.z)
 
 /*
     VECTOR
@@ -86,3 +91,8 @@ operator fun Vector.plusAssign(vec: Vector) { add(vec) }
 operator fun Vector.minusAssign(vec: Vector) { subtract(vec) }
 operator fun Vector.timesAssign(vec: Vector) { multiply(vec) }
 operator fun Vector.timesAssign(num: Number) { multiply(num.toDouble()) }
+// mutable with return
+infix fun Vector.increase(vec: Vector) = add(vec)
+infix fun Vector.reduce(vec: Vector) = subtract(vec)
+infix fun Vector.multiply(vec: Vector) = multiply(vec)
+infix fun Vector.multiply(num: Number) = multiply(num.toDouble())
