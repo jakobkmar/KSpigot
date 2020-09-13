@@ -45,12 +45,12 @@ val Location.blockLoc: Location get() = Location(world, blockX.toDouble(), block
 infix fun Location.relationTo(loc: Location) = this.subtract(loc).toSimple()
 
 // operator functions
-operator fun Location.plus(vec: Vector) = add(vec)
-operator fun Location.minus(vec: Vector) = subtract(vec)
-operator fun Location.plus(loc: Location) = add(loc)
-operator fun Location.minus(loc: Location) = subtract(loc)
-operator fun Location.plus(loc: SimpleLocation3D) = add(loc.x, loc.y, loc.z)
-operator fun Location.minus(loc: SimpleLocation3D) = subtract(loc.x, loc.y, loc.z)
+operator fun Location.plus(vec: Vector) = clone().add(vec)
+operator fun Location.minus(vec: Vector) = clone().subtract(vec)
+operator fun Location.plus(loc: Location) = clone().add(loc)
+operator fun Location.minus(loc: Location) = clone().subtract(loc)
+operator fun Location.plus(loc: SimpleLocation3D) = clone().add(loc.x, loc.y, loc.z)
+operator fun Location.minus(loc: SimpleLocation3D) = clone().subtract(loc.x, loc.y, loc.z)
 
 /*
     VECTOR
@@ -68,7 +68,7 @@ fun vecY(y: Number) = vec(y = y)
 fun vecZ(z: Number) = vec(z = z)
 
 // operator functions
-operator fun Vector.plus(vec: Vector) = add(vec)
-operator fun Vector.minus(vec: Vector) = subtract(vec)
-operator fun Vector.times(vec: Vector) = multiply(vec)
-operator fun Vector.times(num: Number) = multiply(num.toDouble())
+operator fun Vector.plus(vec: Vector) = clone().add(vec)
+operator fun Vector.minus(vec: Vector) = clone().subtract(vec)
+operator fun Vector.times(vec: Vector) = clone().multiply(vec)
+operator fun Vector.times(num: Number) = clone().multiply(num.toDouble())
