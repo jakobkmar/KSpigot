@@ -1,5 +1,8 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.structures
 
+import net.axay.kspigot.extensions.geometry.blockLoc
 import net.axay.kspigot.extensions.geometry.plus
 import net.axay.kspigot.extensions.geometry.toSimpleLoc
 import net.axay.kspigot.extensions.geometry.toVector
@@ -7,7 +10,8 @@ import org.bukkit.Location
 import org.bukkit.util.Vector
 
 fun Structure.buildAt(loc: Location) {
-    structureData.forEach { it.structureData.createAt(loc + it.location) }
+    val buildLoc = loc.blockLoc
+    structureData.forEach { it.structureData.createAt(buildLoc + it.location) }
 }
 
 fun Structure.rotateAroundX(angle: Number)
