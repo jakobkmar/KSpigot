@@ -10,6 +10,8 @@ import org.bukkit.entity.EntityType
 
 abstract class Circle(val radius: Number) {
 
+    abstract val data: StructureData
+
     val fillLocations: Set<SimpleLocation2D> by lazy {
 
         val locationList: MutableSet<SimpleLocation2D> = HashSet()
@@ -54,14 +56,14 @@ abstract class Circle(val radius: Number) {
         this += SimpleLocation2D(first, second)
     }
 
-    val structure = Structure(
+    val structure by lazy {
+        Structure(
             HashSet<SingleStructureData>().apply {
                 for (it in fillLocations)
                     this += SingleStructureData(SimpleLocation3D(it.x, 0, it.y), data)
             }
-    )
-
-    abstract val data: StructureData
+        )
+    }
 
 }
 
