@@ -40,7 +40,7 @@ class GamePhase(
         start?.invoke()
         kSpigot.task(
                 period = 20,
-                howOften = (length / 20) + 20,
+                howOften = (length / 20) + 1,
                 endCallback = {
 
                     end?.invoke()
