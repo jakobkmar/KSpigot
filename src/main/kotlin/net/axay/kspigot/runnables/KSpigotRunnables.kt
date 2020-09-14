@@ -7,16 +7,25 @@ import org.bukkit.scheduler.BukkitRunnable
 
 class KRunnableHolder {
 
-    private val runnableEndCallbacks = HashMap<BukkitRunnable, () -> Unit>()
+    /**
+     * [BukkitRunnable] for tracking the responsible runnable.
+     * [Pair] of callback for the endCallback code and [Boolean]
+     * for holding the information if the endCallback is safe
+     * or not.
+     */
+    private val runnableEndCallbacks = HashMap<BukkitRunnable, Pair<() -> Unit, Boolean>>()
 
     fun shutdown() {
-        runnableEndCallbacks.values.forEach { it.invoke() }
+        runnableEndCallbacks.values.forEach { if (it.second) it.first.invoke() }
         runnableEndCallbacks.clear()
     }
 
-    fun add(runnable: BukkitRunnable, callback: () -> Unit) { runnableEndCallbacks[runnable] = callback }
-    fun remove(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)
-    fun activate(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)?.invoke()
+    fun add(runnable: BukkitRunnable, callback: () -> Unit, safe: Boolean)
+            = runnableEndCallbacks.put(runnable, Pair(callback, safe))
+    fun remove(runnable: BukkitRunnable)
+            = runnableEndCallbacks.remove(runnable)
+    fun activate(runnable: BukkitRunnable)
+            = runnableEndCallbacks.remove(runnable)?.first?.invoke()
 
 }
 
@@ -85,7 +94,7 @@ fun KSpigot.task(
 
     }
 
-    if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback)
+    if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
     if (sync)
         bukkitRunnable.runTaskTimer(this, delay, period ?: 20)
