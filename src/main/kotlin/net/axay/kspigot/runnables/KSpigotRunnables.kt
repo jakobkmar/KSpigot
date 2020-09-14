@@ -32,7 +32,7 @@ class KRunnableHolder {
 abstract class KSpigotRunnable(
         var counterUp: Long? = null,
         var counterDownToOne: Long? = null,
-        var counterDownToZero: Long? = null,
+        var counterDownToZero: Long? = null
 ) : BukkitRunnable()
 
 /**
