@@ -40,7 +40,7 @@ class GamePhase(
         start?.invoke()
         kSpigot.task(
                 period = 20,
-                howOften = length / 20,
+                howOften = (length / 20) + 20,
                 endCallback = {
 
                     end?.invoke()
@@ -52,7 +52,7 @@ class GamePhase(
         ) {
 
             if (counterMessage != null) {
-                val currentCounter = it.counterDownToOne
+                val currentCounter = it.counterDownToZero
                 if (currentCounter?.isCounterValue == true)
                     broadcast(counterMessage.invoke(currentCounter))
             }
