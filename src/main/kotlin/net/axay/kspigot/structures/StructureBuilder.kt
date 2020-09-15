@@ -14,21 +14,25 @@ fun Structure.buildAt(loc: Location) {
     structureData.forEach { it.structureData.createAt(buildLoc + it.location) }
 }
 
+/** @see Structure.rotate */
 fun Structure.rotateAroundX(angle: Number)
-    = rotate { it.rotateAroundX(angle.toDouble()) }
+    = rotate(angle) { it, rad -> it.rotateAroundZ(rad) }
 
+/** @see Structure.rotate */
 fun Structure.rotateAroundY(angle: Number)
-    = rotate { it.rotateAroundY(angle.toDouble()) }
+    = rotate(angle) { it, rad -> it.rotateAroundY(rad) }
 
+/** @see Structure.rotate */
 fun Structure.rotateAroundZ(angle: Number)
-    = rotate { it.rotateAroundZ(angle.toDouble()) }
+    = rotate(angle) { it, rad -> it.rotateAroundZ(rad) }
 
-inline fun Structure.rotate(vectorRotation: (Vector) -> Vector)
+/** @param angle The angle of rotation in degrees.*/
+inline fun Structure.rotate(angle: Number, vectorRotation: (Vector, Double) -> Vector)
     = Structure(
         HashSet<SingleStructureData>().apply {
             structureData.forEach {
                 this += SingleStructureData(
-                    vectorRotation.invoke(it.location.toVector()).toSimpleLoc(),
+                    vectorRotation.invoke(it.location.toVector(), Math.toRadians(angle.toDouble())).toSimpleLoc(),
                     it.structureData
                 )
             }
