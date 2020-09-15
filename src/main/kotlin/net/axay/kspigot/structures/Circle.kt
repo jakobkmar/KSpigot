@@ -7,6 +7,7 @@ import net.axay.kspigot.extensions.geometry.SimpleLocation3D
 import net.axay.kspigot.particles.KSpigotParticle
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
+import kotlin.time.seconds
 
 private fun circleEdgeLocations(radius: Number) = HashSet<SimpleLocation2D>().apply {
 
@@ -53,8 +54,13 @@ abstract class Circle(val radius: Number) {
 
         HashSet<SimpleLocation2D>().apply {
             while (currentRadius >= 0) {
-                this += circleEdgeLocations(currentRadius)
-                currentRadius -= 0.5
+                this += circleEdgeLocations(currentRadius).mapTo(HashSet()) {
+                    mutableSetOf(it).apply {
+                        this += SimpleLocation2D(it.x + when { it.x >= 1 -> -1; it.x <= -1 -> 1; else -> 0 }, it.y)
+                        this += SimpleLocation2D(it.x, it.y + when { it.y >= 1 -> -1; it.y <= -1 -> 1; else -> 0 })
+                    }
+                }.flatten()
+                currentRadius--
             }
         }
 
