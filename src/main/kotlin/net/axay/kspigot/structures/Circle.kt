@@ -38,7 +38,7 @@ abstract class Circle(val radius: Number) {
                 y++
 
                 if (d > 0) {
-                    d += -2 * 3 + 2
+                    d += -2 * x + 2
                     x--
                 }
 
