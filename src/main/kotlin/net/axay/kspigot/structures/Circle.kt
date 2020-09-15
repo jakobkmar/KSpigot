@@ -8,62 +8,73 @@ import net.axay.kspigot.particles.KSpigotParticle
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
-abstract class Circle(val radius: Number) {
+private fun circleEdgeLocations(radius: Number) = HashSet<SimpleLocation2D>().apply {
 
-    abstract val data: StructureData
+    val currentRadius = radius.toDouble()
 
-    val fillLocations: Set<SimpleLocation2D> by lazy {
+    var d = -currentRadius
+    var x = currentRadius
+    var y = 0
 
-        val locationList: MutableSet<SimpleLocation2D> = HashSet()
+    while (y <= x) {
 
-        var currentRadius = radius.toDouble()
-        while (currentRadius >= 0) {
+        addSimpleLoc2D(x, y)
+        addSimpleLoc2D(x, -y)
+        addSimpleLoc2D(-x, y)
+        addSimpleLoc2D(-x, -y)
+        addSimpleLoc2D(y, x)
+        addSimpleLoc2D(y, -x)
+        addSimpleLoc2D(-y, x)
+        addSimpleLoc2D(-y, -x)
 
-            var d = -currentRadius
-            var x = currentRadius
-            var y = 0
+        d += 2 * y + 1
+        y++
 
-            while (y <= x) {
-
-                locationList.addCircleLoc(x, y)
-                locationList.addCircleLoc(x, -y)
-                locationList.addCircleLoc(-x, y)
-                locationList.addCircleLoc(-x, -y)
-                locationList.addCircleLoc(y, x)
-                locationList.addCircleLoc(y, -x)
-                locationList.addCircleLoc(-y, x)
-                locationList.addCircleLoc(-y, -x)
-
-                d += 2 * y + 1
-                y++
-
-                if (d > 0) {
-                    d += -2 * x + 2
-                    x--
-                }
-
-            }
-
-            currentRadius--
-
+        if (d > 0) {
+            d += -2 * x + 2
+            x--
         }
 
-        return@lazy locationList
-
     }
 
-    private fun MutableSet<SimpleLocation2D>.addCircleLoc(first: Number, second: Number) {
-        this += SimpleLocation2D(first, second)
-    }
+}
 
-    val structure by lazy {
-        Structure(
-            HashSet<SingleStructureData>().apply {
-                for (it in fillLocations)
-                    this += SingleStructureData(SimpleLocation3D(it.x, 0, it.y), data)
+private fun MutableSet<SimpleLocation2D>.addSimpleLoc2D(first: Number, second: Number) {
+    this += SimpleLocation2D(first, second)
+}
+
+abstract class Circle(val radius: Number) {
+
+    protected abstract val data: StructureData
+
+    val fillLocations by lazy {
+
+        var currentRadius = radius.toDouble()
+
+        HashSet<SimpleLocation2D>().apply {
+            while (currentRadius >= 0) {
+                this += circleEdgeLocations(currentRadius)
+                currentRadius -= 0.5
             }
-        )
+        }
+
     }
+
+    val edgeLocations by lazy {
+        circleEdgeLocations(radius)
+    }
+
+    val filledStructure by lazy { structure(true) }
+
+    val edgeStructure by lazy { structure(false) }
+
+    fun structure(filled: Boolean) = Structure(
+        HashSet<SingleStructureData>().apply {
+            val locations = if (filled) fillLocations else edgeLocations
+            for (it in locations)
+                this += SingleStructureData(SimpleLocation3D(it.x, 0, it.y), data)
+        }
+    )
 
 }
 
