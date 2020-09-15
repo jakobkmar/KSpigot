@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.runnables
 
 import net.axay.kspigot.main.KSpigot
