@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import java.net.URL
 
 private const val IP_API = "http://ip-api.com/json/"
-private const val IP_API_FIELDS = "12120063"
+private const val IP_API_FIELDS = "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
 
 val Player.ipAddressData get() = ipAddressData()
 
