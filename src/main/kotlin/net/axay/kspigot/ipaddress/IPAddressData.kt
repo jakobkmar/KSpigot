@@ -14,15 +14,22 @@ val Player.ipAddressData get() = ipAddressData()
 
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
 
-    val hostString = address?.hostString ?: return null
-    val jsonObject = ValueHolder.gson.fromJson(
-            URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
-            JsonObject::class.java
-    ) ?: return null
+    return try {
 
-    if (jsonObject["status"].toString() == "fail") return null
+        val hostString = address?.hostString ?: return null
 
-    return IPAddressData(jsonObject)
+        val jsonObject = ValueHolder.gson.fromJson(
+                URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
+                JsonObject::class.java
+        ) ?: return null
+
+        if (jsonObject["status"].toString() == "fail") return null
+
+        IPAddressData(jsonObject)
+
+    } catch (exc: Exception) {
+        null
+    }
 
 }
 
