@@ -13,7 +13,7 @@ object BuildConstants {
  */
 
 group = "net.axay"
-version = "1.16.2"
+version = "1.16.3"
 
 plugins {
     java
@@ -36,8 +36,8 @@ dependencies {
     implementation(kotlin("stdlib-jdk$CONSISTENT_VERSION_STRING"))
 
     // SPIGOT
-    compileOnly("org.spigotmc", "spigot", "1.16.2-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.16.2-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
 
 }
 
