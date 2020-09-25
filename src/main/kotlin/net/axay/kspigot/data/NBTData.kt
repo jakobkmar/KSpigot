@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package net.axay.kspigot.data
 
 import net.axay.kspigot.annotations.NMS_General
@@ -46,6 +48,16 @@ class NBTData {
     operator fun <T> set(key: String, dataType: NBTDataType<T>, value: T) {
         dataType.writeToCompound(key, value, nbtTagCompound)
     }
+
+    /**
+     * This method removes the
+     * given [key] from the NBTTagCompound.
+     * Its value will be lost.
+     */
+    fun remove(key: String) = nbtTagCompound.remove(key)
+
+    /** @see remove */
+    operator fun minusAssign(key: String) = remove(key)
 
     companion object {
 
