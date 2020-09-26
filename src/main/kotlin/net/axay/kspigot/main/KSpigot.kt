@@ -1,5 +1,6 @@
 package net.axay.kspigot.main
 
+import net.axay.kspigot.kotlinextensions.closeIfInitialized
 import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -18,7 +19,10 @@ import org.bukkit.plugin.java.JavaPlugin
  */
 abstract class KSpigot : JavaPlugin() {
 
-    val kRunnableHolder = KRunnableHolder()
+    // lazy properties
+    private val kRunnableHolderProperty = lazy { KRunnableHolder() }
+
+    val kRunnableHolder by kRunnableHolderProperty
 
     /**
      * Called when the plugin was loaded
@@ -44,8 +48,12 @@ abstract class KSpigot : JavaPlugin() {
     }
 
     final override fun onDisable() {
+
         shutdown()
-        kRunnableHolder.shutdown()
+
+        // avoid unnecessary load of lazy properties
+        kRunnableHolderProperty.closeIfInitialized()
+
     }
 
 }

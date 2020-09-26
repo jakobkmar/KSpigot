@@ -7,7 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
-class KRunnableHolder {
+class KRunnableHolder : AutoCloseable {
 
     /**
      * [BukkitRunnable] for tracking the responsible runnable.
@@ -17,7 +17,7 @@ class KRunnableHolder {
      */
     private val runnableEndCallbacks = HashMap<BukkitRunnable, Pair<() -> Unit, Boolean>>()
 
-    fun shutdown() {
+    override fun close() {
         runnableEndCallbacks.values.forEach { if (it.second) it.first.invoke() }
         runnableEndCallbacks.clear()
     }
