@@ -57,7 +57,7 @@ NOTE: The counters are nullable, because howOften is (when null) infinite.
 
 With the `kSpigot.task() { }` method you have the possibility to set the parameter `safe = true`. When doing this, the defined `endCallback` will be executed under any circumstances (except a major server crash). If you define `endCallback`, but do not set `safe = true` the `endCallback` will only be executed when the task ends, because the limit of `howOften` was reached.
 
-#### Chainable runnabless
+#### Chainable runnables
 
 This makes it possible to do resource intensive tasks asynchronous and then doing something with the result synchronous (e.g. because Spigot forces you) in a simple way.
 
