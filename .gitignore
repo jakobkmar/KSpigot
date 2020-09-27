@@ -4,3 +4,4 @@ gradle/
 .idea/
 .gradle/
 logs/
+gradle.properties
