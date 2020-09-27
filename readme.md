@@ -91,6 +91,10 @@ kSpigot.firstAsync {
 }
 ```
 
+### Inventory GUI API
+
+Tutorial coming soon...
+
 ### Powerful builders
 
 #### For items
