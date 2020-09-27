@@ -2,7 +2,7 @@
 
 ## Dependency
 
-The repository:
+**The repository:**
 ```kotlin
 repository {
     maven("https://dl.bintray.com/bluefireoly/KSpigot")
