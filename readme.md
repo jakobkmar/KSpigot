@@ -9,14 +9,16 @@ repository {
 }
 ```
 
-The dependency:
+**The dependency:**
+
 ```kotlin
 dependencies {
     implementation("net.axay", "KSpigot", "VERSION_HERE")
 }
 ```
 
-You can find the newest version on [Bintray](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot).
+Latest version: 
+[ ![Download](https://api.bintray.com/packages/bluefireoly/KSpigot/KSpigot/images/download.svg) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
 
 ## About
 
