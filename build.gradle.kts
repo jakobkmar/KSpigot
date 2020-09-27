@@ -1,27 +1,39 @@
-import Build_gradle.BuildConstants.CONSISTENT_VERSION_STRING
-import Build_gradle.BuildConstants.JVM_VERSION
-import Build_gradle.BuildConstants.JVM_VERSION_STRING
+@file:Suppress("PropertyName")
 
-object BuildConstants {
-    val JVM_VERSION = JavaVersion.VERSION_1_8
-    const val JVM_VERSION_STRING = "1.8"
-    const val CONSISTENT_VERSION_STRING = "8"
-}
+import java.util.Date
 
-/**
+/*
+ * BUILD CONSTANTS
+ */
+
+val JVM_VERSION = JavaVersion.VERSION_1_8
+val JVM_VERSION_STRING = "1.8"
+val CONSISTENT_VERSION_STRING = "8"
+
+val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
+
+/*
  * PROJECT
  */
 
 group = "net.axay"
-version = "1.16.3"
+version = "1.16.3_R4"
+
+description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
 plugins {
+
     java
     kotlin("jvm") version "1.4.0"
+
     maven
+    `maven-publish`
+
+    id("com.jfrog.bintray") version "1.8.5"
+
 }
 
-/**
+/*
  * DEPENDENCY MANAGEMENT
  */
 
@@ -41,14 +53,88 @@ dependencies {
 
 }
 
-/**
+/*
  * BUILD
  */
 
 java.sourceCompatibility = JVM_VERSION
 
 tasks {
+
     compileKotlin {
         kotlinOptions.jvmTarget = JVM_VERSION_STRING
     }
+
+}
+
+val sourcesJar by tasks.creating(Jar::class) {
+    archiveClassifier.set("sources")
+    from(sourceSets["main"].allSource)
+}
+
+artifacts {
+    add("archives", sourcesJar)
+}
+
+/*
+ * PUBLISHING
+ */
+
+bintray {
+
+    user = project.findProperty("bintray.username") as String
+    key = project.findProperty("bintray.api_key") as String
+
+    setPublications("KSpigot")
+
+    pkg.apply {
+
+        version.apply {
+            name = project.version.toString()
+            released = Date().toString()
+        }
+
+        repo = project.name
+        name = project.name
+
+        setLicenses("Apache-2.0")
+
+        vcsUrl = GITHUB_URL
+
+    }
+
+}
+
+publishing {
+
+    publications {
+        create<MavenPublication>("KSpigot") {
+
+            from(components["java"])
+
+            artifact(sourcesJar)
+
+            this.groupId = project.group.toString()
+            this.artifactId = project.name
+            this.version = project.version.toString()
+
+            pom {
+
+                name.set(project.name)
+                description.set(project.description)
+
+                developers {
+                    developer {
+                        name.set("bluefireoly")
+                    }
+                }
+
+                url.set(GITHUB_URL)
+                scm { url.set(GITHUB_URL) }
+
+            }
+
+        }
+    }
+
 }
