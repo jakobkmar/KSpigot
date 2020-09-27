@@ -37,13 +37,6 @@ class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
 
     init {
 
-        object : Listener {
-            @EventHandler
-            private fun onInteract(event: InventoryInteractEvent) {
-                println("interact geht hier")
-            }
-        }.register(kSpigot)
-
         kSpigot.listen<InventoryClickEvent> {
 
             val inv = registered.find { search -> search.isThisInv(it.inventory) } ?: return@listen
