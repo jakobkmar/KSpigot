@@ -1,5 +1,23 @@
 # KSpigot
 
+## Dependency
+
+The repository:
+```kotlin
+repository {
+    maven("https://dl.bintray.com/bluefireoly/KSpigot")
+}
+```
+
+The dependency:
+```kotlin
+dependencies {
+    implementation("net.axay", "KSpigot", "1.16.3_R3")
+}
+```
+
+You can find the newest version on [Bintray](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot).
+
 ## About
 
 KSpigot is a kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft.
