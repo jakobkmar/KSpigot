@@ -12,7 +12,7 @@ repository {
 The dependency:
 ```kotlin
 dependencies {
-    implementation("net.axay", "KSpigot", "1.16.3_R3")
+    implementation("net.axay", "KSpigot", "VERSION_HERE")
 }
 ```
 
