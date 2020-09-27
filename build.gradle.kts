@@ -68,6 +68,7 @@ tasks {
 }
 
 val sourcesJar by tasks.creating(Jar::class) {
+    dependsOn(JavaPlugin.CLASSES_TASK_NAME)
     archiveClassifier.set("sources")
     from(sourceSets["main"].allSource)
 }
