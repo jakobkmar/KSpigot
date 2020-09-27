@@ -17,7 +17,7 @@ dependencies {
 }
 ```
 
-Latest version: 
+Latest version: <br>
 [ ![Download](https://api.bintray.com/packages/bluefireoly/KSpigot/KSpigot/images/download.svg) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
 
 ## About
