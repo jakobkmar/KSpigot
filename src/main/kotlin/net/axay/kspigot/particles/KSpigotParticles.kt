@@ -23,6 +23,10 @@ data class KSpigotParticle(
         var force: Boolean = false
 ) {
 
+    /**
+     * Spawns the particle at the location. It
+     * will be visible for everyone near it.
+     */
     fun spawnAt(loc: Location) {
         loc.worldOrException.spawnParticle(
                 particle,
@@ -37,6 +41,10 @@ data class KSpigotParticle(
         )
     }
 
+    /**
+     * Spawns the particle at the location of the
+     * player. It will be only visible for the player.
+     */
     fun spawnFor(player: Player) {
         player.spawnParticle(
                 particle,
@@ -52,11 +60,27 @@ data class KSpigotParticle(
 
 }
 
+/**
+ * Accesses the particle builder.
+ * @see KSpigotParticle
+ */
 fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
         = KSpigotParticle(particle).apply(builder)
 
-fun Player.particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
-        = KSpigotParticle(particle).apply(builder).spawnFor(this)
-
+/**
+ * Accesses the particle builder and then immediately
+ * spawns the particle at the given location.
+ * @see KSpigotParticle
+ * @see KSpigotParticle.spawnAt
+ */
 fun Location.particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
         = KSpigotParticle(particle).apply(builder).spawnAt(this)
+
+/**
+ * Accesses the particle builder and then immediately
+ * spawns the particle for the player.
+ * @see KSpigotParticle
+ * @see KSpigotParticle.spawnFor
+ */
+fun Player.particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
+        = KSpigotParticle(particle).apply(builder).spawnFor(this)
