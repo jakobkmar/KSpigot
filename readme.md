@@ -11,17 +11,13 @@ Latest version: <br>
 
 **The repository:**
 ```kotlin
-repositories {
-    jcenter()
-}
+jcenter()
 ```
 
 **The dependency:**
 
 ```kotlin
-dependencies {
-    implementation("net.axay", "KSpigot", "VERSION_HERE")
-}
+implementation("net.axay", "KSpigot", "VERSION_HERE")
 ```
 
 </p>
@@ -33,17 +29,13 @@ dependencies {
 
 **The repository:**
 ```groovy
-repositories {
-    jcenter()
-}
+jcenter()
 ```
 
 **The dependency:**
 
 ```groovy
-dependencies {
-    implementation 'net.axay:KSpigot:VERSION_HERE'
-}
+implementation 'net.axay:KSpigot:VERSION_HERE'
 ```
 
 </p>
@@ -293,9 +285,9 @@ kSpigot.listen<PlayerMoveEvent> {
     it.player.kick("Do not move!")
 }
 ```
-NOTE: This method automatically registers the listener.
-
-The `listen<Event> { }` method returns the listener instance.
+NOTE:
+ - This method automatically registers the listener.
+ - The `listen<Event>` method returns the listener instance.
 
 The following extension methods can be used on any listener:
 ```kotlin
