@@ -6,7 +6,7 @@ Latest version: <br>
 [ ![Download](https://api.bintray.com/packages/bluefireoly/KSpigot/KSpigot/images/download.svg) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
 
 <details>
-<summary>Gradle (Kotlin-Script)</summary>
+<summary><b>Gradle (Kotlin-Script)</b></summary>
 <p>
 
 **The repository:**
@@ -28,7 +28,7 @@ dependencies {
 </details>
 
 <details>
-<summary>Gradle (Groovy)</summary>
+<summary><b>Gradle (Groovy)</b></summary>
 <p>
 
 **The repository:**
@@ -50,7 +50,7 @@ dependencies {
 </details>
 
 <details>
-<summary>Maven</summary>
+<summary><b>Maven</b></summary>
 <p>
 
 **The repository:**
