@@ -43,7 +43,7 @@ val LocationArea.fillBlocks: Set<Block> get()
 val LocationArea.entities: Set<Entity> get()
     = HashSet<Entity>().apply {
         touchedChunks.forEach { it.entities.forEach { en ->
-            if (locationPair.isInArea(en.location))
+            if (simpleLocationPair.isInArea(en.location))
                 this += en
         } }
     }
