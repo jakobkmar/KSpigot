@@ -10,8 +10,16 @@ import java.net.URL
 private const val IP_API = "http://ip-api.com/json/"
 private const val IP_API_FIELDS = "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
 
+/**
+ * @see ipAddressData
+ */
 val Player.ipAddressData get() = ipAddressData()
 
+/**
+ * @param language The preferred language of the result.
+ * @return An object containing all the data which could
+ * be found out about the IP address of the player.
+ */
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
 
     return try {
