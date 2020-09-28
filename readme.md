@@ -11,7 +11,7 @@ Latest version: <br>
 
 **The repository:**
 ```kotlin
-repository {
+repositories {
     jcenter()
 }
 ```
@@ -33,7 +33,7 @@ dependencies {
 
 **The repository:**
 ```groovy
-repository {
+repositories {
     jcenter()
 }
 ```
