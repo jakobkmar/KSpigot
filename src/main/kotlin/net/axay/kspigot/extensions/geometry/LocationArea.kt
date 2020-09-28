@@ -15,8 +15,8 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
         else throw IllegalArgumentException("The given locations worlds are not the same!")
     }
 
-    val minLoc = SimpleLocation3D(min(loc1.x, loc2.x), min(loc1.y, loc2.y), min(loc1.z, loc2.z))
-    val maxLoc = SimpleLocation3D(max(loc1.x, loc2.x), max(loc1.y, loc2.y), max(loc1.z, loc2.z))
+    val minSimpleLoc = SimpleLocation3D(min(loc1.x, loc2.x), min(loc1.y, loc2.y), min(loc1.z, loc2.z))
+    val maxSimpleLoc = SimpleLocation3D(max(loc1.x, loc2.x), max(loc1.y, loc2.y), max(loc1.z, loc2.z))
 
     fun isInArea(
             loc: Location,
@@ -29,22 +29,22 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
 
         return if (
             // checking x
-            loc.x >= minLoc.x - tolerance && loc.x <= maxLoc.x + tolerance &&
+            loc.x >= minSimpleLoc.x - tolerance && loc.x <= maxSimpleLoc.x + tolerance &&
             // checking z
-            loc.z >= minLoc.z - tolerance && loc.z <= maxLoc.z + tolerance
+            loc.z >= minSimpleLoc.z - tolerance && loc.z <= maxSimpleLoc.z + tolerance
         ) {
             // checking y
-            if (check3d) loc.y >= minLoc.x - tolerance && loc.y <= maxLoc.y + tolerance else true
+            if (check3d) loc.y >= minSimpleLoc.x - tolerance && loc.y <= maxSimpleLoc.y + tolerance else true
         } else false
 
     }
 
-    val touchedChunks: Set<SimpleChunkLocation> by lazy {
+    val touchedSimpleChunks: Set<SimpleChunkLocation> by lazy {
 
         val foundChunks = HashSet<SimpleChunkLocation>()
 
-        (minLoc.chunk.x until maxLoc.chunk.x + 1).forEach { curX ->
-        (minLoc.chunk.z until maxLoc.chunk.z + 1).forEach { curZ ->
+        (minSimpleLoc.chunk.x until maxSimpleLoc.chunk.x + 1).forEach { curX ->
+        (minSimpleLoc.chunk.z until maxSimpleLoc.chunk.z + 1).forEach { curZ ->
             foundChunks += SimpleChunkLocation(curX, curZ)
         } }
 
@@ -59,20 +59,26 @@ class LocationArea(loc1: Location, loc2: Location) {
     var loc1: Location = loc1
         set(value) {
             field = value
-            locationPair = SimpleLocationPair(value, loc2)
+            simpleLocationPair = SimpleLocationPair(value, loc2)
         }
     var loc2: Location = loc2
         set(value) {
             field = value
-            locationPair = SimpleLocationPair(loc1, value)
+            simpleLocationPair = SimpleLocationPair(loc1, value)
         }
 
-    var locationPair = SimpleLocationPair(loc1, loc2); private set
+    var simpleLocationPair = SimpleLocationPair(loc1, loc2); private set
 
-    val world: World get() = locationPair.world
-    val minLoc: Location get() = locationPair.minLoc.withWorld(locationPair.world)
-    val maxLoc: Location get() = locationPair.maxLoc.withWorld(locationPair.world)
+    val world: World get() = simpleLocationPair.world
+    val minLoc: Location get() = simpleLocationPair.minSimpleLoc.withWorld(simpleLocationPair.world)
+    val maxLoc: Location get() = simpleLocationPair.maxSimpleLoc.withWorld(simpleLocationPair.world)
 
-    val touchedChunks: Set<Chunk> get() = locationPair.touchedChunks.mapTo(HashSet()) { it.withWorld(world) }
+    val touchedChunks: Set<Chunk> get() = simpleLocationPair.touchedSimpleChunks.mapTo(HashSet()) { it.withWorld(world) }
+
+    fun isInArea(
+            loc: Location,
+            check3d: Boolean = true,
+            tolerance: Int = 0
+    ) = simpleLocationPair.isInArea(loc, check3d, tolerance)
 
 }
