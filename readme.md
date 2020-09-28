@@ -65,6 +65,9 @@ implementation 'net.axay:KSpigot:VERSION_HERE'
 
 </p>
 </details>
+<br>
+
+If you work with KSpigot, you also need Spigot as a dependency.
 
 ## About
 
@@ -121,7 +124,7 @@ NOTE: The counters are nullable, because howOften is (when null) infinite.
 
 #### Safe runnables
 
-With the `kSpigot.task() { }` method you have the possibility to set the parameter `safe = true`. When doing this, the defined `endCallback` will be executed under any circumstances (except a major server crash). If you define `endCallback`, but do not set `safe = true` the `endCallback` will only be executed when the task ends, because the limit of `howOften` was reached.
+With the `kSpigot.task()` method you have the possibility to set the parameter `safe = true`. When doing this, the defined `endCallback` will be executed under any circumstances (except a major server crash). If you define `endCallback`, but do not set `safe = true` the `endCallback` will only be executed when the task ends, because the limit of `howOften` was reached.
 
 #### Chainable runnables
 
@@ -215,6 +218,9 @@ val health = nbt["hearts", NBTDataType.INT]
 // set data for a given key
 nbt["custom", NBTDataType.DOUBLE] = 3.3
 
+// delete data for a given key
+nbt -= "keyToDelete"
+
 // save data to the entity
 entity.nbtData = nbt
 
@@ -297,19 +303,146 @@ listener.unregister()
 
 ### Structures
 
-Tutorial coming soon...
+A structure is a set of data defining what data is in a specific area.
+
+#### LocationArea
+
+A LocationArea is an area between to given Locations. The max and min locations will be calculated automatically.
+
+```kotlin
+val area = LocationArea(loc1, loc2) // loc1 and loc2 do not have to be min and max
+area.minLoc
+area.maxLoc
+area.touchedChunks // get all chunks the LocationArea "lays" in
+area.isInArea(loc3, check3d = true, tolerance = 0)
+
+area.fillBlocks.forEach { /* execute task for each block in the area*/ }
+area.entities.forEach { /* execute task for each entity in the area*/ }
+```
+
+#### Loading a structure
+
+A structure can be loaded from any given LocationArea:
+```kotlin
+val structure = area.loadStructure(includeBlocks = true, includeEntities = false)
+```
+
+#### Using a structure
+
+Structures can be transformed and placed in the world.
+
+```kotlin
+// rotate the structure (angle in degrees)
+structure.rotateAroundX(angle)
+structure.rotateAroundY(angle)
+structure.rotateAroundZ(angle)
+
+// place the structure at the given location
+structure.buildAt(loc)
+```
+
+#### Default structures
+
+##### Circle
+
+There are different circle types, all inherting from `Circle`.
+
+```kotlin
+val circle = MaterialCircle(radius, Material.GRASS_BLOCK)
+val circle = ParticleCircle(radius, particle(Particle.HEART) { amount = 5 })
+val circle = EntityCircle(radius, EntityType.COW)
+```
+
+A circle can be filled or it can only consist of its border (edge).
+
+```kotlin
+// get all circle locations
+circle.fillLocations
+circle.edgeLocations
+
+// get a structure from the circle
+circle.filledStructure
+circle.edgeStructure
+```
 
 ### IP Address API
 
-Tutorial coming soon...
+This API allows you to easily get some data about the IP address of a player. Please note that it is not promised that this api always returns some data: _After exceeding a certain amount of request per minute, the request will return null._
+
+```kotlin
+player.ipAddressData
+// or (for results in another language)
+player.ipAddressData(IPAddressDataLanguage.GERMAN)
+```
+
+What kind of data is available?
+```kotlin
+ipData ?: return
+
+ipData.district
+ipData.city
+ipData.continent
+ipData.country
+// and more...
+```
 
 ### Particles
 
-Tutorial coming soon...
+This part of the API makes it more intuitive to deal with particles.
+
+```kotlin
+// define the particle
+val particle = particle(Particle.BLOCK_CRACK) {
+    amount = 10
+    offset = vec(3, 3, 3)
+    extra = 0.1
+    force = true
+}
+
+// spawn the particle
+particle.spawnAt(loc)
+particle.spawnFor(player)
+```
+
+You can also access the builder as follows (and instantly spawn the particle).
+```kotlin
+loc.particle(Particle.HEART) { }
+player.particle(Particle.HEART) { }
+```
 
 ### GamePhase API
 
-Tutorial coming soon...
+Game phases are commonly used with minigames. This is why KSpigot provides a general way to create such a game phase system quickly.
+
+```kotlin
+val game = buildGame {
+
+    phase(length) {
+
+        counterMessage("The game will start in", "seconds", "second", ">>", ".")
+
+        end {
+            broadcast("The game has started.")
+        }
+    }
+
+    phase(length) {
+
+        // alternative counterMessage implementation
+        counterMessage {
+            ">> The special event will start in $it seconds."
+        }
+
+        start { /* do something in the beginning of the gamephase */ }
+        end { /* e.g. start the event */ }
+
+    }
+
+}
+
+game.begin(kSpigot)
+```
+Idle phases are still in development.
 
 <br>
 
