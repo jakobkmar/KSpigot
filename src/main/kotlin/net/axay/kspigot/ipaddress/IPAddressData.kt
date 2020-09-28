@@ -3,7 +3,6 @@
 package net.axay.kspigot.ipaddress
 
 import com.google.gson.JsonObject
-import net.axay.kspigot.annotations.UnsafeImplementation
 import net.axay.kspigot.main.ValueHolder
 import org.bukkit.entity.Player
 import java.net.URL
@@ -11,10 +10,8 @@ import java.net.URL
 private const val IP_API = "http://ip-api.com/json/"
 private const val IP_API_FIELDS = "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
 
-@UnsafeImplementation
 val Player.ipAddressData get() = ipAddressData()
 
-@UnsafeImplementation
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
 
     return try {
