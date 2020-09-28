@@ -144,11 +144,61 @@ kSpigot.firstAsync {
 
 ### Inventory GUI API
 
-Tutorial coming soon...
+Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot Inventory GUI API provides an easy way to build inventory GUIs the way you would expect a GUI to be. In addition, it offers full type safety for slots.
 
-### Powerful builders
+```kotlin
+val gui = kSpigot.inventoryGUI(InventoryGUIType.FIVE_BY_NINE) {
 
-#### For items
+    title = "Example Inventory"
+
+    page(0) {
+        // slot ranges like rectTo or linTo reduce the amount of code
+        placeholder(Slots.RowOneSlotOne rectTo Slots.RowFiveSlotNine, ItemStack(Material.RED_STAINED_GLASS))
+        nextPage(Slots.RowOneSlotNine, ItemStack(Material.PAPER))
+    }
+
+    page(1) {
+
+        // define fancy transitions
+        transitionFrom = InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY
+        transitionTo = InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY
+
+        // get special slot compounds easily with constants like Slots.Border
+        placeholder(Slots.Border, ItemStack(Material.GLASS_PANE))
+
+        // page change buttons
+        previousPage(Slots.RowTwoSlotTwo, ItemStack(Material.PAPER))
+        nextPage(Slots.RowTwoSlotEight, ItemStack(Material.PAPER))
+
+        // a button with a custom callback
+        button(Slots.RowThreeSlotFive, ItemStack(Material.REPEATER)) {
+            it.bukkitEvent.inventory.setItem(
+                    Slots.RowTwoSlotFive,
+                    ItemStack(Material.values().random(), (1..64).random())
+            )
+        }
+
+        // a slot where player interaction is permitted
+        freeSlot(Slots.RowTwoSlotFive)
+
+    }
+
+    page(2) {
+        // placeholders are there to block any player action while displaying a specific item
+        placeholder(Slots.RowOneSlotOne rectTo Slots.RowFiveSlotNine, ItemStack(Material.PINK_GLAZED_TERRACOTTA))
+        previousPage(Slots.RowThreeSlotFive, ItemStack(Material.DIAMOND))
+    }
+
+}
+```
+This example: _This inventory has three pages. On page 1, there is a button for generating random ItemStacks. The player can take out this ItemStack and move it to his own inventory._
+
+Then you can open the GUI for any player.
+```kotlin
+player.openGUI(gui)
+```
+
+### Item Builder
 
 ```kotlin
 val wand = itemStack(Material.GOLD_BLOCK) {
@@ -176,7 +226,9 @@ val wand = itemStack(Material.GOLD_BLOCK) {
 }
 ```
 
-#### For complex chat components
+### Complex chat components
+
+Creating chat components can get very messy quickly. However, creating a component with Spigot is much more developer-friendly.
 
 ```kotlin
 val component = chatComponent {
@@ -196,14 +248,15 @@ val component = chatComponent {
 
 }
 ```
-You can also access the builder by calling
+
+You can also access the builder and immediately send the message.
 ```kotlin
 commandSender.sendMessage { /* same in here as above */ }
 ```
 
-#### And more
+### Firework API
 
-A lot of additional things are also suitable for builders. Just like fireworks etc...
+Tutorial coming soon... (after Firework API overhaul)
 
 ### NBTData support
 Typesafe and consistent
