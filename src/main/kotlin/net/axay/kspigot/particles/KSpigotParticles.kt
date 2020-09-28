@@ -6,6 +6,14 @@ import org.bukkit.Particle
 import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
+/**
+ * @param particle The type of [Particle].
+ * @param amount The amount of particles.
+ * @param offset The offset at which particles should appear.
+ * @param extra Particle specific data, often specifying an aspect like speed.
+ * @param data Particle specific data, often specifying BlockData or an ItemStack.
+ * @param force Determines whether the client should be encouraged to display the particles.
+ */
 data class KSpigotParticle(
         val particle: Particle,
         var amount: Int = 1,
