@@ -2,10 +2,17 @@
 
 ## Dependency
 
+Latest version: <br>
+[ ![Download](https://api.bintray.com/packages/bluefireoly/KSpigot/KSpigot/images/download.svg) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
+
+<details>
+<summary>Gradle (Kotlin-Script)</summary>
+<p>
+
 **The repository:**
 ```kotlin
 repository {
-    maven("https://dl.bintray.com/bluefireoly/KSpigot")
+    jcenter()
 }
 ```
 
@@ -17,8 +24,55 @@ dependencies {
 }
 ```
 
-Latest version: <br>
-[ ![Download](https://api.bintray.com/packages/bluefireoly/KSpigot/KSpigot/images/download.svg) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
+</p>
+</details>
+
+<details>
+<summary>Gradle (Groovy)</summary>
+<p>
+
+**The repository:**
+```groovy
+repository {
+    jcenter()
+}
+```
+
+**The dependency:**
+
+```groovy
+dependencies {
+    implementation 'net.axay:KSpigot:VERSION_HERE'
+}
+```
+
+</p>
+</details>
+
+<details>
+<summary>Maven</summary>
+<p>
+
+**The repository:**
+```xml
+<repository>
+    <id>jcenter</id>
+    <name>jcenter</name>
+    <url>https://jcenter.bintray.com</url>
+</repository>
+```
+
+**The dependency:**
+```xml
+<dependency>
+	<groupId>net.axay</groupId>
+	<artifactId>KSpigot</artifactId>
+	<version>VERSION_HERE</version>
+</dependency>
+```
+
+</p>
+</details>
 
 ## About
 
@@ -130,7 +184,7 @@ val wand = itemStack(Material.GOLD_BLOCK) {
 #### For complex chat components
 
 ```kotlin
-chatComponent {
+val component = chatComponent {
 
     text("You got a friend request! ") {
         color = col("#4FEA40")
@@ -248,5 +302,11 @@ The following extension methods can be used on any listener:
 listener.register(plugin)
 listener.unregister()
 ```
+
+### Structures
+
+Tutorial coming soon...
+
+<br>
 
 > Any questions? Feel free to contact me!
