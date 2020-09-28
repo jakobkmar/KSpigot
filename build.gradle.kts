@@ -1,6 +1,6 @@
 @file:Suppress("PropertyName")
 
-import java.util.Date
+import java.util.*
 
 /*
  * BUILD CONSTANTS
@@ -21,15 +21,20 @@ version = "1.16.3_R5"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
+/*
+ * PLUGINS
+ */
+
 plugins {
 
-    java
     kotlin("jvm") version "1.4.10"
 
     maven
     `maven-publish`
 
     id("com.jfrog.bintray") version "1.8.5"
+
+    id("org.jetbrains.dokka") version "1.4.10"
 
 }
 
@@ -40,6 +45,7 @@ plugins {
 repositories {
     mavenCentral()
     mavenLocal() // for retrieving the local available binaries of spigot (use the BuildTools)
+    jcenter()
 }
 
 dependencies {
