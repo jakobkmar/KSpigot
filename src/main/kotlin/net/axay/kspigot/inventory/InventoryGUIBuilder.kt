@@ -6,13 +6,13 @@ import net.axay.kspigot.main.KSpigot
 import org.bukkit.inventory.ItemStack
 
 inline fun <T : ForInventory> KSpigot.inventoryGUI(
-        type: InventoryGUIType<T>,
+        type: InventoryType<T>,
         builder: InventoryGUIBuilder<T>.() -> Unit,
 ) = InventoryGUIBuilder(this, type).apply(builder).build()
 
 class InventoryGUIBuilder<in T : ForInventory>(
         private val kSpigot: KSpigot,
-        val type: InventoryGUIType<in T>
+        val type: InventoryType<in T>
 ) {
 
     var title: String = ""
@@ -31,7 +31,7 @@ class InventoryGUIBuilder<in T : ForInventory>(
 }
 
 class InventoryGUIPageBuilder<in T : ForInventory>(
-        val type: InventoryGUIType<in T>,
+        val type: InventoryType<in T>,
         val page: Int
 ) {
 
@@ -99,7 +99,7 @@ class InventoryGUIPageBuilder<in T : ForInventory>(
         ))
 
     private fun slots(slots: InventorySlotCompound<T>, element: InventoryGUISlot)
-        = slots.withGUIType(type).forEach { curSlot ->
+        = slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element  }
         }
 

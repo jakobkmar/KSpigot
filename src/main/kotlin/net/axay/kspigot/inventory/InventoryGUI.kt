@@ -3,13 +3,9 @@
 package net.axay.kspigot.inventory
 
 import net.axay.kspigot.event.listen
-import net.axay.kspigot.event.register
 import net.axay.kspigot.main.KSpigot
 import org.bukkit.entity.HumanEntity
-import org.bukkit.event.EventHandler
-import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
-import org.bukkit.event.inventory.InventoryInteractEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryView
 
@@ -71,7 +67,7 @@ class InventoryGUIClickEvent(
 
 class InventoryGUIData(
         val plugin: KSpigot,
-        val inventoryGUIType: InventoryGUIType<*>,
+        val inventoryType: InventoryType<*>,
         val title: String?,
         val pages: Map<Int, InventoryGUIPage>
 )
@@ -99,7 +95,7 @@ class InventoryGUIShared(
         inventoryGUIData: InventoryGUIData
 ) : InventoryGUI(inventoryGUIData) {
 
-    override val bukkitInventory by lazy { data.inventoryGUIType.createBukkitInv(null, data.title) }
+    override val bukkitInventory by lazy { data.inventoryType.createBukkitInv(null, data.title) }
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
@@ -111,7 +107,7 @@ class InventoryGUIShared(
 
         data.pages[page]?.slots?.let { slots ->
 
-            val dimensions = data.inventoryGUIType.dimensions
+            val dimensions = data.inventoryType.dimensions
 
             if (ifOffset()) {
                 dimensions.invSlots.forEach {

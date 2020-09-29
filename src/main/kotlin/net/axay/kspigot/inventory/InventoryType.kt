@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
-class InventoryGUIType<T : ForInventory>(
+class InventoryType<T : ForInventory>(
         val dimensions: InventoryDimensions,
         val bukkitType: InventoryType? = null
 ) {
@@ -16,14 +16,14 @@ class InventoryGUIType<T : ForInventory>(
 
     companion object {
 
-        val ONE_BY_NINE = InventoryGUIType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
-        val TWO_BY_NINE = InventoryGUIType<ForInventoryTwoByNine>(InventoryDimensions(9, 2))
-        val THREE_BY_NINE = InventoryGUIType<ForInventoryThreeByNine>(InventoryDimensions(9, 3))
-        val FOUR_BY_NINE = InventoryGUIType<ForInventoryFourByNine>(InventoryDimensions(9, 4))
-        val FIVE_BY_NINE = InventoryGUIType<ForInventoryFiveByNine>(InventoryDimensions(9, 5))
-        val SIX_BY_NINE = InventoryGUIType<ForInventorySixByNine>(InventoryDimensions(9, 6))
-        val ONE_BY_FIVE = InventoryGUIType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
-        val THREE_BY_THREE = InventoryGUIType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
+        val ONE_BY_NINE = InventoryType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
+        val TWO_BY_NINE = InventoryType<ForInventoryTwoByNine>(InventoryDimensions(9, 2))
+        val THREE_BY_NINE = InventoryType<ForInventoryThreeByNine>(InventoryDimensions(9, 3))
+        val FOUR_BY_NINE = InventoryType<ForInventoryFourByNine>(InventoryDimensions(9, 4))
+        val FIVE_BY_NINE = InventoryType<ForInventoryFiveByNine>(InventoryDimensions(9, 5))
+        val SIX_BY_NINE = InventoryType<ForInventorySixByNine>(InventoryDimensions(9, 6))
+        val ONE_BY_FIVE = InventoryType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
+        val THREE_BY_THREE = InventoryType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
 
     }
 
@@ -54,3 +54,7 @@ interface ForEveryInventory
     : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
         ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine,
         ForInventoryThreeByThree, ForInventoryOneByFive
+
+interface ForInventoryWidthThree : ForInventoryThreeByThree
+interface ForInventoryWidthFive : ForInventoryOneByFive
+interface ForInventoryWidthNine : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine

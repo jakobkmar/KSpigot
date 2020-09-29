@@ -38,7 +38,7 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
             InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY -> {
 
-                val width = gui.data.inventoryGUIType.dimensions.width
+                val width = gui.data.inventoryType.dimensions.width
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
                     if (ifInverted) {
@@ -54,7 +54,7 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
             InventoryGUIPageChangeEffect.SLIDE_VERTICALLY -> {
 
-                val height = gui.data.inventoryGUIType.dimensions.heigth
+                val height = gui.data.inventoryType.dimensions.heigth
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, height) { currentOffset, ifInverted ->
                     if (ifInverted) {
@@ -70,7 +70,7 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
             InventoryGUIPageChangeEffect.SWIPE_HORIZONTALLY -> {
 
-                val width = gui.data.inventoryGUIType.dimensions.width
+                val width = gui.data.inventoryType.dimensions.width
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
                     if (ifInverted) {
@@ -84,7 +84,7 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
             InventoryGUIPageChangeEffect.SWIPE_VERTICALLY -> {
 
-                val height = gui.data.inventoryGUIType.dimensions.heigth
+                val height = gui.data.inventoryType.dimensions.heigth
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, height) { currentOffset, ifInverted ->
                     if (ifInverted) {
