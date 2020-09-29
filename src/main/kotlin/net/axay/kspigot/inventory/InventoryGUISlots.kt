@@ -71,7 +71,7 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 
 }
 
-internal interface InventorySlotCompound<out T : ForInventory> {
+interface InventorySlotCompound<out T : ForInventory> {
     fun withInvType(invType: InventoryType<in T>): Collection<InventorySlot>
 }
 
