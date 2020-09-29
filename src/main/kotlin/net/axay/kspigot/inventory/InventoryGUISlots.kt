@@ -72,10 +72,10 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 }
 
 interface InventorySlotCompound<out T : ForInventory> {
-    fun withInvType(invType: InventoryType<in T>): Collection<InventorySlot>
+    fun withInvType(invType: InventoryType<T>): Collection<InventorySlot>
 }
 
-open class SingleInventorySlot<out T : ForInventory> internal constructor(
+open class SingleInventorySlot<T : ForInventory> internal constructor(
         val inventorySlot: InventorySlot
 ) : InventorySlotCompound<T> {
 
@@ -83,7 +83,7 @@ open class SingleInventorySlot<out T : ForInventory> internal constructor(
 
     private val slotAsList = listOf(inventorySlot)
 
-    override fun withInvType(invType: InventoryType<in T>) = slotAsList
+    override fun withInvType(invType: InventoryType<T>) = slotAsList
 
 }
 
@@ -94,8 +94,8 @@ internal enum class InventorySlotRangeType {
 
 class InventorySlotRange<out T : ForInventory> internal constructor(
 
-        startSlot: SingleInventorySlot<T>,
-        endSlot: SingleInventorySlot<T>,
+        startSlot: SingleInventorySlot<out T>,
+        endSlot: SingleInventorySlot<out T>,
 
         private val type: InventorySlotRangeType
 
@@ -110,7 +110,7 @@ class InventorySlotRange<out T : ForInventory> internal constructor(
         endInclusive = minMaxPair.max
     }
 
-    override fun withInvType(invType: InventoryType<in T>)
+    override fun withInvType(invType: InventoryType<T>)
         = LinkedHashSet<InventorySlot>().apply {
             when (type) {
 
@@ -151,43 +151,43 @@ class InventorySlotRange<out T : ForInventory> internal constructor(
  * This range contains all slots having an index between
  * the indeces of the two given slots.
  */
-infix fun <T : ForInventory> SingleInventorySlot<T>.linTo(slot: SingleInventorySlot<T>)
+infix fun <T : ForInventory> SingleInventorySlot<out T>.linTo(slot: SingleInventorySlot<out T>)
         = InventorySlotRange(this, slot, InventorySlotRangeType.LINEAR)
 
 /**
  * This range contains all slots inside of a thought rectangle
  * with the two given slots as two opposite corners of the rectangle.
  */
-infix fun <T : ForInventory> SingleInventorySlot<T>.rectTo(slot: SingleInventorySlot<T>)
+infix fun <T : ForInventory> SingleInventorySlot<out T>.rectTo(slot: SingleInventorySlot<out T>)
         = InventorySlotRange(this, slot, InventorySlotRangeType.RECTANGLE)
 
-class InventoryRowSlots<out T : ForInventory> internal constructor(
+class InventoryRowSlots<T : ForInventory> internal constructor(
         val row: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<in T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
         for (slotInRow in 1 .. invType.dimensions.width)
             this += InventorySlot(row, slotInRow)
     }
 
 }
 
-class InventoryColumnSlots<out T : ForInventory> internal constructor(
+class InventoryColumnSlots<T : ForInventory> internal constructor(
         val column: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<in T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
         for (row in 1 .. invType.dimensions.heigth)
             this += InventorySlot(row, column)
     }
 
 }
 
-class InventoryBorderSlots<out T : ForInventory> internal constructor(
+class InventoryBorderSlots<T : ForInventory> internal constructor(
         val padding: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<in T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
 
         val dimensions = invType.dimensions
 
@@ -206,14 +206,14 @@ class InventoryBorderSlots<out T : ForInventory> internal constructor(
 
 }
 
-class InventoryCornerSlots<out T : ForInventory> internal constructor(
+class InventoryCornerSlots<T : ForInventory> internal constructor(
         val ifBottomLeft: Boolean = false,
         val ifBottomRight: Boolean = false,
         val ifTopLeft: Boolean = false,
         val ifTopRight: Boolean = false
 )  : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<in T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
 
         val dimensions = invType.dimensions
 

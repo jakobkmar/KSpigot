@@ -7,7 +7,7 @@ import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
-class InventoryType<T : ForInventory>(
+class InventoryType<in T : ForInventory>(
         val dimensions: InventoryDimensions,
         val bukkitType: InventoryType? = null
 ) {

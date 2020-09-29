@@ -10,9 +10,9 @@ inline fun <T : ForInventory> KSpigot.inventoryGUI(
         builder: InventoryGUIBuilder<T>.() -> Unit,
 ) = InventoryGUIBuilder(this, type).apply(builder).build()
 
-class InventoryGUIBuilder<in T : ForInventory>(
+class InventoryGUIBuilder<T : ForInventory>(
         private val kSpigot: KSpigot,
-        val type: InventoryType<in T>
+        val type: InventoryType<T>
 ) {
 
     var title: String = ""
@@ -30,8 +30,8 @@ class InventoryGUIBuilder<in T : ForInventory>(
 
 }
 
-class InventoryGUIPageBuilder<in T : ForInventory>(
-        val type: InventoryType<in T>,
+class InventoryGUIPageBuilder<T : ForInventory>(
+        val type: InventoryType<T>,
         val page: Int
 ) {
 
@@ -45,7 +45,7 @@ class InventoryGUIPageBuilder<in T : ForInventory>(
      * actions. If clicked, the specified [onClick]
      * function is invoked.
      */
-    fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (InventoryGUIClickEvent) -> Unit)
+    fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (InventoryGUIClickEvent<T>) -> Unit)
         = slots(slots, InventoryGUIButton(InventoryGUIElementData(itemStack), onClick))
 
     /**
@@ -67,7 +67,7 @@ class InventoryGUIPageBuilder<in T : ForInventory>(
      * This is a button which loads the specified
      * [toPage] if clicked.
      */
-    fun pageChanger(slots: InventorySlotCompound<T>, itemStack: ItemStack, toPage: Int, onChange: ((InventoryGUIClickEvent) -> Unit)? = null)
+    fun pageChanger(slots: InventorySlotCompound<T>, itemStack: ItemStack, toPage: Int, onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null)
         = slots(slots, InventoryGUIButtonPageChange(
             InventoryGUIElementData(itemStack),
             InventoryGUIPageChangeCalculator.InventoryGUIConsistentPageCalculator(toPage),
@@ -79,7 +79,7 @@ class InventoryGUIPageBuilder<in T : ForInventory>(
      * page if clicked, and if a previous page
      * exists it is loaded.
      */
-    fun previousPage(slots: InventorySlotCompound<T>, itemStack: ItemStack, onChange: ((InventoryGUIClickEvent) -> Unit)? = null)
+    fun previousPage(slots: InventorySlotCompound<T>, itemStack: ItemStack, onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null)
         = slots(slots, InventoryGUIButtonPageChange(
             InventoryGUIElementData(itemStack),
             InventoryGUIPageChangeCalculator.InventoryGUIPreviousPageCalculator,
@@ -91,7 +91,7 @@ class InventoryGUIPageBuilder<in T : ForInventory>(
      * page if clicked, and if a next page
      * exists it is loaded.
      */
-    fun nextPage(slots: InventorySlotCompound<T>, itemStack: ItemStack, onChange: ((InventoryGUIClickEvent) -> Unit)? = null)
+    fun nextPage(slots: InventorySlotCompound<T>, itemStack: ItemStack, onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null)
         = slots(slots, InventoryGUIButtonPageChange(
             InventoryGUIElementData(itemStack),
             InventoryGUIPageChangeCalculator.InventoryGUINextPageCalculator,

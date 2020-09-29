@@ -8,10 +8,11 @@ import org.bukkit.entity.HumanEntity
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryView
+import org.bukkit.inventory.ItemStack
 
 // EXTENSIONS
 
-fun HumanEntity.openGUI(gui: InventoryGUI, page: Int = 1): InventoryView? {
+fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int = 1): InventoryView? {
     closeInventory()
     gui.loadPage(page)
     return openInventory(gui.bukkitInventory)
@@ -21,13 +22,13 @@ fun HumanEntity.openGUI(gui: InventoryGUI, page: Int = 1): InventoryView? {
 
 class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
 
-    private val registered = HashSet<InventoryGUI>()
+    private val registered = HashSet<InventoryGUI<*>>()
 
-    fun register(inventoryGUI: InventoryGUI) {
+    fun register(inventoryGUI: InventoryGUI<*>) {
         registered += inventoryGUI
     }
 
-    fun unregister(inventoryGUI: InventoryGUI) {
+    fun unregister(inventoryGUI: InventoryGUI<*>) {
         registered -= inventoryGUI
     }
 
@@ -56,24 +57,24 @@ class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
 
 // EVENT
 
-class InventoryGUIClickEvent(
+class InventoryGUIClickEvent<T : ForInventory>(
         val bukkitEvent: InventoryClickEvent,
-        val gui: InventoryGUI,
+        val gui: InventoryGUI<T>
 )
 
 /*
  * INVENTORY GUI
  */
 
-class InventoryGUIData(
+class InventoryGUIData<T : ForInventory>(
         val plugin: KSpigot,
-        val inventoryType: InventoryType<*>,
+        val inventoryType: InventoryType<T>,
         val title: String?,
         val pages: Map<Int, InventoryGUIPage>
 )
 
-abstract class InventoryGUI(
-        val data: InventoryGUIData
+abstract class InventoryGUI<T : ForInventory>(
+        val data: InventoryGUIData<T>
 ) {
 
     var currentPage: Int? = null; protected set
@@ -84,6 +85,8 @@ abstract class InventoryGUI(
 
     abstract fun isThisInv(inventory: Inventory): Boolean
 
+    abstract operator fun set(slot: InventorySlotCompound<T>, value: ItemStack)
+
     fun register() = data.plugin.inventoryGUIHolder.register(this)
     fun unregister() = data.plugin.inventoryGUIHolder.unregister(this)
 
@@ -91,9 +94,9 @@ abstract class InventoryGUI(
 
 // Inventory GUI implementations
 
-class InventoryGUIShared(
-        inventoryGUIData: InventoryGUIData
-) : InventoryGUI(inventoryGUIData) {
+class InventoryGUIShared<T : ForInventory>(
+        inventoryGUIData: InventoryGUIData<T>
+) : InventoryGUI<T>(inventoryGUIData) {
 
     override val bukkitInventory by lazy { data.inventoryType.createBukkitInv(null, data.title) }
 
@@ -141,6 +144,10 @@ class InventoryGUIShared(
 
         }
 
+    }
+
+    override fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
+        slot.withInvType(data.inventoryType).forEach {  }
     }
 
 }
