@@ -84,6 +84,14 @@ artifacts {
 }
 
 /*
+ * DOCUMENTATION
+ */
+
+tasks.dokkaHtml.configure {
+    outputDirectory.set(projectDir.resolve("dokka"))
+}
+
+/*
  * PUBLISHING
  */
 
