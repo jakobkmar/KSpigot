@@ -88,7 +88,7 @@ artifacts {
  */
 
 tasks.dokkaHtml.configure {
-    outputDirectory.set(projectDir.resolve("dokka"))
+    outputDirectory.set(projectDir.resolve("docs"))
 }
 
 /*
