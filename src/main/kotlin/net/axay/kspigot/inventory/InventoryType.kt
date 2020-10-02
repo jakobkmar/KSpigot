@@ -41,14 +41,14 @@ class InventoryType<in T : ForInventory>(
 
 interface ForInventory
 
-interface ForInventoryOneByNine : ForInventory
-interface ForInventoryTwoByNine : ForInventory
-interface ForInventoryThreeByNine : ForInventory
-interface ForInventoryFourByNine : ForInventory
-interface ForInventoryFiveByNine : ForInventory
-interface ForInventorySixByNine : ForInventory
 interface ForInventoryThreeByThree : ForInventory
 interface ForInventoryOneByFive : ForInventory
+interface ForInventoryOneByNine : ForInventoryOneByFive
+interface ForInventoryTwoByNine : ForInventoryOneByNine
+interface ForInventoryThreeByNine : ForInventoryTwoByNine, ForInventoryThreeByThree
+interface ForInventoryFourByNine : ForInventoryThreeByNine
+interface ForInventoryFiveByNine : ForInventoryFourByNine
+interface ForInventorySixByNine : ForInventoryFiveByNine
 
 interface ForEveryInventory
     : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
