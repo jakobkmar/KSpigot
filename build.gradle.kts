@@ -17,7 +17,7 @@ val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
  */
 
 group = "net.axay"
-version = "1.16.3_R6"
+version = "1.16.3_R7"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 

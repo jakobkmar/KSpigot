@@ -107,11 +107,9 @@ class InventoryGUIShared<T : ForInventory>(
         inventoryGUIData: InventoryGUIData<T>
 ) : InventoryGUI<T>(inventoryGUIData) {
 
-    override val bukkitInventory by lazy {
-        val inv = data.inventoryType.createBukkitInv(null, data.title)
-        loadPage(DEFAULT_PAGE)
-        return@lazy inv
-    }
+    override val bukkitInventory = data.inventoryType.createBukkitInv(null, data.title)
+
+    init { loadPage(DEFAULT_PAGE) }
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
