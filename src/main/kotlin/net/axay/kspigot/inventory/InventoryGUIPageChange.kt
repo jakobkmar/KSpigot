@@ -42,11 +42,11 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
                     if (ifInverted) {
-                        gui.loadPage(fromPage, offsetVertically = currentOffset)
-                        gui.loadPage(toPage, offsetVertically = -(width - currentOffset))
+                        gui.loadPage(fromPage, offsetHorizontally = currentOffset)
+                        gui.loadPage(toPage, offsetHorizontally = -(width - currentOffset))
                     } else {
-                        gui.loadPage(fromPage, offsetVertically = -currentOffset)
-                        gui.loadPage(toPage, offsetVertically = width - currentOffset)
+                        gui.loadPage(fromPage, offsetHorizontally = -currentOffset)
+                        gui.loadPage(toPage, offsetHorizontally = width - currentOffset)
                     }
                 }
 
@@ -74,9 +74,9 @@ class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) 
 
                 changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
                     if (ifInverted) {
-                        gui.loadPage(toPage, offsetVertically = -(width - currentOffset))
+                        gui.loadPage(toPage, offsetHorizontally = -(width - currentOffset))
                     } else {
-                        gui.loadPage(toPage, offsetVertically = width - currentOffset)
+                        gui.loadPage(toPage, offsetHorizontally = width - currentOffset)
                     }
                 }
 
