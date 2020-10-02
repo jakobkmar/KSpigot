@@ -146,8 +146,10 @@ class InventoryGUIShared<T : ForInventory>(
 
     }
 
-    override fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
-        slot.withInvType(data.inventoryType).forEach {  }
+    override operator fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
+        slot.realSlotsWithInvType(data.inventoryType).forEach {
+            bukkitInventory.setItem(it, value)
+        }
     }
 
 }
