@@ -17,7 +17,7 @@ class InventoryGUIBuilder<T : ForInventory>(
 
     var title: String = ""
 
-    private val guiSlots = HashMap<Int, InventoryGUIPage>()
+    private val guiSlots = HashMap<Int, InventoryGUIPage<T>>()
 
     /**
      *
@@ -35,7 +35,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         val page: Int
 ) {
 
-    private val guiSlots = HashMap<Int, InventoryGUISlot>()
+    private val guiSlots = HashMap<Int, InventoryGUISlot<T>>()
 
     var transitionTo: InventoryGUIPageChangeEffect? = null
     var transitionFrom: InventoryGUIPageChangeEffect? = null
@@ -98,7 +98,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
             onChange
         ))
 
-    private fun slots(slots: InventorySlotCompound<T>, element: InventoryGUISlot)
+    private fun slots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>)
         = slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element  }
         }

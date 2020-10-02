@@ -27,14 +27,14 @@ fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView?
 
 class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
 
-    private val registered = HashSet<InventoryGUI<*>>()
+    private val registered = HashSet<InventoryGUI<ForInventory>>()
 
-    fun register(inventoryGUI: InventoryGUI<*>) {
-        registered += inventoryGUI
+    fun register(inventoryGUI: InventoryGUI<ForInventory>) {
+        registered.add(inventoryGUI)
     }
 
-    fun unregister(inventoryGUI: InventoryGUI<*>) {
-        registered -= inventoryGUI
+    fun unregister(inventoryGUI: InventoryGUI<ForInventory>) {
+        registered.remove(inventoryGUI)
     }
 
     init {
@@ -77,7 +77,7 @@ class InventoryGUIData<T : ForInventory>(
         val plugin: KSpigot,
         val inventoryType: InventoryType<T>,
         val title: String?,
-        val pages: Map<Int, InventoryGUIPage>
+        val pages: Map<Int, InventoryGUIPage<T>>
 )
 
 abstract class InventoryGUI<T : ForInventory>(
@@ -94,8 +94,10 @@ abstract class InventoryGUI<T : ForInventory>(
 
     abstract operator fun set(slot: InventorySlotCompound<T>, value: ItemStack)
 
-    fun register() = data.plugin.inventoryGUIHolder.register(this)
-    fun unregister() = data.plugin.inventoryGUIHolder.unregister(this)
+    @Suppress("UNCHECKED_CAST")
+    fun register() = data.plugin.inventoryGUIHolder.register(this as InventoryGUI<ForInventory>)
+    @Suppress("UNCHECKED_CAST")
+    fun unregister() = data.plugin.inventoryGUIHolder.unregister(this as InventoryGUI<ForInventory>)
 
 }
 
@@ -165,8 +167,8 @@ class InventoryGUIShared<T : ForInventory>(
 
 }
 
-class InventoryGUIPage(
-        val slots: Map<Int, InventoryGUISlot>,
+class InventoryGUIPage<T : ForInventory>(
+        val slots: Map<Int, InventoryGUISlot<T>>,
         transitionTo: InventoryGUIPageChangeEffect?,
         transitionFrom: InventoryGUIPageChangeEffect?
 ) {
