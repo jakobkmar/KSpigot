@@ -31,7 +31,7 @@ enum class InventoryGUIPageChangeEffect {
 
 class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) {
 
-    fun changePage(gui: InventoryGUI, fromPage: Int, toPage: Int) {
+    fun changePage(gui: InventoryGUI<*>, fromPage: Int, toPage: Int) {
         when (effect) {
 
             InventoryGUIPageChangeEffect.INSTANT -> gui.loadPage(toPage)
