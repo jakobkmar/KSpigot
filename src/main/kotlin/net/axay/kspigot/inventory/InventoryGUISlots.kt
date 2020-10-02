@@ -72,7 +72,12 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 }
 
 interface InventorySlotCompound<out T : ForInventory> {
+
     fun withInvType(invType: InventoryType<T>): Collection<InventorySlot>
+
+    fun realSlotsWithInvType(invType: InventoryType<T>)
+            = withInvType(invType).mapNotNull { it.realSlotIn(invType.dimensions) }
+
 }
 
 open class SingleInventorySlot<T : ForInventory> internal constructor(
