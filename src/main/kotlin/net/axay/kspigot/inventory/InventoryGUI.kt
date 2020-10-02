@@ -12,10 +12,15 @@ import org.bukkit.inventory.ItemStack
 
 // EXTENSIONS
 
-fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int = 1): InventoryView? {
+fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView? {
+
     closeInventory()
-    gui.loadPage(page)
+
+    if (page != null)
+        gui.loadPage(page)
+
     return openInventory(gui.bukkitInventory)
+
 }
 
 // GUI HOLDER
@@ -37,7 +42,7 @@ class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
         kSpigot.listen<InventoryClickEvent> {
 
             val inv = registered.find { search -> search.isThisInv(it.inventory) } ?: return@listen
-            val invPage = inv.currentPage ?: return@listen
+            val invPage = inv.currentPage
 
             val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
             if (slot != null)
@@ -66,6 +71,8 @@ class InventoryGUIClickEvent<T : ForInventory>(
  * INVENTORY GUI
  */
 
+private const val DEFAULT_PAGE = 1
+
 class InventoryGUIData<T : ForInventory>(
         val plugin: KSpigot,
         val inventoryType: InventoryType<T>,
@@ -77,7 +84,7 @@ abstract class InventoryGUI<T : ForInventory>(
         val data: InventoryGUIData<T>
 ) {
 
-    var currentPage: Int? = null; protected set
+    var currentPage: Int = DEFAULT_PAGE; protected set
 
     abstract val bukkitInventory: Inventory
 
@@ -98,7 +105,11 @@ class InventoryGUIShared<T : ForInventory>(
         inventoryGUIData: InventoryGUIData<T>
 ) : InventoryGUI<T>(inventoryGUIData) {
 
-    override val bukkitInventory by lazy { data.inventoryType.createBukkitInv(null, data.title) }
+    override val bukkitInventory by lazy {
+        val inv = data.inventoryType.createBukkitInv(null, data.title)
+        loadPage(DEFAULT_PAGE)
+        return@lazy inv
+    }
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
