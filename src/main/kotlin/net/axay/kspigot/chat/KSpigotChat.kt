@@ -16,6 +16,8 @@ class KSpigotComponentBuilder {
 
     private val components = ArrayList<BaseComponent>()
 
+    // COMPONENTS
+
     inline fun text(text: String, builder: TextComponent.() -> Unit = { }) {
         this += TextComponent(text).apply(builder)
     }
@@ -37,6 +39,12 @@ class KSpigotComponentBuilder {
 
     inline fun translatable(translatable: String, with: Array<BaseComponent>, builder: TranslatableComponent.() -> Unit = { }) {
         this += TranslatableComponent(translatable, with).apply(builder)
+    }
+
+    // SPECIAL
+
+    fun legacyText(text: String, color: ChatColor = ChatColor.WHITE) {
+        this += TextComponent.fromLegacyText(text, color)
     }
 
     operator fun plusAssign(baseComponent: BaseComponent) { components += baseComponent }
