@@ -17,29 +17,31 @@ class KSpigotComponentBuilder {
     private val components = ArrayList<BaseComponent>()
 
     inline fun text(text: String, builder: TextComponent.() -> Unit = { }) {
-        append(TextComponent(text).apply(builder))
+        this += TextComponent(text).apply(builder)
     }
 
     inline fun keybind(keybind: String, builder: KeybindComponent.() -> Unit = { }) {
-        append(KeybindComponent(keybind).apply(builder))
+        this += KeybindComponent(keybind).apply(builder)
     }
 
     inline fun score(name: String, objective: String, value: String?, builder: ScoreComponent.() -> Unit = { }) {
         if (value != null)
-            append(ScoreComponent(name, objective, value).apply(builder))
+            this += ScoreComponent(name, objective, value).apply(builder)
         else
-            append(ScoreComponent(name, objective).apply(builder))
+            this += ScoreComponent(name, objective).apply(builder)
     }
 
     inline fun selector(selector: String, builder: SelectorComponent.() -> Unit = { }) {
-        append(SelectorComponent(selector).apply(builder))
+        this += SelectorComponent(selector).apply(builder)
     }
 
     inline fun translatable(translatable: String, with: Array<BaseComponent>, builder: TranslatableComponent.() -> Unit = { }) {
-        append(TranslatableComponent(translatable, with).apply(builder))
+        this += TranslatableComponent(translatable, with).apply(builder)
     }
 
-    fun append(baseComponent: BaseComponent) { components += baseComponent }
+    operator fun plusAssign(baseComponent: BaseComponent) { components += baseComponent }
+    operator fun plusAssign(baseComponents: Array<out BaseComponent>) { components += baseComponents }
+
     fun create() = components.toTypedArray()
 
 }
