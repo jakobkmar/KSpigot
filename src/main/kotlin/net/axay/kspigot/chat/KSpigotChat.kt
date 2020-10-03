@@ -46,7 +46,7 @@ class KSpigotComponentBuilder {
 
 }
 
-/**
+/*
  * BASE COMPONENT
  */
 
@@ -68,7 +68,7 @@ fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
     clickEvent = ClickEvent(action, value)
 }
 
-/**
+/*
  * GLOBAL SHORTCUTS
  */
 
