@@ -44,8 +44,9 @@ plugins {
 
 repositories {
     mavenCentral()
-    mavenLocal() // for retrieving the local available binaries of spigot (use the BuildTools)
     jcenter()
+
+    mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }
 
 dependencies {
