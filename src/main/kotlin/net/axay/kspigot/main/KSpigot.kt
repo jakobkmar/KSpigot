@@ -24,8 +24,8 @@ abstract class KSpigot : JavaPlugin() {
     private val kRunnableHolderProperty = lazy { KRunnableHolder() }
     private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder(this) }
 
-    val kRunnableHolder by kRunnableHolderProperty
-    val inventoryGUIHolder by inventoryGUIHolderProperty
+    internal val kRunnableHolder by kRunnableHolderProperty
+    internal val inventoryGUIHolder by inventoryGUIHolderProperty
 
     /**
      * Called when the plugin was loaded
