@@ -81,6 +81,10 @@ Extensions marked with the `@UnsafeImplementaion` annotation do not promise to a
 
 Please keep in mind that this extensions is still in a more early stage of development - some parts of the API may change in future versions.
 
+## Contact
+
+Discord: `BLUE#6649`
+
 ## First of all
 
 **Inherit from `KSpigot` instead of `JavaPlugin` in your main class** <br>
