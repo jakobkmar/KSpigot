@@ -101,3 +101,14 @@ fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
         return@let it.bukkitEntity
     }
 }
+
+/**
+ * @param mainText title text
+ * @param subText subtitle text
+ * @param fadeIn time in ticks for titles to fade in
+ * @param stay time in ticks for titles to stay
+ * @param fadeOut time in ticks for titles to fade out
+ */
+fun Player.title(mainText: String? = null, subText: String? = null, fadeIn: Int = 10, stay: Int = 70, fadeOut: Int = 20) {
+    sendTitle(mainText, subText, fadeIn, stay, fadeOut)
+}
