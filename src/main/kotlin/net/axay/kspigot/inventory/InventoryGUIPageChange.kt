@@ -8,11 +8,13 @@ abstract class InventoryGUIPageChangeCalculator {
     abstract fun calculateNewPage(currentPage: Int, pages: Collection<Int>): Int?
 
     object InventoryGUIPreviousPageCalculator : InventoryGUIPageChangeCalculator() {
-        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) = pages.sortedDescending().find { it < currentPage }
+        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>)
+                = pages.sortedDescending().find { it < currentPage }
     }
 
     object InventoryGUINextPageCalculator : InventoryGUIPageChangeCalculator() {
-        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) = pages.sorted().find { it > currentPage }
+        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>)
+                = pages.sorted().find { it > currentPage }
     }
 
     class InventoryGUIConsistentPageCalculator(private val toPage: Int) : InventoryGUIPageChangeCalculator() {
@@ -29,102 +31,98 @@ enum class InventoryGUIPageChangeEffect {
     SWIPE_VERTICALLY,
 }
 
-class InventoryGUIPageChanger(private val effect: InventoryGUIPageChangeEffect) {
+internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fromPage: InventoryGUIPage<*>?, toPage: InventoryGUIPage<*>?) {
 
-    fun changePage(gui: InventoryGUI<*>, fromPage: Int, toPage: Int) {
-        when (effect) {
+    val fromPageInt = fromPage?.number ?: 0
+    val toPageInt = toPage?.number ?: 0
 
-            InventoryGUIPageChangeEffect.INSTANT -> gui.loadPage(toPage)
+    when (effect) {
 
-            InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY -> {
+        InventoryGUIPageChangeEffect.INSTANT -> loadPageUnsafe(toPage)
 
-                val width = gui.data.inventoryType.dimensions.width
+        InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY -> {
 
-                changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
-                    if (ifInverted) {
-                        gui.loadPage(fromPage, offsetHorizontally = currentOffset)
-                        gui.loadPage(toPage, offsetHorizontally = -(width - currentOffset))
-                    } else {
-                        gui.loadPage(fromPage, offsetHorizontally = -currentOffset)
-                        gui.loadPage(toPage, offsetHorizontally = width - currentOffset)
-                    }
+            val width = data.inventoryType.dimensions.width
+
+            changePageEffect(data.plugin, fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
+                if (ifInverted) {
+                    loadPageUnsafe(fromPage, offsetHorizontally = currentOffset)
+                    loadPageUnsafe(toPage, offsetHorizontally = -(width - currentOffset))
+                } else {
+                    loadPageUnsafe(fromPage, offsetHorizontally = -currentOffset)
+                    loadPageUnsafe(toPage, offsetHorizontally = width - currentOffset)
                 }
-
-            }
-
-            InventoryGUIPageChangeEffect.SLIDE_VERTICALLY -> {
-
-                val height = gui.data.inventoryType.dimensions.heigth
-
-                changePageEffect(gui.data.plugin, fromPage, toPage, height) { currentOffset, ifInverted ->
-                    if (ifInverted) {
-                        gui.loadPage(fromPage, offsetVertically = currentOffset)
-                        gui.loadPage(toPage, offsetVertically = -(height - currentOffset))
-                    } else {
-                        gui.loadPage(fromPage, offsetVertically = -currentOffset)
-                        gui.loadPage(toPage, offsetVertically = height - currentOffset)
-                    }
-                }
-
-            }
-
-            InventoryGUIPageChangeEffect.SWIPE_HORIZONTALLY -> {
-
-                val width = gui.data.inventoryType.dimensions.width
-
-                changePageEffect(gui.data.plugin, fromPage, toPage, width) { currentOffset, ifInverted ->
-                    if (ifInverted) {
-                        gui.loadPage(toPage, offsetHorizontally = -(width - currentOffset))
-                    } else {
-                        gui.loadPage(toPage, offsetHorizontally = width - currentOffset)
-                    }
-                }
-
-            }
-
-            InventoryGUIPageChangeEffect.SWIPE_VERTICALLY -> {
-
-                val height = gui.data.inventoryType.dimensions.heigth
-
-                changePageEffect(gui.data.plugin, fromPage, toPage, height) { currentOffset, ifInverted ->
-                    if (ifInverted) {
-                        gui.loadPage(toPage, offsetVertically = -(height - currentOffset))
-                    } else {
-                        gui.loadPage(toPage, offsetVertically = height - currentOffset)
-                    }
-                }
-
             }
 
         }
+
+        InventoryGUIPageChangeEffect.SLIDE_VERTICALLY -> {
+
+            val height = data.inventoryType.dimensions.heigth
+
+            changePageEffect(data.plugin, fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
+                if (ifInverted) {
+                    loadPageUnsafe(fromPage, offsetVertically = currentOffset)
+                    loadPageUnsafe(toPage, offsetVertically = -(height - currentOffset))
+                } else {
+                    loadPageUnsafe(fromPage, offsetVertically = -currentOffset)
+                    loadPageUnsafe(toPage, offsetVertically = height - currentOffset)
+                }
+            }
+
+        }
+
+        InventoryGUIPageChangeEffect.SWIPE_HORIZONTALLY -> {
+
+            val width = data.inventoryType.dimensions.width
+
+            changePageEffect(data.plugin, fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
+                if (ifInverted) {
+                    loadPageUnsafe(toPage, offsetHorizontally = -(width - currentOffset))
+                } else {
+                    loadPageUnsafe(toPage, offsetHorizontally = width - currentOffset)
+                }
+            }
+
+        }
+
+        InventoryGUIPageChangeEffect.SWIPE_VERTICALLY -> {
+
+            val height = data.inventoryType.dimensions.heigth
+
+            changePageEffect(data.plugin, fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
+                if (ifInverted) {
+                    loadPageUnsafe(toPage, offsetVertically = -(height - currentOffset))
+                } else {
+                    loadPageUnsafe(toPage, offsetVertically = height - currentOffset)
+                }
+            }
+
+        }
+
     }
+}
 
-    companion object {
+private inline fun changePageEffect(
+        kSpigot: KSpigot,
+        fromPage: Int,
+        toPage: Int,
+        doFor: Int,
+        crossinline effect: (currentOffset: Int, ifInverted: Boolean) -> Unit,
+) {
 
-        private inline fun changePageEffect(
-                kSpigot: KSpigot,
-                fromPage: Int,
-                toPage: Int,
-                doFor: Int,
-                crossinline effect: (currentOffset: Int, ifInverted: Boolean) -> Unit,
-        ) {
+    val ifInverted = fromPage >= toPage
 
-            val ifInverted = fromPage >= toPage
+    var currentOffset = 1
+    kSpigot.task(
+            sync = true,
+            period = 1,
+            howOften = doFor.toLong()
+    ) {
 
-            var currentOffset = 1
-            kSpigot.task(
-                    sync = true,
-                    period = 1,
-                    howOften = doFor.toLong()
-            ) {
+        effect.invoke(currentOffset, ifInverted)
 
-                effect.invoke(currentOffset, ifInverted)
-
-                currentOffset++
-
-            }
-
-        }
+        currentOffset++
 
     }
 

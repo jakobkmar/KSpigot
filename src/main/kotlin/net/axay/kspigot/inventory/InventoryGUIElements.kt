@@ -2,8 +2,8 @@ package net.axay.kspigot.inventory
 
 import org.bukkit.inventory.ItemStack
 
-interface InventoryGUISlot<T : ForInventory> {
-    fun onClick(clickEvent: InventoryGUIClickEvent<T>)
+abstract class InventoryGUISlot<T : ForInventory> {
+    abstract fun onClick(clickEvent: InventoryGUIClickEvent<T>)
 }
 
 // ELEMENT
@@ -14,7 +14,16 @@ class InventoryGUIElementData(
 
 abstract class InventoryGUIElement<T : ForInventory>(
         val inventoryGUIElementData: InventoryGUIElementData
-) : InventoryGUISlot<T>
+) : InventoryGUISlot<T>() {
+
+    final override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
+        clickEvent.gui.data.generalOnClick?.invoke(clickEvent)
+        onClickElement(clickEvent)
+    }
+
+    protected abstract fun onClickElement(clickEvent: InventoryGUIClickEvent<T>)
+
+}
 
 // Element implementations
 
@@ -23,7 +32,7 @@ open class InventoryGUIButton<T : ForInventory>(
         val action: (InventoryGUIClickEvent<T>) -> Unit,
 ) : InventoryGUIElement<T>(inventoryGUIElementData) {
 
-    override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
+    override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.bukkitEvent.isCancelled = true
         action(clickEvent)
     }
@@ -34,7 +43,7 @@ class InventoryGUIPlaceholder<T : ForInventory>(
         inventoryGUIElementData: InventoryGUIElementData
 ) : InventoryGUIElement<T>(inventoryGUIElementData) {
 
-    override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
+    override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.bukkitEvent.isCancelled = true
     }
 
@@ -48,24 +57,44 @@ class InventoryGUIButtonPageChange<T : ForInventory>(
     : InventoryGUIButton<T>(inventoryGUIElementData, {
 
         val currentPage = it.gui.currentPage
+        val newPage = it.gui.getPage(calculator.calculateNewPage(it.gui.currentPageInt, it.gui.data.pages.keys))
+        if (newPage != null) {
 
-        val newPageInt = calculator.calculateNewPage(currentPage, it.gui.data.pages.keys)
-        if (newPageInt != null) {
+            val effect = (newPage.transitionTo ?: currentPage.transitionFrom)
+                    ?: InventoryGUIPageChangeEffect.INSTANT
+
+            it.gui.changePage(effect, currentPage, newPage)
 
             onChange?.invoke(it)
-
-            val pageChanger
-                    = (it.gui.data.pages[newPageInt]?.pageChangerTo ?: it.gui.data.pages[currentPage]?.pageChangerFrom)
-                    ?: InventoryGUIPageChanger(InventoryGUIPageChangeEffect.INSTANT)
-
-            pageChanger.changePage(it.gui, currentPage, newPageInt)
 
         }
 
     })
 
+class InventoryGUIButtonInventoryChange<T : ForInventory>(
+        inventoryGUIElementData: InventoryGUIElementData,
+        changeToGUI: InventoryGUI<*>,
+        changeToPageInt: Int?,
+        onChange: ((InventoryGUIClickEvent<T>) -> Unit)?
+)
+    : InventoryGUIButton<T>(inventoryGUIElementData, {
+
+        val effect = (changeToGUI.data.transitionTo ?: it.gui.data.transitionFrom)
+                ?: InventoryGUIPageChangeEffect.INSTANT
+
+        val changeToPage = changeToGUI.getPage(changeToPageInt) ?: changeToGUI.currentPage
+
+        changeToGUI.changePage(effect, it.gui.currentPage, changeToPage)
+
+        it.bukkitEvent.whoClicked.openGUI(changeToGUI)
+
+        onChange?.invoke(it)
+
+    })
+
+
 // FREE SLOT
 
-class InventoryGUIFreeSlot<T : ForInventory> : InventoryGUISlot<T> {
+class InventoryGUIFreeSlot<T : ForInventory> : InventoryGUISlot<T>() {
     override fun onClick(clickEvent: InventoryGUIClickEvent<T>) { /* do nothing */ }
 }

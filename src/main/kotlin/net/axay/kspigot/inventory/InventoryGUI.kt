@@ -17,7 +17,7 @@ fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView?
     closeInventory()
 
     if (page != null)
-        gui.loadPage(page)
+        gui.loadPageUnsafe(page)
 
     return openInventory(gui.bukkitInventory)
 
@@ -42,7 +42,7 @@ class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
         kSpigot.listen<InventoryClickEvent> {
 
             val inv = registered.find { search -> search.isThisInv(it.inventory) } ?: return@listen
-            val invPage = inv.currentPage
+            val invPage = inv.currentPageInt
 
             val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
             if (slot != null)
@@ -77,27 +77,58 @@ class InventoryGUIData<T : ForInventory>(
         val plugin: KSpigot,
         val inventoryType: InventoryType<T>,
         val title: String?,
-        val pages: Map<Int, InventoryGUIPage<T>>
+        internal val pages: Map<Int, InventoryGUIPage<T>>,
+        val transitionTo: InventoryGUIPageChangeEffect?,
+        val transitionFrom: InventoryGUIPageChangeEffect?,
+        internal val generalOnClick: ((InventoryGUIClickEvent<T>) -> Unit)?
 )
 
 abstract class InventoryGUI<T : ForInventory>(
         val data: InventoryGUIData<T>
 ) {
 
-    var currentPage: Int = DEFAULT_PAGE; protected set
+    var currentPageInt: Int = DEFAULT_PAGE; protected set
+    val currentPage get() = getPage(currentPageInt)
+            ?: throw IllegalStateException("The currentPageInt has no associated page!")
 
-    abstract val bukkitInventory: Inventory
+    internal abstract val bukkitInventory: Inventory
 
-    abstract fun loadPage(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
+    internal abstract fun loadPageUnsafe(page: InventoryGUIPage<*>?, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
+    internal abstract fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
 
+    /**
+     * @return True, if the [inventory] belongs to this GUI.
+     */
     abstract fun isThisInv(inventory: Inventory): Boolean
 
-    abstract operator fun set(slot: InventorySlotCompound<T>, value: ItemStack)
-
+    /**
+     * Registers this InventoryGUI.
+     * (KSpigot will listen for actions in the inventory.)
+     */
     @Suppress("UNCHECKED_CAST")
     fun register() = data.plugin.inventoryGUIHolder.register(this as InventoryGUI<ForInventory>)
+
+    /**
+     * Stops KSpigot from listening to actions in this
+     * InventoryGUI anymore.
+     */
     @Suppress("UNCHECKED_CAST")
     fun unregister() = data.plugin.inventoryGUIHolder.unregister(this as InventoryGUI<ForInventory>)
+
+    /**
+     * Loads the specified page in order to display it in the GUI.
+     */
+    fun loadPage(page: InventoryGUIPage<T>) = loadPageUnsafe(page)
+
+    /**
+     * Temporarily sets the given item at the given slots.
+     */
+    abstract operator fun set(slot: InventorySlotCompound<T>, value: ItemStack)
+
+    /**
+     * Searches for a page associated to the given [page] index.
+     */
+    fun getPage(page: Int?) = data.pages[page]
 
 }
 
@@ -109,21 +140,24 @@ class InventoryGUIShared<T : ForInventory>(
 
     override val bukkitInventory = data.inventoryType.createBukkitInv(null, data.title)
 
-    init { loadPage(DEFAULT_PAGE) }
+    init { loadPageUnsafe(DEFAULT_PAGE) }
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
-    override fun loadPage(page: Int, offsetHorizontally: Int, offsetVertically: Int) {
+    override fun loadPageUnsafe(page: InventoryGUIPage<*>?, offsetHorizontally: Int, offsetVertically: Int) {
 
-        fun ifOffset(): Boolean = offsetHorizontally != 0 || offsetVertically != 0
+        if (page == null) return
 
-        currentPage = page
+        val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
 
-        data.pages[page]?.slots?.let { slots ->
+        if (!ifOffset)
+            currentPageInt = page.number
+
+        page.slots.let { slots ->
 
             val dimensions = data.inventoryType.dimensions
 
-            if (ifOffset()) {
+            if (ifOffset) {
                 dimensions.invSlots.forEach {
                     dimensions.invSlotsWithRealSlots[it.add(offsetHorizontally, offsetVertically)]?.let { slotToClear ->
                         if (dimensions.realSlots.contains(slotToClear))
@@ -138,7 +172,7 @@ class InventoryGUIShared<T : ForInventory>(
                 val slot = it.value
                 if (slot is InventoryGUIElement) {
 
-                    if (ifOffset()) {
+                    if (ifOffset) {
                         val invSlot = InventorySlot.fromRealSlot(it.key, dimensions)
                         if (invSlot != null) {
                             val offsetSlot = invSlot.add(offsetHorizontally, offsetVertically).realSlotIn(dimensions)
@@ -157,6 +191,10 @@ class InventoryGUIShared<T : ForInventory>(
 
     }
 
+    override fun loadPageUnsafe(page: Int, offsetHorizontally: Int, offsetVertically: Int) {
+        data.pages[page]?.let { loadPageUnsafe(it, offsetHorizontally, offsetVertically) }
+    }
+
     override operator fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
         slot.realSlotsWithInvType(data.inventoryType).forEach {
             bukkitInventory.setItem(it, value)
@@ -166,10 +204,8 @@ class InventoryGUIShared<T : ForInventory>(
 }
 
 class InventoryGUIPage<T : ForInventory>(
-        val slots: Map<Int, InventoryGUISlot<T>>,
-        transitionTo: InventoryGUIPageChangeEffect?,
-        transitionFrom: InventoryGUIPageChangeEffect?
-) {
-    val pageChangerTo = transitionTo?.let { InventoryGUIPageChanger(it) }
-    val pageChangerFrom = transitionFrom?.let { InventoryGUIPageChanger(it) }
-}
+        val number: Int,
+        internal val slots: Map<Int, InventoryGUISlot<T>>,
+        val transitionTo: InventoryGUIPageChangeEffect?,
+        val transitionFrom: InventoryGUIPageChangeEffect?
+)
