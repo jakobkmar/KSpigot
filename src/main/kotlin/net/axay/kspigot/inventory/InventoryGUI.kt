@@ -41,7 +41,9 @@ class InventoryGUIHolder(kSpigot: KSpigot) : AutoCloseable {
 
         kSpigot.listen<InventoryClickEvent> {
 
-            val inv = registered.find { search -> search.isThisInv(it.inventory) } ?: return@listen
+            val clickedInv = it.clickedInventory ?: return@listen
+
+            val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
             val invPage = inv.currentPageInt
 
             val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
@@ -74,13 +76,13 @@ class InventoryGUIClickEvent<T : ForInventory>(
 private const val DEFAULT_PAGE = 1
 
 class InventoryGUIData<T : ForInventory>(
-        val plugin: KSpigot,
-        val inventoryType: InventoryType<T>,
-        val title: String?,
-        internal val pages: Map<Int, InventoryGUIPage<T>>,
-        val transitionTo: InventoryGUIPageChangeEffect?,
-        val transitionFrom: InventoryGUIPageChangeEffect?,
-        internal val generalOnClick: ((InventoryGUIClickEvent<T>) -> Unit)?
+    val plugin: KSpigot,
+    val inventoryType: InventoryType<T>,
+    val title: String?,
+    internal val pages: Map<Int, InventoryGUIPage<T>>,
+    val transitionTo: InventoryChangeEffect?,
+    val transitionFrom: InventoryChangeEffect?,
+    internal val generalOnClick: ((InventoryGUIClickEvent<T>) -> Unit)?
 )
 
 abstract class InventoryGUI<T : ForInventory>(
@@ -93,7 +95,7 @@ abstract class InventoryGUI<T : ForInventory>(
 
     internal abstract val bukkitInventory: Inventory
 
-    internal abstract fun loadPageUnsafe(page: InventoryGUIPage<*>?, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
+    internal abstract fun loadPageUnsafe(page: InventoryGUIPage<*>, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
     internal abstract fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
 
     /**
@@ -144,9 +146,7 @@ class InventoryGUIShared<T : ForInventory>(
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
-    override fun loadPageUnsafe(page: InventoryGUIPage<*>?, offsetHorizontally: Int, offsetVertically: Int) {
-
-        if (page == null) return
+    override fun loadPageUnsafe(page: InventoryGUIPage<*>, offsetHorizontally: Int, offsetVertically: Int) {
 
         val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
 
@@ -204,8 +204,8 @@ class InventoryGUIShared<T : ForInventory>(
 }
 
 class InventoryGUIPage<T : ForInventory>(
-        val number: Int,
-        internal val slots: Map<Int, InventoryGUISlot<T>>,
-        val transitionTo: InventoryGUIPageChangeEffect?,
-        val transitionFrom: InventoryGUIPageChangeEffect?
+    val number: Int,
+    internal val slots: Map<Int, InventoryGUISlot<T>>,
+    val transitionTo: PageChangeEffect?,
+    val transitionFrom: PageChangeEffect?
 )

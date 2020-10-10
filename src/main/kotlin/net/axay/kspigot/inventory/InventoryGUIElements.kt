@@ -61,7 +61,7 @@ class InventoryGUIButtonPageChange<T : ForInventory>(
         if (newPage != null) {
 
             val effect = (newPage.transitionTo ?: currentPage.transitionFrom)
-                    ?: InventoryGUIPageChangeEffect.INSTANT
+                    ?: PageChangeEffect.INSTANT
 
             it.gui.changePage(effect, currentPage, newPage)
 
@@ -73,18 +73,20 @@ class InventoryGUIButtonPageChange<T : ForInventory>(
 
 class InventoryGUIButtonInventoryChange<T : ForInventory>(
         inventoryGUIElementData: InventoryGUIElementData,
-        changeToGUI: InventoryGUI<*>,
+        changeToGUICallback: () -> InventoryGUI<*>,
         changeToPageInt: Int?,
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)?
 )
     : InventoryGUIButton<T>(inventoryGUIElementData, {
 
+        val changeToGUI = changeToGUICallback.invoke()
+
         val effect = (changeToGUI.data.transitionTo ?: it.gui.data.transitionFrom)
-                ?: InventoryGUIPageChangeEffect.INSTANT
+                ?: InventoryChangeEffect.INSTANT
 
         val changeToPage = changeToGUI.getPage(changeToPageInt) ?: changeToGUI.currentPage
 
-        changeToGUI.changePage(effect, it.gui.currentPage, changeToPage)
+        changeToGUI.changeGUI(effect, it.gui.currentPage, changeToPage)
 
         it.bukkitEvent.whoClicked.openGUI(changeToGUI)
 

@@ -17,8 +17,8 @@ class InventoryGUIBuilder<T : ForInventory>(
 
     var title: String = ""
 
-    var transitionTo: InventoryGUIPageChangeEffect? = null
-    var transitionFrom: InventoryGUIPageChangeEffect? = null
+    var transitionTo: InventoryChangeEffect? = null
+    var transitionFrom: InventoryChangeEffect? = null
 
     private val guiSlots = HashMap<Int, InventoryGUIPage<T>>()
 
@@ -50,8 +50,8 @@ class InventoryGUIPageBuilder<T : ForInventory>(
 
     private val guiSlots = HashMap<Int, InventoryGUISlot<T>>()
 
-    var transitionTo: InventoryGUIPageChangeEffect? = null
-    var transitionFrom: InventoryGUIPageChangeEffect? = null
+    var transitionTo: PageChangeEffect? = null
+    var transitionFrom: PageChangeEffect? = null
 
     internal fun build() = InventoryGUIPage(page, guiSlots, transitionTo, transitionFrom)
 
@@ -117,7 +117,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      * By pressing this button, the player switches to another
      * InventoryGUI. The transition effect is applied.
      */
-    fun changeGUI(slots: InventorySlotCompound<T>, itemStack: ItemStack, newGUI: InventoryGUI<*>, newPage: Int? = null, onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null)
+    fun changeGUI(slots: InventorySlotCompound<T>, itemStack: ItemStack, newGUI: () -> InventoryGUI<*>, newPage: Int? = null, onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null)
         = defineSlots(slots, InventoryGUIButtonInventoryChange(
             InventoryGUIElementData(itemStack),
             newGUI,

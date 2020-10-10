@@ -23,7 +23,7 @@ abstract class InventoryGUIPageChangeCalculator {
 
 }
 
-enum class InventoryGUIPageChangeEffect {
+enum class PageChangeEffect {
     INSTANT,
     SLIDE_HORIZONTALLY,
     SLIDE_VERTICALLY,
@@ -31,16 +31,26 @@ enum class InventoryGUIPageChangeEffect {
     SWIPE_VERTICALLY,
 }
 
-internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fromPage: InventoryGUIPage<*>?, toPage: InventoryGUIPage<*>?) {
+enum class InventoryChangeEffect(
+    val effect: PageChangeEffect
+) {
+    INSTANT(PageChangeEffect.INSTANT)
+}
 
-    val fromPageInt = fromPage?.number ?: 0
-    val toPageInt = toPage?.number ?: 0
+internal fun InventoryGUI<*>.changePage(
+    effect: PageChangeEffect,
+    fromPage: InventoryGUIPage<*>,
+    toPage: InventoryGUIPage<*>
+) {
+
+    val fromPageInt = fromPage.number
+    val toPageInt = toPage.number
 
     when (effect) {
 
-        InventoryGUIPageChangeEffect.INSTANT -> loadPageUnsafe(toPage)
+        PageChangeEffect.INSTANT -> loadPageUnsafe(toPage)
 
-        InventoryGUIPageChangeEffect.SLIDE_HORIZONTALLY -> {
+        PageChangeEffect.SLIDE_HORIZONTALLY -> {
 
             val width = data.inventoryType.dimensions.width
 
@@ -56,7 +66,7 @@ internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fr
 
         }
 
-        InventoryGUIPageChangeEffect.SLIDE_VERTICALLY -> {
+        PageChangeEffect.SLIDE_VERTICALLY -> {
 
             val height = data.inventoryType.dimensions.heigth
 
@@ -72,7 +82,7 @@ internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fr
 
         }
 
-        InventoryGUIPageChangeEffect.SWIPE_HORIZONTALLY -> {
+        PageChangeEffect.SWIPE_HORIZONTALLY -> {
 
             val width = data.inventoryType.dimensions.width
 
@@ -86,7 +96,7 @@ internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fr
 
         }
 
-        InventoryGUIPageChangeEffect.SWIPE_VERTICALLY -> {
+        PageChangeEffect.SWIPE_VERTICALLY -> {
 
             val height = data.inventoryType.dimensions.heigth
 
@@ -102,6 +112,12 @@ internal fun InventoryGUI<*>.changePage(effect: InventoryGUIPageChangeEffect, fr
 
     }
 }
+
+internal fun InventoryGUI<*>.changeGUI(
+    effect: InventoryChangeEffect,
+    fromPage: InventoryGUIPage<*>,
+    toPage: InventoryGUIPage<*>
+) = changePage(effect.effect, fromPage, toPage)
 
 private inline fun changePageEffect(
         kSpigot: KSpigot,
