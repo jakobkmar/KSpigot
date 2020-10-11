@@ -1,6 +1,7 @@
 package net.axay.kspigot.particles
 
 import net.axay.kspigot.extensions.geometry.worldOrException
+import net.axay.kspigot.kotlinextensions.apply
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.entity.Player
@@ -64,23 +65,21 @@ data class KSpigotParticle(
  * Accesses the particle builder.
  * @see KSpigotParticle
  */
-fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
+fun particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
         = KSpigotParticle(particle).apply(builder)
 
 /**
  * Accesses the particle builder and then immediately
  * spawns the particle at the given location.
  * @see KSpigotParticle
- * @see KSpigotParticle.spawnAt
  */
-fun Location.particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
+fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
         = KSpigotParticle(particle).apply(builder).spawnAt(this)
 
 /**
  * Accesses the particle builder and then immediately
  * spawns the particle for the player.
  * @see KSpigotParticle
- * @see KSpigotParticle.spawnFor
  */
-fun Player.particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
+fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
         = KSpigotParticle(particle).apply(builder).spawnFor(this)
