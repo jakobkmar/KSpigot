@@ -1,6 +1,7 @@
 package net.axay.kspigot.sound
 
 import net.axay.kspigot.extensions.geometry.worldOrException
+import net.axay.kspigot.kotlinextensions.apply
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
@@ -43,7 +44,7 @@ data class KSpigotSound(
  * Accesses the sound builder.
  * @see KSpigotSound
  */
-fun sound(sound: Sound, builder: KSpigotSound.() -> Unit)
+fun sound(sound: Sound, builder: (KSpigotSound.() -> Unit)?)
         = KSpigotSound(sound).apply(builder)
 
 /**
@@ -51,7 +52,7 @@ fun sound(sound: Sound, builder: KSpigotSound.() -> Unit)
  * plays the sound at the given location.
  * @see KSpigotSound
  */
-fun Location.sound(sound: Sound, builder: KSpigotSound.() -> Unit)
+fun Location.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)?)
         = KSpigotSound(sound).apply(builder).playAt(this)
 
 /**
@@ -59,5 +60,5 @@ fun Location.sound(sound: Sound, builder: KSpigotSound.() -> Unit)
  * plays the sound for the player.
  * @see KSpigotSound
  */
-fun Player.sound(sound: Sound, builder: KSpigotSound.() -> Unit)
+fun Player.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)?)
         = KSpigotSound(sound).apply(builder).playFor(this)
