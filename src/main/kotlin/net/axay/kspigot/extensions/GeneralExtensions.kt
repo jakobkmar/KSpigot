@@ -13,13 +13,13 @@ val onlinePlayers: Collection<Player> get() = Bukkit.getOnlinePlayers()
  * Shortcut to get the Server.
  * @see Bukkit.getServer
  */
-val server by lazy { Bukkit.getServer() }
+val server get() = Bukkit.getServer()
 
 /**
  * Shortcut to get the PluginManager.
  * @see Bukkit.getPluginManager
  */
-val pluginManager by lazy { Bukkit.getPluginManager() }
+val pluginManager get() = Bukkit.getPluginManager()
 
 /**
  * Broadcasts a message ([msg]) on the server.
@@ -27,3 +27,9 @@ val pluginManager by lazy { Bukkit.getPluginManager() }
  * @see Bukkit.broadcastMessage
  */
 fun broadcast(msg: String) = Bukkit.broadcastMessage(msg)
+
+/**
+ * Shortcut to get the ConsoleSender.
+ * @see Bukkit.getConsoleSender
+ */
+val console get() = Bukkit.getConsoleSender()
