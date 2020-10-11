@@ -65,7 +65,7 @@ data class KSpigotParticle(
  * Accesses the particle builder.
  * @see KSpigotParticle
  */
-fun particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
+fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
         = KSpigotParticle(particle).apply(builder)
 
 /**
@@ -73,7 +73,7 @@ fun particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
  * spawns the particle at the given location.
  * @see KSpigotParticle
  */
-fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
+fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
         = KSpigotParticle(particle).apply(builder).spawnAt(this)
 
 /**
@@ -81,5 +81,5 @@ fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?
  * spawns the particle for the player.
  * @see KSpigotParticle
  */
-fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?)
+fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
         = KSpigotParticle(particle).apply(builder).spawnFor(this)
