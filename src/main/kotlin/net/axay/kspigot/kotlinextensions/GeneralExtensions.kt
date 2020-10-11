@@ -6,18 +6,15 @@ val <T> Lazy<T>.valueIfInitialized get() = ifInitialized { value }
 fun Lazy<AutoCloseable>.closeIfInitialized() = ifInitialized { value.close() }
 
 class MinMaxPair<T : Comparable<T>>(a: T, b: T) {
-
-    val min: T
-    val max: T
-
+    val min: T; val max: T
     init {
-        if (a >= b) {
-            min = b
-            max = a
-        } else {
-            min = a
-            max = b
-        }
+        if (a >= b) { min = b; max = a }
+        else { min = a; max = b }
     }
+}
 
+internal fun <T> T.apply(block: (T.() -> Unit)?): T {
+    if (block != null)
+        apply(block)
+    return this
 }
