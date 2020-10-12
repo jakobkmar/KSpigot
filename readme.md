@@ -74,12 +74,18 @@ If you work with KSpigot, you also need Spigot as a dependency.
 KSpigot is a kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft.
 KSpigot adds functionality missing in spigot and partly makes it possible to do it the kotlin way. Most of KSpigot's extensions are stable.
 
-IMPORTANT:
+<details>
+<summary><b>Notice</b></summary>
+<p>
+
 Extensions marked with the annotation `@NMS_GENERAL` are unstable. 
 
 Extensions marked with the `@UnsafeImplementaion` annotation do not promise to always give the correct result, but are still useful and therefore included in the project. This readme DOES NOT contain any unsafe parts of KSpigot.
 
 Please keep in mind that this extensions is still in a more early stage of development - some parts of the API may change in future versions.
+
+</p>
+</details>
 
 ## Contact
 
