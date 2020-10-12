@@ -3,7 +3,6 @@
 package net.axay.kspigot.inventory
 
 import net.axay.kspigot.event.listen
-import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.entity.HumanEntity
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
@@ -25,7 +24,7 @@ fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView?
 
 // GUI HOLDER
 
-class InventoryGUIHolder : AutoCloseable {
+object InventoryGUIHolder : AutoCloseable {
 
     private val registered = HashSet<InventoryGUI<ForInventory>>()
 
@@ -107,14 +106,14 @@ abstract class InventoryGUI<T : ForInventory>(
      * (KSpigot will listen for actions in the inventory.)
      */
     @Suppress("UNCHECKED_CAST")
-    fun register() = KSpigotMainInstance.inventoryGUIHolder.register(this as InventoryGUI<ForInventory>)
+    fun register() = InventoryGUIHolder.register(this as InventoryGUI<ForInventory>)
 
     /**
      * Stops KSpigot from listening to actions in this
      * InventoryGUI anymore.
      */
     @Suppress("UNCHECKED_CAST")
-    fun unregister() = KSpigotMainInstance.inventoryGUIHolder.unregister(this as InventoryGUI<ForInventory>)
+    fun unregister() = InventoryGUIHolder.unregister(this as InventoryGUI<ForInventory>)
 
     /**
      * Loads the specified page in order to display it in the GUI.

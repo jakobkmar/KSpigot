@@ -21,8 +21,8 @@ import org.bukkit.plugin.java.JavaPlugin
 abstract class KSpigot : JavaPlugin() {
 
     // lazy properties
-    private val kRunnableHolderProperty = lazy { KRunnableHolder() }
-    private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder() }
+    private val kRunnableHolderProperty = lazy { KRunnableHolder }
+    private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder }
 
     internal val kRunnableHolder by kRunnableHolderProperty
     internal val inventoryGUIHolder by inventoryGUIHolderProperty

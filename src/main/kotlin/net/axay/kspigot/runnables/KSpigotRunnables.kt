@@ -6,7 +6,7 @@ import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
-class KRunnableHolder : AutoCloseable {
+internal object KRunnableHolder : AutoCloseable {
 
     /**
      * [BukkitRunnable] for tracking the responsible runnable.
@@ -86,16 +86,16 @@ fun task(
 
             if (isCancelled) {
                 if (safe || ranOut)
-                    KSpigotMainInstance.kRunnableHolder.activate(this)
+                    KRunnableHolder.activate(this)
                 else
-                    KSpigotMainInstance.kRunnableHolder.remove(this)
+                    KRunnableHolder.remove(this)
             }
 
         }
 
     }
 
-    if (endCallback != null) KSpigotMainInstance.kRunnableHolder.add(bukkitRunnable, endCallback, safe)
+    if (endCallback != null) KRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
     if (sync)
         bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period ?: 20)
