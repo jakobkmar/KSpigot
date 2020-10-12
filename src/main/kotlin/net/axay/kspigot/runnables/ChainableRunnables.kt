@@ -5,24 +5,19 @@ package net.axay.kspigot.runnables
 import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
 
-/*
- * Chainable bukkit runnable.
- */
-
-class ChainedRunnablePart<T, R>(
-        val runnable: (T?) -> R,
-        val sync: Boolean,
-        var previous: ChainedRunnablePart<*, T>? = null,
-        var next: ChainedRunnablePart<R, *>? = null
+abstract class ChainedRunnablePart<T, R>(
+    val sync: Boolean
 ) {
 
-    fun execute() {
-        previous?.execute() ?: kotlin.run { start(null) }
-    }
+    var next: ChainedRunnablePart<R, *>? = null
 
-    private fun start(data: T?) {
+    abstract fun execute()
+    
+    protected abstract fun invoke(data: T): R
+
+    protected fun start(data: T) {
         val realRunnable = Runnable {
-            val result = runnable.invoke(data)
+            val result = invoke(data)
             next?.start(result)
         }
         if (sync)
@@ -33,19 +28,36 @@ class ChainedRunnablePart<T, R>(
 
 }
 
+class ChainedRunnablePartFirst<R>(
+    val runnable: () -> R,
+    sync: Boolean
+) : ChainedRunnablePart<Unit, R>(sync) {
+
+    override fun execute() = start(Unit)
+
+    override fun invoke(data: Unit) = runnable.invoke()
+
+}
+
+class ChainedRunnablePartThen<T, R>(
+    val runnable: (T) -> R,
+    sync: Boolean,
+    val previous: ChainedRunnablePart<*, T>
+) : ChainedRunnablePart<T, R>(sync) {
+
+    override fun execute() = previous.execute()
+
+    override fun invoke(data: T) = runnable.invoke(data)
+
+}
+
 // FIRST
-fun <R> firstDo(sync: Boolean, runnable: (Unit?) -> R)
-        = ChainedRunnablePart<Unit, R>(runnable, sync)
-fun <R> firstSync(runnable: (Unit?) -> R) = firstDo(true, runnable)
-fun <R> firstAsync(runnable: (Unit?) -> R) = firstDo(false, runnable)
+fun <R> firstDo(sync: Boolean, runnable: () -> R) = ChainedRunnablePartFirst(runnable, sync)
+fun <R> firstSync(runnable: () -> R) = firstDo(true, runnable)
+fun <R> firstAsync(runnable: () -> R) = firstDo(false, runnable)
 
 // THEN
-fun <T, R, U> ChainedRunnablePart<T, R>.thenDo(sync: Boolean, runnable: (R?) -> U): ChainedRunnablePart<R, U> {
-    ChainedRunnablePart<R, U>(runnable, sync).apply {
-        previous = this@thenDo
-        this@thenDo.next = this
-        return this
-    }
-}
-fun <T, R, U> ChainedRunnablePart<T, R>.thenSync(runnable: (R?) -> U) = thenDo(true, runnable)
-fun <T, R, U> ChainedRunnablePart<T, R>.thenAsync(runnable: (R?) -> U) = thenDo(false, runnable)
+fun <T, R, U> ChainedRunnablePart<T, R>.thenDo(sync: Boolean, runnable: (R) -> U)
+    = ChainedRunnablePartThen(runnable, sync, this).apply { previous.next = this }
+fun <T, R, U> ChainedRunnablePart<T, R>.thenSync(runnable: (R) -> U) = thenDo(true, runnable)
+fun <T, R, U> ChainedRunnablePart<T, R>.thenAsync(runnable: (R) -> U) = thenDo(false, runnable)
