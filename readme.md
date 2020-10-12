@@ -116,6 +116,8 @@ tasks.shadowJar.get().dependsOn(relocateShadowJar)
 </p>
 </details>
 
+Now use the `shadowJar` task to build your project.
+
 #### MAVEN
 
 For example, you could use the [Apache Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html).
