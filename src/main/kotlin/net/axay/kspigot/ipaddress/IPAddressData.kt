@@ -26,7 +26,7 @@ fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage
 
         val hostString = address?.hostString ?: return null
 
-        val jsonObject = ValueHolder.gson.fromJson(
+        val jsonObject = ValueHolder.getGson(false).fromJson(
                 URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
                 JsonObject::class.java
         ) ?: return null
