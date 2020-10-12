@@ -1,6 +1,6 @@
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.runnables.task
 
 abstract class InventoryGUIPageChangeCalculator {
 
@@ -128,7 +128,7 @@ private inline fun changePageEffect(
     val ifInverted = fromPage >= toPage
 
     var currentOffset = 1
-    KSpigotMainInstance.task(
+    task(
             sync = true,
             period = 1,
             howOften = doFor.toLong()
