@@ -69,10 +69,66 @@ implementation 'net.axay:KSpigot:VERSION_HERE'
 
 If you work with KSpigot, you also need Spigot as a dependency.
 
+<details>
+<summary><b>Read before building your project!</b></summary>
+<p>
+
+You **must** use a shade / shadow plugin with your build system. KSpigot needs to be relocated.
+
+##### GRADLE
+
+The plugin:
+```kotlin
+id("com.github.johnrengelman.shadow") version "6.0.0"
+```
+
+Now KSpigot needs to be relocated by using one of the following methods:
+
+<details>
+<summary><b>Relocate only KSpigot</b></summary>
+<p>
+
+Add the following to your buildscript:
+```kotlin
+tasks {
+    shadowJar {
+        relocate("net.axay.kspigot", "${project.group}.shadow.net.axay.kspigot")
+    }
+}
+```
+
+</p>
+</details>
+
+<details>
+<summary><b>Relocate all of your dependencies</b></summary>
+<p>
+
+Add the following to your buildscript:
+```kotlin
+val relocateShadowJar by tasks.creating(ConfigureShadowRelocation::class) {
+    target = tasks.shadowJar.get()
+    prefix = "${project.group}.shadow"
+}
+
+tasks.shadowJar.get().dependsOn(relocateShadowJar)
+```
+
+</p>
+</details>
+
+##### MAVEN
+
+For example, you could use the [Apache Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html).
+
+</p>
+</details>
+
 ## About
 
 KSpigot is a kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft.
-KSpigot adds functionality missing in spigot and partly makes it possible to do it the kotlin way. Most of KSpigot's extensions are stable.
+
+KSpigot adds functionality missing in spigot and makes it possible to do things the kotlin way.
 
 <details>
 <summary><b>Notice</b></summary>
@@ -80,7 +136,7 @@ KSpigot adds functionality missing in spigot and partly makes it possible to do 
 
 Extensions marked with the annotation `@NMS_GENERAL` are unstable. 
 
-Extensions marked with the `@UnsafeImplementaion` annotation do not promise to always give the correct result, but are still useful and therefore included in the project. This readme DOES NOT contain any unsafe parts of KSpigot.
+Extensions marked with the `@UnsafeImplementaion` annotation do not promise to always give the correct result, but are still useful and therefore included in the project. This readme does not contain any unsafe parts of KSpigot.
 
 Please keep in mind that this extensions is still in a more early stage of development - some parts of the API may change in future versions.
 
