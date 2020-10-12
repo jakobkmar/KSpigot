@@ -65,7 +65,6 @@ implementation 'net.axay:KSpigot:VERSION_HERE'
 
 </p>
 </details>
-<br>
 
 If you work with KSpigot, you also need Spigot as a dependency.
 
