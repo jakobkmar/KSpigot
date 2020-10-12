@@ -2,16 +2,14 @@
 
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.main.KSpigot
 import org.bukkit.inventory.ItemStack
 
-fun <T : ForInventory> KSpigot.inventoryGUI(
+fun <T : ForInventory> inventoryGUI(
         type: InventoryType<T>,
         builder: InventoryGUIBuilder<T>.() -> Unit,
-) = InventoryGUIBuilder(this, type).apply(builder).build()
+) = InventoryGUIBuilder(type).apply(builder).build()
 
 class InventoryGUIBuilder<T : ForInventory>(
-        private val kSpigot: KSpigot,
         val type: InventoryType<T>
 ) {
 
@@ -38,7 +36,7 @@ class InventoryGUIBuilder<T : ForInventory>(
     }
 
     internal fun build() = InventoryGUIShared(
-            InventoryGUIData(kSpigot, type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+            InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
     ).apply { register() }
 
 }

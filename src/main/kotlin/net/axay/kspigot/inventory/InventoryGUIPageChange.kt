@@ -1,7 +1,6 @@
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.main.KSpigot
-import net.axay.kspigot.runnables.task
+import net.axay.kspigot.main.KSpigotMainInstance
 
 abstract class InventoryGUIPageChangeCalculator {
 
@@ -54,7 +53,7 @@ internal fun InventoryGUI<*>.changePage(
 
             val width = data.inventoryType.dimensions.width
 
-            changePageEffect(data.plugin, fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
+            changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
                     loadPageUnsafe(fromPage, offsetHorizontally = currentOffset)
                     loadPageUnsafe(toPage, offsetHorizontally = -(width - currentOffset))
@@ -70,7 +69,7 @@ internal fun InventoryGUI<*>.changePage(
 
             val height = data.inventoryType.dimensions.heigth
 
-            changePageEffect(data.plugin, fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
+            changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
                     loadPageUnsafe(fromPage, offsetVertically = currentOffset)
                     loadPageUnsafe(toPage, offsetVertically = -(height - currentOffset))
@@ -86,7 +85,7 @@ internal fun InventoryGUI<*>.changePage(
 
             val width = data.inventoryType.dimensions.width
 
-            changePageEffect(data.plugin, fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
+            changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
                     loadPageUnsafe(toPage, offsetHorizontally = -(width - currentOffset))
                 } else {
@@ -100,7 +99,7 @@ internal fun InventoryGUI<*>.changePage(
 
             val height = data.inventoryType.dimensions.heigth
 
-            changePageEffect(data.plugin, fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
+            changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
                     loadPageUnsafe(toPage, offsetVertically = -(height - currentOffset))
                 } else {
@@ -120,7 +119,6 @@ internal fun InventoryGUI<*>.changeGUI(
 ) = changePage(effect.effect, fromPage, toPage)
 
 private inline fun changePageEffect(
-        kSpigot: KSpigot,
         fromPage: Int,
         toPage: Int,
         doFor: Int,
@@ -130,7 +128,7 @@ private inline fun changePageEffect(
     val ifInverted = fromPage >= toPage
 
     var currentOffset = 1
-    kSpigot.task(
+    KSpigotMainInstance.task(
             sync = true,
             period = 1,
             howOften = doFor.toLong()

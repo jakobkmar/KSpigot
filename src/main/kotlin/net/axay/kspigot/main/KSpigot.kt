@@ -22,7 +22,7 @@ abstract class KSpigot : JavaPlugin() {
 
     // lazy properties
     private val kRunnableHolderProperty = lazy { KRunnableHolder() }
-    private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder(this) }
+    private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder() }
 
     internal val kRunnableHolder by kRunnableHolderProperty
     internal val inventoryGUIHolder by inventoryGUIHolderProperty
@@ -43,6 +43,7 @@ abstract class KSpigot : JavaPlugin() {
     open fun shutdown() { }
 
     final override fun onLoad() {
+        KSpigotMainInstance = this
         load()
     }
 
@@ -61,3 +62,5 @@ abstract class KSpigot : JavaPlugin() {
     }
 
 }
+
+lateinit var KSpigotMainInstance: KSpigot private set

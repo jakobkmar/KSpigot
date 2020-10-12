@@ -1,27 +1,28 @@
 package net.axay.kspigot.extensions.bukkit
 
+import net.axay.kspigot.main.KSpigotMainInstance
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.Plugin
 
 /** @see printColoredPrefix */
-fun CommandSender.print(text: String, plugin: Plugin? = null)
+fun CommandSender.print(text: String, plugin: Plugin? = KSpigotMainInstance)
         = printColoredPrefix(text, ChatColor.RESET, plugin?.name ?: "INFO", ChatColor.GRAY)
 
 /** @see printColoredPrefix */
-fun CommandSender.info(text: String, plugin: Plugin? = null)
+fun CommandSender.info(text: String, plugin: Plugin? = KSpigotMainInstance)
         = printColoredPrefix(text, ChatColor.WHITE, plugin?.name ?: "INFO", ChatColor.DARK_AQUA)
 
 /** @see printColoredPrefix */
-fun CommandSender.success(text: String, plugin: Plugin? = null)
+fun CommandSender.success(text: String, plugin: Plugin? = KSpigotMainInstance)
         = printColoredPrefix(text, ChatColor.GREEN, plugin?.name ?: "SUCCESS", ChatColor.DARK_AQUA)
 
 /** @see printColoredPrefix */
-fun CommandSender.warn(text: String, plugin: Plugin? = null)
+fun CommandSender.warn(text: String, plugin: Plugin? = KSpigotMainInstance)
         = printColoredPrefix(text, ChatColor.WHITE, plugin?.name?.plus(" - WARN") ?: "WARN", ChatColor.YELLOW)
 
 /** @see printColoredPrefix */
-fun CommandSender.error(text: String, plugin: Plugin? = null)
+fun CommandSender.error(text: String, plugin: Plugin? = KSpigotMainInstance)
         = printColoredPrefix(text, ChatColor.RED, plugin?.name?.plus(" - ERROR") ?: "ERROR", ChatColor.DARK_RED)
 
 /**

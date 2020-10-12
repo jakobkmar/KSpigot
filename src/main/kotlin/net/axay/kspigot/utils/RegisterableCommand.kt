@@ -1,6 +1,6 @@
 package net.axay.kspigot.utils
 
-import net.axay.kspigot.main.KSpigot
+import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.TabCompleter
 
@@ -13,8 +13,8 @@ interface RegisterableCommand : CommandExecutor {
      * @return true if the command was found -
      * false if not
      */
-    fun registerCommand(commandName: String, kSpigot: KSpigot): Boolean {
-        kSpigot.getCommand(commandName)?.let {
+    fun registerAs(commandName: String): Boolean {
+        KSpigotMainInstance.getCommand(commandName)?.let {
             it.setExecutor(this)
             if (this is TabCompleter)
                 it.tabCompleter = this

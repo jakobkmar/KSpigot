@@ -3,13 +3,12 @@
 package net.axay.kspigot.game
 
 import net.axay.kspigot.extensions.broadcast
-import net.axay.kspigot.main.KSpigot
-import net.axay.kspigot.runnables.task
+import net.axay.kspigot.main.KSpigotMainInstance
 import net.md_5.bungee.api.ChatColor
 
 class GamePhaseSystem(vararg gamePhases: GamePhase) {
     val gamePhases = gamePhases.toMutableList()
-    fun begin(kSpigot: KSpigot) = gamePhases.removeAt(0).startIt(kSpigot, gamePhases)
+    fun begin() = gamePhases.removeAt(0).startIt(gamePhases)
 }
 
 fun counterMessage(
@@ -36,9 +35,9 @@ class GamePhase(
         val end: (() -> Unit)?,
         val counterMessage: ((secondsLeft: Long) -> String)?
 ) {
-    fun startIt(kSpigot: KSpigot, phaseQueue: MutableList<GamePhase>) {
+    fun startIt(phaseQueue: MutableList<GamePhase>) {
         start?.invoke()
-        kSpigot.task(
+        KSpigotMainInstance.task(
                 period = 20,
                 howOften = (length / 20) + 1,
                 endCallback = {
@@ -46,7 +45,7 @@ class GamePhase(
                     end?.invoke()
 
                     if (phaseQueue.isNotEmpty())
-                        phaseQueue.removeAt(0).startIt(kSpigot, phaseQueue)
+                        phaseQueue.removeAt(0).startIt(phaseQueue)
 
                 }
         ) {

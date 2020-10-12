@@ -2,15 +2,14 @@
 
 package net.axay.kspigot.runnables
 
+import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
-import org.bukkit.plugin.Plugin
 
 /*
  * Chainable bukkit runnable.
  */
 
 class ChainedRunnablePart<T, R>(
-        val plugin: Plugin,
         val runnable: (T?) -> R,
         val sync: Boolean,
         var previous: ChainedRunnablePart<*, T>? = null,
@@ -27,22 +26,22 @@ class ChainedRunnablePart<T, R>(
             next?.start(result)
         }
         if (sync)
-            Bukkit.getScheduler().runTask(plugin, realRunnable)
+            Bukkit.getScheduler().runTask(KSpigotMainInstance, realRunnable)
         else
-            Bukkit.getScheduler().runTaskAsynchronously(plugin, realRunnable)
+            Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, realRunnable)
     }
 
 }
 
 // FIRST
-fun <R> Plugin.firstDo(sync: Boolean, runnable: (Unit?) -> R)
-        = ChainedRunnablePart<Unit, R>(this, runnable, sync)
-fun <R> Plugin.firstSync(runnable: (Unit?) -> R) = firstDo(true, runnable)
-fun <R> Plugin.firstAsync(runnable: (Unit?) -> R) = firstDo(false, runnable)
+fun <R> firstDo(sync: Boolean, runnable: (Unit?) -> R)
+        = ChainedRunnablePart<Unit, R>(runnable, sync)
+fun <R> firstSync(runnable: (Unit?) -> R) = firstDo(true, runnable)
+fun <R> firstAsync(runnable: (Unit?) -> R) = firstDo(false, runnable)
 
 // THEN
 fun <T, R, U> ChainedRunnablePart<T, R>.thenDo(sync: Boolean, runnable: (R?) -> U): ChainedRunnablePart<R, U> {
-    ChainedRunnablePart<R, U>(plugin, runnable, sync).apply {
+    ChainedRunnablePart<R, U>(runnable, sync).apply {
         previous = this@thenDo
         this@thenDo.next = this
         return this

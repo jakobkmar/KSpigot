@@ -1,16 +1,16 @@
 package net.axay.kspigot.event
 
 import net.axay.kspigot.extensions.pluginManager
+import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
-import org.bukkit.plugin.Plugin
 
 /**
  * Shortcut for registering this listener on the given plugin.
  */
-fun Listener.register(plugin: Plugin) = pluginManager.registerEvents(this, plugin)
+fun Listener.register() = pluginManager.registerEvents(this, KSpigotMainInstance)
 
 /**
  * Shortcut for unregistering all events in this listener.
@@ -26,12 +26,11 @@ fun Listener.unregister() = HandlerList.unregisterAll(this)
  * @param executor handles incoming events
  */
 inline fun <reified T : Event> Listener.register(
-        plugin: Plugin,
         priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false,
         noinline executor: (Listener, Event) -> Unit
 ) {
-    pluginManager.registerEvent(T::class.java, this, priority, executor, plugin, ignoreCancelled)
+    pluginManager.registerEvent(T::class.java, this, priority, executor, KSpigotMainInstance, ignoreCancelled)
 }
 
 /**
@@ -50,11 +49,10 @@ interface SingleListener<T : Event> : Listener {
  * @param ignoreCancelled if manual cancellation should be ignored
  */
 inline fun <reified T : Event> SingleListener<T>.register(
-        plugin: Plugin,
         priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false
 ) {
-    register<T>(plugin, priority, ignoreCancelled) { _, event ->
+    register<T>(priority, ignoreCancelled) { _, event ->
         (event as? T)?.let { this.onEvent(it) }
     }
 }
@@ -65,7 +63,7 @@ inline fun <reified T : Event> SingleListener<T>.register(
  * @param ignoreCancelled if manual cancellation should be ignored
  * @param onEvent the event callback
  */
-inline fun <reified T : Event> Plugin.listen(
+inline fun <reified T : Event> listen(
         priority: EventPriority = EventPriority.NORMAL,
         ignoreCancelled: Boolean = false,
         crossinline onEvent: (T) -> Unit
@@ -73,6 +71,6 @@ inline fun <reified T : Event> Plugin.listen(
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)
     }
-    listener.register(this, priority, ignoreCancelled)
+    listener.register(priority, ignoreCancelled)
     return listener
 }

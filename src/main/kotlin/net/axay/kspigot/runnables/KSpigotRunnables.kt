@@ -2,9 +2,8 @@
 
 package net.axay.kspigot.runnables
 
-import net.axay.kspigot.main.KSpigot
+import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
-import org.bukkit.plugin.Plugin
 import org.bukkit.scheduler.BukkitRunnable
 
 class KRunnableHolder : AutoCloseable {
@@ -49,7 +48,7 @@ abstract class KSpigotRunnable(
  * @param endCallback code that should always be executed when the runnable ends
  * @param runnable the runnable which should be executed each repetition
  */
-fun KSpigot.task(
+fun task(
         sync: Boolean = true,
         delay: Long = 0,
         period: Long? = null,
@@ -87,32 +86,32 @@ fun KSpigot.task(
 
             if (isCancelled) {
                 if (safe || ranOut)
-                    kRunnableHolder.activate(this)
+                    KSpigotMainInstance.kRunnableHolder.activate(this)
                 else
-                    kRunnableHolder.remove(this)
+                    KSpigotMainInstance.kRunnableHolder.remove(this)
             }
 
         }
 
     }
 
-    if (endCallback != null) kRunnableHolder.add(bukkitRunnable, endCallback, safe)
+    if (endCallback != null) KSpigotMainInstance.kRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
     if (sync)
-        bukkitRunnable.runTaskTimer(this, delay, period ?: 20)
+        bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period ?: 20)
     else
-        bukkitRunnable.runTaskTimerAsynchronously(this, delay, period ?: 20)
+        bukkitRunnable.runTaskTimerAsynchronously(KSpigotMainInstance, delay, period ?: 20)
 
 }
 
 /**
  * Starts a synchronous task.
  */
-fun Plugin.sync(runnable: () -> Unit)
-        = Bukkit.getScheduler().runTask(this, runnable)
+fun sync(runnable: () -> Unit)
+        = Bukkit.getScheduler().runTask(KSpigotMainInstance, runnable)
 
 /**
  * Starts an asynchronous task.
  */
-fun Plugin.async(runnable: () -> Unit)
-        = Bukkit.getScheduler().runTaskAsynchronously(this, runnable)
+fun async(runnable: () -> Unit)
+        = Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, runnable)
