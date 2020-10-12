@@ -75,7 +75,7 @@ If you work with KSpigot, you also need Spigot as a dependency.
 
 You **must** use a shade / shadow plugin with your build system. KSpigot needs to be relocated.
 
-##### GRADLE
+#### GRADLE
 
 The plugin:
 ```kotlin
@@ -117,7 +117,7 @@ tasks.shadowJar.get().dependsOn(relocateShadowJar)
 </p>
 </details>
 
-##### MAVEN
+#### MAVEN
 
 For example, you could use the [Apache Maven Shade Plugin](https://maven.apache.org/plugins/maven-shade-plugin/examples/class-relocation.html).
 
