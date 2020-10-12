@@ -3,7 +3,7 @@
 package net.axay.kspigot.game
 
 import net.axay.kspigot.extensions.broadcast
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.runnables.task
 import net.md_5.bungee.api.ChatColor
 
 class GamePhaseSystem(vararg gamePhases: GamePhase) {
@@ -37,7 +37,7 @@ class GamePhase(
 ) {
     fun startIt(phaseQueue: MutableList<GamePhase>) {
         start?.invoke()
-        KSpigotMainInstance.task(
+        task(
                 period = 20,
                 howOften = (length / 20) + 1,
                 endCallback = {
