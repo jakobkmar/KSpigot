@@ -68,6 +68,8 @@ implementation 'net.axay:KSpigot:VERSION_HERE'
 
 If you work with KSpigot, you also need Spigot as a dependency.
 
+## Building your project
+
 <details>
 <summary><b>Read before building your project!</b></summary>
 <p>
