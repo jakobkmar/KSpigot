@@ -6,10 +6,6 @@ import java.util.*
  * BUILD CONSTANTS
  */
 
-val JVM_VERSION = JavaVersion.VERSION_1_8
-val JVM_VERSION_STRING = "1.8"
-val CONSISTENT_VERSION_STRING = "8"
-
 val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
 
 /*
@@ -51,9 +47,6 @@ repositories {
 
 dependencies {
 
-    // KOTLIN
-    implementation(kotlin("stdlib-jdk$CONSISTENT_VERSION_STRING"))
-
     // SPIGOT
     compileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
     testCompileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
@@ -63,16 +56,6 @@ dependencies {
 /*
  * BUILD
  */
-
-java.sourceCompatibility = JVM_VERSION
-
-tasks {
-
-    compileKotlin {
-        kotlinOptions.jvmTarget = JVM_VERSION_STRING
-    }
-
-}
 
 val sourcesJar by tasks.creating(Jar::class) {
     dependsOn(JavaPlugin.CLASSES_TASK_NAME)
