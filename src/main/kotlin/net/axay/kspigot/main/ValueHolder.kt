@@ -9,7 +9,9 @@ object ValueHolder {
         GsonBuilder()
     }
 
-    val gson: Gson by lazy { gsonBuilder.create() }
-    val gsonPretty: Gson by lazy { gsonBuilder.setPrettyPrinting().create() }
+    private val gson: Gson by lazy { gsonBuilder.create() }
+    private val gsonPretty: Gson by lazy { gsonBuilder.setPrettyPrinting().create() }
+
+    fun getGson(pretty: Boolean) = if (pretty) gsonPretty else gson
 
 }
