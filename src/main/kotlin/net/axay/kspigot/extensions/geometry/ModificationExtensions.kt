@@ -5,7 +5,7 @@ package net.axay.kspigot.extensions.geometry
 import org.bukkit.Location
 import org.bukkit.util.Vector
 
-/**
+/*
  * LOCATION
  */
 
@@ -66,7 +66,7 @@ infix fun Location.increase(loc: SimpleLocation3D) = add(loc.x, loc.y, loc.z)
 infix fun Location.reduce(loc: SimpleLocation3D) = subtract(loc.x, loc.y, loc.z)
 
 /*
-    VECTOR
+ * VECTOR
  */
 
 val Vector.isFinite: Boolean get() = x.isFinite() && y.isFinite() && z.isFinite()
