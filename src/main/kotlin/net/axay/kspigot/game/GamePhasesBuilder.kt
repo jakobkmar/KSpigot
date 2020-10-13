@@ -32,13 +32,13 @@ class GamePhaseBuilder(val length: Long) {
     }
 
     fun counterMessage(
-        beginning: String,
-        seconds: String,
-        second: String,
-        prefix: String? = null,
-        suffix: String? = null
+        beforeTime: String? = null,
+        afterTime: String? = null,
+        hours: String = "h",
+        minutes: String = "m",
+        seconds: String = "s"
     ) {
-        counterMessage = net.axay.kspigot.game.counterMessage(beginning, seconds, second, prefix, suffix)
+        counterMessage = buildCounterMessageCallback(beforeTime, afterTime, hours, minutes, seconds)
     }
 
     fun build() = GamePhase(length, start, end, counterMessage)

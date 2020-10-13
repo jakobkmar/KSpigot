@@ -4,28 +4,48 @@ package net.axay.kspigot.game
 
 import net.axay.kspigot.extensions.broadcast
 import net.axay.kspigot.runnables.task
-import net.md_5.bungee.api.ChatColor
 
 class GamePhaseSystem(vararg gamePhases: GamePhase) {
     val gamePhases = gamePhases.toMutableList()
     fun begin() = gamePhases.removeAt(0).startIt(gamePhases)
 }
 
-fun counterMessage(
-    beginning: String,
-    seconds: String,
-    second: String,
-    prefix: String? = null,
-    suffix: String? = null
-): (Long) -> String {
+fun buildCounterMessageCallback(
+    beforeTime: String? = null,
+    afterTime: String? = null,
+    hours: String = "h",
+    minutes: String = "m",
+    seconds: String = "s"
+): (Long) -> String = { curSeconds ->
 
-    val realPrefix = prefix?.plus(" ") ?: ""
-    val realSuffix = suffix ?: ""
+    StringBuilder().apply {
+        append(beforeTime)
 
-    return {
-        val realSeconds = if (it <= 1L) second else seconds
-        "$realPrefix${ChatColor.RESET}$beginning $it $realSeconds$realSuffix"
-    }
+        val hourTime = (curSeconds / 3600)
+        val minuteTime = ((curSeconds % 3600) / 60)
+        val secondsTime = (curSeconds % 60)
+
+        if (hourTime != 0L)
+            append("${hourTime.toString().run { if (length < 2) "0$this" else this }}:")
+
+        if ((hourTime != 0L && secondsTime != 0L) || (minuteTime != 0L && secondsTime != 0L))
+            append("${minuteTime.toString().run { if (length < 2) "0$this" else this }}:")
+        else if (minuteTime != 0L)
+            append(minuteTime.toString().run { if (length < 2) "0$this" else this })
+
+        if (secondsTime != 0L)
+            append(secondsTime.toString().run { if (length < 2) "0$this" else this })
+
+        append(" ").append(kotlin.run {
+            return@run when {
+                secondsTime != 0L -> seconds
+                minuteTime != 0L -> minutes
+                else -> hours
+            }
+        })
+
+        append(afterTime)
+    }.toString()
 
 }
 
