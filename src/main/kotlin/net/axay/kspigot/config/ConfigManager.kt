@@ -50,7 +50,7 @@ class ConfigDelegate<T : Any> (
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
 
     operator fun setValue(thisRef: Any?, property: KProperty<*>, config: T): Boolean {
-        saveIt(config)
+        internalConfig = config
         return true
     }
 
