@@ -45,7 +45,7 @@ class ConfigDelegate<T : Any> (
 
     var data: T
         get() = internalConfig
-        set(value) = saveIt(value)
+        set(value) { internalConfig = value }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
 
