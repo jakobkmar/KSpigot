@@ -1,12 +1,16 @@
 @file:Suppress("PropertyName")
 
 import java.util.*
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
  * BUILD CONSTANTS
  */
 
 val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
+
+val JVM_VERSION = JavaVersion.VERSION_1_8
+val JVM_VERSION_STRING = "1.8"
 
 /*
  * PROJECT
@@ -57,6 +61,18 @@ dependencies {
  * BUILD
  */
 
+// JVM VERSION
+
+java.sourceCompatibility = JVM_VERSION
+
+tasks {
+    compileKotlin { configureJvmVersion() }
+    compileTestKotlin { configureJvmVersion() }
+}
+fun KotlinCompile.configureJvmVersion() { kotlinOptions.jvmTarget = JVM_VERSION_STRING }
+
+// SOURCE CODE
+
 val sourcesJar by tasks.creating(Jar::class) {
     dependsOn(JavaPlugin.CLASSES_TASK_NAME)
     archiveClassifier.set("sources")
@@ -71,7 +87,7 @@ artifacts {
  * DOCUMENTATION
  */
 
-tasks.dokkaJekyll.configure {
+tasks.dokkaHtml.configure {
     outputDirectory.set(projectDir.resolve("docs"))
 }
 
