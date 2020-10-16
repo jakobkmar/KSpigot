@@ -1,6 +1,6 @@
 package net.axay.kspigot.sound
 
-import net.axay.kspigot.extensions.geometry.worldOrException
+import net.axay.kspigot.extensions.bukkit.worldOrException
 import net.axay.kspigot.kotlinextensions.apply
 import org.bukkit.Location
 import org.bukkit.Sound
