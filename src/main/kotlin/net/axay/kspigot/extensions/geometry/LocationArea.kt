@@ -2,6 +2,7 @@
 
 package net.axay.kspigot.extensions.geometry
 
+import net.axay.kspigot.extensions.bukkit.worldOrException
 import org.bukkit.Chunk
 import org.bukkit.Location
 import org.bukkit.World
