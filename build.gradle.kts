@@ -71,7 +71,7 @@ artifacts {
  * DOCUMENTATION
  */
 
-tasks.dokkaHtml.configure {
+tasks.dokkaJekyll.configure {
     outputDirectory.set(projectDir.resolve("docs"))
 }
 

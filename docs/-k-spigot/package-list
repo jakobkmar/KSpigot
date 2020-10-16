@@ -1,8 +1,9 @@
-$dokka.format:html-v1
-$dokka.linkExtension:html
+$dokka.format:jekyll-v1
+$dokka.linkExtension:md
 
 net.axay.kspigot.annotations
 net.axay.kspigot.chat
+net.axay.kspigot.config
 net.axay.kspigot.data
 net.axay.kspigot.event
 net.axay.kspigot.extensions
@@ -13,10 +14,10 @@ net.axay.kspigot.game
 net.axay.kspigot.inventory
 net.axay.kspigot.ipaddress
 net.axay.kspigot.items
-net.axay.kspigot.kotlinextensions
 net.axay.kspigot.main
 net.axay.kspigot.particles
 net.axay.kspigot.runnables
+net.axay.kspigot.sound
 net.axay.kspigot.structures
 net.axay.kspigot.utils
 
