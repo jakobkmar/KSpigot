@@ -66,8 +66,8 @@ dependencies {
 java.sourceCompatibility = JVM_VERSION
 
 tasks {
-    compileKotlin { configureJvmVersion() }
-    compileTestKotlin { configureJvmVersion() }
+    compileKotlin.configureJvmVersion()
+    compileTestKotlin.configureJvmVersion()
 }
 
 // SOURCE CODE
@@ -162,4 +162,4 @@ val JavaVersion.versionString get() = majorVersion.let {
     if (version <= 10) "1.$it" else it
 }
 
-fun KotlinCompile.configureJvmVersion() { kotlinOptions.jvmTarget = JVM_VERSION_STRING }
+fun TaskProvider<KotlinCompile>.configureJvmVersion() { get().kotlinOptions.jvmTarget = JVM_VERSION_STRING }
