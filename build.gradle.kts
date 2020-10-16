@@ -10,7 +10,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
 
 val JVM_VERSION = JavaVersion.VERSION_1_8
-val JVM_VERSION_STRING = "1.8"
+val JVM_VERSION_STRING = JVM_VERSION.versionString
 
 /*
  * PROJECT
@@ -69,7 +69,6 @@ tasks {
     compileKotlin { configureJvmVersion() }
     compileTestKotlin { configureJvmVersion() }
 }
-fun KotlinCompile.configureJvmVersion() { kotlinOptions.jvmTarget = JVM_VERSION_STRING }
 
 // SOURCE CODE
 
@@ -153,3 +152,14 @@ publishing {
     }
 
 }
+
+/*
+ * EXTENSIONS
+ */
+
+val JavaVersion.versionString get() = majorVersion.let {
+    val version = it.toInt()
+    if (version <= 10) "1.$it" else it
+}
+
+fun KotlinCompile.configureJvmVersion() { kotlinOptions.jvmTarget = JVM_VERSION_STRING }
