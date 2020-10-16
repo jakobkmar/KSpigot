@@ -8,6 +8,7 @@ import org.bukkit.Material
 import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.v1_16_R2.CraftWorld
 import org.bukkit.entity.*
+import org.bukkit.inventory.EquipmentSlot
 
 /**
  * Checks if the entity is completely in water.
@@ -111,4 +112,14 @@ fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
  */
 fun Player.title(mainText: String? = null, subText: String? = null, fadeIn: Int = 10, stay: Int = 70, fadeOut: Int = 20) {
     sendTitle(mainText, subText, fadeIn, stay, fadeOut)
+}
+
+/**
+ * Returns the itemInHand of the given [EquipmentSlot]
+ * if it is an hand slot.
+ */
+fun Player.getHandItem(hand: EquipmentSlot?) = when (hand) {
+    EquipmentSlot.HAND -> inventory.itemInMainHand
+    EquipmentSlot.OFF_HAND -> inventory.itemInOffHand
+    else -> null
 }
