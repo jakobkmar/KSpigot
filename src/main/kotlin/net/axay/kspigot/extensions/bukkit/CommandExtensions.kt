@@ -7,6 +7,7 @@ import org.bukkit.command.TabCompleter
 /**
  * Registers this CommandExecutor for
  * the given command.
+ * @return If the command was registered successfully.
  */
 fun CommandExecutor.register(commandName: String): Boolean {
     KSpigotMainInstance.getCommand(commandName)?.let {
