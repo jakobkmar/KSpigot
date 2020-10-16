@@ -1,5 +1,5 @@
-$dokka.format:jekyll-v1
-$dokka.linkExtension:md
+$dokka.format:html-v1
+$dokka.linkExtension:html
 
 net.axay.kspigot.annotations
 net.axay.kspigot.chat
