@@ -2,6 +2,7 @@
 
 package net.axay.kspigot.inventory
 
+import net.axay.kspigot.inventory.elements.*
 import org.bukkit.inventory.ItemStack
 
 fun <T : ForInventory> inventoryGUI(
