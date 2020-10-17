@@ -1,7 +1,7 @@
 package net.axay.kspigot.particles
 
 import net.axay.kspigot.extensions.bukkit.worldOrException
-import net.axay.kspigot.kotlinextensions.apply
+import net.axay.kspigot.kotlinextensions.applyIfNotNull
 import org.bukkit.Location
 import org.bukkit.Particle
 import org.bukkit.entity.Player
@@ -74,7 +74,7 @@ fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
  * @see KSpigotParticle
  */
 fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
-        = KSpigotParticle(particle).apply(builder).spawnAt(this)
+        = KSpigotParticle(particle).applyIfNotNull(builder).spawnAt(this)
 
 /**
  * Accesses the particle builder and then immediately
@@ -82,4 +82,4 @@ fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)?
  * @see KSpigotParticle
  */
 fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
-        = KSpigotParticle(particle).apply(builder).spawnFor(this)
+        = KSpigotParticle(particle).applyIfNotNull(builder).spawnFor(this)

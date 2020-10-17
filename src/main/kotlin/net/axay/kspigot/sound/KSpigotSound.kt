@@ -1,7 +1,7 @@
 package net.axay.kspigot.sound
 
 import net.axay.kspigot.extensions.bukkit.worldOrException
-import net.axay.kspigot.kotlinextensions.apply
+import net.axay.kspigot.kotlinextensions.applyIfNotNull
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
@@ -53,7 +53,7 @@ fun sound(sound: Sound, builder: KSpigotSound.() -> Unit)
  * @see KSpigotSound
  */
 fun Location.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null)
-        = KSpigotSound(sound).apply(builder).playAt(this)
+        = KSpigotSound(sound).applyIfNotNull(builder).playAt(this)
 
 /**
  * Accesses the sound builder and then immediately
@@ -61,4 +61,4 @@ fun Location.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null)
  * @see KSpigotSound
  */
 fun Player.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null)
-        = KSpigotSound(sound).apply(builder).playFor(this)
+        = KSpigotSound(sound).applyIfNotNull(builder).playFor(this)

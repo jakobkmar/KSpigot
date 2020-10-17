@@ -16,7 +16,7 @@ internal class MinMaxPair<T : Comparable<T>>(a: T, b: T) {
     }
 }
 
-internal fun <T> T.apply(block: (T.() -> Unit)?): T {
+internal fun <T> T.applyIfNotNull(block: (T.() -> Unit)?): T {
     if (block != null)
         apply(block)
     return this
