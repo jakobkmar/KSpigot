@@ -18,7 +18,7 @@ abstract class ChainedRunnablePart<T, R>(
 
     abstract fun <E : Exception> executeCatching(
             @Suppress("UNCHECKED_CAST") exceptionClass: KClass<E> = Exception::class as KClass<E>,
-            exceptionHandler: ((E) -> Unit)? = null,
+            exceptionHandler: ((E) -> Unit)? = null
     )
 
     protected fun start(data: T) {
