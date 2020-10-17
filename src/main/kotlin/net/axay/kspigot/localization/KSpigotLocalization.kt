@@ -7,9 +7,6 @@ import java.nio.charset.StandardCharsets
 import java.util.*
 import kotlin.collections.HashMap
 
-private const val PREFIX = "{"
-private const val SUFFIX = "}"
-
 /**
  * Handles localization of strings using java [ResourceBundle]s.
  *
@@ -48,7 +45,7 @@ object L10n {
         StrSubstitutor.replace(
             getMessage(locale, key),
             mapOf(*args),
-            PREFIX, SUFFIX
+            "{", "}"
         )
 
     private fun getOrLoadBundle(locale: Locale): ResourceBundle? {
