@@ -11,40 +11,40 @@ class GamePhaseSystem(vararg gamePhases: GamePhase) {
 }
 
 fun buildCounterMessageCallback(
-    beforeTime: String? = null,
-    afterTime: String? = null,
-    hours: String = "h",
-    minutes: String = "m",
-    seconds: String = "s"
+        beforeTime: String? = null,
+        afterTime: String? = null,
+        hourPlural: String = "h",
+        minutePlural: String = "m",
+        secondPlural: String = "s",
+        hourSingular: String = hourPlural,
+        minuteSingular: String = minutePlural,
+        secondSingular: String = secondPlural
 ): (Long) -> String = { curSeconds ->
 
     StringBuilder().apply {
-        append(beforeTime)
+        if (beforeTime != null)
+            append(beforeTime)
 
         val hourTime = (curSeconds / 3600)
         val minuteTime = ((curSeconds % 3600) / 60)
         val secondsTime = (curSeconds % 60)
 
-        if (hourTime != 0L)
-            append("${hourTime.toString().run { if (length < 2) "0$this" else this }}:")
+        if (hourTime != 0L) {
+            append("$hourTime ${if (hourTime == 1L) hourSingular else hourPlural}")
+            if (minuteTime != 0L) append(" ")
+        }
 
-        if ((hourTime != 0L && secondsTime != 0L) || (minuteTime != 0L && secondsTime != 0L))
-            append("${minuteTime.toString().run { if (length < 2) "0$this" else this }}:")
-        else if (minuteTime != 0L)
-            append(minuteTime.toString().run { if (length < 2) "0$this" else this })
+        if (minuteTime != 0L) {
+            append("$minuteTime ${if (minuteTime == 1L) minuteSingular else minutePlural}")
+            if (secondsTime != 0L) append(" ")
+        }
 
-        if (secondsTime != 0L)
-            append(secondsTime.toString().run { if (length < 2) "0$this" else this })
+        if (secondsTime != 0L || (hourTime == 0L && minuteTime == 0L)) {
+            append("$secondsTime ${if (secondsTime == 1L) secondSingular else secondPlural}")
+        }
 
-        append(" ").append(kotlin.run {
-            return@run when {
-                secondsTime != 0L -> seconds
-                minuteTime != 0L -> minutes
-                else -> hours
-            }
-        })
-
-        append(afterTime)
+        if (afterTime != null)
+            append(afterTime)
     }.toString()
 
 }
