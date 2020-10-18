@@ -43,7 +43,7 @@ fun Damageable.kill() {
  */
 fun LivingEntity.heal() {
     health = getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
-            ?: throw NullPointerException("The entity does not have a max health value!")
+        ?: throw NullPointerException("The entity does not have a max health value!")
 }
 
 /**
@@ -110,7 +110,13 @@ fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
  * @param stay time in ticks for titles to stay
  * @param fadeOut time in ticks for titles to fade out
  */
-fun Player.title(mainText: String? = null, subText: String? = null, fadeIn: Int = 10, stay: Int = 70, fadeOut: Int = 20) {
+fun Player.title(
+    mainText: String? = null,
+    subText: String? = null,
+    fadeIn: Int = 10,
+    stay: Int = 70,
+    fadeOut: Int = 20
+) {
     sendTitle(mainText, subText, fadeIn, stay, fadeOut)
 }
 

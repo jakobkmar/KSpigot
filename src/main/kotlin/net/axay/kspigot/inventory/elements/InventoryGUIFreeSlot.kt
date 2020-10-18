@@ -5,5 +5,7 @@ import net.axay.kspigot.inventory.InventoryGUIClickEvent
 import net.axay.kspigot.inventory.InventoryGUISlot
 
 class InventoryGUIFreeSlot<T : ForInventory> : InventoryGUISlot<T>() {
-    override fun onClick(clickEvent: InventoryGUIClickEvent<T>) { /* do nothing */ }
+    override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
+        /* do nothing */
+    }
 }

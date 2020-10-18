@@ -12,10 +12,12 @@ import org.bukkit.util.Vector
 // INCREASE
 // all
 infix fun Location.increase(distance: Number) = add(distance, distance, distance)
+
 // single
 infix fun Location.increaseX(distance: Number) = add(distance, 0.0, 0.0)
 infix fun Location.increaseY(distance: Number) = add(0.0, distance, 0.0)
 infix fun Location.increaseZ(distance: Number) = add(0.0, 0.0, distance)
+
 // pair
 infix fun Location.increaseXY(distance: Number) = add(distance, distance, 0.0)
 infix fun Location.increaseYZ(distance: Number) = add(0.0, distance, distance)
@@ -24,10 +26,12 @@ infix fun Location.increaseXZ(distance: Number) = add(distance, 0.0, distance)
 // REDUCE
 // all
 infix fun Location.reduce(distance: Number) = substract(distance, distance, distance)
+
 // single
 infix fun Location.reduceX(distance: Number) = substract(distance, 0.0, 0.0)
 infix fun Location.reduceY(distance: Number) = substract(0.0, distance, 0.0)
 infix fun Location.reduceZ(distance: Number) = substract(0.0, 0.0, distance)
+
 // pair
 infix fun Location.reduceXY(distance: Number) = substract(distance, distance, 0.0)
 infix fun Location.reduceYZ(distance: Number) = substract(0.0, distance, distance)
@@ -50,13 +54,32 @@ operator fun Location.plus(loc: Location) = clone().add(loc)
 operator fun Location.minus(loc: Location) = clone().subtract(loc)
 operator fun Location.plus(loc: SimpleLocation3D) = clone().add(loc.x, loc.y, loc.z)
 operator fun Location.minus(loc: SimpleLocation3D) = clone().subtract(loc.x, loc.y, loc.z)
+
 // mutable
-operator fun Location.plusAssign(vec: Vector) { add(vec) }
-operator fun Location.minusAssign(vec: Vector) { subtract(vec) }
-operator fun Location.plusAssign(loc: Location) { add(loc) }
-operator fun Location.minusAssign(loc: Location) { subtract(loc) }
-operator fun Location.plusAssign(loc: SimpleLocation3D) { add(loc.x, loc.y, loc.z) }
-operator fun Location.minusAssign(loc: SimpleLocation3D) { subtract(loc.x, loc.y, loc.z) }
+operator fun Location.plusAssign(vec: Vector) {
+    add(vec)
+}
+
+operator fun Location.minusAssign(vec: Vector) {
+    subtract(vec)
+}
+
+operator fun Location.plusAssign(loc: Location) {
+    add(loc)
+}
+
+operator fun Location.minusAssign(loc: Location) {
+    subtract(loc)
+}
+
+operator fun Location.plusAssign(loc: SimpleLocation3D) {
+    add(loc.x, loc.y, loc.z)
+}
+
+operator fun Location.minusAssign(loc: SimpleLocation3D) {
+    subtract(loc.x, loc.y, loc.z)
+}
+
 // mutable with return
 infix fun Location.increase(vec: Vector) = add(vec)
 infix fun Location.reduce(vec: Vector) = subtract(vec)
@@ -86,11 +109,24 @@ operator fun Vector.plus(vec: Vector) = clone().add(vec)
 operator fun Vector.minus(vec: Vector) = clone().subtract(vec)
 operator fun Vector.times(vec: Vector) = clone().multiply(vec)
 operator fun Vector.times(num: Number) = clone().multiply(num.toDouble())
+
 // mutable
-operator fun Vector.plusAssign(vec: Vector) { add(vec) }
-operator fun Vector.minusAssign(vec: Vector) { subtract(vec) }
-operator fun Vector.timesAssign(vec: Vector) { multiply(vec) }
-operator fun Vector.timesAssign(num: Number) { multiply(num.toDouble()) }
+operator fun Vector.plusAssign(vec: Vector) {
+    add(vec)
+}
+
+operator fun Vector.minusAssign(vec: Vector) {
+    subtract(vec)
+}
+
+operator fun Vector.timesAssign(vec: Vector) {
+    multiply(vec)
+}
+
+operator fun Vector.timesAssign(num: Number) {
+    multiply(num.toDouble())
+}
+
 // mutable with return
 infix fun Vector.increase(vec: Vector) = add(vec)
 infix fun Vector.reduce(vec: Vector) = subtract(vec)

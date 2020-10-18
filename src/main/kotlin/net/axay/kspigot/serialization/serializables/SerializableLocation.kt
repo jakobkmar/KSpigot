@@ -19,8 +19,7 @@ class SerializableLocation(
 
     constructor(loc: Location) : this(loc.world?.name, loc.x, loc.y, loc.z, SerializableVector(loc.direction))
 
-    override fun toSpigot()
-        = Location(world?.let { Bukkit.getWorld(world) }, x, y, z)
-            .apply { direction = this@SerializableLocation.direction.toSpigot() }
+    override fun toSpigot() = Location(world?.let { Bukkit.getWorld(world) }, x, y, z)
+        .apply { direction = this@SerializableLocation.direction.toSpigot() }
 
 }

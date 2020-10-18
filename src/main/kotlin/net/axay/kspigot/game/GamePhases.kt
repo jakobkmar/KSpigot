@@ -11,14 +11,14 @@ class GamePhaseSystem(vararg gamePhases: GamePhase) {
 }
 
 fun buildCounterMessageCallback(
-        beforeTime: String? = null,
-        afterTime: String? = null,
-        hourPlural: String = "h",
-        minutePlural: String = "m",
-        secondPlural: String = "s",
-        hourSingular: String = hourPlural,
-        minuteSingular: String = minutePlural,
-        secondSingular: String = secondPlural
+    beforeTime: String? = null,
+    afterTime: String? = null,
+    hourPlural: String = "h",
+    minutePlural: String = "m",
+    secondPlural: String = "s",
+    hourSingular: String = hourPlural,
+    minuteSingular: String = minutePlural,
+    secondSingular: String = secondPlural
 ): (Long) -> String = { curSeconds ->
 
     StringBuilder().apply {
@@ -50,24 +50,24 @@ fun buildCounterMessageCallback(
 }
 
 class GamePhase(
-        val length: Long,
-        val start: (() -> Unit)?,
-        val end: (() -> Unit)?,
-        val counterMessage: ((secondsLeft: Long) -> String)?
+    val length: Long,
+    val start: (() -> Unit)?,
+    val end: (() -> Unit)?,
+    val counterMessage: ((secondsLeft: Long) -> String)?
 ) {
     fun startIt(phaseQueue: MutableList<GamePhase>) {
         start?.invoke()
         task(
-                period = 20,
-                howOften = (length / 20) + 1,
-                endCallback = {
+            period = 20,
+            howOften = (length / 20) + 1,
+            endCallback = {
 
-                    end?.invoke()
+                end?.invoke()
 
-                    if (phaseQueue.isNotEmpty())
-                        phaseQueue.removeAt(0).startIt(phaseQueue)
+                if (phaseQueue.isNotEmpty())
+                    phaseQueue.removeAt(0).startIt(phaseQueue)
 
-                }
+            }
         ) {
 
             if (counterMessage != null) {
@@ -80,8 +80,9 @@ class GamePhase(
     }
 }
 
-private val Long.isCounterValue: Boolean get() = when (this) {
-    1L, 2L, 3L, 4L, 5L, 10L, 15L, 20L, 30L -> true
-    0L -> false
-    else -> this % 60 == 0L
-}
+private val Long.isCounterValue: Boolean
+    get() = when (this) {
+        1L, 2L, 3L, 4L, 5L, 10L, 15L, 20L, 30L -> true
+        0L -> false
+        else -> this % 60 == 0L
+    }

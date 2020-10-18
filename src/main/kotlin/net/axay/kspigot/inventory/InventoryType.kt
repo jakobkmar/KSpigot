@@ -8,8 +8,8 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
 class InventoryType<in T : ForInventory>(
-        val dimensions: InventoryDimensions,
-        val bukkitType: InventoryType? = null
+    val dimensions: InventoryDimensions,
+    val bukkitType: InventoryType? = null
 ) {
 
     private val size = dimensions.width * dimensions.heigth
@@ -22,8 +22,10 @@ class InventoryType<in T : ForInventory>(
         val FOUR_BY_NINE = InventoryType<ForInventoryFourByNine>(InventoryDimensions(9, 4))
         val FIVE_BY_NINE = InventoryType<ForInventoryFiveByNine>(InventoryDimensions(9, 5))
         val SIX_BY_NINE = InventoryType<ForInventorySixByNine>(InventoryDimensions(9, 6))
-        val ONE_BY_FIVE = InventoryType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
-        val THREE_BY_THREE = InventoryType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
+        val ONE_BY_FIVE =
+            InventoryType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
+        val THREE_BY_THREE =
+            InventoryType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
 
     }
 
@@ -52,9 +54,10 @@ interface ForInventorySixByNine : ForInventory
 
 interface ForEveryInventory
     : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
-        ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine,
-        ForInventoryThreeByThree, ForInventoryOneByFive
+    ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine,
+    ForInventoryThreeByThree, ForInventoryOneByFive
 
 interface ForInventoryWidthThree : ForInventoryThreeByThree
 interface ForInventoryWidthFive : ForInventoryOneByFive
-interface ForInventoryWidthNine : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
+interface ForInventoryWidthNine : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
+    ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine

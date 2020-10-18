@@ -44,21 +44,20 @@ data class KSpigotSound(
  * Accesses the sound builder.
  * @see KSpigotSound
  */
-fun sound(sound: Sound, builder: KSpigotSound.() -> Unit)
-        = KSpigotSound(sound).apply(builder)
+fun sound(sound: Sound, builder: KSpigotSound.() -> Unit) = KSpigotSound(sound).apply(builder)
 
 /**
  * Accesses the sound builder and then immediately
  * plays the sound at the given location.
  * @see KSpigotSound
  */
-fun Location.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null)
-        = KSpigotSound(sound).applyIfNotNull(builder).playAt(this)
+fun Location.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null) =
+    KSpigotSound(sound).applyIfNotNull(builder).playAt(this)
 
 /**
  * Accesses the sound builder and then immediately
  * plays the sound for the player.
  * @see KSpigotSound
  */
-fun Player.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null)
-        = KSpigotSound(sound).applyIfNotNull(builder).playFor(this)
+fun Player.sound(sound: Sound, builder: (KSpigotSound.() -> Unit)? = null) =
+    KSpigotSound(sound).applyIfNotNull(builder).playFor(this)

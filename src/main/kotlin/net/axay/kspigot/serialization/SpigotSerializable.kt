@@ -15,13 +15,12 @@ interface SpigotSerialzableCompanion<T>
 /**
  * @return A json string.
  */
-fun SpigotSerializable<*>.serialize(pretty: Boolean = true): String
-        = ValueHolder.getGson(pretty).toJson(this)
+fun SpigotSerializable<*>.serialize(pretty: Boolean = true): String = ValueHolder.getGson(pretty).toJson(this)
 
 /**
  * Deserializes the given json string and
  * returns the deserialized object.
  */
 @Suppress("unused")
-inline fun <reified T> SpigotSerialzableCompanion<T>.deserialize(json: String): T
-        = ValueHolder.getGson(false).fromJson(json, T::class.java)
+inline fun <reified T> SpigotSerialzableCompanion<T>.deserialize(json: String): T =
+    ValueHolder.getGson(false).fromJson(json, T::class.java)

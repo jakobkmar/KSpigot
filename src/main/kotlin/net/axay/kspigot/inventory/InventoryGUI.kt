@@ -64,8 +64,8 @@ object InventoryGUIHolder : AutoCloseable {
 // EVENT
 
 class InventoryGUIClickEvent<T : ForInventory>(
-        val bukkitEvent: InventoryClickEvent,
-        val gui: InventoryGUI<T>
+    val bukkitEvent: InventoryClickEvent,
+    val gui: InventoryGUI<T>
 )
 
 /*
@@ -84,16 +84,22 @@ class InventoryGUIData<T : ForInventory>(
 )
 
 abstract class InventoryGUI<T : ForInventory>(
-        val data: InventoryGUIData<T>
+    val data: InventoryGUIData<T>
 ) {
 
     var currentPageInt: Int = DEFAULT_PAGE; protected set
-    val currentPage get() = getPage(currentPageInt)
+    val currentPage
+        get() = getPage(currentPageInt)
             ?: throw IllegalStateException("The currentPageInt has no associated page!")
 
     internal abstract val bukkitInventory: Inventory
 
-    internal abstract fun loadPageUnsafe(page: InventoryGUIPage<*>, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
+    internal abstract fun loadPageUnsafe(
+        page: InventoryGUIPage<*>,
+        offsetHorizontally: Int = 0,
+        offsetVertically: Int = 0
+    )
+
     internal abstract fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
 
     /**
@@ -135,12 +141,14 @@ abstract class InventoryGUI<T : ForInventory>(
 // Inventory GUI implementations
 
 class InventoryGUIShared<T : ForInventory>(
-        inventoryGUIData: InventoryGUIData<T>
+    inventoryGUIData: InventoryGUIData<T>
 ) : InventoryGUI<T>(inventoryGUIData) {
 
     override val bukkitInventory = data.inventoryType.createBukkitInv(null, data.title)
 
-    init { loadPageUnsafe(DEFAULT_PAGE) }
+    init {
+        loadPageUnsafe(DEFAULT_PAGE)
+    }
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 

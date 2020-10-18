@@ -21,19 +21,18 @@ internal object KRunnableHolder : AutoCloseable {
         runnableEndCallbacks.clear()
     }
 
-    fun add(runnable: BukkitRunnable, callback: () -> Unit, safe: Boolean)
-            = runnableEndCallbacks.put(runnable, Pair(callback, safe))
-    fun remove(runnable: BukkitRunnable)
-            = runnableEndCallbacks.remove(runnable)
-    fun activate(runnable: BukkitRunnable)
-            = runnableEndCallbacks.remove(runnable)?.first?.invoke()
+    fun add(runnable: BukkitRunnable, callback: () -> Unit, safe: Boolean) =
+        runnableEndCallbacks.put(runnable, Pair(callback, safe))
+
+    fun remove(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)
+    fun activate(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)?.first?.invoke()
 
 }
 
 abstract class KSpigotRunnable(
-        var counterUp: Long? = null,
-        var counterDownToOne: Long? = null,
-        var counterDownToZero: Long? = null
+    var counterUp: Long? = null,
+    var counterDownToOne: Long? = null,
+    var counterDownToZero: Long? = null
 ) : BukkitRunnable()
 
 /**
@@ -49,13 +48,13 @@ abstract class KSpigotRunnable(
  * @param runnable the runnable which should be executed each repetition
  */
 fun task(
-        sync: Boolean = true,
-        delay: Long = 0,
-        period: Long? = null,
-        howOften: Long? = null,
-        safe: Boolean = false,
-        endCallback: (() -> Unit)? = null,
-        runnable: ((KSpigotRunnable) -> Unit)? = null
+    sync: Boolean = true,
+    delay: Long = 0,
+    period: Long? = null,
+    howOften: Long? = null,
+    safe: Boolean = false,
+    endCallback: (() -> Unit)? = null,
+    runnable: ((KSpigotRunnable) -> Unit)? = null
 ) {
 
     if (howOften != null && howOften == 0L) return
@@ -119,11 +118,9 @@ fun bukkitRun(sync: Boolean, runnable: () -> Unit) {
 /**
  * Starts a synchronous task.
  */
-fun sync(runnable: () -> Unit)
-        = Bukkit.getScheduler().runTask(KSpigotMainInstance, runnable)
+fun sync(runnable: () -> Unit) = Bukkit.getScheduler().runTask(KSpigotMainInstance, runnable)
 
 /**
  * Starts an asynchronous task.
  */
-fun async(runnable: () -> Unit)
-        = Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, runnable)
+fun async(runnable: () -> Unit) = Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, runnable)

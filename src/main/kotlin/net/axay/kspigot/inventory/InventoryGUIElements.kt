@@ -9,11 +9,11 @@ abstract class InventoryGUISlot<T : ForInventory> {
 // ELEMENT
 
 class InventoryGUIElementData(
-        val itemStack: ItemStack
+    val itemStack: ItemStack
 )
 
 abstract class InventoryGUIElement<T : ForInventory>(
-        val inventoryGUIElementData: InventoryGUIElementData
+    val inventoryGUIElementData: InventoryGUIElementData
 ) : InventoryGUISlot<T>() {
 
     final override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
