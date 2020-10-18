@@ -60,14 +60,14 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      * function is invoked.
      */
     fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (InventoryGUIClickEvent<T>) -> Unit) =
-        defineSlots(slots, InventoryGUIButton(InventoryGUIElementData(itemStack), onClick))
+        defineSlots(slots, InventoryGUIButton(itemStack, onClick))
 
     /**
      * An item protected from any player actions.
      * This is not a button.
      */
     fun placeholder(slots: InventorySlotCompound<T>, itemStack: ItemStack) =
-        defineSlots(slots, InventoryGUIPlaceholder(InventoryGUIElementData(itemStack)))
+        defineSlots(slots, InventoryGUIPlaceholder(itemStack))
 
     /**
      * A free slot does not block any player actions.
@@ -87,7 +87,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUIConsistentPageCalculator(toPage),
             onChange
         )
@@ -104,7 +104,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUIPreviousPageCalculator,
             onChange
         )
@@ -121,7 +121,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUINextPageCalculator,
             onChange
         )
@@ -139,7 +139,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonInventoryChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             newGUI,
             newPage,
             onChange
