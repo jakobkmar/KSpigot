@@ -2,75 +2,8 @@
 
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.event.listen
-import org.bukkit.entity.HumanEntity
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.InventoryView
 import org.bukkit.inventory.ItemStack
-
-// EXTENSIONS
-
-fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView? {
-
-    closeInventory()
-
-    if (page != null)
-        gui.loadPageUnsafe(page)
-
-    return openInventory(gui.bukkitInventory)
-
-}
-
-// GUI HOLDER
-
-object InventoryGUIHolder : AutoCloseable {
-
-    private val registered = HashSet<InventoryGUI<ForInventory>>()
-
-    fun register(inventoryGUI: InventoryGUI<ForInventory>) {
-        registered.add(inventoryGUI)
-    }
-
-    fun unregister(inventoryGUI: InventoryGUI<ForInventory>) {
-        registered.remove(inventoryGUI)
-    }
-
-    init {
-
-        listen<InventoryClickEvent> {
-
-            val clickedInv = it.clickedInventory ?: return@listen
-
-            val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
-            val invPage = inv.currentPageInt
-
-            val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
-            if (slot != null)
-                slot.onClick(InventoryGUIClickEvent(it, inv))
-            else
-                it.isCancelled = true
-
-        }
-    }
-
-    override fun close() {
-        registered.forEach { inv -> inv.bukkitInventory.viewers.forEach { it.closeInventory() } }
-        registered.clear()
-    }
-
-}
-
-// EVENT
-
-class InventoryGUIClickEvent<T : ForInventory>(
-    val bukkitEvent: InventoryClickEvent,
-    val gui: InventoryGUI<T>
-)
-
-/*
- * INVENTORY GUI
- */
 
 private const val DEFAULT_PAGE = 1
 
@@ -208,10 +141,3 @@ class InventoryGUIShared<T : ForInventory>(
     }
 
 }
-
-class InventoryGUIPage<T : ForInventory>(
-    val number: Int,
-    internal val slots: Map<Int, InventoryGUISlot<T>>,
-    val transitionTo: PageChangeEffect?,
-    val transitionFrom: PageChangeEffect?
-)
