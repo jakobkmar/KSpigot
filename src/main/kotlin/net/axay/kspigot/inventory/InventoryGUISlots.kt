@@ -10,10 +10,11 @@ data class InventoryDimensions(val width: Int, val heigth: Int) {
 
     val invSlots by lazy {
         ArrayList<InventorySlot>().apply {
-            (1 .. heigth).forEach { row ->
-            (1 .. width).forEach { slotInRow ->
+            (1..heigth).forEach { row ->
+                (1..width).forEach { slotInRow ->
                     this += InventorySlot(row, slotInRow)
-            } }
+                }
+            }
         }
     }
 
@@ -40,8 +41,8 @@ data class InventoryDimensions(val width: Int, val heigth: Int) {
 data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<InventorySlot> {
 
     companion object {
-        fun fromRealSlot(realSlot: Int, dimensions: InventoryDimensions)
-                = dimensions.invSlotsWithRealSlots.toList().find { it.second == realSlot }?.first
+        fun fromRealSlot(realSlot: Int, dimensions: InventoryDimensions) =
+            dimensions.invSlotsWithRealSlots.toList().find { it.second == realSlot }?.first
     }
 
     override fun compareTo(other: InventorySlot) = when {
@@ -61,12 +62,12 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
         return ((rowsUnder * inventoryDimensions.width) + slotInRow) - 1
     }
 
-    fun isInDimension(inventoryDimensions: InventoryDimensions)
-            = (1 .. inventoryDimensions.width).contains(slotInRow) && (1 .. inventoryDimensions.heigth).contains(row)
+    fun isInDimension(inventoryDimensions: InventoryDimensions) =
+        (1..inventoryDimensions.width).contains(slotInRow) && (1..inventoryDimensions.heigth).contains(row)
 
     fun add(offsetHorizontally: Int, offsetVertically: Int) = InventorySlot(
-            row + offsetVertically,
-            slotInRow + offsetHorizontally
+        row + offsetVertically,
+        slotInRow + offsetHorizontally
     )
 
 }
@@ -75,13 +76,13 @@ interface InventorySlotCompound<out T : ForInventory> {
 
     fun withInvType(invType: InventoryType<T>): Collection<InventorySlot>
 
-    fun realSlotsWithInvType(invType: InventoryType<T>)
-            = withInvType(invType).mapNotNull { it.realSlotIn(invType.dimensions) }
+    fun realSlotsWithInvType(invType: InventoryType<T>) =
+        withInvType(invType).mapNotNull { it.realSlotIn(invType.dimensions) }
 
 }
 
 open class SingleInventorySlot<T : ForInventory> internal constructor(
-        val inventorySlot: InventorySlot
+    val inventorySlot: InventorySlot
 ) : InventorySlotCompound<T> {
 
     constructor(row: Int, slotInRow: Int) : this(InventorySlot(row, slotInRow))
@@ -99,10 +100,10 @@ internal enum class InventorySlotRangeType {
 
 class InventorySlotRange<out T : ForInventory> internal constructor(
 
-        startSlot: SingleInventorySlot<out T>,
-        endSlot: SingleInventorySlot<out T>,
+    startSlot: SingleInventorySlot<out T>,
+    endSlot: SingleInventorySlot<out T>,
 
-        private val type: InventorySlotRangeType
+    private val type: InventorySlotRangeType
 
 ) : InventorySlotCompound<T>, ClosedRange<InventorySlot> {
 
@@ -115,40 +116,39 @@ class InventorySlotRange<out T : ForInventory> internal constructor(
         endInclusive = minMaxPair.max
     }
 
-    override fun withInvType(invType: InventoryType<T>)
-        = LinkedHashSet<InventorySlot>().apply {
-            when (type) {
+    override fun withInvType(invType: InventoryType<T>) = LinkedHashSet<InventorySlot>().apply {
+        when (type) {
 
-                InventorySlotRangeType.RECTANGLE -> {
-                    // all possible combinations between the two slots
-                    // -> form a rectangle
-                    for (row in start.row .. endInclusive.row)
-                        for (slotInRow in start.slotInRow .. endInclusive.slotInRow)
-                            this += InventorySlot(row, slotInRow)
-                }
-
-                InventorySlotRangeType.LINEAR -> {
-                    if (endInclusive.row > start.row) {
-                        // from start --->| to end of row
-                        for (slotInRow in start.slotInRow .. invType.dimensions.width)
-                            this += InventorySlot(start.row, slotInRow)
-                        // all rows in between
-                        if (endInclusive.row > start.row + 1)
-                            for (row in start.row + 1 until endInclusive.row)
-                                for (slotInRow in 1 .. invType.dimensions.width)
-                                    this += InventorySlot(row, slotInRow)
-                        // from start of row |----> to endInclusive
-                        for (slotInRow in 1 .. endInclusive.slotInRow)
-                            this += InventorySlot(endInclusive.row, slotInRow)
-                    } else if (endInclusive.row == start.row) {
-                        // from start ---> to endInclusive in the same row
-                        for (slotInRow in start.slotInRow .. endInclusive.slotInRow)
-                            this += InventorySlot(start.row, slotInRow)
-                    }
-                }
-
+            InventorySlotRangeType.RECTANGLE -> {
+                // all possible combinations between the two slots
+                // -> form a rectangle
+                for (row in start.row..endInclusive.row)
+                    for (slotInRow in start.slotInRow..endInclusive.slotInRow)
+                        this += InventorySlot(row, slotInRow)
             }
+
+            InventorySlotRangeType.LINEAR -> {
+                if (endInclusive.row > start.row) {
+                    // from start --->| to end of row
+                    for (slotInRow in start.slotInRow..invType.dimensions.width)
+                        this += InventorySlot(start.row, slotInRow)
+                    // all rows in between
+                    if (endInclusive.row > start.row + 1)
+                        for (row in start.row + 1 until endInclusive.row)
+                            for (slotInRow in 1..invType.dimensions.width)
+                                this += InventorySlot(row, slotInRow)
+                    // from start of row |----> to endInclusive
+                    for (slotInRow in 1..endInclusive.slotInRow)
+                        this += InventorySlot(endInclusive.row, slotInRow)
+                } else if (endInclusive.row == start.row) {
+                    // from start ---> to endInclusive in the same row
+                    for (slotInRow in start.slotInRow..endInclusive.slotInRow)
+                        this += InventorySlot(start.row, slotInRow)
+                }
+            }
+
         }
+    }
 
 }
 
@@ -156,40 +156,40 @@ class InventorySlotRange<out T : ForInventory> internal constructor(
  * This range contains all slots having an index between
  * the indeces of the two given slots.
  */
-infix fun <T : ForInventory> SingleInventorySlot<out T>.linTo(slot: SingleInventorySlot<out T>)
-        = InventorySlotRange(this, slot, InventorySlotRangeType.LINEAR)
+infix fun <T : ForInventory> SingleInventorySlot<out T>.linTo(slot: SingleInventorySlot<out T>) =
+    InventorySlotRange(this, slot, InventorySlotRangeType.LINEAR)
 
 /**
  * This range contains all slots inside of a thought rectangle
  * with the two given slots as two opposite corners of the rectangle.
  */
-infix fun <T : ForInventory> SingleInventorySlot<out T>.rectTo(slot: SingleInventorySlot<out T>)
-        = InventorySlotRange(this, slot, InventorySlotRangeType.RECTANGLE)
+infix fun <T : ForInventory> SingleInventorySlot<out T>.rectTo(slot: SingleInventorySlot<out T>) =
+    InventorySlotRange(this, slot, InventorySlotRangeType.RECTANGLE)
 
 class InventoryRowSlots<T : ForInventory> internal constructor(
-        val row: Int
+    val row: Int
 ) : InventorySlotCompound<T> {
 
     override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
-        for (slotInRow in 1 .. invType.dimensions.width)
+        for (slotInRow in 1..invType.dimensions.width)
             this += InventorySlot(row, slotInRow)
     }
 
 }
 
 class InventoryColumnSlots<T : ForInventory> internal constructor(
-        val column: Int
+    val column: Int
 ) : InventorySlotCompound<T> {
 
     override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
-        for (row in 1 .. invType.dimensions.heigth)
+        for (row in 1..invType.dimensions.heigth)
             this += InventorySlot(row, column)
     }
 
 }
 
 class InventoryBorderSlots<T : ForInventory> internal constructor(
-        val padding: Int
+    val padding: Int
 ) : InventorySlotCompound<T> {
 
     override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
@@ -197,7 +197,7 @@ class InventoryBorderSlots<T : ForInventory> internal constructor(
         val dimensions = invType.dimensions
 
         for (currentPadding in 0 until padding) {
-            for (slotInRow in 1 + currentPadding .. dimensions.width - currentPadding) {
+            for (slotInRow in 1 + currentPadding..dimensions.width - currentPadding) {
                 this += InventorySlot(1, slotInRow)
                 this += InventorySlot(dimensions.heigth, slotInRow)
             }
@@ -212,11 +212,11 @@ class InventoryBorderSlots<T : ForInventory> internal constructor(
 }
 
 class InventoryCornerSlots<T : ForInventory> internal constructor(
-        val ifBottomLeft: Boolean = false,
-        val ifBottomRight: Boolean = false,
-        val ifTopLeft: Boolean = false,
-        val ifTopRight: Boolean = false
-)  : InventorySlotCompound<T> {
+    val ifBottomLeft: Boolean = false,
+    val ifBottomRight: Boolean = false,
+    val ifTopLeft: Boolean = false,
+    val ifTopRight: Boolean = false
+) : InventorySlotCompound<T> {
 
     override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
 
@@ -247,20 +247,28 @@ interface ForColumnNine : ForInventoryWidthNine
 
 // ROWS
 
-interface ForRowOne : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
-interface ForRowTwo : ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
+interface ForRowOne : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine,
+    ForInventoryFiveByNine, ForInventorySixByNine
+
+interface ForRowTwo : ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine,
+    ForInventorySixByNine
+
 interface ForRowThree : ForInventoryThreeByNine, ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
 interface ForRowFour : ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
 interface ForRowFive : ForInventoryFiveByNine, ForInventorySixByNine
 interface ForRowSix : ForInventorySixByNine
+
 // EDGE CASES:
 // ROW ONE
 interface ForRowOneSlotOneToThree : ForRowOne, ForInventoryOneByFive, ForInventoryThreeByThree
 interface ForRowOneSlotFourToFive : ForRowOne, ForInventoryOneByFive
+
 // ROW TWO
 interface ForRowTwoSlotOneToThree : ForRowTwo, ForInventoryThreeByThree
+
 // ROW THREE
 interface ForRowThreeSlotOneToThree : ForRowThree, ForInventoryThreeByThree
+
 // COMPLETE ROWS (including the edge cases)
 interface ForCompleteRowOne : ForRowOne, ForRowOneSlotOneToThree, ForRowOneSlotFourToFive
 interface ForCompleteRowTwo : ForRowTwo, ForRowTwoSlotOneToThree
@@ -278,6 +286,7 @@ object Slots {
     val RowOneSlotSeven = SingleInventorySlot<ForRowOne>(1, 7)
     val RowOneSlotEight = SingleInventorySlot<ForRowOne>(1, 8)
     val RowOneSlotNine = SingleInventorySlot<ForRowOne>(1, 9)
+
     // ROW TWO
     val RowTwoSlotOne = SingleInventorySlot<ForRowTwoSlotOneToThree>(2, 1)
     val RowTwoSlotTwo = SingleInventorySlot<ForRowTwoSlotOneToThree>(2, 2)
@@ -288,6 +297,7 @@ object Slots {
     val RowTwoSlotSeven = SingleInventorySlot<ForRowTwo>(2, 7)
     val RowTwoSlotEight = SingleInventorySlot<ForRowTwo>(2, 8)
     val RowTwoSlotNine = SingleInventorySlot<ForRowTwo>(2, 9)
+
     // ROW THREE
     val RowThreeSlotOne = SingleInventorySlot<ForRowThreeSlotOneToThree>(3, 1)
     val RowThreeSlotTwo = SingleInventorySlot<ForRowThreeSlotOneToThree>(3, 2)
@@ -298,6 +308,7 @@ object Slots {
     val RowThreeSlotSeven = SingleInventorySlot<ForRowThree>(3, 7)
     val RowThreeSlotEight = SingleInventorySlot<ForRowThree>(3, 8)
     val RowThreeSlotNine = SingleInventorySlot<ForRowThree>(3, 9)
+
     // ROW FOUR
     val RowFourSlotOne = SingleInventorySlot<ForRowFour>(4, 1)
     val RowFourSlotTwo = SingleInventorySlot<ForRowFour>(4, 2)
@@ -308,6 +319,7 @@ object Slots {
     val RowFourSlotSeven = SingleInventorySlot<ForRowFour>(4, 7)
     val RowFourSlotEight = SingleInventorySlot<ForRowFour>(4, 8)
     val RowFourSlotNine = SingleInventorySlot<ForRowFour>(4, 9)
+
     // ROW FIVE
     val RowFiveSlotOne = SingleInventorySlot<ForRowFive>(5, 1)
     val RowFiveSlotTwo = SingleInventorySlot<ForRowFive>(5, 2)
@@ -318,6 +330,7 @@ object Slots {
     val RowFiveSlotSeven = SingleInventorySlot<ForRowFive>(5, 7)
     val RowFiveSlotEight = SingleInventorySlot<ForRowFive>(5, 8)
     val RowFiveSlotNine = SingleInventorySlot<ForRowFive>(5, 9)
+
     // ROW SIX
     val RowSixSlotOne = SingleInventorySlot<ForRowSix>(6, 1)
     val RowSixSlotTwo = SingleInventorySlot<ForRowSix>(6, 2)

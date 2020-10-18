@@ -55,8 +55,16 @@ abstract class Circle(val radius: Number) {
             while (currentRadius >= 0) {
                 this += circleEdgeLocations(currentRadius).mapTo(HashSet()) {
                     mutableSetOf(it).apply {
-                        this += SimpleLocation2D(it.x + when { it.x >= 1 -> -1; it.x <= -1 -> 1; else -> 0 }, it.y)
-                        this += SimpleLocation2D(it.x, it.y + when { it.y >= 1 -> -1; it.y <= -1 -> 1; else -> 0 })
+                        this += SimpleLocation2D(
+                            it.x + when {
+                                it.x >= 1 -> -1; it.x <= -1 -> 1; else -> 0
+                            }, it.y
+                        )
+                        this += SimpleLocation2D(
+                            it.x, it.y + when {
+                                it.y >= 1 -> -1; it.y <= -1 -> 1; else -> 0
+                            }
+                        )
                     }
                 }.flatten()
                 currentRadius--

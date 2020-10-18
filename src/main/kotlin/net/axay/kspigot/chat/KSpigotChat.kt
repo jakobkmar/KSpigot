@@ -37,7 +37,11 @@ class KSpigotComponentBuilder {
         this += SelectorComponent(selector).apply(builder)
     }
 
-    inline fun translatable(translatable: String, with: Array<BaseComponent>, builder: TranslatableComponent.() -> Unit = { }) {
+    inline fun translatable(
+        translatable: String,
+        with: Array<BaseComponent>,
+        builder: TranslatableComponent.() -> Unit = { }
+    ) {
         this += TranslatableComponent(translatable, with).apply(builder)
     }
 
@@ -47,8 +51,13 @@ class KSpigotComponentBuilder {
         this += TextComponent.fromLegacyText(text, color)
     }
 
-    operator fun plusAssign(baseComponent: BaseComponent) { components += baseComponent }
-    operator fun plusAssign(baseComponents: Array<out BaseComponent>) { components += baseComponents }
+    operator fun plusAssign(baseComponent: BaseComponent) {
+        components += baseComponent
+    }
+
+    operator fun plusAssign(baseComponents: Array<out BaseComponent>) {
+        components += baseComponents
+    }
 
     fun create() = components.toTypedArray()
 

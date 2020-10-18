@@ -19,8 +19,9 @@ var Entity.nbtData: NBTData
     }
 
 @NMS_General
-val ItemStack.nbtData: NBTData get() {
-    CraftItemStack.asNMSCopy(this).let {
-        return if (it.hasTag()) NBTData(it.tag) else NBTData()
+val ItemStack.nbtData: NBTData
+    get() {
+        CraftItemStack.asNMSCopy(this).let {
+            return if (it.hasTag()) NBTData(it.tag) else NBTData()
+        }
     }
-}

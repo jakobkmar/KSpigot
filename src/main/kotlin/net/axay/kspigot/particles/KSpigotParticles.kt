@@ -16,12 +16,12 @@ import org.bukkit.util.Vector
  * @param force Determines whether the client should be encouraged to display the particles.
  */
 data class KSpigotParticle(
-        val particle: Particle,
-        var amount: Int = 1,
-        var offset: Vector? = null,
-        var extra: Number = 1.0,
-        var data: Any? = null,
-        var force: Boolean = false
+    val particle: Particle,
+    var amount: Int = 1,
+    var offset: Vector? = null,
+    var extra: Number = 1.0,
+    var data: Any? = null,
+    var force: Boolean = false
 ) {
 
     /**
@@ -30,15 +30,15 @@ data class KSpigotParticle(
      */
     fun spawnAt(loc: Location) {
         loc.worldOrException.spawnParticle(
-                particle,
-                loc,
-                amount,
-                offset?.x ?: 0.0,
-                offset?.y ?: 0.0,
-                offset?.z ?: 0.0,
-                extra.toDouble(),
-                data,
-                force
+            particle,
+            loc,
+            amount,
+            offset?.x ?: 0.0,
+            offset?.y ?: 0.0,
+            offset?.z ?: 0.0,
+            extra.toDouble(),
+            data,
+            force
         )
     }
 
@@ -48,14 +48,14 @@ data class KSpigotParticle(
      */
     fun spawnFor(player: Player) {
         player.spawnParticle(
-                particle,
-                player.location,
-                amount,
-                offset?.x ?: 0.0,
-                offset?.y ?: 0.0,
-                offset?.z ?: 0.0,
-                extra.toDouble(),
-                data
+            particle,
+            player.location,
+            amount,
+            offset?.x ?: 0.0,
+            offset?.y ?: 0.0,
+            offset?.z ?: 0.0,
+            extra.toDouble(),
+            data
         )
     }
 
@@ -65,21 +65,20 @@ data class KSpigotParticle(
  * Accesses the particle builder.
  * @see KSpigotParticle
  */
-fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit)
-        = KSpigotParticle(particle).apply(builder)
+fun particle(particle: Particle, builder: KSpigotParticle.() -> Unit) = KSpigotParticle(particle).apply(builder)
 
 /**
  * Accesses the particle builder and then immediately
  * spawns the particle at the given location.
  * @see KSpigotParticle
  */
-fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
-        = KSpigotParticle(particle).applyIfNotNull(builder).spawnAt(this)
+fun Location.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null) =
+    KSpigotParticle(particle).applyIfNotNull(builder).spawnAt(this)
 
 /**
  * Accesses the particle builder and then immediately
  * spawns the particle for the player.
  * @see KSpigotParticle
  */
-fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null)
-        = KSpigotParticle(particle).applyIfNotNull(builder).spawnFor(this)
+fun Player.particle(particle: Particle, builder: (KSpigotParticle.() -> Unit)? = null) =
+    KSpigotParticle(particle).applyIfNotNull(builder).spawnFor(this)

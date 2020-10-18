@@ -6,7 +6,7 @@ import net.axay.kspigot.inventory.InventoryGUIElement
 import net.axay.kspigot.inventory.InventoryGUIElementData
 
 class InventoryGUIPlaceholder<T : ForInventory>(
-        inventoryGUIElementData: InventoryGUIElementData
+    inventoryGUIElementData: InventoryGUIElementData
 ) : InventoryGUIElement<T>(inventoryGUIElementData) {
 
     override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {

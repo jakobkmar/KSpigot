@@ -20,16 +20,16 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
     val maxSimpleLoc = SimpleLocation3D(max(loc1.x, loc2.x), max(loc1.y, loc2.y), max(loc1.z, loc2.z))
 
     fun isInArea(
-            loc: Location,
-            check3d: Boolean = true,
-            tolerance: Int = 0
+        loc: Location,
+        check3d: Boolean = true,
+        tolerance: Int = 0
     ): Boolean {
 
         // checking world
         if (loc.world != world) return false
 
         return if (
-            // checking x
+        // checking x
             loc.x >= minSimpleLoc.x - tolerance && loc.x <= maxSimpleLoc.x + tolerance &&
             // checking z
             loc.z >= minSimpleLoc.z - tolerance && loc.z <= maxSimpleLoc.z + tolerance
@@ -45,9 +45,10 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
         val foundChunks = HashSet<SimpleChunkLocation>()
 
         (minSimpleLoc.chunk.x until maxSimpleLoc.chunk.x + 1).forEach { curX ->
-        (minSimpleLoc.chunk.z until maxSimpleLoc.chunk.z + 1).forEach { curZ ->
-            foundChunks += SimpleChunkLocation(curX, curZ)
-        } }
+            (minSimpleLoc.chunk.z until maxSimpleLoc.chunk.z + 1).forEach { curZ ->
+                foundChunks += SimpleChunkLocation(curX, curZ)
+            }
+        }
 
         return@lazy foundChunks
 
@@ -77,9 +78,9 @@ class LocationArea(loc1: Location, loc2: Location) {
     val touchedChunks: Set<Chunk> get() = simpleLocationPair.touchedSimpleChunks.mapTo(HashSet()) { it.withWorld(world) }
 
     fun isInArea(
-            loc: Location,
-            check3d: Boolean = true,
-            tolerance: Int = 0
+        loc: Location,
+        check3d: Boolean = true,
+        tolerance: Int = 0
     ) = simpleLocationPair.isInArea(loc, check3d, tolerance)
 
 }

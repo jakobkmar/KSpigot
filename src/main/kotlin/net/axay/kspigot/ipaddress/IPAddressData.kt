@@ -8,7 +8,8 @@ import org.bukkit.entity.Player
 import java.net.URL
 
 private const val IP_API = "http://ip-api.com/json/"
-private const val IP_API_FIELDS = "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
+private const val IP_API_FIELDS =
+    "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
 
 /**
  * @see ipAddressData
@@ -27,8 +28,8 @@ fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage
         val hostString = address?.hostString ?: return null
 
         val jsonObject = ValueHolder.getGson(false).fromJson(
-                URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
-                JsonObject::class.java
+            URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
+            JsonObject::class.java
         ) ?: return null
 
         if (jsonObject["status"].toString() == "fail") return null

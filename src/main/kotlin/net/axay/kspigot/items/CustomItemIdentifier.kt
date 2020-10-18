@@ -17,16 +17,16 @@ import org.bukkit.inventory.meta.ItemMeta
 data class CustomItemIdentifier(val customModelData: Int, val placeHolderMaterial: Material) {
 
     constructor(itemStack: ItemStack) :
-        this(
-            kotlin.run {
-                val itemMeta = itemStack.itemMeta
-                if (itemMeta != null && itemMeta.hasCustomModelData()) {
-                    return@run itemMeta.customModelData
-                }
-                return@run 0
-            },
-            itemStack.type
-        )
+            this(
+                kotlin.run {
+                    val itemMeta = itemStack.itemMeta
+                    if (itemMeta != null && itemMeta.hasCustomModelData()) {
+                        return@run itemMeta.customModelData
+                    }
+                    return@run 0
+                },
+                itemStack.type
+            )
 
     val itemStack: ItemStack?
         get() {

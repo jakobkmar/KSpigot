@@ -30,17 +30,17 @@ abstract class KSpigot : JavaPlugin() {
     /**
      * Called when the plugin was loaded
      */
-    open fun load() { }
+    open fun load() {}
 
     /**
      * Called when the plugin was enabled
      */
-    open fun startup() { }
+    open fun startup() {}
 
     /**
      * Called when the plugin gets disabled
      */
-    open fun shutdown() { }
+    open fun shutdown() {}
 
     final override fun onLoad() {
         KSpigotMainInstance = this

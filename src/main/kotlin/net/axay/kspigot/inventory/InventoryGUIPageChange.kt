@@ -7,13 +7,13 @@ abstract class InventoryGUIPageChangeCalculator {
     abstract fun calculateNewPage(currentPage: Int, pages: Collection<Int>): Int?
 
     object InventoryGUIPreviousPageCalculator : InventoryGUIPageChangeCalculator() {
-        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>)
-                = pages.sortedDescending().find { it < currentPage }
+        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) =
+            pages.sortedDescending().find { it < currentPage }
     }
 
     object InventoryGUINextPageCalculator : InventoryGUIPageChangeCalculator() {
-        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>)
-                = pages.sorted().find { it > currentPage }
+        override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) =
+            pages.sorted().find { it > currentPage }
     }
 
     class InventoryGUIConsistentPageCalculator(private val toPage: Int) : InventoryGUIPageChangeCalculator() {
@@ -119,19 +119,19 @@ internal fun InventoryGUI<*>.changeGUI(
 ) = changePage(effect.effect, fromPage, toPage)
 
 private inline fun changePageEffect(
-        fromPage: Int,
-        toPage: Int,
-        doFor: Int,
-        crossinline effect: (currentOffset: Int, ifInverted: Boolean) -> Unit,
+    fromPage: Int,
+    toPage: Int,
+    doFor: Int,
+    crossinline effect: (currentOffset: Int, ifInverted: Boolean) -> Unit,
 ) {
 
     val ifInverted = fromPage >= toPage
 
     var currentOffset = 1
     task(
-            sync = true,
-            period = 1,
-            howOften = doFor.toLong()
+        sync = true,
+        period = 1,
+        howOften = doFor.toLong()
     ) {
 
         effect.invoke(currentOffset, ifInverted)

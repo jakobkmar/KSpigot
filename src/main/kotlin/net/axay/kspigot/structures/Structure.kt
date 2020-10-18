@@ -18,12 +18,12 @@ interface StructureData {
 }
 
 class SingleStructureData(
-        val location: SimpleLocation3D,
-        val structureData: StructureData
+    val location: SimpleLocation3D,
+    val structureData: StructureData
 )
 
 data class Structure(
-        val structureData: Set<SingleStructureData>
+    val structureData: Set<SingleStructureData>
 ) {
     constructor(vararg structureDataSets: Set<SingleStructureData>)
             : this(structureDataSets.flatMapTo(HashSet()) { it })
@@ -34,7 +34,7 @@ data class Structure(
  */
 
 data class StructureDataMaterial(
-        val material: Material
+    val material: Material
 ) : StructureData {
 
     override fun createAt(loc: Location) {
@@ -44,8 +44,8 @@ data class StructureDataMaterial(
 }
 
 data class StructureDataBlock(
-        val material: Material,
-        val blockData: BlockData
+    val material: Material,
+    val blockData: BlockData
 ) : StructureData {
 
     constructor(block: Block) : this(block.type, block.blockData)
@@ -61,8 +61,8 @@ data class StructureDataBlock(
 
 @NMS_General
 data class StructureDataEntity(
-        val entityType: EntityType,
-        val nbtData: NBTData
+    val entityType: EntityType,
+    val nbtData: NBTData
 ) : StructureData {
 
     constructor(entity: Entity) : this(entity.type, entity.nbtData)
@@ -75,7 +75,7 @@ data class StructureDataEntity(
 }
 
 data class StructureDataParticle(
-        val particle: KSpigotParticle
+    val particle: KSpigotParticle
 ) : StructureData {
 
     override fun createAt(loc: Location) {

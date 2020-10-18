@@ -82,8 +82,7 @@ class ChainedRunnablePartFirst<R>(
     sync: Boolean
 ) : ChainedRunnablePart<Unit, R>(sync) {
 
-    override fun execute()
-            = start(Unit)
+    override fun execute() = start(Unit)
 
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
@@ -101,8 +100,7 @@ class ChainedRunnablePartThen<T, R>(
     val previous: ChainedRunnablePart<*, T>
 ) : ChainedRunnablePart<T, R>(sync) {
 
-    override fun execute()
-            = previous.execute()
+    override fun execute() = previous.execute()
 
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
@@ -115,13 +113,13 @@ class ChainedRunnablePartThen<T, R>(
 }
 
 // FIRST
-fun <R> firstDo(sync: Boolean, runnable: () -> R)
-        = ChainedRunnablePartFirst(runnable, sync)
+fun <R> firstDo(sync: Boolean, runnable: () -> R) = ChainedRunnablePartFirst(runnable, sync)
 fun <R> firstSync(runnable: () -> R) = firstDo(true, runnable)
 fun <R> firstAsync(runnable: () -> R) = firstDo(false, runnable)
 
 // THEN
-fun <T, R, U> ChainedRunnablePart<T, R>.thenDo(sync: Boolean, runnable: (R) -> U)
-        = ChainedRunnablePartThen(runnable, sync, this).apply { previous.next = this }
+fun <T, R, U> ChainedRunnablePart<T, R>.thenDo(sync: Boolean, runnable: (R) -> U) =
+    ChainedRunnablePartThen(runnable, sync, this).apply { previous.next = this }
+
 fun <T, R, U> ChainedRunnablePart<T, R>.thenSync(runnable: (R) -> U) = thenDo(true, runnable)
 fun <T, R, U> ChainedRunnablePart<T, R>.thenAsync(runnable: (R) -> U) = thenDo(false, runnable)

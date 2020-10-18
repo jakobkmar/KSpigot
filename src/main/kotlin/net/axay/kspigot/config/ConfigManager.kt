@@ -28,24 +28,26 @@ import kotlin.reflect.KProperty
  * exist and no default config is specified.
  */
 inline fun <reified T : Any> kSpigotJsonConfig(
-        file: File,
-        noinline default: (() -> T)? = null,
+    file: File,
+    noinline default: (() -> T)? = null,
 ) = ConfigDelegate(T::class, file, default)
 
 /**
  * @see kSpigotJsonConfig
  */
-class ConfigDelegate<T : Any> (
-        private val configClass: KClass<T>,
-        private val file: File,
-        private val defaultCallback: (() -> T)?
+class ConfigDelegate<T : Any>(
+    private val configClass: KClass<T>,
+    private val file: File,
+    private val defaultCallback: (() -> T)?
 ) {
 
     private var internalConfig: T = loadIt()
 
     var data: T
         get() = internalConfig
-        set(value) { internalConfig = value }
+        set(value) {
+            internalConfig = value
+        }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
 
@@ -62,25 +64,26 @@ class ConfigDelegate<T : Any> (
     /**
      * Loads the current state of the config on disk to the config object.
      */
-    fun reload() { loadIt() }
+    fun reload() {
+        loadIt()
+    }
 
     private fun saveIt(toSave: T) {
         GsonConfigManager.saveConfig(file, toSave, true)
         internalConfig = toSave
     }
 
-    private fun loadIt()
-        = if (defaultCallback == null)
-            GsonConfigManager.loadConfig(file, configClass)
-        else
-            GsonConfigManager.loadOrCreateDefault(file, configClass, true, defaultCallback)
+    private fun loadIt() = if (defaultCallback == null)
+        GsonConfigManager.loadConfig(file, configClass)
+    else
+        GsonConfigManager.loadOrCreateDefault(file, configClass, true, defaultCallback)
 
 }
 
 internal object GsonConfigManager {
 
-    fun <T : Any> loadConfig(file: File, configClass: KClass<T>): T
-            = FileReader(file).use { reader -> return getGson(false).fromJson(reader, configClass.java) }
+    fun <T : Any> loadConfig(file: File, configClass: KClass<T>): T =
+        FileReader(file).use { reader -> return getGson(false).fromJson(reader, configClass.java) }
 
     fun <T : Any> saveConfig(file: File, config: T, pretty: Boolean = true) {
         file.createIfNotExists()
