@@ -40,7 +40,7 @@ abstract class ChainedRunnablePart<T, R>(
     )
 
     protected fun start(data: T) {
-        runTask(sync) {
+        bukkitRun(sync) {
             val result = invoke(data)
             next?.start(result)
         }
@@ -52,7 +52,7 @@ abstract class ChainedRunnablePart<T, R>(
         exceptionSync: Boolean,
         exceptionHandler: ((E) -> Unit)?,
     ) {
-        runTask(sync) {
+        bukkitRun(sync) {
             val result = try {
                 invoke(data)
             } catch (e: Exception) {
@@ -61,11 +61,11 @@ abstract class ChainedRunnablePart<T, R>(
                     if (sync == exceptionSync) {
                         exceptionHandler?.invoke(e as E)
                     } else if (exceptionHandler != null) {
-                        runTask(exceptionSync) {
+                        bukkitRun(exceptionSync) {
                             exceptionHandler.invoke(e as E)
                         }
                     }
-                    return@runTask
+                    return@bukkitRun
                 } else throw e
             }
             next?.startCatching(result, exceptionClass, exceptionSync, exceptionHandler)
