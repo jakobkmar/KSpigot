@@ -10,7 +10,7 @@ abstract class InventoryGUISlot<T : ForInventory> {
 
 abstract class InventoryGUIElement<T : ForInventory> : InventoryGUISlot<T>() {
 
-    abstract fun getItemStack(gui: InventoryGUI<*>, slot: Int): ItemStack
+    abstract fun getItemStack(slot: Int): ItemStack
 
     final override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.gui.data.generalOnClick?.invoke(clickEvent)

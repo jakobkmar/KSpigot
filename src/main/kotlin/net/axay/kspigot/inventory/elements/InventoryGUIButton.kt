@@ -8,7 +8,7 @@ open class InventoryGUIButton<T : ForInventory>(
     val action: (InventoryGUIClickEvent<T>) -> Unit,
 ) : InventoryGUIElement<T>() {
 
-    override fun getItemStack(gui: InventoryGUI<*>, slot: Int) = icon
+    override fun getItemStack(slot: Int) = icon
 
     override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.bukkitEvent.isCancelled = true
