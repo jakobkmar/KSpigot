@@ -104,6 +104,14 @@ fun task(
 
 }
 
+fun runTask(sync: Boolean, runnable: () -> Unit) {
+    if (sync) {
+        sync(runnable)
+    } else {
+        async(runnable)
+    }
+}
+
 /**
  * Starts a synchronous task.
  */
