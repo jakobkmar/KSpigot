@@ -14,10 +14,10 @@ import kotlin.collections.HashMap
  * `messages_locale.properties`, where `locale` is formatted as returned by
  * [Locale.toString].
  */
-object L10n {
+object Localization {
     /**
      * This function determines which locale is used for a player, by default
-     * [Locale.US] is returned.
+     * [Locale.US] is always returned.
      *
      * It is invoked every time a message is localized, so some sort of caching
      * is advisable in many cases.
@@ -32,7 +32,7 @@ object L10n {
      * @throws MissingResourceException if no messages exist for the given
      * locale or [key] was not found in the messages
      */
-    fun getMessage(locale: Locale, key: String): String =
+    fun get(locale: Locale, key: String): String =
         getOrLoadBundle(locale)?.getString(key) ?: throw MissingResourceException(
             "Messages for locale '$locale' not found", "ResourceBundle", key
         )
@@ -41,9 +41,9 @@ object L10n {
      * Additionally formats the localized string with the named [args], which
      * are represented as `{argumentName}` in the translations
      */
-    fun getMessage(locale: Locale, key: String, vararg args: Pair<String, Any?>): String =
+    fun get(locale: Locale, key: String, vararg args: Pair<String, Any?>): String =
         StrSubstitutor.replace(
-            getMessage(locale, key),
+            get(locale, key),
             mapOf(*args),
             "{", "}"
         )
@@ -64,15 +64,15 @@ object L10n {
 
 /**
  * Returns the localized message using the locale provided by
- * [L10n.localeProvider]
+ * [Localization.localeProvider]
  *
- * @see L10n.getMessage
+ * @see Localization.get
  */
-fun Player.getMessage(key: String) =
-    L10n.getMessage(L10n.localeProvider(this), key)
+fun Player.localize(key: String) =
+    Localization.get(Localization.localeProvider(this), key)
 
 /**
- * @see L10n.getMessage
+ * @see Localization.get
  */
-fun Player.getMessage(key: String, vararg args: Pair<String, Any?>) =
-    L10n.getMessage(L10n.localeProvider(this), key, *args)
+fun Player.localize(key: String, vararg args: Pair<String, Any?>) =
+    Localization.get(Localization.localeProvider(this), key, *args)
