@@ -43,7 +43,7 @@ class InventoryGUIBuilder<T : ForInventory>(
 }
 
 class InventoryGUIPageBuilder<T : ForInventory>(
-    val type: InventoryType<T>,
+    private val type: InventoryType<T>,
     val page: Int
 ) {
 
