@@ -23,10 +23,10 @@ abstract class ChainedRunnablePart<T, R>(
      * any Spigot API functions requires it to be sync)
      */
     inline fun <reified E : Exception> executeCatching(
-        noinline exceptionHandler: ((E) -> Unit)? = null,
-        exceptionSync: Boolean = true
+        exceptionSync: Boolean = true,
+        noinline exceptionHandler: ((E) -> Unit)? = null
     ) {
-        executeCatchingImpl(E::class, exceptionHandler, exceptionSync)
+        executeCatchingImpl(E::class, exceptionSync, exceptionHandler)
     }
 
     /**
@@ -35,8 +35,8 @@ abstract class ChainedRunnablePart<T, R>(
      */
     abstract fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
         exceptionHandler: ((E) -> Unit)?,
-        exceptionSync: Boolean
     )
 
     protected fun start(data: T) {
@@ -49,8 +49,8 @@ abstract class ChainedRunnablePart<T, R>(
     protected fun <E : Exception> startCatching(
         data: T,
         exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
         exceptionHandler: ((E) -> Unit)?,
-        exceptionSync: Boolean
     ) {
         runTask(sync) {
             val result = try {
@@ -68,7 +68,7 @@ abstract class ChainedRunnablePart<T, R>(
                     return@runTask
                 } else throw e
             }
-            next?.startCatching(result, exceptionClass, exceptionHandler, exceptionSync)
+            next?.startCatching(result, exceptionClass, exceptionSync, exceptionHandler)
         }
     }
 }
@@ -82,10 +82,11 @@ class ChainedRunnablePartFirst<R>(
             = start(Unit)
 
     override fun <E : Exception> executeCatchingImpl(
-        exceptionClass: KClass<E>, exceptionHandler: ((E) -> Unit)?,
-        exceptionSync: Boolean
+        exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?
     ) =
-        startCatching(Unit, exceptionClass, exceptionHandler, exceptionSync)
+        startCatching(Unit, exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: Unit) = runnable.invoke()
 
@@ -101,10 +102,11 @@ class ChainedRunnablePartThen<T, R>(
             = previous.execute()
 
     override fun <E : Exception> executeCatchingImpl(
-        exceptionClass: KClass<E>, exceptionHandler: ((E) -> Unit)?,
-        exceptionSync: Boolean
+        exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?
     ) =
-        previous.executeCatchingImpl(exceptionClass, exceptionHandler, exceptionSync)
+        previous.executeCatchingImpl(exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: T) = runnable.invoke(data)
 
