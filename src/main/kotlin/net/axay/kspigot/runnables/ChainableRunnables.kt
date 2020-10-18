@@ -2,8 +2,6 @@
 
 package net.axay.kspigot.runnables
 
-import net.axay.kspigot.main.KSpigotMainInstance
-import org.bukkit.Bukkit
 import kotlin.reflect.KClass
 
 abstract class ChainedRunnablePart<T, R>(
@@ -14,15 +12,38 @@ abstract class ChainedRunnablePart<T, R>(
 
     protected abstract fun invoke(data: T): R
 
+    /**
+     * Begins execution of this chained runnable.
+     */
     abstract fun execute()
 
-    abstract fun <E : Exception> executeCatching(
-            @Suppress("UNCHECKED_CAST") exceptionClass: KClass<E> = Exception::class as KClass<E>,
-            exceptionHandler: ((E) -> Unit)? = null
+    /**
+     * Begins execution of this chained runnable, catching any exception of
+     * type [E] and passing it to the optional [exceptionHandler].
+     *
+     * @param exceptionSync whether the exception handler should be executed
+     * synchronously or asynchronously, defaults to `true` (Note that usage of
+     * any Spigot API functions requires it to be sync)
+     */
+    inline fun <reified E : Exception> executeCatching(
+        exceptionSync: Boolean = true,
+        noinline exceptionHandler: ((E) -> Unit)? = null
+    ) {
+        executeCatchingImpl(E::class, exceptionSync, exceptionHandler)
+    }
+
+    /**
+     * Has to be public for use in inline function [executeCatching], not
+     * intended to be used directly.
+     */
+    abstract fun <E : Exception> executeCatchingImpl(
+        exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?,
     )
 
     protected fun start(data: T) {
-        this.run {
+        bukkitRun(sync) {
             val result = invoke(data)
             next?.start(result)
         }
@@ -31,28 +52,27 @@ abstract class ChainedRunnablePart<T, R>(
     protected fun <E : Exception> startCatching(
         data: T,
         exceptionClass: KClass<E>,
-        exceptionHandler: ((E) -> Unit)?
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?,
     ) {
-        this.run {
+        bukkitRun(sync) {
             val result = try {
                 invoke(data)
             } catch (e: Exception) {
                 if (exceptionClass.isInstance(e)) {
                     @Suppress("UNCHECKED_CAST")
-                    exceptionHandler?.invoke(e as E)
-                    null
+                    if (sync == exceptionSync) {
+                        exceptionHandler?.invoke(e as E)
+                    } else if (exceptionHandler != null) {
+                        bukkitRun(exceptionSync) {
+                            exceptionHandler.invoke(e as E)
+                        }
+                    }
+                    return@bukkitRun
                 } else throw e
             }
-            if (result != null)
-                next?.startCatching(result, exceptionClass, exceptionHandler)
+            next?.startCatching(result, exceptionClass, exceptionSync, exceptionHandler)
         }
-    }
-
-    private fun run(realRunnable: () -> Unit) {
-        if (sync)
-            Bukkit.getScheduler().runTask(KSpigotMainInstance, realRunnable)
-        else
-            Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, realRunnable)
     }
 
 }
@@ -65,8 +85,11 @@ class ChainedRunnablePartFirst<R>(
     override fun execute()
             = start(Unit)
 
-    override fun <E : Exception> executeCatching(exceptionClass: KClass<E>, exceptionHandler: ((E) -> Unit)?)
-            = startCatching(Unit, exceptionClass, exceptionHandler)
+    override fun <E : Exception> executeCatchingImpl(
+        exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?
+    ) = startCatching(Unit, exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: Unit) = runnable.invoke()
 
@@ -81,8 +104,11 @@ class ChainedRunnablePartThen<T, R>(
     override fun execute()
             = previous.execute()
 
-    override fun <E : Exception> executeCatching(exceptionClass: KClass<E>, exceptionHandler: ((E) -> Unit)?)
-            = previous.executeCatching(exceptionClass, exceptionHandler)
+    override fun <E : Exception> executeCatchingImpl(
+        exceptionClass: KClass<E>,
+        exceptionSync: Boolean,
+        exceptionHandler: ((E) -> Unit)?
+    ) = previous.executeCatchingImpl(exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: T) = runnable.invoke(data)
 

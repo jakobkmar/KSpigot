@@ -105,6 +105,18 @@ fun task(
 }
 
 /**
+ * Executes the given [runnable] either
+ * sync or async (specified by the [sync] parameter).
+ */
+fun bukkitRun(sync: Boolean, runnable: () -> Unit) {
+    if (sync) {
+        sync(runnable)
+    } else {
+        async(runnable)
+    }
+}
+
+/**
  * Starts a synchronous task.
  */
 fun sync(runnable: () -> Unit)
