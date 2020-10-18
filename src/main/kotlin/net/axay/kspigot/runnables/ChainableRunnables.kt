@@ -12,6 +12,9 @@ abstract class ChainedRunnablePart<T, R>(
 
     protected abstract fun invoke(data: T): R
 
+    /**
+     * Begins execution of this chained runnable.
+     */
     abstract fun execute()
 
     /**
@@ -71,6 +74,7 @@ abstract class ChainedRunnablePart<T, R>(
             next?.startCatching(result, exceptionClass, exceptionSync, exceptionHandler)
         }
     }
+
 }
 
 class ChainedRunnablePartFirst<R>(
@@ -85,8 +89,7 @@ class ChainedRunnablePartFirst<R>(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,
         exceptionHandler: ((E) -> Unit)?
-    ) =
-        startCatching(Unit, exceptionClass, exceptionSync, exceptionHandler)
+    ) = startCatching(Unit, exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: Unit) = runnable.invoke()
 
@@ -105,8 +108,7 @@ class ChainedRunnablePartThen<T, R>(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,
         exceptionHandler: ((E) -> Unit)?
-    ) =
-        previous.executeCatchingImpl(exceptionClass, exceptionSync, exceptionHandler)
+    ) = previous.executeCatchingImpl(exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: T) = runnable.invoke(data)
 
