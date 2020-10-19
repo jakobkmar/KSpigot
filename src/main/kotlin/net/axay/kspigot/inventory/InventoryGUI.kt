@@ -116,10 +116,10 @@ class InventoryGUIShared<T : ForInventory>(
                         if (invSlot != null) {
                             val offsetSlot = invSlot.add(offsetHorizontally, offsetVertically).realSlotIn(dimensions)
                             if (offsetSlot != null)
-                                bukkitInventory.setItem(offsetSlot, slot.getItemStack(this, offsetSlot))
+                                bukkitInventory.setItem(offsetSlot, slot.getItemStack(offsetSlot))
                         }
                     } else {
-                        bukkitInventory.setItem(it.key, slot.getItemStack(this, it.key))
+                        bukkitInventory.setItem(it.key, slot.getItemStack(it.key))
                     }
 
                 }
