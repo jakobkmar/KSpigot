@@ -2,7 +2,7 @@
 
 package net.axay.kspigot.config
 
-import net.axay.kspigot.languageextensions.createIfNotExists
+import net.axay.kspigot.languageextensions.kotlinextensions.createIfNotExists
 import net.axay.kspigot.main.ValueHolder.getGson
 import java.io.File
 import java.io.FileReader
