@@ -2,7 +2,7 @@
 
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.kotlinextensions.MinMaxPair
+import net.axay.kspigot.languageextensions.MinMaxPair
 
 // INVENTORY
 

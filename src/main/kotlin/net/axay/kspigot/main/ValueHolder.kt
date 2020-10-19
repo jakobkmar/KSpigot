@@ -12,6 +12,6 @@ object ValueHolder {
     private val gson: Gson by lazy { gsonBuilder.create() }
     private val gsonPretty: Gson by lazy { gsonBuilder.setPrettyPrinting().create() }
 
-    fun getGson(pretty: Boolean) = if (pretty) gsonPretty else gson
+    fun getGson(pretty: Boolean = false) = if (pretty) gsonPretty else gson
 
 }

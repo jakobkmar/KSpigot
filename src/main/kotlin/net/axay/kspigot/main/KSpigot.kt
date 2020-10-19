@@ -1,7 +1,7 @@
 package net.axay.kspigot.main
 
 import net.axay.kspigot.inventory.InventoryGUIHolder
-import net.axay.kspigot.kotlinextensions.closeIfInitialized
+import net.axay.kspigot.languageextensions.closeIfInitialized
 import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
 
