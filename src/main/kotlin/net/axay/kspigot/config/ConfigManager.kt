@@ -2,7 +2,7 @@
 
 package net.axay.kspigot.config
 
-import net.axay.kspigot.kotlinextensions.createIfNotExists
+import net.axay.kspigot.languageextensions.createIfNotExists
 import net.axay.kspigot.main.ValueHolder.getGson
 import java.io.File
 import java.io.FileReader
@@ -83,7 +83,7 @@ class ConfigDelegate<T : Any>(
 internal object GsonConfigManager {
 
     fun <T : Any> loadConfig(file: File, configClass: KClass<T>): T =
-        FileReader(file).use { reader -> return getGson(false).fromJson(reader, configClass.java) }
+        FileReader(file).use { reader -> return getGson().fromJson(reader, configClass.java) }
 
     fun <T : Any> saveConfig(file: File, config: T, pretty: Boolean = true) {
         file.createIfNotExists()

@@ -23,4 +23,4 @@ fun SpigotSerializable<*>.serialize(pretty: Boolean = true): String = ValueHolde
  */
 @Suppress("unused")
 inline fun <reified T> SpigotSerialzableCompanion<T>.deserialize(json: String): T =
-    ValueHolder.getGson(false).fromJson(json, T::class.java)
+    ValueHolder.getGson().fromJson(json, T::class.java)
