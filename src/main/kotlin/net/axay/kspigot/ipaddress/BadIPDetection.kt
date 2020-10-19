@@ -38,6 +38,12 @@ fun Player.checkIP(
 /**
  * @param services A list of [BadIPDetectionService]s.
  * The order matters!
+ *
+ * Available services:
+ *  - [net.axay.kspigot.ipaddress.badipdetectionservices.IPInfo] (recommended, but requires login)
+ *  - [net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel]
+ *  - [net.axay.kspigot.ipaddress.badipdetectionservices.IPHub]
+ *  - [net.axay.kspigot.ipaddress.badipdetectionservices.VPNBlocker]
  */
 class BadIPDetector(
     val services: List<BadIPDetectionService>
