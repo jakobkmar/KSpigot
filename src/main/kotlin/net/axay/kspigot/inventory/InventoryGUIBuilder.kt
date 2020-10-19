@@ -146,6 +146,17 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         )
     )
 
+    fun <E> compoundSpace(
+        slots: InventorySlotCompound<T>,
+        compound: InventoryGUISpaceCompound<T, E>
+    ) {
+        compound.addSlots(slots)
+        defineSlots(
+            slots,
+            InventoryGUISpaceCompoundElement(compound)
+        )
+    }
+
     private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
