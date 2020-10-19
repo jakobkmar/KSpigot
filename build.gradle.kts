@@ -57,6 +57,9 @@ dependencies {
     compileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
     testCompileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
 
+    // KHTTP
+    implementation("khttp", "khttp", "1.0.0")
+
 }
 
 /*
