@@ -1,7 +1,7 @@
 package net.axay.kspigot.sound
 
 import net.axay.kspigot.extensions.bukkit.worldOrException
-import net.axay.kspigot.languageextensions.applyIfNotNull
+import net.axay.kspigot.languageextensions.kotlinextensions.applyIfNotNull
 import org.bukkit.Location
 import org.bukkit.Sound
 import org.bukkit.SoundCategory
