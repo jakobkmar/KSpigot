@@ -49,6 +49,10 @@ class BadIPDetector(
     val services: List<BadIPDetectionService>
 ) {
 
+    /**
+     * Alternative constructor.
+     * @see BadIPDetector
+     */
     constructor(vararg services: BadIPDetectionService) : this(services.toList())
 
     companion object {
