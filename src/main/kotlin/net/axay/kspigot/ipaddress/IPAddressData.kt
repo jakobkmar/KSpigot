@@ -3,9 +3,10 @@
 package net.axay.kspigot.ipaddress
 
 import com.google.gson.JsonObject
+import net.axay.kspigot.languageextensions.fromUrlJson
+import net.axay.kspigot.languageextensions.getStringOrNull
 import net.axay.kspigot.main.ValueHolder
 import org.bukkit.entity.Player
-import java.net.URL
 
 private const val IP_API = "http://ip-api.com/json/"
 private const val IP_API_FIELDS =
@@ -27,9 +28,8 @@ fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage
 
         val hostString = address?.hostString ?: return null
 
-        val jsonObject = ValueHolder.getGson(false).fromJson(
-            URL("$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}").readText(),
-            JsonObject::class.java
+        val jsonObject = ValueHolder.getGson().fromUrlJson(
+            "$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}"
         ) ?: return null
 
         if (jsonObject["status"].toString() == "fail") return null
@@ -55,32 +55,26 @@ enum class IPAddressDataLanguage(val code: String) {
 
 class IPAddressData(private val json: JsonObject) {
 
-    val ip get() = json.getString("query")
+    val ip get() = json.getStringOrNull("query")
 
     // region
-    val continent get() = json.getString("continent")
-    val continentCode get() = json.getString("continentCode")
-    val country get() = json.getString("country")
-    val countryCode get() = json.getString("countryCode")
-    val region get() = json.getString("regionName")
-    val regionCode get() = json.getString("region")
-    val city get() = json.getString("city")
-    val district get() = json.getString("district")
-    val postalCode get() = json.getString("zip")
-    val timezone get() = json.getString("timezone")
+    val continent get() = json.getStringOrNull("continent")
+    val continentCode get() = json.getStringOrNull("continentCode")
+    val country get() = json.getStringOrNull("country")
+    val countryCode get() = json.getStringOrNull("countryCode")
+    val region get() = json.getStringOrNull("regionName")
+    val regionCode get() = json.getStringOrNull("region")
+    val city get() = json.getStringOrNull("city")
+    val district get() = json.getStringOrNull("district")
+    val postalCode get() = json.getStringOrNull("zip")
+    val timezone get() = json.getStringOrNull("timezone")
 
     // position
-    val latitude get() = json.getString("lat")
-    val longitude get() = json.getString("lon")
+    val latitude get() = json.getStringOrNull("lat")
+    val longitude get() = json.getStringOrNull("lon")
 
     // information
-    val internetServiceProvider get() = json.getString("isp")
-    val organisation get() = json.getString("org")
+    val internetServiceProvider get() = json.getStringOrNull("isp")
+    val organisation get() = json.getStringOrNull("org")
 
-}
-
-private fun JsonObject.getString(key: String) = try {
-    this[key].toString()
-} catch (exc: Exception) {
-    null
 }
