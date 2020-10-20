@@ -5,7 +5,7 @@ package net.axay.kspigot.inventory
 import net.axay.kspigot.inventory.elements.*
 import org.bukkit.inventory.ItemStack
 
-fun <T : ForInventory> inventoryGUI(
+fun <T : ForInventory> kSpigotGUI(
     type: InventoryType<T>,
     builder: InventoryGUIBuilder<T>.() -> Unit,
 ) = InventoryGUIBuilder(type).apply(builder).build()
