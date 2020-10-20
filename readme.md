@@ -170,14 +170,14 @@ onDisable() with shutdown()
 ### Simple runnables and schedulers:
 
 ```kotlin
-plugin.async { /* short form for async tasks */ }
+async { /* short form for async tasks */ }
 ```
 ```kotlin
-plugin.sync { /* sync some code to bukkits main thread */ }
+sync { /* sync some code to bukkits main thread */ }
 ```
 
 ```kotlin
-kSpigot.task(
+task(
     sync = false,
     delay = 25,
     period = 20,
@@ -202,23 +202,23 @@ With the `kSpigot.task()` method you have the possibility to set the parameter `
 This makes it possible to do resource intensive tasks asynchronous and then doing something with the result synchronous (e.g. because Spigot forces you) in a simple way.
 
 ```kotlin
-kSpigot.firstAsync { 
+firstAsync { 
     // do a resource intensive task
     ArrayList<Block>() // -> this will be forwarded to the next part of the chain as "it"
 }.thenSync {
     // do something with the result
-    it?.forEach { }
-}.thenAsync { 
+    it.forEach { }
+}.thenAsync {
     // and so on...
-}
+}.execute()
 ```
 
 ### Inventory GUI API
 
-Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot Inventory GUI API provides an easy way to build inventory GUIs the way you would expect a GUI to be. In addition, it offers full type safety for slots.
+Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot Inventory GUI API provides an easy way to build inventory GUIs the way you would expect such an API to be. In addition, it offers full type safety for slots.
 
 ```kotlin
-val gui = kSpigot.inventoryGUI(InventoryGUIType.FIVE_BY_NINE) {
+val gui = inventoryGUI(InventoryGUIType.FIVE_BY_NINE) {
 
     title = "Example Inventory"
 
@@ -296,7 +296,7 @@ val wand = itemStack(Material.GOLD_BLOCK) {
 
 ### Complex chat components
 
-Creating chat components can get very messy quickly. However, creating a component with Spigot is much more developer-friendly.
+Creating chat components can get very messy quickly. However, creating a component with KSpigot is much more developer-friendly.
 
 ```kotlin
 val component = chatComponent {
@@ -357,7 +357,7 @@ val deserializeMethod2 = NBTData.deserialize(serializedString)
 livingEntity.isInWater // checks if both feet and head are in water
 livingEntity.isHeadInWater // checks if the head (eye location) is in water
 entity.isFeetInWater // checks if the feet are in water
-entity.isGroundSolid // checks if the entity stands on a solid material
+entity.isGroundSolid // checks if the entity stands on solid material
 damageable.kill() // instantly kills the damageable
 livingEntity.heal() // sets the health to the maximum health (if given - else throws Exception)
 player.feed() // sets the players food level to 20
@@ -384,7 +384,7 @@ val blockFace = cardinal.facing
 
 ### CustomItemIdentifiers
 You want to mess with resourcepacks and extend your possibilities? <br>
-Spigot is lacking a representation of custom items (via custom model data). This is what the data class `CustomItemIdentifier` is for!
+Spigot is lacking a representation of custom items (via custom model data). This is what the data class `CustomItemIdentifier` is for.
 
 ```kotlin
 val identifier = CustomItemIdentifier(itemStack)
@@ -408,7 +408,7 @@ loc - vec(x = 3, z = 5.6f) * 3 * vecXZ(7, 3.1)
 Kotlins' language design allows you to create listeners in a very short way.
 
 ```kotlin
-kSpigot.listen<PlayerMoveEvent> {
+listen<PlayerMoveEvent> {
     it.player.kick("Do not move!")
 }
 ```
@@ -418,13 +418,13 @@ NOTE:
 
 The following extension methods can be used on any listener:
 ```kotlin
-listener.register(plugin)
+listener.register()
 listener.unregister()
 ```
 
 ### Structures
 
-A structure is a set of data defining what data is in a specific area.
+A structure is a set of data defining what is inside of a specific area.
 
 #### LocationArea
 
@@ -466,7 +466,7 @@ structure.buildAt(loc)
 
 ##### Circle
 
-There are different circle types, all inherting from `Circle`.
+There are different circle types, all inheriting from `Circle`.
 
 ```kotlin
 val circle = MaterialCircle(radius, Material.GRASS_BLOCK)
@@ -488,7 +488,7 @@ circle.edgeStructure
 
 ### IP Address API
 
-This API allows you to easily get some data about the IP address of a player. Please note that it is not promised that this api always returns some data: _After exceeding a certain amount of request per minute, the request will return null._
+This API allows you to easily get some data from the IP address of a player. Please note that it is not promised that this always returns data: _After exceeding a certain amount of request per minute, the request will return null._
 
 ```kotlin
 player.ipAddressData
@@ -561,7 +561,7 @@ val game = buildGame {
 
 }
 
-game.begin(kSpigot)
+game.begin()
 ```
 Idle phases are still in development.
 
