@@ -1,6 +1,7 @@
 package net.axay.kspigot.inventory
 
 import net.axay.kspigot.event.listen
+import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 
 object InventoryGUIHolder : AutoCloseable {
@@ -28,11 +29,10 @@ object InventoryGUIHolder : AutoCloseable {
                 return@listen
             }
 
-            val invPage = inv.currentPageInt
-
-            val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
-            if (slot != null)
-                slot.onClick(InventoryGUIClickEvent(it, inv))
+            if (it.action.isGUIClick)
+                inv.currentPage.slots[it.slot]?.onClick(InventoryGUIClickEvent(it, inv)) ?: kotlin.run {
+                    it.isCancelled = true
+                }
             else
                 it.isCancelled = true
 
@@ -45,3 +45,6 @@ object InventoryGUIHolder : AutoCloseable {
     }
 
 }
+
+private val InventoryAction.isGUIClick
+    get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF
