@@ -5,7 +5,7 @@ import org.bukkit.inventory.ItemStack
 
 open class InventoryGUIButton<T : ForInventory>(
     private val icon: ItemStack,
-    val action: (InventoryGUIClickEvent<T>) -> Unit,
+    private val action: (InventoryGUIClickEvent<T>) -> Unit,
 ) : InventoryGUIElement<T>() {
 
     override fun getItemStack(slot: Int) = icon
