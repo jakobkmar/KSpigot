@@ -2,75 +2,8 @@
 
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.event.listen
-import org.bukkit.entity.HumanEntity
-import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.inventory.Inventory
-import org.bukkit.inventory.InventoryView
 import org.bukkit.inventory.ItemStack
-
-// EXTENSIONS
-
-fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView? {
-
-    closeInventory()
-
-    if (page != null)
-        gui.loadPageUnsafe(page)
-
-    return openInventory(gui.bukkitInventory)
-
-}
-
-// GUI HOLDER
-
-object InventoryGUIHolder : AutoCloseable {
-
-    private val registered = HashSet<InventoryGUI<ForInventory>>()
-
-    fun register(inventoryGUI: InventoryGUI<ForInventory>) {
-        registered.add(inventoryGUI)
-    }
-
-    fun unregister(inventoryGUI: InventoryGUI<ForInventory>) {
-        registered.remove(inventoryGUI)
-    }
-
-    init {
-
-        listen<InventoryClickEvent> {
-
-            val clickedInv = it.clickedInventory ?: return@listen
-
-            val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
-            val invPage = inv.currentPageInt
-
-            val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
-            if (slot != null)
-                slot.onClick(InventoryGUIClickEvent(it, inv))
-            else
-                it.isCancelled = true
-
-        }
-    }
-
-    override fun close() {
-        registered.forEach { inv -> inv.bukkitInventory.viewers.forEach { it.closeInventory() } }
-        registered.clear()
-    }
-
-}
-
-// EVENT
-
-class InventoryGUIClickEvent<T : ForInventory>(
-    val bukkitEvent: InventoryClickEvent,
-    val gui: InventoryGUI<T>
-)
-
-/*
- * INVENTORY GUI
- */
 
 private const val DEFAULT_PAGE = 1
 
@@ -94,13 +27,25 @@ abstract class InventoryGUI<T : ForInventory>(
 
     internal abstract val bukkitInventory: Inventory
 
+    internal var isInMove: Boolean = false
+
+    internal abstract fun loadPageUnsafe(
+        page: Int,
+        offsetHorizontally: Int = 0,
+        offsetVertically: Int = 0
+    )
+
     internal abstract fun loadPageUnsafe(
         page: InventoryGUIPage<*>,
         offsetHorizontally: Int = 0,
         offsetVertically: Int = 0
     )
 
-    internal abstract fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0)
+    internal abstract fun loadContent(
+        content: Map<Int, InventoryGUISlot<*>>,
+        offsetHorizontally: Int = 0,
+        offsetVertically: Int = 0
+    )
 
     /**
      * @return True, if the [inventory] belongs to this GUI.
@@ -136,6 +81,14 @@ abstract class InventoryGUI<T : ForInventory>(
      */
     fun getPage(page: Int?) = data.pages[page]
 
+    /**
+     * Reloads the current page.
+     */
+    fun reloadCurrentPage() {
+        if (!isInMove)
+            loadPage(currentPage)
+    }
+
 }
 
 // Inventory GUI implementations
@@ -152,53 +105,65 @@ class InventoryGUIShared<T : ForInventory>(
 
     override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
 
+    override fun loadPageUnsafe(page: Int, offsetHorizontally: Int, offsetVertically: Int) {
+        data.pages[page]?.let { loadPageUnsafe(it, offsetHorizontally, offsetVertically) }
+    }
+
     override fun loadPageUnsafe(page: InventoryGUIPage<*>, offsetHorizontally: Int, offsetVertically: Int) {
 
         val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
 
-        if (!ifOffset)
+        if (!ifOffset) {
+
+            // unregister this inv from all elements on the previous page
+            HashSet(currentPage.slots.values).forEach { if (it is InventoryGUIElement) it.stopUsing(this) }
+
             currentPageInt = page.number
 
-        page.slots.let { slots ->
+        }
 
-            val dimensions = data.inventoryType.dimensions
+        loadContent(page.slots, offsetHorizontally, offsetVertically)
 
-            if (ifOffset) {
-                dimensions.invSlots.forEach {
-                    dimensions.invSlotsWithRealSlots[it.add(offsetHorizontally, offsetVertically)]?.let { slotToClear ->
-                        if (dimensions.realSlots.contains(slotToClear))
-                            bukkitInventory.clear(slotToClear)
-                    }
-                }
-            } else {
-                bukkitInventory.clear()
+    }
+
+    override fun loadContent(
+        content: Map<Int, InventoryGUISlot<*>>,
+        offsetHorizontally: Int,
+        offsetVertically: Int
+    ) {
+
+        val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
+
+        val dimensions = data.inventoryType.dimensions
+
+        // clear the space which will be redefined
+        if (ifOffset) {
+            dimensions.invSlots.forEach {
+                val slotToClear = dimensions.invSlotsWithRealSlots[it.add(offsetHorizontally, offsetVertically)]
+                if (slotToClear != null) bukkitInventory.clear(slotToClear)
             }
+        } else bukkitInventory.clear()
 
-            slots.forEach {
-                val slot = it.value
-                if (slot is InventoryGUIElement) {
+        content.forEach {
 
-                    if (ifOffset) {
-                        val invSlot = InventorySlot.fromRealSlot(it.key, dimensions)
-                        if (invSlot != null) {
-                            val offsetSlot = invSlot.add(offsetHorizontally, offsetVertically).realSlotIn(dimensions)
-                            if (offsetSlot != null)
-                                bukkitInventory.setItem(offsetSlot, slot.inventoryGUIElementData.itemStack)
-                        }
-                    } else {
-                        bukkitInventory.setItem(it.key, slot.inventoryGUIElementData.itemStack)
+            val slot = it.value
+            if (slot is InventoryGUIElement) {
+
+                if (ifOffset) {
+                    val invSlot = InventorySlot.fromRealSlot(it.key, dimensions)
+                    if (invSlot != null) {
+                        val offsetSlot = invSlot.add(offsetHorizontally, offsetVertically).realSlotIn(dimensions)
+                        if (offsetSlot != null) bukkitInventory.setItem(offsetSlot, slot.getItemStack(offsetSlot))
                     }
-
+                } else {
+                    bukkitInventory.setItem(it.key, slot.getItemStack(it.key))
+                    slot.startUsing(this)
                 }
 
             }
 
         }
 
-    }
-
-    override fun loadPageUnsafe(page: Int, offsetHorizontally: Int, offsetVertically: Int) {
-        data.pages[page]?.let { loadPageUnsafe(it, offsetHorizontally, offsetVertically) }
     }
 
     override operator fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
@@ -208,10 +173,3 @@ class InventoryGUIShared<T : ForInventory>(
     }
 
 }
-
-class InventoryGUIPage<T : ForInventory>(
-    val number: Int,
-    internal val slots: Map<Int, InventoryGUISlot<T>>,
-    val transitionTo: PageChangeEffect?,
-    val transitionFrom: PageChangeEffect?
-)

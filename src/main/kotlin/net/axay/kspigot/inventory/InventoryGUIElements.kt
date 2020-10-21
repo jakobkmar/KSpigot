@@ -8,13 +8,9 @@ abstract class InventoryGUISlot<T : ForInventory> {
 
 // ELEMENT
 
-class InventoryGUIElementData(
-    val itemStack: ItemStack
-)
+abstract class InventoryGUIElement<T : ForInventory> : InventoryGUISlot<T>() {
 
-abstract class InventoryGUIElement<T : ForInventory>(
-    val inventoryGUIElementData: InventoryGUIElementData
-) : InventoryGUISlot<T>() {
+    abstract fun getItemStack(slot: Int): ItemStack
 
     final override fun onClick(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.gui.data.generalOnClick?.invoke(clickEvent)
@@ -22,5 +18,8 @@ abstract class InventoryGUIElement<T : ForInventory>(
     }
 
     protected abstract fun onClickElement(clickEvent: InventoryGUIClickEvent<T>)
+
+    internal open fun startUsing(gui: InventoryGUI<*>) { }
+    internal open fun stopUsing(gui: InventoryGUI<*>) { }
 
 }

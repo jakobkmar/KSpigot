@@ -5,13 +5,15 @@ package net.axay.kspigot.inventory
 import net.axay.kspigot.inventory.elements.*
 import org.bukkit.inventory.ItemStack
 
-fun <T : ForInventory> inventoryGUI(
+fun <T : ForInventory> kSpigotGUI(
     type: InventoryType<T>,
+    shared: Boolean = true,
     builder: InventoryGUIBuilder<T>.() -> Unit,
-) = InventoryGUIBuilder(type).apply(builder).build()
+) = InventoryGUIBuilder(type, shared).apply(builder).build()
 
 class InventoryGUIBuilder<T : ForInventory>(
-    val type: InventoryType<T>
+    val type: InventoryType<T>,
+    val shared: Boolean
 ) {
 
     var title: String = ""
@@ -36,14 +38,17 @@ class InventoryGUIBuilder<T : ForInventory>(
         onClickElement = onClick
     }
 
-    internal fun build() = InventoryGUIShared(
-        InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
-    ).apply { register() }
+    internal fun build(): InventoryGUI<T> {
+        val guiData = InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+        val gui =
+            if (shared) InventoryGUIShared(guiData) else TODO("Currently, there is no non-shared GUI implementation available.")
+        return gui.apply { register() }
+    }
 
 }
 
 class InventoryGUIPageBuilder<T : ForInventory>(
-    val type: InventoryType<T>,
+    private val type: InventoryType<T>,
     val page: Int
 ) {
 
@@ -60,14 +65,14 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      * function is invoked.
      */
     fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (InventoryGUIClickEvent<T>) -> Unit) =
-        defineSlots(slots, InventoryGUIButton(InventoryGUIElementData(itemStack), onClick))
+        defineSlots(slots, InventoryGUIButton(itemStack, onClick))
 
     /**
      * An item protected from any player actions.
      * This is not a button.
      */
     fun placeholder(slots: InventorySlotCompound<T>, itemStack: ItemStack) =
-        defineSlots(slots, InventoryGUIPlaceholder(InventoryGUIElementData(itemStack)))
+        defineSlots(slots, InventoryGUIPlaceholder(itemStack))
 
     /**
      * A free slot does not block any player actions.
@@ -87,7 +92,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUIConsistentPageCalculator(toPage),
             onChange
         )
@@ -104,7 +109,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUIPreviousPageCalculator,
             onChange
         )
@@ -121,7 +126,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             InventoryGUIPageChangeCalculator.InventoryGUINextPageCalculator,
             onChange
         )
@@ -139,12 +144,36 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonInventoryChange(
-            InventoryGUIElementData(itemStack),
+            itemStack,
             newGUI,
             newPage,
             onChange
         )
     )
+
+    /**
+     * Defines an area where the content of the given compound
+     * is displayed.
+     */
+    fun <E> compoundSpace(
+        slots: InventorySlotCompound<T>,
+        compound: InventoryGUISpaceCompound<T, E>
+    ) {
+        compound.addSlots(slots)
+        defineSlots(
+            slots,
+            InventoryGUISpaceCompoundElement(compound)
+        )
+    }
+
+    /**
+     * Creates a new compound, holding data which can be displayed
+     * in any compound space.
+     */
+    fun <E> createCompound(
+        iconGenerator: (E) -> ItemStack,
+        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
+    ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
 
     private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->

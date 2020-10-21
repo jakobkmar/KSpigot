@@ -1,14 +1,14 @@
 package net.axay.kspigot.inventory.elements
 
-import net.axay.kspigot.inventory.ForInventory
-import net.axay.kspigot.inventory.InventoryGUIClickEvent
-import net.axay.kspigot.inventory.InventoryGUIElement
-import net.axay.kspigot.inventory.InventoryGUIElementData
+import net.axay.kspigot.inventory.*
+import org.bukkit.inventory.ItemStack
 
 open class InventoryGUIButton<T : ForInventory>(
-    inventoryGUIElementData: InventoryGUIElementData,
+    private val icon: ItemStack,
     val action: (InventoryGUIClickEvent<T>) -> Unit,
-) : InventoryGUIElement<T>(inventoryGUIElementData) {
+) : InventoryGUIElement<T>() {
+
+    override fun getItemStack(slot: Int) = icon
 
     override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
         clickEvent.bukkitEvent.isCancelled = true

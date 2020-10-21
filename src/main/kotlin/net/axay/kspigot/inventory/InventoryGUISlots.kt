@@ -2,26 +2,20 @@
 
 package net.axay.kspigot.inventory
 
-import net.axay.kspigot.languageextensions.MinMaxPair
+import net.axay.kspigot.languageextensions.kotlinextensions.MinMaxPair
 
 // INVENTORY
 
-data class InventoryDimensions(val width: Int, val heigth: Int) {
+data class InventoryDimensions(val width: Int, val height: Int) {
+
+    val slotAmount = width * height
 
     val invSlots by lazy {
         ArrayList<InventorySlot>().apply {
-            (1..heigth).forEach { row ->
+            (1..height).forEach { row ->
                 (1..width).forEach { slotInRow ->
                     this += InventorySlot(row, slotInRow)
                 }
-            }
-        }
-    }
-
-    val realSlots by lazy {
-        ArrayList<Int>().apply {
-            invSlots.forEach { curSlot ->
-                curSlot.realSlotIn(this@InventoryDimensions)?.let { this += it }
             }
         }
     }
@@ -33,6 +27,8 @@ data class InventoryDimensions(val width: Int, val heigth: Int) {
             }
         }
     }
+
+    val realSlots by lazy { invSlotsWithRealSlots.values }
 
 }
 
@@ -57,13 +53,13 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 
     fun realSlotIn(inventoryDimensions: InventoryDimensions): Int? {
         if (!isInDimension(inventoryDimensions)) return null
-        val realRow = inventoryDimensions.heigth - (row - 1)
+        val realRow = inventoryDimensions.height - (row - 1)
         val rowsUnder = if (realRow - 1 >= 0) realRow - 1 else 0
         return ((rowsUnder * inventoryDimensions.width) + slotInRow) - 1
     }
 
     fun isInDimension(inventoryDimensions: InventoryDimensions) =
-        (1..inventoryDimensions.width).contains(slotInRow) && (1..inventoryDimensions.heigth).contains(row)
+        (1..inventoryDimensions.width).contains(slotInRow) && (1..inventoryDimensions.height).contains(row)
 
     fun add(offsetHorizontally: Int, offsetVertically: Int) = InventorySlot(
         row + offsetVertically,
@@ -182,7 +178,7 @@ class InventoryColumnSlots<T : ForInventory> internal constructor(
 ) : InventorySlotCompound<T> {
 
     override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
-        for (row in 1..invType.dimensions.heigth)
+        for (row in 1..invType.dimensions.height)
             this += InventorySlot(row, column)
     }
 
@@ -199,9 +195,9 @@ class InventoryBorderSlots<T : ForInventory> internal constructor(
         for (currentPadding in 0 until padding) {
             for (slotInRow in 1 + currentPadding..dimensions.width - currentPadding) {
                 this += InventorySlot(1, slotInRow)
-                this += InventorySlot(dimensions.heigth, slotInRow)
+                this += InventorySlot(dimensions.height, slotInRow)
             }
-            for (row in 2 + currentPadding until dimensions.heigth - currentPadding) {
+            for (row in 2 + currentPadding until dimensions.height - currentPadding) {
                 this += InventorySlot(row, 1)
                 this += InventorySlot(row, dimensions.width)
             }
@@ -224,8 +220,8 @@ class InventoryCornerSlots<T : ForInventory> internal constructor(
 
         if (ifBottomLeft) this += InventorySlot(1, 1)
         if (ifBottomRight) this += InventorySlot(1, dimensions.width)
-        if (ifTopLeft) this += InventorySlot(dimensions.heigth, 1)
-        if (ifTopRight) this += InventorySlot(dimensions.heigth, dimensions.width)
+        if (ifTopLeft) this += InventorySlot(dimensions.height, 1)
+        if (ifTopRight) this += InventorySlot(dimensions.height, dimensions.width)
 
     }
 
