@@ -27,6 +27,8 @@ abstract class InventoryGUI<T : ForInventory>(
 
     internal abstract val bukkitInventory: Inventory
 
+    internal var isInMove: Boolean = false
+
     internal abstract fun loadPageUnsafe(
         page: Int,
         offsetHorizontally: Int = 0,
@@ -78,6 +80,14 @@ abstract class InventoryGUI<T : ForInventory>(
      * Searches for a page associated to the given [page] index.
      */
     fun getPage(page: Int?) = data.pages[page]
+
+    /**
+     * Reloads the current page.
+     */
+    fun reloadCurrentPage() {
+        if (!isInMove)
+            loadPage(currentPage)
+    }
 
 }
 

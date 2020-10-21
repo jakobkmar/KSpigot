@@ -22,6 +22,12 @@ object InventoryGUIHolder : AutoCloseable {
             val clickedInv = it.clickedInventory ?: return@listen
 
             val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
+
+            if (inv.isInMove) {
+                it.isCancelled = true
+                return@listen
+            }
+
             val invPage = inv.currentPageInt
 
             val slot = inv.data.pages[invPage]?.slots?.get(it.slot)
