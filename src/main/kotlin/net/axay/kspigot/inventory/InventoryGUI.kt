@@ -29,6 +29,8 @@ abstract class InventoryGUI<T : ForInventory>(
 
     internal var isInMove: Boolean = false
 
+    internal val currentElements = HashSet<InventoryGUIElement<*>>()
+
     internal abstract fun loadPageUnsafe(
         page: Int,
         offsetHorizontally: Int = 0,
@@ -116,7 +118,14 @@ class InventoryGUIShared<T : ForInventory>(
         if (!ifOffset) {
 
             // unregister this inv from all elements on the previous page
-            HashSet(currentPage.slots.values).forEach { if (it is InventoryGUIElement) it.stopUsing(this) }
+            currentElements.forEach { it.stopUsing(this) }
+            currentElements.clear()
+
+            // register this inv for all new elements
+            HashSet(page.slots.values).forEach { if (it is InventoryGUIElement) {
+                currentElements += it
+                it.startUsing(this)
+            } }
 
             currentPageInt = page.number
 
@@ -144,6 +153,7 @@ class InventoryGUIShared<T : ForInventory>(
             }
         } else bukkitInventory.clear()
 
+        // render the given content
         content.forEach {
 
             val slot = it.value
@@ -155,10 +165,7 @@ class InventoryGUIShared<T : ForInventory>(
                         val offsetSlot = invSlot.add(offsetHorizontally, offsetVertically).realSlotIn(dimensions)
                         if (offsetSlot != null) bukkitInventory.setItem(offsetSlot, slot.getItemStack(offsetSlot))
                     }
-                } else {
-                    bukkitInventory.setItem(it.key, slot.getItemStack(it.key))
-                    slot.startUsing(this)
-                }
+                } else bukkitInventory.setItem(it.key, slot.getItemStack(it.key))
 
             }
 
