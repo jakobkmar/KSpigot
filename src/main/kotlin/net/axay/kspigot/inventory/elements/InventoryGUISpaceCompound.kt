@@ -32,27 +32,34 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
 
     private val realInternalSlots = ArrayList<Int>()
 
-    private val currentInternalSlots: List<Int> get() {
+    private val currentInternalSlots: List<Int>
+        get() {
 
-        val result = ArrayList(realInternalSlots)
+            val result = ArrayList(realInternalSlots)
 
-        var more = 1
-        while (content.size > result.size) {
-            result += realInternalSlots.mapTo(ArrayList()) { it + (more * invType.dimensions.slotAmount) }
-            more++
-        }
-
-        return result
-
-    }
-
-    internal var scrolledLines: Int = 0
-        set(value) {
-            if (((value - 1) * invType.dimensions.width) < content.size) {
-                field = value
-                onChange()
+            var more = 1
+            while (content.size > result.size) {
+                result += realInternalSlots.mapTo(ArrayList()) { it + (more * invType.dimensions.slotAmount) }
+                more++
             }
+
+            return result
+
         }
+
+    internal var scrolledLines: Int = 0; private set
+
+    fun scroll(distance: Int): Boolean {
+        val value = scrolledLines + distance
+        return if (
+            value >= 0 &&
+            ((value - 1) * invType.dimensions.width) < content.size
+        ) {
+            scrolledLines = value
+            onChange()
+            true
+        } else false
+    }
 
     private var contentSort: () -> Unit = { }
 
