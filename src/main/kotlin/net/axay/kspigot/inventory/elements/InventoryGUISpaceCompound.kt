@@ -18,7 +18,7 @@ class InventoryGUISpaceCompoundElement<T : ForInventory, E>(
 
 }
 
-class InventoryGUISpaceCompound<T : ForInventory, E> internal constructor(
+class InventoryGUISpaceCompound<T : ForInventory, E>(
     private val invType: InventoryType<T>,
     private val iconGenerator: (E) -> ItemStack,
     private val onClick: (InventoryGUIClickEvent<T>, E) -> Unit
