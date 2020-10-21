@@ -7,11 +7,13 @@ import org.bukkit.inventory.ItemStack
 
 fun <T : ForInventory> kSpigotGUI(
     type: InventoryType<T>,
+    shared: Boolean = true,
     builder: InventoryGUIBuilder<T>.() -> Unit,
-) = InventoryGUIBuilder(type).apply(builder).build()
+) = InventoryGUIBuilder(type, shared).apply(builder).build()
 
 class InventoryGUIBuilder<T : ForInventory>(
-    val type: InventoryType<T>
+    val type: InventoryType<T>,
+    val shared: Boolean
 ) {
 
     var title: String = ""
@@ -36,9 +38,12 @@ class InventoryGUIBuilder<T : ForInventory>(
         onClickElement = onClick
     }
 
-    internal fun build() = InventoryGUIShared(
-        InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
-    ).apply { register() }
+    internal fun build(): InventoryGUI<T> {
+        val guiData = InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+        val gui =
+            if (shared) InventoryGUIShared(guiData) else TODO("Currently, there is no non-shared GUI implementation available.")
+        return gui.apply { register() }
+    }
 
 }
 
