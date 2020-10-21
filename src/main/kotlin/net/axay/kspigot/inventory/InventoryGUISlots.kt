@@ -38,7 +38,7 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 
     companion object {
         fun fromRealSlot(realSlot: Int, dimensions: InventoryDimensions) =
-            dimensions.invSlotsWithRealSlots.toList().find { it.second == realSlot }?.first
+            dimensions.realSlots.toList().find { it == realSlot }
     }
 
     override fun compareTo(other: InventorySlot) = when {
