@@ -16,6 +16,10 @@ class InventoryGUISpaceCompoundElement<T : ForInventory, E>(
         compound.onClickElement(clickEvent)
     }
 
+    override fun startUsing(gui: InventoryGUI<*>) = compound.registerGUI(gui)
+
+    override fun stopUsing(gui: InventoryGUI<*>) = compound.unregisterGUI(gui)
+
 }
 
 class InventoryGUISpaceCompound<T : ForInventory, E>(
@@ -46,6 +50,8 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
 
     private var contentSort: () -> Unit = { }
 
+    private val registeredGUIs = HashSet<InventoryGUI<*>>()
+
     private fun translateSlot(slot: Int) = (scrolledLines * invType.dimensions.width) + slot
 
     private fun contentAtSlot(slot: Int) = content.getOrNull(
@@ -68,6 +74,14 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
                 realInternalSlots.add(it)
         }
         realInternalSlots.sort()
+    }
+
+    internal fun registerGUI(gui: InventoryGUI<*>) {
+        registeredGUIs += gui
+    }
+
+    internal fun unregisterGUI(gui: InventoryGUI<*>) {
+        registeredGUIs -= gui
     }
 
     /**
@@ -94,7 +108,7 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
     fun addContent(elements: Collection<E>) {
         content += elements
         contentSort.invoke()
-        // TODO reload GUIs using this compound at this time
+        registeredGUIs.forEach { it.reloadCurrentPage() }
     }
 
 }
