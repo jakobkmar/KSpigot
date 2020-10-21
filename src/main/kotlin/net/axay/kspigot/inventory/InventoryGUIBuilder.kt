@@ -4,6 +4,7 @@ package net.axay.kspigot.inventory
 
 import net.axay.kspigot.inventory.elements.*
 import org.bukkit.inventory.ItemStack
+import kotlin.math.absoluteValue
 
 fun <T : ForInventory> kSpigotGUI(
     type: InventoryType<T>,
@@ -59,6 +60,11 @@ class InventoryGUIPageBuilder<T : ForInventory>(
 
     internal fun build() = InventoryGUIPage(page, guiSlots, transitionTo, transitionFrom)
 
+    private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
+        slots.withInvType(type).forEach { curSlot ->
+            curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
+        }
+
     /**
      * A button is an item protected from any player
      * actions. If clicked, the specified [onClick]
@@ -87,12 +93,12 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun pageChanger(
         slots: InventorySlotCompound<T>,
-        itemStack: ItemStack,
+        icon: ItemStack,
         toPage: Int,
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            itemStack,
+            icon,
             InventoryGUIPageChangeCalculator.InventoryGUIConsistentPageCalculator(toPage),
             onChange
         )
@@ -105,11 +111,11 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun previousPage(
         slots: InventorySlotCompound<T>,
-        itemStack: ItemStack,
+        icon: ItemStack,
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            itemStack,
+            icon,
             InventoryGUIPageChangeCalculator.InventoryGUIPreviousPageCalculator,
             onChange
         )
@@ -122,11 +128,11 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun nextPage(
         slots: InventorySlotCompound<T>,
-        itemStack: ItemStack,
+        icon: ItemStack,
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonPageChange(
-            itemStack,
+            icon,
             InventoryGUIPageChangeCalculator.InventoryGUINextPageCalculator,
             onChange
         )
@@ -138,18 +144,27 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun changeGUI(
         slots: InventorySlotCompound<T>,
-        itemStack: ItemStack,
+        icon: ItemStack,
         newGUI: () -> InventoryGUI<*>,
         newPage: Int? = null,
         onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, InventoryGUIButtonInventoryChange(
-            itemStack,
+            icon,
             newGUI,
             newPage,
             onChange
         )
     )
+
+    /**
+     * Creates a new compound, holding data which can be displayed
+     * in any compound space.
+     */
+    fun <E> createCompound(
+        iconGenerator: (E) -> ItemStack,
+        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
+    ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
 
     /**
      * Defines an area where the content of the given compound
@@ -167,17 +182,25 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     }
 
     /**
-     * Creates a new compound, holding data which can be displayed
-     * in any compound space.
+     * By pressing this button,
+     * the user scrolls forward in the compound.
      */
-    fun <E> createCompound(
-        iconGenerator: (E) -> ItemStack,
-        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
-    ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
+    fun compoundScrollForwards(
+        slots: InventorySlotCompound<T>,
+        icon: ItemStack,
+        compound: InventoryGUISpaceCompound<T, *>,
+        scrollDistance: Int = compound.invType.dimensions.height
+    ) = defineSlots(slots, InventoryGUISpaceCompoundScrollButton(icon, compound, scrollDistance.absoluteValue))
 
-    private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
-        slots.withInvType(type).forEach { curSlot ->
-            curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
-        }
+    /**
+     * By pressing this button,
+     * the user scrolls backwards in the compound.
+     */
+    fun compoundScrollBackwards(
+        slots: InventorySlotCompound<T>,
+        icon: ItemStack,
+        compound: InventoryGUISpaceCompound<T, *>,
+        scrollDistance: Int = compound.invType.dimensions.height
+    ) = defineSlots(slots, InventoryGUISpaceCompoundScrollButton(icon, compound, -scrollDistance.absoluteValue))
 
 }
