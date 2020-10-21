@@ -47,6 +47,12 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
     }
 
     internal var scrolledLines: Int = 0
+        set(value) {
+            if (((value - 1) * invType.dimensions.width) < content.size) {
+                field = value
+                onChange()
+            }
+        }
 
     private var contentSort: () -> Unit = { }
 
@@ -74,6 +80,10 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
                 realInternalSlots.add(it)
         }
         realInternalSlots.sort()
+    }
+
+    internal fun onChange() {
+        registeredGUIs.forEach { it.reloadCurrentPage() }
     }
 
     internal fun registerGUI(gui: InventoryGUI<*>) {
@@ -108,7 +118,7 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
     fun addContent(elements: Collection<E>) {
         content += elements
         contentSort.invoke()
-        registeredGUIs.forEach { it.reloadCurrentPage() }
+        onChange()
     }
 
 }
