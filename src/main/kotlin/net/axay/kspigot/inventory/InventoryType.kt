@@ -12,8 +12,6 @@ class InventoryType<in T : ForInventory>(
     val bukkitType: InventoryType? = null
 ) {
 
-    private val size = dimensions.width * dimensions.heigth
-
     companion object {
 
         val ONE_BY_NINE = InventoryType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
@@ -33,7 +31,7 @@ class InventoryType<in T : ForInventory>(
         val realTitle = title ?: ""
         return when {
             bukkitType != null -> Bukkit.createInventory(holder, bukkitType, realTitle)
-            else -> Bukkit.createInventory(holder, size, realTitle)
+            else -> Bukkit.createInventory(holder, dimensions.slotAmount, realTitle)
         }
     }
 

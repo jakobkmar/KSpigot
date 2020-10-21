@@ -146,6 +146,10 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         )
     )
 
+    /**
+     * Defines an area where the content of the given compound
+     * is displayed.
+     */
     fun <E> compoundSpace(
         slots: InventorySlotCompound<T>,
         compound: InventoryGUISpaceCompound<T, E>
@@ -156,6 +160,15 @@ class InventoryGUIPageBuilder<T : ForInventory>(
             InventoryGUISpaceCompoundElement(compound)
         )
     }
+
+    /**
+     * Creates a new compound, holding data which can be displayed
+     * in any compound space.
+     */
+    fun <E> createCompound(
+        iconGenerator: (E) -> ItemStack,
+        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
+    ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
 
     private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->

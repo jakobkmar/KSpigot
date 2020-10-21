@@ -67,7 +67,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SLIDE_VERTICALLY -> {
 
-            val height = data.inventoryType.dimensions.heigth
+            val height = data.inventoryType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -97,7 +97,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SWIPE_VERTICALLY -> {
 
-            val height = data.inventoryType.dimensions.heigth
+            val height = data.inventoryType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {

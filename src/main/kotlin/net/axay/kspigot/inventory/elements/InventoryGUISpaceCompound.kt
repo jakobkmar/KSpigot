@@ -25,14 +25,32 @@ class InventoryGUISpaceCompound<T : ForInventory, E> internal constructor(
 ) {
 
     private val content = ArrayList<E>()
-    private val internalSlots = ArrayList<Int>()
+
+    private val realInternalSlots = ArrayList<Int>()
+
+    private val currentInternalSlots: List<Int> get() {
+
+        val result = ArrayList(realInternalSlots)
+
+        var more = 1
+        while (content.size > result.size) {
+            result += realInternalSlots.mapTo(ArrayList()) { it + (more * invType.dimensions.slotAmount) }
+            more++
+        }
+
+        return result
+
+    }
+
+    private var scrolledLines: Int = 0
 
     private var contentSort: () -> Unit = { }
 
-    // TODO add "scrolling" functionality
+    private fun translateSlot(slot: Int) = (scrolledLines * invType.dimensions.width) + slot
 
-    // TODO take current scroll progress into account
-    private fun contentAtSlot(slot: Int) = content.getOrNull(internalSlots.indexOf(slot))
+    private fun contentAtSlot(slot: Int) = content.getOrNull(
+        realInternalSlots.indexOf(translateSlot(slot))
+    )
 
     internal fun getItemStack(slot: Int): ItemStack {
         return contentAtSlot(slot)?.let { return@let iconGenerator.invoke(it) }
@@ -45,8 +63,11 @@ class InventoryGUISpaceCompound<T : ForInventory, E> internal constructor(
     }
 
     internal fun addSlots(slots: InventorySlotCompound<T>) {
-        internalSlots += slots.realSlotsWithInvType(invType)
-        internalSlots.sort()
+        slots.realSlotsWithInvType(invType).forEach {
+            if (!realInternalSlots.contains(it))
+                realInternalSlots.add(it)
+        }
+        realInternalSlots.sort()
     }
 
     /**
