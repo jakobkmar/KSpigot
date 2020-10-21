@@ -46,7 +46,7 @@ class InventoryGUISpaceCompound<T : ForInventory, E>(
 
     }
 
-    private var scrolledLines: Int = 0
+    internal var scrolledLines: Int = 0
 
     private var contentSort: () -> Unit = { }
 
