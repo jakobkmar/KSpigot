@@ -19,4 +19,7 @@ abstract class InventoryGUIElement<T : ForInventory> : InventoryGUISlot<T>() {
 
     protected abstract fun onClickElement(clickEvent: InventoryGUIClickEvent<T>)
 
+    internal open fun startUsing(gui: InventoryGUI<*>) { }
+    internal open fun stopUsing(gui: InventoryGUI<*>) { }
+
 }
