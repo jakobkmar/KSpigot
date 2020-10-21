@@ -6,7 +6,7 @@ import net.axay.kspigot.inventory.*
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class InventoryGUISpaceCompoundElement<T : ForInventory, E>(
+class InventoryGUISpaceCompoundElement<T : ForInventory, E> internal constructor(
     private val compound: InventoryGUISpaceCompound<T, E>
 ) : InventoryGUIElement<T>() {
 
