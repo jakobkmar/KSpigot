@@ -14,7 +14,10 @@ net.axay.kspigot.game
 net.axay.kspigot.inventory
 net.axay.kspigot.inventory.elements
 net.axay.kspigot.ipaddress
+net.axay.kspigot.ipaddress.badipdetectionservices
 net.axay.kspigot.items
+net.axay.kspigot.languageextensions.kotlinextensions
+net.axay.kspigot.localization
 net.axay.kspigot.main
 net.axay.kspigot.particles
 net.axay.kspigot.runnables
