@@ -218,7 +218,7 @@ firstAsync {
 Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot Inventory GUI API provides an easy way to build inventory GUIs the way you would expect such an API to be. In addition, it offers full type safety for slots.
 
 ```kotlin
-val gui = inventoryGUI(InventoryGUIType.FIVE_BY_NINE) {
+val gui = kSpigotGUI(InventoryGUIType.FIVE_BY_NINE) {
 
     title = "Example Inventory"
 
