@@ -167,12 +167,39 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
 
     /**
+     * Creates a new compound, holding data which can be displayed
+     * in any compound space.
+     * This compound is strictly a rectangle.
+     * The space is automatically defined.
+     */
+    fun <E> createCompound(
+        fromSlot: SingleInventorySlot<out T>,
+        toSlot: SingleInventorySlot<out T>,
+        iconGenerator: (E) -> ItemStack,
+        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
+    ): InventoryGUIRectSpaceCompound<T, E> {
+        val rectSlotCompound = fromSlot rectTo toSlot
+        return InventoryGUIRectSpaceCompound(
+            type,
+            iconGenerator,
+            onClick,
+            (rectSlotCompound.endInclusive.slotInRow - rectSlotCompound.start.slotInRow) + 1
+        ).apply {
+            addSlots(rectSlotCompound)
+            defineSlots(
+                rectSlotCompound,
+                InventoryGUISpaceCompoundElement(this)
+            )
+        }
+    }
+
+    /**
      * Defines an area where the content of the given compound
      * is displayed.
      */
     fun <E> compoundSpace(
         slots: InventorySlotCompound<T>,
-        compound: InventoryGUISpaceCompound<T, E>
+        compound: AbstractInventoryGUISpaceCompound<T, E>
     ) {
         compound.addSlots(slots)
         defineSlots(
@@ -183,24 +210,45 @@ class InventoryGUIPageBuilder<T : ForInventory>(
 
     /**
      * By pressing this button,
-     * the user scrolls forward in the compound.
+     * the user scrolls forwards or backwards in the compound.
      */
-    fun compoundScrollForwards(
+    fun compoundScroll(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         compound: InventoryGUISpaceCompound<T, *>,
-        scrollDistance: Int = compound.invType.dimensions.height
-    ) = defineSlots(slots, InventoryGUISpaceCompoundScrollButton(icon, compound, scrollDistance.absoluteValue))
+        scrollDistance: Int = 1,
+        scrollTimes: Int = 1,
+        reverse: Boolean = false
+    ) = defineSlots(
+        slots,
+        InventoryGUISpaceCompoundScrollButton(
+            icon,
+            compound,
+            scrollDistance.absoluteValue,
+            scrollTimes,
+            reverse
+        )
+    )
 
     /**
      * By pressing this button,
-     * the user scrolls backwards in the compound.
+     * the user scrolls forwards or backwards in the compound.
      */
-    fun compoundScrollBackwards(
+    fun compoundScroll(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        compound: InventoryGUISpaceCompound<T, *>,
-        scrollDistance: Int = compound.invType.dimensions.height
-    ) = defineSlots(slots, InventoryGUISpaceCompoundScrollButton(icon, compound, -scrollDistance.absoluteValue))
+        compound: InventoryGUIRectSpaceCompound<T, *>,
+        scrollTimes: Int = 1,
+        reverse: Boolean = false
+    ) = defineSlots(
+        slots,
+        InventoryGUISpaceCompoundScrollButton(
+            icon,
+            compound,
+            compound.compoundWidth,
+            scrollTimes,
+            reverse
+        )
+    )
 
 }
