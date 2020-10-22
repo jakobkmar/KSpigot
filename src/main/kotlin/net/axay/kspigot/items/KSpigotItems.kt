@@ -122,7 +122,7 @@ fun ItemMeta.removeFlags(vararg itemFlag: ItemFlag) = removeItemFlags(*itemFlag)
  */
 var ItemMeta.name: String?
     get() = if (hasDisplayName()) displayName else null
-    set(value) = setDisplayName(value)
+    set(value) = setDisplayName(if (value == null || value == "") " " else value)
 
 /**
  * Provides safe access to the items' customModelData.
