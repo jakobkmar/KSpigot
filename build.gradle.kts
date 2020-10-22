@@ -36,7 +36,7 @@ plugins {
 
     id("com.jfrog.bintray") version "1.8.5"
 
-    id("org.jetbrains.dokka") version "1.4.10"
+    id("org.jetbrains.dokka") version "1.4.10.2"
 
 }
 
