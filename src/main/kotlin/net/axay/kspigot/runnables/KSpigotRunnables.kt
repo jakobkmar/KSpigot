@@ -109,7 +109,7 @@ fun task(
  * Executes the given [runnable] with the given [delay].
  * Either sync or async (specified by the [sync] parameter).
  */
-fun bukkitRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
+fun taskRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
     if (sync)
         Bukkit.getScheduler().runTaskLater(KSpigotMainInstance, runnable, delay)
     else
@@ -120,7 +120,7 @@ fun bukkitRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
  * Executes the given [runnable] either
  * sync or async (specified by the [sync] parameter).
  */
-fun bukkitRun(sync: Boolean = true, runnable: () -> Unit) {
+fun taskRun(sync: Boolean = true, runnable: () -> Unit) {
     if (sync) {
         sync(runnable)
     } else {
