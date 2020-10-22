@@ -96,18 +96,31 @@ fun task(
 
     if (endCallback != null) KRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
-    if (sync)
-        bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period ?: 20)
+    if (period != null)
+        if (sync) bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period)
+        else bukkitRunnable.runTaskTimerAsynchronously(KSpigotMainInstance, delay, period)
     else
-        bukkitRunnable.runTaskTimerAsynchronously(KSpigotMainInstance, delay, period ?: 20)
+        if (sync) bukkitRunnable.runTaskLater(KSpigotMainInstance, delay)
+        else bukkitRunnable.runTaskLaterAsynchronously(KSpigotMainInstance, delay)
 
+}
+
+/**
+ * Executes the given [runnable] with the given [delay].
+ * Either sync or async (specified by the [sync] parameter).
+ */
+fun bukkitRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
+    if (sync)
+        Bukkit.getScheduler().runTaskLater(KSpigotMainInstance, runnable, delay)
+    else
+        Bukkit.getScheduler().runTaskLaterAsynchronously(KSpigotMainInstance, runnable, delay)
 }
 
 /**
  * Executes the given [runnable] either
  * sync or async (specified by the [sync] parameter).
  */
-fun bukkitRun(sync: Boolean, runnable: () -> Unit) {
+fun bukkitRun(sync: Boolean = true, runnable: () -> Unit) {
     if (sync) {
         sync(runnable)
     } else {
