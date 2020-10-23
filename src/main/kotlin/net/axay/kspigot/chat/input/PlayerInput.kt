@@ -6,7 +6,6 @@ import net.axay.kspigot.event.unregister
 import net.axay.kspigot.extensions.bukkit.closeForViewers
 import net.axay.kspigot.items.itemStack
 import net.axay.kspigot.items.meta
-import net.axay.kspigot.items.name
 import net.axay.kspigot.main.KSpigotMainInstance
 import net.axay.kspigot.runnables.taskRunLater
 import net.wesjd.anvilgui.AnvilGUI
@@ -23,11 +22,11 @@ fun Player.awaitChatInput(timeoutSeconds: Int = 1 * 60, callback: (String?) -> U
 
 fun Player.awaitAnvilInput(
     timeoutSeconds: Int = 1 * 60,
-    invTitle: String = "${KColors.ORANGERED}Type your input!",
-    startText: String = "${KColors.ORANGERED}RENAME ME",
+    invTitle: String = "Type your input!",
+    startText: String = "RENAME ME",
     renameItemDescription: List<String> = listOf(
-        "${KColors.INDIANRED}Rename this item to",
-        "${KColors.INDIANRED}submit your input!"
+        "Rename this item to",
+        "submit your input!"
     ),
     callback: (String?) -> Unit
 ) {
@@ -98,15 +97,15 @@ internal class PlayerInputAnvilInv(
                 } else
                     AnvilGUI.Response.text("Type here...")
             }
-            .title(invTitle)
+            .title("${KColors.ORANGERED}$invTitle")
             .item(
                 itemStack(Material.PAPER) {
                     meta {
-                        lore = renameItemDescription
+                        lore = renameItemDescription.map { "${KColors.INDIANRED}$it" }
                     }
                 }
             )
-            .text(startText)
+            .text("${KColors.ORANGERED}$startText")
             .open(player)
 
     override val inputListeners = listOf(
