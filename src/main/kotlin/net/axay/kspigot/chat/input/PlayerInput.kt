@@ -16,18 +16,22 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-fun Player.awaitChatInput(timeoutSeconds: Int = 1 * 60, callback: (String?) -> Unit) {
+fun Player.awaitChatInput(
+    question: String = "Type your input in the chat!",
+    timeoutSeconds: Int = 1 * 60,
+    callback: (String?) -> Unit
+) {
     PlayerInputChat(this, callback, timeoutSeconds)
 }
 
 fun Player.awaitAnvilInput(
-    timeoutSeconds: Int = 1 * 60,
     invTitle: String = "Type your input!",
     startText: String = "RENAME ME",
     renameItemDescription: List<String> = listOf(
         "Rename this item to",
         "submit your input!"
     ),
+    timeoutSeconds: Int = 1 * 60,
     callback: (String?) -> Unit
 ) {
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
@@ -64,8 +68,11 @@ internal abstract class PlayerInput(
 internal class PlayerInputChat(
     player: Player,
     callback: (String?) -> Unit,
-    timeoutSeconds: Int
+    timeoutSeconds: Int,
+    question: String
 ) : PlayerInput(player, callback, timeoutSeconds) {
+
+    init { player.sendMessage("${KColors.ORANGERED}$question") }
 
     override val inputListeners = listOf(
         listen<AsyncPlayerChatEvent>(EventPriority.LOWEST) {
