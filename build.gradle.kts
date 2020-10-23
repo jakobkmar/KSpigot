@@ -40,6 +40,8 @@ plugins {
 
     id("org.jetbrains.dokka") version "1.4.10.2"
 
+    kotlin("plugin.serialization") version "1.4.10"
+
 }
 
 /*
@@ -65,6 +67,10 @@ dependencies {
 
     // ANVIL GUI
     api("com.github.WesJD.AnvilGUI", "anvilgui", "master-SNAPSHOT")
+
+    // KOTLINX
+    // serialization
+    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.0.0")
 
 }
 
