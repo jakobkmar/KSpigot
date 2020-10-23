@@ -3,7 +3,7 @@
 package net.axay.kspigot.serialization.serializables
 
 import net.axay.kspigot.serialization.SpigotSerializable
-import net.axay.kspigot.serialization.SpigotSerialzableCompanion
+import net.axay.kspigot.serialization.SpigotSerializableCompanion
 import org.bukkit.util.Vector
 
 class SerializableVector(
@@ -12,7 +12,7 @@ class SerializableVector(
     val z: Double
 ) : SpigotSerializable<Vector> {
 
-    companion object : SpigotSerialzableCompanion<SerializableVector>
+    companion object : SpigotSerializableCompanion<SerializableVector>
 
     constructor(vec: Vector) : this(vec.x, vec.y, vec.z)
 

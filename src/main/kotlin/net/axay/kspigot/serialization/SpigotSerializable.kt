@@ -10,7 +10,7 @@ interface SpigotSerializable<T> {
     fun toSpigot(): T
 }
 
-interface SpigotSerialzableCompanion<T>
+interface SpigotSerializableCompanion<T>
 
 /**
  * @return A json string.
@@ -22,5 +22,5 @@ fun SpigotSerializable<*>.serialize(pretty: Boolean = true): String = ValueHolde
  * returns the deserialized object.
  */
 @Suppress("unused")
-inline fun <reified T> SpigotSerialzableCompanion<T>.deserialize(json: String): T =
+inline fun <reified T> SpigotSerializableCompanion<T>.deserialize(json: String): T =
     ValueHolder.getGson().fromJson(json, T::class.java)

@@ -3,7 +3,7 @@
 package net.axay.kspigot.serialization.serializables
 
 import net.axay.kspigot.serialization.SpigotSerializable
-import net.axay.kspigot.serialization.SpigotSerialzableCompanion
+import net.axay.kspigot.serialization.SpigotSerializableCompanion
 import org.bukkit.Bukkit
 import org.bukkit.Location
 
@@ -15,7 +15,7 @@ class SerializableLocation(
     val direction: SerializableVector
 ) : SpigotSerializable<Location> {
 
-    companion object : SpigotSerialzableCompanion<SerializableLocation>
+    companion object : SpigotSerializableCompanion<SerializableLocation>
 
     constructor(loc: Location) : this(loc.world?.name, loc.x, loc.y, loc.z, SerializableVector(loc.direction))
 
