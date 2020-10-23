@@ -21,7 +21,7 @@ fun Player.awaitChatInput(
     timeoutSeconds: Int = 1 * 60,
     callback: (String?) -> Unit
 ) {
-    PlayerInputChat(this, callback, timeoutSeconds)
+    PlayerInputChat(this, callback, timeoutSeconds, question)
 }
 
 fun Player.awaitAnvilInput(
