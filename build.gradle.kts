@@ -31,7 +31,9 @@ plugins {
 
     kotlin("jvm") version "1.4.10"
 
+    // for local installation
     maven
+
     `maven-publish`
 
     id("com.jfrog.bintray") version "1.8.5"
