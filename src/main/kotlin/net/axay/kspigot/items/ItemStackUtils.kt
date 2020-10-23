@@ -3,6 +3,10 @@ package net.axay.kspigot.items
 import net.axay.kspigot.chat.KColors
 import net.md_5.bungee.api.ChatColor
 
+/**
+ * Converts this string into a list of strings, which
+ * can be used for minecraft lorelists.
+ */
 fun String.toLoreList(lineLength: Int = 40, lineColor: ChatColor = KColors.RESET): List<String> {
 
     val loreList = ArrayList<String>()
@@ -16,7 +20,7 @@ fun String.toLoreList(lineLength: Int = 40, lineColor: ChatColor = KColors.RESET
 
     fun addWord(word: String) {
 
-        if (lineBuilder.length + word.length > lineLength)
+        if (lineBuilder.lengthWithoutMinecraftColour + word.lengthWithoutMinecraftColour > lineLength)
             submitLine()
 
         if (lineBuilder.isNotEmpty())
@@ -32,5 +36,38 @@ fun String.toLoreList(lineLength: Int = 40, lineColor: ChatColor = KColors.RESET
         submitLine()
 
     return loreList
+
+}
+
+/**
+ * Returns the length of this sequence, ignoring
+ * all minecraft colour codes.
+ */
+val CharSequence.lengthWithoutMinecraftColour: Int get() {
+
+    var count = 0
+
+    var isPreviousColourCode = false
+
+    this.forEachIndexed { index, char ->
+
+        if (isPreviousColourCode) {
+            isPreviousColourCode = false
+            return@forEachIndexed
+        }
+
+        if (char == '§') {
+            if (lastIndex >= index + 1) {
+                val nextChar = this[index + 1]
+                if (nextChar.isLetter() || nextChar.isDigit())
+                    isPreviousColourCode = true
+                else
+                    count++
+            }
+        } else count++
+
+    }
+
+    return count
 
 }
