@@ -91,7 +91,7 @@ internal class PlayerInputAnvilInv(
         AnvilGUI.Builder().plugin(KSpigotMainInstance)
             .onClose { onReceive(null) }
             .onComplete { _, text ->
-                if (text.isNotEmpty()) {
+                return@onComplete if (text.isNotEmpty()) {
                     onReceive(text)
                     AnvilGUI.Response.close()
                 } else
