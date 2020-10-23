@@ -27,7 +27,7 @@ description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
 plugins {
 
-    java
+    `java-library`
 
     kotlin("jvm") version "1.4.10"
 
