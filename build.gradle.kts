@@ -47,6 +47,7 @@ plugins {
 repositories {
     mavenCentral()
     jcenter()
+    maven("https://jitpack.io")
 
     mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }
@@ -59,6 +60,9 @@ dependencies {
 
     // KHTTP
     api("khttp", "khttp", "1.0.0")
+
+    // ANVIL GUI
+    api("com.github.WesJD.AnvilGUI", "anvilgui", "master-SNAPSHOT")
 
 }
 
