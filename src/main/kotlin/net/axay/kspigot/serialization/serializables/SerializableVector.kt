@@ -6,7 +6,7 @@ import net.axay.kspigot.serialization.SpigotSerializable
 import net.axay.kspigot.serialization.SpigotSerializableCompanion
 import org.bukkit.util.Vector
 
-class SerializableVector(
+data class SerializableVector(
     val x: Double,
     val y: Double,
     val z: Double

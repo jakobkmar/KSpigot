@@ -7,7 +7,7 @@ import net.axay.kspigot.serialization.SpigotSerializableCompanion
 import org.bukkit.Bukkit
 import org.bukkit.Location
 
-class SerializableLocation(
+data class SerializableLocation(
     val world: String?,
     val x: Double,
     val y: Double,
