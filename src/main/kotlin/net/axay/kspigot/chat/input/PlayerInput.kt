@@ -12,6 +12,7 @@ import net.axay.kspigot.runnables.taskRunLater
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
@@ -68,9 +69,11 @@ internal class PlayerInputChat(
 ) : PlayerInput(player, callback, timeoutSeconds) {
 
     override val inputListeners = listOf(
-        listen<AsyncPlayerChatEvent> {
-            it.isCancelled = true
-            onReceive(it.message)
+        listen<AsyncPlayerChatEvent>(EventPriority.LOWEST) {
+            if (it.player == player) {
+                it.isCancelled = true
+                onReceive(it.message)
+            }
         }
     )
 
