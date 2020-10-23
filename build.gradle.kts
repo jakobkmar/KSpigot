@@ -75,6 +75,7 @@ dependencies {
 // JVM VERSION
 
 java.sourceCompatibility = JVM_VERSION
+java.targetCompatibility = JVM_VERSION
 
 tasks {
     compileKotlin.configureJvmVersion()
