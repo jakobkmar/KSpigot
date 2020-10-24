@@ -111,8 +111,8 @@ tasks.dokkaHtml.configure {
 
 bintray {
 
-    user = project.findProperty("bintray.username") as String
-    key = project.findProperty("bintray.api_key") as String
+    user = project.findProperty("bintray.username") as? String ?: ""
+    key = project.findProperty("bintray.api_key") as? String ?: ""
 
     setPublications("KSpigot")
 
