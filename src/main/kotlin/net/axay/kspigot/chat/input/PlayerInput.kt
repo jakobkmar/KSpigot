@@ -4,17 +4,21 @@ import net.axay.kspigot.chat.KColors
 import net.axay.kspigot.event.listen
 import net.axay.kspigot.event.unregister
 import net.axay.kspigot.extensions.bukkit.closeForViewers
+import net.axay.kspigot.extensions.bukkit.content
 import net.axay.kspigot.items.itemStack
 import net.axay.kspigot.items.meta
 import net.axay.kspigot.main.KSpigotMainInstance
 import net.axay.kspigot.runnables.taskRunLater
 import net.wesjd.anvilgui.AnvilGUI
 import org.bukkit.Material
+import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerEditBookEvent
+import org.bukkit.persistence.PersistentDataType
 
 fun Player.awaitChatInput(
     question: String = "Type your input in the chat!",
@@ -59,6 +63,7 @@ internal abstract class PlayerInput(
 
     init {
         taskRunLater(delay = (20 * timeoutSeconds).toLong()) {
+            if (!received) onTimeout()
             onReceive(null)
         }
     }
@@ -72,7 +77,9 @@ internal class PlayerInputChat(
     question: String
 ) : PlayerInput(player, callback, timeoutSeconds) {
 
-    init { player.sendMessage("${KColors.ORANGERED}$question") }
+    init {
+        player.sendMessage("${KColors.ORANGERED}$question")
+    }
 
     override val inputListeners = listOf(
         listen<AsyncPlayerChatEvent>(EventPriority.LOWEST) {
@@ -124,6 +131,53 @@ internal class PlayerInputAnvilInv(
 
     override fun onTimeout() {
         anvilInv.inventory.closeForViewers()
+    }
+
+}
+
+internal class PlayerInputBook(
+    player: Player,
+    callback: (String?) -> Unit,
+    timeoutSeconds: Int
+) : PlayerInput(player, callback, timeoutSeconds) {
+
+    private val id = getID()
+
+    init {
+
+        player.openBook(itemStack(Material.WRITABLE_BOOK) {
+            meta {
+                persistentDataContainer[idKey, PersistentDataType.INTEGER] = id
+            }
+        })
+    }
+
+    override val inputListeners = listOf(
+        listen<PlayerEditBookEvent> {
+            val meta = it.newBookMeta
+            if (meta.persistentDataContainer[idKey, PersistentDataType.INTEGER] == id) {
+                onReceive(meta.content)
+                usedIDs -= id
+            }
+        }
+    )
+
+    override fun onTimeout() {
+        player.closeInventory()
+        usedIDs -= id
+    }
+
+    companion object {
+
+        val idKey = NamespacedKey(KSpigotMainInstance, "kspigot_bookinput_id")
+
+        internal val usedIDs = ArrayList<Int>()
+        fun getID(): Int {
+            var returnID = (0..Int.MAX_VALUE).random()
+            while (usedIDs.contains(returnID)) returnID = (0..Int.MAX_VALUE).random()
+            return returnID
+        }
+
     }
 
 }
