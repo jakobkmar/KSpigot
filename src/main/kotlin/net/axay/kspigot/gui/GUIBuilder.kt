@@ -1,20 +1,20 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "unused")
 
-package net.axay.kspigot.inventory
+package net.axay.kspigot.gui
 
-import net.axay.kspigot.inventory.elements.*
+import net.axay.kspigot.gui.elements.*
 import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 
 fun <T : ForInventory> kSpigotGUI(
-    type: InventoryType<T>,
-    shared: Boolean = true,
-    builder: InventoryGUIBuilder<T>.() -> Unit,
-) = InventoryGUIBuilder(type, shared).apply(builder).build()
+        type: GUIType<T>,
+        shared: Boolean = true,
+        builder: GUIBuilder<T>.() -> Unit,
+) = GUIBuilder(type, shared).apply(builder).build()
 
-class InventoryGUIBuilder<T : ForInventory>(
-    val type: InventoryType<T>,
-    val shared: Boolean
+class GUIBuilder<T : ForInventory>(
+        val type: GUIType<T>,
+        val shared: Boolean
 ) {
 
     var title: String = ""
@@ -22,45 +22,45 @@ class InventoryGUIBuilder<T : ForInventory>(
     var transitionTo: InventoryChangeEffect? = null
     var transitionFrom: InventoryChangeEffect? = null
 
-    private val guiSlots = HashMap<Int, InventoryGUIPage<T>>()
+    private val guiSlots = HashMap<Int, GUIPage<T>>()
 
-    private var onClickElement: ((InventoryGUIClickEvent<T>) -> Unit)? = null
+    private var onClickElement: ((GUIClickEvent<T>) -> Unit)? = null
 
     /**
      * Opens the builder for a new page and adds
      * the new page to the GUI.
      * @param page The index of the page.
      */
-    fun page(page: Int, builder: InventoryGUIPageBuilder<T>.() -> Unit) {
-        guiSlots[page] = InventoryGUIPageBuilder(type, page).apply(builder).build()
+    fun page(page: Int, builder: GUIPageBuilder<T>.() -> Unit) {
+        guiSlots[page] = GUIPageBuilder(type, page).apply(builder).build()
     }
 
-    fun onClickElement(onClick: (InventoryGUIClickEvent<T>) -> Unit) {
+    fun onClickElement(onClick: (GUIClickEvent<T>) -> Unit) {
         onClickElement = onClick
     }
 
-    internal fun build(): InventoryGUI<T> {
-        val guiData = InventoryGUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+    internal fun build(): GUI<T> {
+        val guiData = GUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
         val gui =
-            if (shared) InventoryGUIShared(guiData) else TODO("Currently, there is no non-shared GUI implementation available.")
+            if (shared) GUIShared(guiData) else TODO("Currently, there is no non-shared GUI implementation available.")
         return gui.apply { register() }
     }
 
 }
 
-class InventoryGUIPageBuilder<T : ForInventory>(
-    private val type: InventoryType<T>,
-    val page: Int
+class GUIPageBuilder<T : ForInventory>(
+        private val type: GUIType<T>,
+        val page: Int
 ) {
 
-    private val guiSlots = HashMap<Int, InventoryGUISlot<T>>()
+    private val guiSlots = HashMap<Int, GUISlot<T>>()
 
     var transitionTo: PageChangeEffect? = null
     var transitionFrom: PageChangeEffect? = null
 
-    internal fun build() = InventoryGUIPage(page, guiSlots, transitionTo, transitionFrom)
+    internal fun build() = GUIPage(page, guiSlots, transitionTo, transitionFrom)
 
-    private fun defineSlots(slots: InventorySlotCompound<T>, element: InventoryGUISlot<T>) =
+    private fun defineSlots(slots: InventorySlotCompound<T>, element: GUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
         }
@@ -70,22 +70,22 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      * actions. If clicked, the specified [onClick]
      * function is invoked.
      */
-    fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (InventoryGUIClickEvent<T>) -> Unit) =
-        defineSlots(slots, InventoryGUIButton(itemStack, onClick))
+    fun button(slots: InventorySlotCompound<T>, itemStack: ItemStack, onClick: (GUIClickEvent<T>) -> Unit) =
+        defineSlots(slots, GUIButton(itemStack, onClick))
 
     /**
      * An item protected from any player actions.
      * This is not a button.
      */
     fun placeholder(slots: InventorySlotCompound<T>, itemStack: ItemStack) =
-        defineSlots(slots, InventoryGUIPlaceholder(itemStack))
+        defineSlots(slots, GUIPlaceholder(itemStack))
 
     /**
      * A free slot does not block any player actions.
      * The player can put items in this slot or take
      * items out of it.
      */
-    fun freeSlot(slots: InventorySlotCompound<T>) = defineSlots(slots, InventoryGUIFreeSlot())
+    fun freeSlot(slots: InventorySlotCompound<T>) = defineSlots(slots, GUIFreeSlot())
 
     /**
      * This is a button which loads the specified
@@ -95,11 +95,11 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         toPage: Int,
-        onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
-        slots, InventoryGUIButtonPageChange(
+        slots, GUIButtonPageChange(
             icon,
-            InventoryGUIPageChangeCalculator.InventoryGUIConsistentPageCalculator(toPage),
+            GUIPageChangeCalculator.GUIConsistentPageCalculator(toPage),
             onChange
         )
     )
@@ -112,11 +112,11 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     fun previousPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
-        slots, InventoryGUIButtonPageChange(
+        slots, GUIButtonPageChange(
             icon,
-            InventoryGUIPageChangeCalculator.InventoryGUIPreviousPageCalculator,
+            GUIPageChangeCalculator.GUIPreviousPageCalculator,
             onChange
         )
     )
@@ -129,27 +129,27 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     fun nextPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
-        slots, InventoryGUIButtonPageChange(
+        slots, GUIButtonPageChange(
             icon,
-            InventoryGUIPageChangeCalculator.InventoryGUINextPageCalculator,
+            GUIPageChangeCalculator.GUINextPageCalculator,
             onChange
         )
     )
 
     /**
      * By pressing this button, the player switches to another
-     * InventoryGUI. The transition effect is applied.
+     * GUI. The transition effect is applied.
      */
     fun changeGUI(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        newGUI: () -> InventoryGUI<*>,
+        newGUI: () -> GUI<*>,
         newPage: Int? = null,
-        onChange: ((InventoryGUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
-        slots, InventoryGUIButtonInventoryChange(
+        slots, GUIButtonInventoryChange(
             icon,
             newGUI,
             newPage,
@@ -163,8 +163,8 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun <E> createCompound(
         iconGenerator: (E) -> ItemStack,
-        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
-    ) = InventoryGUISpaceCompound(type, iconGenerator, onClick)
+        onClick: (clickEvent: GUIClickEvent<T>, element: E) -> Unit
+    ) = GUISpaceCompound(type, iconGenerator, onClick)
 
     /**
      * Creates a new compound, holding data which can be displayed
@@ -176,10 +176,10 @@ class InventoryGUIPageBuilder<T : ForInventory>(
         fromSlot: SingleInventorySlot<out T>,
         toSlot: SingleInventorySlot<out T>,
         iconGenerator: (E) -> ItemStack,
-        onClick: (clickEvent: InventoryGUIClickEvent<T>, element: E) -> Unit
-    ): InventoryGUIRectSpaceCompound<T, E> {
+        onClick: (clickEvent: GUIClickEvent<T>, element: E) -> Unit
+    ): GUIRectSpaceCompound<T, E> {
         val rectSlotCompound = fromSlot rectTo toSlot
-        return InventoryGUIRectSpaceCompound(
+        return GUIRectSpaceCompound(
             type,
             iconGenerator,
             onClick,
@@ -188,7 +188,7 @@ class InventoryGUIPageBuilder<T : ForInventory>(
             addSlots(rectSlotCompound)
             defineSlots(
                 rectSlotCompound,
-                InventoryGUISpaceCompoundElement(this)
+                GUISpaceCompoundElement(this)
             )
         }
     }
@@ -199,12 +199,12 @@ class InventoryGUIPageBuilder<T : ForInventory>(
      */
     fun <E> compoundSpace(
         slots: InventorySlotCompound<T>,
-        compound: AbstractInventoryGUISpaceCompound<T, E>
+        compound: AbstractGUISpaceCompound<T, E>
     ) {
         compound.addSlots(slots)
         defineSlots(
             slots,
-            InventoryGUISpaceCompoundElement(compound)
+            GUISpaceCompoundElement(compound)
         )
     }
 
@@ -215,13 +215,13 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     fun compoundScroll(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        compound: InventoryGUISpaceCompound<T, *>,
+        compound: GUISpaceCompound<T, *>,
         scrollDistance: Int = 1,
         scrollTimes: Int = 1,
         reverse: Boolean = false
     ) = defineSlots(
         slots,
-        InventoryGUISpaceCompoundScrollButton(
+        GUISpaceCompoundScrollButton(
             icon,
             compound,
             scrollDistance.absoluteValue,
@@ -237,12 +237,12 @@ class InventoryGUIPageBuilder<T : ForInventory>(
     fun compoundScroll(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        compound: InventoryGUIRectSpaceCompound<T, *>,
+        compound: GUIRectSpaceCompound<T, *>,
         scrollTimes: Int = 1,
         reverse: Boolean = false
     ) = defineSlots(
         slots,
-        InventoryGUISpaceCompoundScrollButton(
+        GUISpaceCompoundScrollButton(
             icon,
             compound,
             compound.compoundWidth,

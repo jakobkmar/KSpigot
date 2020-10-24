@@ -1,9 +1,9 @@
-package net.axay.kspigot.inventory
+package net.axay.kspigot.gui
 
 import org.bukkit.entity.HumanEntity
 import org.bukkit.inventory.InventoryView
 
-fun HumanEntity.openGUI(gui: InventoryGUI<*>, page: Int? = null): InventoryView? {
+fun HumanEntity.openGUI(gui: GUI<*>, page: Int? = null): InventoryView? {
 
     closeInventory()
 

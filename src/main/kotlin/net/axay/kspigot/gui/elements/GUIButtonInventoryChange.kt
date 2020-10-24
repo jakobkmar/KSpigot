@@ -1,14 +1,14 @@
-package net.axay.kspigot.inventory.elements
+package net.axay.kspigot.gui.elements
 
-import net.axay.kspigot.inventory.*
+import net.axay.kspigot.gui.*
 import org.bukkit.inventory.ItemStack
 
-class InventoryGUIButtonInventoryChange<T : ForInventory>(
+class GUIButtonInventoryChange<T : ForInventory>(
     icon: ItemStack,
-    changeToGUICallback: () -> InventoryGUI<*>,
+    changeToGUICallback: () -> GUI<*>,
     changeToPageInt: Int?,
-    onChange: ((InventoryGUIClickEvent<T>) -> Unit)?
-) : InventoryGUIButton<T>(icon, {
+    onChange: ((GUIClickEvent<T>) -> Unit)?
+) : GUIButton<T>(icon, {
 
     val changeToGUI = changeToGUICallback.invoke()
 

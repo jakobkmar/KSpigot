@@ -1,6 +1,6 @@
 package net.axay.kspigot.main
 
-import net.axay.kspigot.inventory.InventoryGUIHolder
+import net.axay.kspigot.gui.GUIHolder
 import net.axay.kspigot.languageextensions.kotlinextensions.closeIfInitialized
 import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
@@ -22,10 +22,10 @@ abstract class KSpigot : JavaPlugin() {
 
     // lazy properties
     private val kRunnableHolderProperty = lazy { KRunnableHolder }
-    private val inventoryGUIHolderProperty = lazy { InventoryGUIHolder }
+    private val guiHolderProperty = lazy { GUIHolder }
 
     internal val kRunnableHolder by kRunnableHolderProperty
-    internal val inventoryGUIHolder by inventoryGUIHolderProperty
+    internal val guiHolder by guiHolderProperty
 
     /**
      * Called when the plugin was loaded
@@ -57,7 +57,7 @@ abstract class KSpigot : JavaPlugin() {
 
         // avoid unnecessary load of lazy properties
         kRunnableHolderProperty.closeIfInitialized()
-        inventoryGUIHolderProperty.closeIfInitialized()
+        guiHolderProperty.closeIfInitialized()
 
     }
 

@@ -1,13 +1,13 @@
-package net.axay.kspigot.inventory.elements
+package net.axay.kspigot.gui.elements
 
-import net.axay.kspigot.inventory.*
+import net.axay.kspigot.gui.*
 import org.bukkit.inventory.ItemStack
 
-class InventoryGUIButtonPageChange<T : ForInventory>(
+class GUIButtonPageChange<T : ForInventory>(
     icon: ItemStack,
-    calculator: InventoryGUIPageChangeCalculator,
-    onChange: ((InventoryGUIClickEvent<T>) -> Unit)?
-) : InventoryGUIButton<T>(icon, {
+    calculator: GUIPageChangeCalculator,
+    onChange: ((GUIClickEvent<T>) -> Unit)?
+) : GUIButton<T>(icon, {
 
     val currentPage = it.gui.currentPage
     val newPage = it.gui.getPage(calculator.calculateNewPage(it.gui.currentPageInt, it.gui.data.pages.keys))

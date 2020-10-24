@@ -1,16 +1,16 @@
-package net.axay.kspigot.inventory.elements
+package net.axay.kspigot.gui.elements
 
-import net.axay.kspigot.inventory.ForInventory
+import net.axay.kspigot.gui.ForInventory
 import net.axay.kspigot.runnables.task
 import org.bukkit.inventory.ItemStack
 
-class InventoryGUISpaceCompoundScrollButton<T : ForInventory>(
+class GUISpaceCompoundScrollButton<T : ForInventory>(
     icon: ItemStack,
-    private val compound: AbstractInventoryGUISpaceCompound<T, *>,
+    private val compound: AbstractGUISpaceCompound<T, *>,
     private val scrollDistance: Int,
     private val scrollTimes: Int,
     private val reverse: Boolean = false
-) : InventoryGUIButton<T>(icon, {
+) : GUIButton<T>(icon, {
     if (scrollTimes > 1) {
         task(
             period = 1,

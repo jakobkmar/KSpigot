@@ -1,53 +1,53 @@
 @file:Suppress("MemberVisibilityCanBePrivate")
 
-package net.axay.kspigot.inventory.elements
+package net.axay.kspigot.gui.elements
 
-import net.axay.kspigot.inventory.*
+import net.axay.kspigot.gui.*
 import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
-class InventoryGUISpaceCompoundElement<T : ForInventory, E> internal constructor(
-    private val compound: AbstractInventoryGUISpaceCompound<T, E>
-) : InventoryGUIElement<T>() {
+class GUISpaceCompoundElement<T : ForInventory, E> internal constructor(
+    private val compound: AbstractGUISpaceCompound<T, E>
+) : GUIElement<T>() {
 
     override fun getItemStack(slot: Int) = compound.getItemStack(slot)
 
-    override fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
+    override fun onClickElement(clickEvent: GUIClickEvent<T>) {
         compound.onClickElement(clickEvent)
     }
 
-    override fun startUsing(gui: InventoryGUI<*>) = compound.registerGUI(gui)
+    override fun startUsing(gui: GUI<*>) = compound.registerGUI(gui)
 
-    override fun stopUsing(gui: InventoryGUI<*>) = compound.unregisterGUI(gui)
+    override fun stopUsing(gui: GUI<*>) = compound.unregisterGUI(gui)
 
 }
 
-class InventoryGUIRectSpaceCompound<T : ForInventory, E>(
-    invType: InventoryType<T>,
-    iconGenerator: (E) -> ItemStack,
-    onClick: (InventoryGUIClickEvent<T>, E) -> Unit,
-    internal val compoundWidth: Int
-) : AbstractInventoryGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
+class GUIRectSpaceCompound<T : ForInventory, E>(
+        invType: GUIType<T>,
+        iconGenerator: (E) -> ItemStack,
+        onClick: (GUIClickEvent<T>, E) -> Unit,
+        internal val compoundWidth: Int
+) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
 
     override fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int) =
         (internalSlotsSize + newProgress <= contentSize + (compoundWidth - (contentSize % compoundWidth)))
 
 }
 
-class InventoryGUISpaceCompound<T : ForInventory, E>(
-    invType: InventoryType<T>,
-    iconGenerator: (E) -> ItemStack,
-    onClick: (InventoryGUIClickEvent<T>, E) -> Unit
-) : AbstractInventoryGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
+class GUISpaceCompound<T : ForInventory, E>(
+        invType: GUIType<T>,
+        iconGenerator: (E) -> ItemStack,
+        onClick: (GUIClickEvent<T>, E) -> Unit
+) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
 
     override fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int) = false
 
 }
 
-abstract class AbstractInventoryGUISpaceCompound<T : ForInventory, E> internal constructor(
-    val invType: InventoryType<T>,
-    private val iconGenerator: (E) -> ItemStack,
-    private val onClick: (InventoryGUIClickEvent<T>, E) -> Unit
+abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructor(
+        val guiType: GUIType<T>,
+        private val iconGenerator: (E) -> ItemStack,
+        private val onClick: (GUIClickEvent<T>, E) -> Unit
 ) {
 
     private val content = ArrayList<E>()
@@ -59,7 +59,7 @@ abstract class AbstractInventoryGUISpaceCompound<T : ForInventory, E> internal c
 
     private var contentSort: () -> Unit = { }
 
-    private val registeredGUIs = HashSet<InventoryGUI<*>>()
+    private val registeredGUIs = HashSet<GUI<*>>()
 
     private fun contentAtSlot(slot: Int) = currentContent.getOrNull(internalSlots.indexOf(slot))
 
@@ -107,7 +107,7 @@ abstract class AbstractInventoryGUISpaceCompound<T : ForInventory, E> internal c
             ?: ItemStack(Material.AIR)
     }
 
-    internal fun onClickElement(clickEvent: InventoryGUIClickEvent<T>) {
+    internal fun onClickElement(clickEvent: GUIClickEvent<T>) {
         val element = contentAtSlot(clickEvent.bukkitEvent.slot) ?: kotlin.run {
             clickEvent.bukkitEvent.isCancelled = true
             return
@@ -116,18 +116,18 @@ abstract class AbstractInventoryGUISpaceCompound<T : ForInventory, E> internal c
     }
 
     internal fun addSlots(slots: InventorySlotCompound<T>) {
-        slots.realSlotsWithInvType(invType).forEach {
+        slots.realSlotsWithInvType(guiType).forEach {
             if (!internalSlots.contains(it))
                 internalSlots.add(it)
         }
         internalSlots.sort()
     }
 
-    internal fun registerGUI(gui: InventoryGUI<*>) {
+    internal fun registerGUI(gui: GUI<*>) {
         registeredGUIs += gui
     }
 
-    internal fun unregisterGUI(gui: InventoryGUI<*>) {
+    internal fun unregisterGUI(gui: GUI<*>) {
         registeredGUIs -= gui
     }
 

@@ -1,22 +1,22 @@
-package net.axay.kspigot.inventory
+package net.axay.kspigot.gui
 
 import net.axay.kspigot.runnables.task
 
-abstract class InventoryGUIPageChangeCalculator {
+abstract class GUIPageChangeCalculator {
 
     abstract fun calculateNewPage(currentPage: Int, pages: Collection<Int>): Int?
 
-    object InventoryGUIPreviousPageCalculator : InventoryGUIPageChangeCalculator() {
+    object GUIPreviousPageCalculator : GUIPageChangeCalculator() {
         override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) =
             pages.sortedDescending().find { it < currentPage }
     }
 
-    object InventoryGUINextPageCalculator : InventoryGUIPageChangeCalculator() {
+    object GUINextPageCalculator : GUIPageChangeCalculator() {
         override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) =
             pages.sorted().find { it > currentPage }
     }
 
-    class InventoryGUIConsistentPageCalculator(private val toPage: Int) : InventoryGUIPageChangeCalculator() {
+    class GUIConsistentPageCalculator(private val toPage: Int) : GUIPageChangeCalculator() {
         override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) = toPage
     }
 
@@ -36,10 +36,10 @@ enum class InventoryChangeEffect(
     INSTANT(PageChangeEffect.INSTANT)
 }
 
-internal fun InventoryGUI<*>.changePage(
+internal fun GUI<*>.changePage(
     effect: PageChangeEffect,
-    fromPage: InventoryGUIPage<*>,
-    toPage: InventoryGUIPage<*>
+    fromPage: GUIPage<*>,
+    toPage: GUIPage<*>
 ) {
 
     val fromPageInt = fromPage.number
@@ -51,7 +51,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SLIDE_HORIZONTALLY -> {
 
-            val width = data.inventoryType.dimensions.width
+            val width = data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -67,7 +67,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SLIDE_VERTICALLY -> {
 
-            val height = data.inventoryType.dimensions.height
+            val height = data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -83,7 +83,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SWIPE_HORIZONTALLY -> {
 
-            val width = data.inventoryType.dimensions.width
+            val width = data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -97,7 +97,7 @@ internal fun InventoryGUI<*>.changePage(
 
         PageChangeEffect.SWIPE_VERTICALLY -> {
 
-            val height = data.inventoryType.dimensions.height
+            val height = data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -112,10 +112,10 @@ internal fun InventoryGUI<*>.changePage(
     }
 }
 
-internal fun InventoryGUI<*>.changeGUI(
+internal fun GUI<*>.changeGUI(
     effect: InventoryChangeEffect,
-    fromPage: InventoryGUIPage<*>,
-    toPage: InventoryGUIPage<*>
+    fromPage: GUIPage<*>,
+    toPage: GUIPage<*>
 ) = changePage(effect.effect, fromPage, toPage)
 
 private inline fun changePageEffect(

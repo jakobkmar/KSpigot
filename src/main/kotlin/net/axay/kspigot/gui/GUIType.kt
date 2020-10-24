@@ -1,29 +1,29 @@
 @file:Suppress("MemberVisibilityCanBePrivate", "CanBeParameter")
 
-package net.axay.kspigot.inventory
+package net.axay.kspigot.gui
 
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.InventoryHolder
 
-class InventoryType<in T : ForInventory>(
+class GUIType<in T : ForInventory>(
     val dimensions: InventoryDimensions,
     val bukkitType: InventoryType? = null
 ) {
 
     companion object {
 
-        val ONE_BY_NINE = InventoryType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
-        val TWO_BY_NINE = InventoryType<ForInventoryTwoByNine>(InventoryDimensions(9, 2))
-        val THREE_BY_NINE = InventoryType<ForInventoryThreeByNine>(InventoryDimensions(9, 3))
-        val FOUR_BY_NINE = InventoryType<ForInventoryFourByNine>(InventoryDimensions(9, 4))
-        val FIVE_BY_NINE = InventoryType<ForInventoryFiveByNine>(InventoryDimensions(9, 5))
-        val SIX_BY_NINE = InventoryType<ForInventorySixByNine>(InventoryDimensions(9, 6))
+        val ONE_BY_NINE = GUIType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
+        val TWO_BY_NINE = GUIType<ForInventoryTwoByNine>(InventoryDimensions(9, 2))
+        val THREE_BY_NINE = GUIType<ForInventoryThreeByNine>(InventoryDimensions(9, 3))
+        val FOUR_BY_NINE = GUIType<ForInventoryFourByNine>(InventoryDimensions(9, 4))
+        val FIVE_BY_NINE = GUIType<ForInventoryFiveByNine>(InventoryDimensions(9, 5))
+        val SIX_BY_NINE = GUIType<ForInventorySixByNine>(InventoryDimensions(9, 6))
         val ONE_BY_FIVE =
-            InventoryType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
+            GUIType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
         val THREE_BY_THREE =
-            InventoryType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
+            GUIType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
 
     }
 

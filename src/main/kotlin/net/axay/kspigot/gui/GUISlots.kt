@@ -1,6 +1,6 @@
 @file:Suppress("unused", "MemberVisibilityCanBePrivate")
 
-package net.axay.kspigot.inventory
+package net.axay.kspigot.gui
 
 import net.axay.kspigot.languageextensions.kotlinextensions.MinMaxPair
 
@@ -70,9 +70,9 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 
 interface InventorySlotCompound<out T : ForInventory> {
 
-    fun withInvType(invType: InventoryType<T>): Collection<InventorySlot>
+    fun withInvType(invType: GUIType<T>): Collection<InventorySlot>
 
-    fun realSlotsWithInvType(invType: InventoryType<T>) =
+    fun realSlotsWithInvType(invType: GUIType<T>) =
         withInvType(invType).mapNotNull { it.realSlotIn(invType.dimensions) }
 
 }
@@ -85,7 +85,7 @@ open class SingleInventorySlot<T : ForInventory> internal constructor(
 
     private val slotAsList = listOf(inventorySlot)
 
-    override fun withInvType(invType: InventoryType<T>) = slotAsList
+    override fun withInvType(invType: GUIType<T>) = slotAsList
 
 }
 
@@ -112,7 +112,7 @@ class InventorySlotRange<out T : ForInventory> internal constructor(
         endInclusive = minMaxPair.max
     }
 
-    override fun withInvType(invType: InventoryType<T>) = LinkedHashSet<InventorySlot>().apply {
+    override fun withInvType(invType: GUIType<T>) = LinkedHashSet<InventorySlot>().apply {
         when (type) {
 
             InventorySlotRangeType.RECTANGLE -> {
@@ -166,7 +166,7 @@ class InventoryRowSlots<T : ForInventory> internal constructor(
     val row: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: GUIType<T>) = HashSet<InventorySlot>().apply {
         for (slotInRow in 1..invType.dimensions.width)
             this += InventorySlot(row, slotInRow)
     }
@@ -177,7 +177,7 @@ class InventoryColumnSlots<T : ForInventory> internal constructor(
     val column: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: GUIType<T>) = HashSet<InventorySlot>().apply {
         for (row in 1..invType.dimensions.height)
             this += InventorySlot(row, column)
     }
@@ -188,7 +188,7 @@ class InventoryBorderSlots<T : ForInventory> internal constructor(
     val padding: Int
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: GUIType<T>) = HashSet<InventorySlot>().apply {
 
         val dimensions = invType.dimensions
 
@@ -214,7 +214,7 @@ class InventoryCornerSlots<T : ForInventory> internal constructor(
     val ifTopRight: Boolean = false
 ) : InventorySlotCompound<T> {
 
-    override fun withInvType(invType: InventoryType<T>) = HashSet<InventorySlot>().apply {
+    override fun withInvType(invType: GUIType<T>) = HashSet<InventorySlot>().apply {
 
         val dimensions = invType.dimensions
 
