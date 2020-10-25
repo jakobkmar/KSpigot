@@ -12,12 +12,11 @@ import org.bukkit.inventory.ItemStack
 import java.util.*
 import kotlin.collections.HashSet
 
-private const val DEFAULT_PAGE = 1
-
 class GUIData<T : ForInventory>(
     val guiType: GUIType<T>,
     val title: String?,
     internal val pages: Map<Int, GUIPage<T>>,
+    val defaultPage: Int,
     val transitionTo: InventoryChangeEffect?,
     val transitionFrom: InventoryChangeEffect?,
     internal val generalOnClick: ((GUIClickEvent<T>) -> Unit)?
@@ -127,13 +126,13 @@ class GUIInstance<T : ForInventory>(
 
     internal var isInMove: Boolean = false
 
-    var currentPageInt: Int = DEFAULT_PAGE; private set
+    var currentPageInt: Int = gui.data.defaultPage; private set
     val currentPage
         get() = getPage(currentPageInt)
             ?: throw IllegalStateException("The currentPageInt has no associated page!")
 
     init {
-        loadPageUnsafe(DEFAULT_PAGE)
+        loadPageUnsafe(gui.data.defaultPage)
     }
 
     internal fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0) {

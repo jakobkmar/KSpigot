@@ -61,7 +61,7 @@ class GUIBuilder<T : ForInventory>(
     }
 
     internal fun build() = guiCreator.createInstance(
-        GUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+        GUIData(type, title, guiSlots, defaultPage, transitionTo, transitionFrom, onClickElement)
     )
 
 }
