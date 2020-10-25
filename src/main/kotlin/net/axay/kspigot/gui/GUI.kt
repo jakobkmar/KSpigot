@@ -2,13 +2,15 @@
 
 package net.axay.kspigot.gui
 
+import net.axay.kspigot.event.listen
+import net.axay.kspigot.extensions.bukkit.closeForViewers
 import org.bukkit.entity.Player
+import org.bukkit.event.inventory.InventoryCloseEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import java.util.*
 import kotlin.collections.HashSet
-
-// TODO unregister in all layers
 
 private const val DEFAULT_PAGE = 1
 
@@ -24,22 +26,59 @@ class GUIData<T : ForInventory>(
 abstract class GUI<T : ForInventory>(
     val data: GUIData<T>
 ) {
+
+    /**
+     * Returns the instance beloning to the given player.
+     * If not existing, a new instance will be created.
+     */
     abstract fun getInstance(player: Player): GUIInstance<T>
+
+    /**
+     * Returns all active instances of this GUI.
+     */
+    abstract fun getAllInstances(): Collection<GUIInstance<T>>
+
+    /**
+     * Closes this GUI for all viewers and unregisters
+     * all instances.
+     */
+    abstract fun closeGUI()
+
+    protected fun unregisterAndClose() {
+        getAllInstances().forEach {
+            it.bukkitInventory.closeForViewers()
+            it.unregister()
+        }
+    }
+
 }
 
 class GUIShared<T : ForInventory>(
     guiData: GUIData<T>
 ) : GUI<T>(guiData) {
 
-    val singleInstance by lazy { GUIInstance(this, null).apply { register() } }
+    private var _singleInstance: GUIInstance<T>? = null
+    val singleInstance
+        get() = _singleInstance ?: GUIInstance(this, null).apply {
+            _singleInstance = this
+            register()
+        }
 
     override fun getInstance(player: Player) = singleInstance
+
+    override fun getAllInstances() = _singleInstance?.let { listOf(it) } ?: emptyList()
+
+    override fun closeGUI() {
+        unregisterAndClose()
+        _singleInstance = null
+    }
 
 }
 
 class GUIIndividual<T : ForInventory>(
     guiData: GUIData<T>,
-    val resetOnClose: Boolean
+    resetOnClose: Boolean,
+    resetOnQuit: Boolean
 ) : GUI<T>(guiData) {
 
     private val playerInstances = HashMap<Player, GUIInstance<T>>()
@@ -47,8 +86,33 @@ class GUIIndividual<T : ForInventory>(
     override fun getInstance(player: Player) =
         playerInstances[player] ?: createInstance(player)
 
+    override fun getAllInstances() = playerInstances.values
+
     private fun createInstance(player: Player) =
         GUIInstance(this, player).apply { playerInstances[player] = this }
+
+    fun deleteInstance(player: Player) = playerInstances.remove(player)?.unregister()
+
+    override fun closeGUI() {
+        unregisterAndClose()
+        playerInstances.clear()
+    }
+
+    init {
+
+        if (resetOnClose) {
+            listen<InventoryCloseEvent> {
+                deleteInstance(it.player as? Player ?: return@listen)
+            }
+        }
+
+        if (resetOnQuit) {
+            listen<PlayerQuitEvent> {
+                deleteInstance(it.player)
+            }
+        }
+
+    }
 
 }
 

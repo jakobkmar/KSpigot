@@ -9,7 +9,8 @@ class SharedGUICreator<T : ForInventory> : GUICreator<T>() {
 }
 
 class IndividualGUICreator<T : ForInventory>(
-    private val resetOnClose: Boolean
+    private val resetOnClose: Boolean,
+    private val resetOnQuit: Boolean
 ) : GUICreator<T>() {
-    override fun createInstance(guiData: GUIData<T>) = GUIIndividual(guiData, resetOnClose)
+    override fun createInstance(guiData: GUIData<T>) = GUIIndividual(guiData, resetOnClose, resetOnQuit)
 }

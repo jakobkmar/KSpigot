@@ -1,20 +1,22 @@
 package net.axay.kspigot.gui
 
 import net.axay.kspigot.event.listen
+import net.axay.kspigot.extensions.bukkit.closeForViewers
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.inventory.Inventory
 
 object GUIHolder : AutoCloseable {
 
-    private val registered = HashSet<GUIInstance<ForInventory>>()
+    private val registered = HashMap<Inventory, GUIInstance<ForInventory>>()
 
     fun register(guiInstance: GUIInstance<ForInventory>) {
-        registered.add(guiInstance)
+        registered[guiInstance.bukkitInventory] = guiInstance
     }
 
     fun unregister(guiInstance: GUIInstance<ForInventory>) {
-        registered.remove(guiInstance)
+        registered -= guiInstance.bukkitInventory
     }
 
     init {
@@ -23,7 +25,7 @@ object GUIHolder : AutoCloseable {
 
             val clickedInv = it.clickedInventory ?: return@listen
 
-            val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
+            val inv = registered[clickedInv] ?: return@listen
 
             val player = it.whoClicked as? Player ?: kotlin.run {
                 it.isCancelled = true
@@ -46,7 +48,7 @@ object GUIHolder : AutoCloseable {
     }
 
     override fun close() {
-        registered.forEach { inv -> inv.bukkitInventory.viewers.forEach { it.closeInventory() } }
+        registered.keys.forEach { it.closeForViewers() }
         registered.clear()
     }
 
