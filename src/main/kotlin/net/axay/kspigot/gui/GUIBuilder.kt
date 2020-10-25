@@ -56,6 +56,10 @@ class GUIBuilder<T : ForInventory>(
         guiSlots[page] = GUIPageBuilder(type, page).apply(builder).build()
     }
 
+    /**
+     * A callback executed when the user clicks on
+     * any GUI elements on any page in this GUI.
+     */
     fun onClickElement(onClick: (GUIClickEvent<T>) -> Unit) {
         onClickElement = onClick
     }
