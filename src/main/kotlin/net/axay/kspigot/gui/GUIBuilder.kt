@@ -8,7 +8,7 @@ import kotlin.math.absoluteValue
 
 fun <T : ForInventory> kSpigotGUI(
     type: GUIType<T>,
-    guiCreator: GUICreator<T>,
+    guiCreator: GUICreator<T> = IndividualGUICreator(),
     builder: GUIBuilder<T>.() -> Unit,
 ) = GUIBuilder(type, guiCreator).apply(builder).build()
 
