@@ -41,6 +41,13 @@ fun Player.awaitAnvilInput(
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
 
+fun Player.awaitBookInput(
+    timeoutSeconds: Int = 1 * 60,
+    callback: (String?) -> Unit
+) {
+    PlayerInputBook(this, callback, timeoutSeconds)
+}
+
 internal abstract class PlayerInput(
     protected val player: Player,
     private val callback: (String?) -> Unit,
