@@ -17,10 +17,31 @@ class GUIBuilder<T : ForInventory>(
     private val guiCreator: GUICreator<T>
 ) {
 
+    /**
+     * The title of this GUI.
+     * This title will be visible for every page of
+     * this GUI.
+     */
     var title: String = ""
 
+    /**
+     * The transition applied, if another GUI redirects to
+     * this GUI.
+     */
     var transitionTo: InventoryChangeEffect? = null
+
+    /**
+     * The transition applied, if this GUI redirects to
+     * another GUI and the other GUI has no transitionTo
+     * value defined.
+     */
     var transitionFrom: InventoryChangeEffect? = null
+
+    /**
+     * The default page will be loaded first for every
+     * GUI instance.
+     */
+    var defaultPage = 1
 
     private val guiSlots = HashMap<Int, GUIPage<T>>()
 
