@@ -9,14 +9,19 @@ class GUIButtonPageChange<T : ForInventory>(
     onChange: ((GUIClickEvent<T>) -> Unit)?
 ) : GUIButton<T>(icon, {
 
-    val currentPage = it.gui.currentPage
-    val newPage = it.gui.getPage(calculator.calculateNewPage(it.gui.currentPageInt, it.gui.data.pages.keys))
+    val currentPage = it.guiInstance.currentPage
+    val newPage = it.guiInstance.getPage(
+        calculator.calculateNewPage(
+            it.guiInstance.currentPageInt,
+            it.guiInstance.gui.data.pages.keys
+        )
+    )
     if (newPage != null) {
 
         val effect = (newPage.transitionTo ?: currentPage.transitionFrom)
             ?: PageChangeEffect.INSTANT
 
-        it.gui.changePage(effect, currentPage, newPage)
+        it.guiInstance.changePage(effect, currentPage, newPage)
 
         onChange?.invoke(it)
 

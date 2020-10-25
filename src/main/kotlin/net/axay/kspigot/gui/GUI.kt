@@ -2,116 +2,81 @@
 
 package net.axay.kspigot.gui
 
+import org.bukkit.entity.Player
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
+import java.util.*
+import kotlin.collections.HashSet
+
+// TODO unregister in all layers
 
 private const val DEFAULT_PAGE = 1
 
 class GUIData<T : ForInventory>(
-        val guiType: GUIType<T>,
-        val title: String?,
-        internal val pages: Map<Int, GUIPage<T>>,
-        val transitionTo: InventoryChangeEffect?,
-        val transitionFrom: InventoryChangeEffect?,
-        internal val generalOnClick: ((GUIClickEvent<T>) -> Unit)?
+    val guiType: GUIType<T>,
+    val title: String?,
+    internal val pages: Map<Int, GUIPage<T>>,
+    val transitionTo: InventoryChangeEffect?,
+    val transitionFrom: InventoryChangeEffect?,
+    internal val generalOnClick: ((GUIClickEvent<T>) -> Unit)?
 )
 
 abstract class GUI<T : ForInventory>(
     val data: GUIData<T>
 ) {
+    abstract fun getInstance(player: Player): GUIInstance<T>
+}
 
-    var currentPageInt: Int = DEFAULT_PAGE; protected set
-    val currentPage
-        get() = getPage(currentPageInt)
-            ?: throw IllegalStateException("The currentPageInt has no associated page!")
+class GUIShared<T : ForInventory>(
+    guiData: GUIData<T>
+) : GUI<T>(guiData) {
 
-    internal abstract val bukkitInventory: Inventory
+    val singleInstance by lazy { GUIInstance(this, null).apply { register() } }
 
-    internal var isInMove: Boolean = false
-
-    internal val currentElements = HashSet<GUIElement<*>>()
-
-    internal abstract fun loadPageUnsafe(
-        page: Int,
-        offsetHorizontally: Int = 0,
-        offsetVertically: Int = 0
-    )
-
-    internal abstract fun loadPageUnsafe(
-        page: GUIPage<*>,
-        offsetHorizontally: Int = 0,
-        offsetVertically: Int = 0
-    )
-
-    internal abstract fun loadContent(
-        content: Map<Int, GUISlot<*>>,
-        offsetHorizontally: Int = 0,
-        offsetVertically: Int = 0
-    )
-
-    /**
-     * @return True, if the [inventory] belongs to this GUI.
-     */
-    abstract fun isThisInv(inventory: Inventory): Boolean
-
-    /**
-     * Registers this GUI.
-     * (KSpigot will listen for actions in the inventory.)
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun register() = GUIHolder.register(this as GUI<ForInventory>)
-
-    /**
-     * Stops KSpigot from listening to actions in this
-     * GUI anymore.
-     */
-    @Suppress("UNCHECKED_CAST")
-    fun unregister() = GUIHolder.unregister(this as GUI<ForInventory>)
-
-    /**
-     * Loads the specified page in order to display it in the GUI.
-     */
-    fun loadPage(page: GUIPage<T>) = loadPageUnsafe(page)
-
-    /**
-     * Temporarily sets the given item at the given slots.
-     */
-    abstract operator fun set(slot: InventorySlotCompound<T>, value: ItemStack)
-
-    /**
-     * Searches for a page associated to the given [page] index.
-     */
-    fun getPage(page: Int?) = data.pages[page]
-
-    /**
-     * Reloads the current page.
-     */
-    fun reloadCurrentPage() {
-        if (!isInMove)
-            loadPage(currentPage)
-    }
+    override fun getInstance(player: Player) = singleInstance
 
 }
 
-// Inventory GUI implementations
+class GUIIndividual<T : ForInventory>(
+    guiData: GUIData<T>,
+    val resetOnClose: Boolean
+) : GUI<T>(guiData) {
 
-class GUIShared<T : ForInventory>(
-    GUIData: GUIData<T>
-) : GUI<T>(GUIData) {
+    private val playerInstances = HashMap<Player, GUIInstance<T>>()
 
-    override val bukkitInventory = data.guiType.createBukkitInv(null, data.title)
+    override fun getInstance(player: Player) =
+        playerInstances[player] ?: createInstance(player)
+
+    private fun createInstance(player: Player) =
+        GUIInstance(this, player).apply { playerInstances[player] = this }
+
+}
+
+class GUIInstance<T : ForInventory>(
+    val gui: GUI<T>,
+    holder: Player?
+) {
+
+    internal val bukkitInventory = gui.data.guiType.createBukkitInv(holder, gui.data.title)
+
+    private val currentElements = HashSet<GUIElement<*>>()
+
+    internal var isInMove: Boolean = false
+
+    var currentPageInt: Int = DEFAULT_PAGE; private set
+    val currentPage
+        get() = getPage(currentPageInt)
+            ?: throw IllegalStateException("The currentPageInt has no associated page!")
 
     init {
         loadPageUnsafe(DEFAULT_PAGE)
     }
 
-    override fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
-
-    override fun loadPageUnsafe(page: Int, offsetHorizontally: Int, offsetVertically: Int) {
-        data.pages[page]?.let { loadPageUnsafe(it, offsetHorizontally, offsetVertically) }
+    internal fun loadPageUnsafe(page: Int, offsetHorizontally: Int = 0, offsetVertically: Int = 0) {
+        gui.data.pages[page]?.let { loadPageUnsafe(it, offsetHorizontally, offsetVertically) }
     }
 
-    override fun loadPageUnsafe(page: GUIPage<*>, offsetHorizontally: Int, offsetVertically: Int) {
+    internal fun loadPageUnsafe(page: GUIPage<*>, offsetHorizontally: Int = 0, offsetVertically: Int = 0) {
 
         val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
 
@@ -122,10 +87,12 @@ class GUIShared<T : ForInventory>(
             currentElements.clear()
 
             // register this inv for all new elements
-            HashSet(page.slots.values).forEach { if (it is GUIElement) {
-                currentElements += it
-                it.startUsing(this)
-            } }
+            HashSet(page.slots.values).forEach {
+                if (it is GUIElement) {
+                    currentElements += it
+                    it.startUsing(this)
+                }
+            }
 
             currentPageInt = page.number
 
@@ -135,15 +102,15 @@ class GUIShared<T : ForInventory>(
 
     }
 
-    override fun loadContent(
+    internal fun loadContent(
         content: Map<Int, GUISlot<*>>,
-        offsetHorizontally: Int,
-        offsetVertically: Int
+        offsetHorizontally: Int = 0,
+        offsetVertically: Int = 0
     ) {
 
         val ifOffset = offsetHorizontally != 0 || offsetVertically != 0
 
-        val dimensions = data.guiType.dimensions
+        val dimensions = gui.data.guiType.dimensions
 
         // clear the space which will be redefined
         if (ifOffset) {
@@ -173,10 +140,50 @@ class GUIShared<T : ForInventory>(
 
     }
 
-    override operator fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
-        slot.realSlotsWithInvType(data.guiType).forEach {
+    /**
+     * Registers this GUI.
+     * (KSpigot will listen for actions in the inventory.)
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun register() = GUIHolder.register(this as GUIInstance<ForInventory>)
+
+    /**
+     * Stops KSpigot from listening to actions in this
+     * GUI anymore.
+     */
+    @Suppress("UNCHECKED_CAST")
+    fun unregister() = GUIHolder.unregister(this as GUIInstance<ForInventory>)
+
+    /**
+     * @return True, if the [inventory] belongs to this GUI.
+     */
+    fun isThisInv(inventory: Inventory) = inventory == bukkitInventory
+
+    /**
+     * Loads the specified page in order to display it in the GUI.
+     */
+    fun loadPage(page: GUIPage<T>) = loadPageUnsafe(page)
+
+    /**
+     * Temporarily sets the given item at the given slots.
+     */
+    operator fun set(slot: InventorySlotCompound<T>, value: ItemStack) {
+        slot.realSlotsWithInvType(gui.data.guiType).forEach {
             bukkitInventory.setItem(it, value)
         }
+    }
+
+    /**
+     * Searches for a page associated to the given [page] index.
+     */
+    fun getPage(page: Int?) = gui.data.pages[page]
+
+    /**
+     * Reloads the current page.
+     */
+    fun reloadCurrentPage() {
+        if (!isInMove)
+            loadPage(currentPage)
     }
 
 }

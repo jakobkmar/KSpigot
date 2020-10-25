@@ -1,15 +1,18 @@
 package net.axay.kspigot.gui
 
-import org.bukkit.entity.HumanEntity
+import org.bukkit.entity.Player
 import org.bukkit.inventory.InventoryView
 
-fun HumanEntity.openGUI(gui: GUI<*>, page: Int? = null): InventoryView? {
-
+fun Player.openGUI(gui: GUI<*>, page: Int? = null): InventoryView? {
     closeInventory()
+    return openGUIInstance(gui.getInstance(this), page)
+}
+
+internal fun Player.openGUIInstance(guiInstance: GUIInstance<*>, page: Int? = null): InventoryView? {
 
     if (page != null)
-        gui.loadPageUnsafe(page)
+        guiInstance.loadPageUnsafe(page)
 
-    return openInventory(gui.bukkitInventory)
+    return openInventory(guiInstance.bukkitInventory)
 
 }

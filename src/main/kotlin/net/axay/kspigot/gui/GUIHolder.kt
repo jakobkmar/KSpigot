@@ -1,19 +1,20 @@
 package net.axay.kspigot.gui
 
 import net.axay.kspigot.event.listen
+import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.event.inventory.InventoryClickEvent
 
 object GUIHolder : AutoCloseable {
 
-    private val registered = HashSet<GUI<ForInventory>>()
+    private val registered = HashSet<GUIInstance<ForInventory>>()
 
-    fun register(GUI: GUI<ForInventory>) {
-        registered.add(GUI)
+    fun register(guiInstance: GUIInstance<ForInventory>) {
+        registered.add(guiInstance)
     }
 
-    fun unregister(GUI: GUI<ForInventory>) {
-        registered.remove(GUI)
+    fun unregister(guiInstance: GUIInstance<ForInventory>) {
+        registered.remove(guiInstance)
     }
 
     init {
@@ -24,13 +25,18 @@ object GUIHolder : AutoCloseable {
 
             val inv = registered.find { search -> search.isThisInv(clickedInv) } ?: return@listen
 
+            val player = it.whoClicked as? Player ?: kotlin.run {
+                it.isCancelled = true
+                return@listen
+            }
+
             if (inv.isInMove) {
                 it.isCancelled = true
                 return@listen
             }
 
             if (it.action.isGUIClick)
-                inv.currentPage.slots[it.slot]?.onClick(GUIClickEvent(it, inv)) ?: kotlin.run {
+                inv.currentPage.slots[it.slot]?.onClick(GUIClickEvent(it, inv, player)) ?: kotlin.run {
                     it.isCancelled = true
                 }
             else

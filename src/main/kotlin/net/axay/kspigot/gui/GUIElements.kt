@@ -13,13 +13,13 @@ abstract class GUIElement<T : ForInventory> : GUISlot<T>() {
     abstract fun getItemStack(slot: Int): ItemStack
 
     final override fun onClick(clickEvent: GUIClickEvent<T>) {
-        clickEvent.gui.data.generalOnClick?.invoke(clickEvent)
+        clickEvent.guiInstance.gui.data.generalOnClick?.invoke(clickEvent)
         onClickElement(clickEvent)
     }
 
     protected abstract fun onClickElement(clickEvent: GUIClickEvent<T>)
 
-    internal open fun startUsing(gui: GUI<*>) { }
-    internal open fun stopUsing(gui: GUI<*>) { }
+    internal open fun startUsing(gui: GUIInstance<*>) {}
+    internal open fun stopUsing(gui: GUIInstance<*>) {}
 
 }

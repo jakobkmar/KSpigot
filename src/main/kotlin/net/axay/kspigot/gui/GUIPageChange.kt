@@ -36,7 +36,7 @@ enum class InventoryChangeEffect(
     INSTANT(PageChangeEffect.INSTANT)
 }
 
-internal fun GUI<*>.changePage(
+internal fun GUIInstance<*>.changePage(
     effect: PageChangeEffect,
     fromPage: GUIPage<*>,
     toPage: GUIPage<*>
@@ -51,7 +51,7 @@ internal fun GUI<*>.changePage(
 
         PageChangeEffect.SLIDE_HORIZONTALLY -> {
 
-            val width = data.guiType.dimensions.width
+            val width = gui.data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -67,7 +67,7 @@ internal fun GUI<*>.changePage(
 
         PageChangeEffect.SLIDE_VERTICALLY -> {
 
-            val height = data.guiType.dimensions.height
+            val height = gui.data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -83,7 +83,7 @@ internal fun GUI<*>.changePage(
 
         PageChangeEffect.SWIPE_HORIZONTALLY -> {
 
-            val width = data.guiType.dimensions.width
+            val width = gui.data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -97,7 +97,7 @@ internal fun GUI<*>.changePage(
 
         PageChangeEffect.SWIPE_VERTICALLY -> {
 
-            val height = data.guiType.dimensions.height
+            val height = gui.data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
                 if (ifInverted) {
@@ -112,7 +112,7 @@ internal fun GUI<*>.changePage(
     }
 }
 
-internal fun GUI<*>.changeGUI(
+internal fun GUIInstance<*>.changeGUI(
     effect: InventoryChangeEffect,
     fromPage: GUIPage<*>,
     toPage: GUIPage<*>

@@ -7,14 +7,14 @@ import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 
 fun <T : ForInventory> kSpigotGUI(
-        type: GUIType<T>,
-        shared: Boolean = true,
-        builder: GUIBuilder<T>.() -> Unit,
-) = GUIBuilder(type, shared).apply(builder).build()
+    type: GUIType<T>,
+    guiCreator: GUICreator<T>,
+    builder: GUIBuilder<T>.() -> Unit,
+) = GUIBuilder(type, guiCreator).apply(builder).build()
 
 class GUIBuilder<T : ForInventory>(
-        val type: GUIType<T>,
-        val shared: Boolean
+    val type: GUIType<T>,
+    private val guiCreator: GUICreator<T>
 ) {
 
     var title: String = ""
@@ -39,18 +39,15 @@ class GUIBuilder<T : ForInventory>(
         onClickElement = onClick
     }
 
-    internal fun build(): GUI<T> {
-        val guiData = GUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
-        val gui =
-            if (shared) GUIShared(guiData) else TODO("Currently, there is no non-shared GUI implementation available.")
-        return gui.apply { register() }
-    }
+    internal fun build() = guiCreator.createInstance(
+        GUIData(type, title, guiSlots, transitionTo, transitionFrom, onClickElement)
+    )
 
 }
 
 class GUIPageBuilder<T : ForInventory>(
-        private val type: GUIType<T>,
-        val page: Int
+    private val type: GUIType<T>,
+    val page: Int
 ) {
 
     private val guiSlots = HashMap<Int, GUISlot<T>>()
