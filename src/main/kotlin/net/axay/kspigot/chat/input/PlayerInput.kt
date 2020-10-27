@@ -153,6 +153,14 @@ internal class PlayerInputBookComprehensive(
     override fun loadBookContent(bookMeta: BookMeta) = bookMeta.content
 }
 
+internal class PlayerInputBookPaged(
+    player: Player,
+    callback: (PlayerInputResult<List<String>>) -> Unit,
+    timeoutSeconds: Int
+) : PlayerInputBook<List<String>>(player, callback, timeoutSeconds) {
+    override fun loadBookContent(bookMeta: BookMeta): List<String> = bookMeta.pages
+}
+
 internal abstract class PlayerInputBook<T>(
     player: Player,
     callback: (PlayerInputResult<T>) -> Unit,
