@@ -18,12 +18,13 @@ import org.bukkit.event.Listener
 import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import org.bukkit.event.player.PlayerEditBookEvent
+import org.bukkit.inventory.meta.BookMeta
 import org.bukkit.persistence.PersistentDataType
 
 fun Player.awaitChatInput(
     question: String = "Type your input in the chat!",
     timeoutSeconds: Int = 1 * 60,
-    callback: (String?) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit
 ) {
     PlayerInputChat(this, callback, timeoutSeconds, question)
 }
@@ -36,21 +37,23 @@ fun Player.awaitAnvilInput(
         "submit your input!"
     ),
     timeoutSeconds: Int = 1 * 60,
-    callback: (String?) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit
 ) {
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
 
 fun Player.awaitBookInput(
     timeoutSeconds: Int = 1 * 60,
-    callback: (String?) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit
 ) {
-    PlayerInputBook(this, callback, timeoutSeconds)
+    PlayerInputBookComprehensive(this, callback, timeoutSeconds)
 }
 
-internal abstract class PlayerInput(
+class PlayerInputResult<T> internal constructor(val input: T?)
+
+internal abstract class PlayerInput<T>(
     protected val player: Player,
-    private val callback: (String?) -> Unit,
+    private val callback: (PlayerInputResult<T>) -> Unit,
     timeoutSeconds: Int
 ) {
 
@@ -58,11 +61,11 @@ internal abstract class PlayerInput(
 
     protected abstract val inputListeners: List<Listener>
 
-    protected fun onReceive(input: String?) {
+    protected fun onReceive(input: T?) {
         if (!received) {
             inputListeners.forEach { it.unregister() }
             received = true
-            callback.invoke(input)
+            callback.invoke(PlayerInputResult(input))
         }
     }
 
@@ -79,10 +82,10 @@ internal abstract class PlayerInput(
 
 internal class PlayerInputChat(
     player: Player,
-    callback: (String?) -> Unit,
+    callback: (PlayerInputResult<String>) -> Unit,
     timeoutSeconds: Int,
     question: String
-) : PlayerInput(player, callback, timeoutSeconds) {
+) : PlayerInput<String>(player, callback, timeoutSeconds) {
 
     init {
         player.sendMessage("${KColors.ORANGERED}$question")
@@ -101,12 +104,12 @@ internal class PlayerInputChat(
 
 internal class PlayerInputAnvilInv(
     player: Player,
-    callback: (String?) -> Unit,
+    callback: (PlayerInputResult<String>) -> Unit,
     timeoutSeconds: Int,
     invTitle: String,
     startText: String,
     renameItemDescription: List<String>
-) : PlayerInput(player, callback, timeoutSeconds) {
+) : PlayerInput<String>(player, callback, timeoutSeconds) {
 
     private val anvilInv =
         AnvilGUI.Builder().plugin(KSpigotMainInstance)
@@ -142,16 +145,23 @@ internal class PlayerInputAnvilInv(
 
 }
 
-internal class PlayerInputBook(
+internal class PlayerInputBookComprehensive(
     player: Player,
-    callback: (String?) -> Unit,
+    callback: (PlayerInputResult<String>) -> Unit,
     timeoutSeconds: Int
-) : PlayerInput(player, callback, timeoutSeconds) {
+) : PlayerInputBook<String>(player, callback, timeoutSeconds) {
+    override fun loadBookContent(bookMeta: BookMeta) = bookMeta.content
+}
+
+internal abstract class PlayerInputBook<T>(
+    player: Player,
+    callback: (PlayerInputResult<T>) -> Unit,
+    timeoutSeconds: Int
+) : PlayerInput<T>(player, callback, timeoutSeconds) {
 
     private val id = getID()
 
     init {
-
         player.openBook(itemStack(Material.WRITABLE_BOOK) {
             meta {
                 persistentDataContainer[idKey, PersistentDataType.INTEGER] = id
@@ -159,11 +169,13 @@ internal class PlayerInputBook(
         })
     }
 
+    abstract fun loadBookContent(bookMeta: BookMeta): T
+
     override val inputListeners = listOf(
         listen<PlayerEditBookEvent> {
             val meta = it.newBookMeta
             if (meta.persistentDataContainer[idKey, PersistentDataType.INTEGER] == id) {
-                onReceive(meta.content)
+                onReceive(loadBookContent(meta))
                 usedIDs -= id
             }
         }
