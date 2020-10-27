@@ -88,7 +88,10 @@ class GUIIndividual<T : ForInventory>(
     override fun getAllInstances() = playerInstances.values
 
     private fun createInstance(player: Player) =
-        GUIInstance(this, player).apply { playerInstances[player] = this }
+        GUIInstance(this, player).apply {
+            playerInstances[player] = this
+            register()
+        }
 
     fun deleteInstance(player: Player) = playerInstances.remove(player)?.unregister()
 
