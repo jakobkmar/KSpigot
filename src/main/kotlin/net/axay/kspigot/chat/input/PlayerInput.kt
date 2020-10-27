@@ -1,3 +1,5 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package net.axay.kspigot.chat.input
 
 import net.axay.kspigot.chat.KColors
@@ -75,6 +77,9 @@ fun Player.awaitBookInputAsList(
     PlayerInputBookPaged(this, callback, timeoutSeconds)
 }
 
+/**
+ * @param input The input the player gave. Null on timeout or invalid input.
+ */
 class PlayerInputResult<T> internal constructor(val input: T?)
 
 internal abstract class PlayerInput<T>(
