@@ -42,11 +42,18 @@ fun Player.awaitAnvilInput(
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
 
-fun Player.awaitBookInput(
+fun Player.awaitBookInputAsString(
     timeoutSeconds: Int = 1 * 60,
     callback: (PlayerInputResult<String>) -> Unit
 ) {
     PlayerInputBookComprehensive(this, callback, timeoutSeconds)
+}
+
+fun Player.awaitBookInputAsList(
+    timeoutSeconds: Int = 1 * 60,
+    callback: (PlayerInputResult<List<String>>) -> Unit
+) {
+    PlayerInputBookPaged(this, callback, timeoutSeconds)
 }
 
 class PlayerInputResult<T> internal constructor(val input: T?)
