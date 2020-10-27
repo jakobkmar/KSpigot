@@ -21,6 +21,10 @@ import org.bukkit.event.player.PlayerEditBookEvent
 import org.bukkit.inventory.meta.BookMeta
 import org.bukkit.persistence.PersistentDataType
 
+/**
+ * Asks the player a question and uses the next
+ * chat input of the player as his input.
+ */
 fun Player.awaitChatInput(
     question: String = "Type your input in the chat!",
     timeoutSeconds: Int = 1 * 60,
@@ -29,6 +33,10 @@ fun Player.awaitChatInput(
     PlayerInputChat(this, callback, timeoutSeconds, question)
 }
 
+/**
+ * Opens an anvil GUI and uses the new name of the
+ * renamed item as the players' input.
+ */
 fun Player.awaitAnvilInput(
     invTitle: String = "Type your input!",
     startText: String = "RENAME ME",
@@ -42,6 +50,11 @@ fun Player.awaitAnvilInput(
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
 
+/**
+ * Opens a book and uses the text the player inserted
+ * on all sites as the players' input.
+ * In this case, all pages will be flattened to a single string.
+ */
 fun Player.awaitBookInputAsString(
     timeoutSeconds: Int = 1 * 60,
     callback: (PlayerInputResult<String>) -> Unit
@@ -49,6 +62,12 @@ fun Player.awaitBookInputAsString(
     PlayerInputBookComprehensive(this, callback, timeoutSeconds)
 }
 
+/**
+ * Opens a book and uses the text the player inserted
+ * on all sites as the players' input.
+ * In this case, every page is represented by one string
+ * element in a list of strings.
+ */
 fun Player.awaitBookInputAsList(
     timeoutSeconds: Int = 1 * 60,
     callback: (PlayerInputResult<List<String>>) -> Unit
