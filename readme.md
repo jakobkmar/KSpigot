@@ -155,6 +155,10 @@ Please keep in mind that this extensions is still in a more early stage of devel
 </p>
 </details>
 
+## Contact
+
+Join our Discord Server (click on the badge above)
+
 ## First of all
 
 **Inherit from `KSpigot` instead of `JavaPlugin` in your main class** <br>
