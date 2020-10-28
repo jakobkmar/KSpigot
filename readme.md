@@ -2,7 +2,8 @@
 
 ## Dependency
 
-[ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion) <br>
+[ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
+[ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/6jcx5ev) <br>
 [ ![Downloads](https://img.shields.io/bintray/dt/bluefireoly/KSpigot/KSpigot?color=gr%C3%BCn&style=flat-square) ](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot)
 
 <details>
@@ -153,10 +154,6 @@ Please keep in mind that this extensions is still in a more early stage of devel
 
 </p>
 </details>
-
-## Contact
-
-[Join our DISCORD](https://discord.gg/6jcx5ev)
 
 ## First of all
 
