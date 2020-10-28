@@ -3,6 +3,7 @@ $dokka.linkExtension:html
 
 net.axay.kspigot.annotations
 net.axay.kspigot.chat
+net.axay.kspigot.chat.input
 net.axay.kspigot.config
 net.axay.kspigot.data
 net.axay.kspigot.event
@@ -11,8 +12,8 @@ net.axay.kspigot.extensions.bukkit
 net.axay.kspigot.extensions.events
 net.axay.kspigot.extensions.geometry
 net.axay.kspigot.game
-net.axay.kspigot.inventory
-net.axay.kspigot.inventory.elements
+net.axay.kspigot.gui
+net.axay.kspigot.gui.elements
 net.axay.kspigot.ipaddress
 net.axay.kspigot.ipaddress.badipdetectionservices
 net.axay.kspigot.items
