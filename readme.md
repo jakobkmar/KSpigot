@@ -156,7 +156,7 @@ Please keep in mind that this extensions is still in a more early stage of devel
 
 ## Contact
 
-Discord: `BLUE#6649`
+[Join our DISCORD](https://discord.gg/6jcx5ev)
 
 ## First of all
 
