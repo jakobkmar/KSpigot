@@ -6,7 +6,7 @@ import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
- * This is the main instance of kSpigot.
+ * This is the main instance of KSpigot.
  *
  * This class replaces (and inherits from) the
  * JavaPlugin class. Your main plugin class should
