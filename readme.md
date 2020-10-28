@@ -1,10 +1,10 @@
 # KSpigot
 
-## Dependency
-
 [ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
 [ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ) <br>
 [ ![Downloads](https://img.shields.io/bintray/dt/bluefireoly/KSpigot/KSpigot?color=gr%C3%BCn&style=flat-square) ](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot)
+
+## Dependency
 
 <details>
 <summary><b>Gradle (Kotlin-Script)</b></summary>
