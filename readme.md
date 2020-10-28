@@ -2,7 +2,7 @@
 
 ## Dependency
 
-[ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version%3A&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
+[ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version%3A&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion) <br>
 [ ![Downloads](https://img.shields.io/bintray/dt/bluefireoly/KSpigot/KSpigot?color=gr%C3%BCn&style=flat-square) ](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot)
 
 <details>
