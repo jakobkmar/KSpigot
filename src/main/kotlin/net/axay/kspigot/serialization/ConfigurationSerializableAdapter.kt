@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.serialization
 
 import kotlinx.serialization.KSerializer
@@ -16,12 +18,12 @@ import org.bukkit.util.io.BukkitObjectOutputStream
 import java.io.ByteArrayOutputStream
 import kotlin.reflect.KClass
 
-object ColorSerializer: KSerializerForBukkit<Color>(Color::class)
-object BoundingBoxSerializer: KSerializerForBukkit<BoundingBox>(BoundingBox::class)
-object ItemMetaSerializer: KSerializerForBukkit<ItemMeta>(ItemMeta::class)
-object ItemStackSerializer: KSerializerForBukkit<ItemStack>(ItemStack::class)
-object LocationSerializer: KSerializerForBukkit<Location>(Location::class)
-object VectorSerializer: KSerializerForBukkit<Vector>(Vector::class)
+object ColorSerializer : KSerializerForBukkit<Color>(Color::class)
+object BoundingBoxSerializer : KSerializerForBukkit<BoundingBox>(BoundingBox::class)
+object ItemMetaSerializer : KSerializerForBukkit<ItemMeta>(ItemMeta::class)
+object ItemStackSerializer : KSerializerForBukkit<ItemStack>(ItemStack::class)
+object LocationSerializer : KSerializerForBukkit<Location>(Location::class)
+object VectorSerializer : KSerializerForBukkit<Vector>(Vector::class)
 
 open class KSerializerForBukkit<T : ConfigurationSerializable>(
     private val kClass: KClass<T>
