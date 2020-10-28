@@ -9,9 +9,11 @@
 <summary><b>Gradle (Kotlin-Script)</b></summary>
 <p>
 
-**The repository:**
+**The repositories:**
 ```kotlin
 jcenter()
+mavenCentral()
+maven("https://jitpack.io")
 ```
 
 **The dependency:**
@@ -27,9 +29,11 @@ implementation("net.axay", "KSpigot", "VERSION_HERE")
 <summary><b>Gradle (Groovy)</b></summary>
 <p>
 
-**The repository:**
+**The repositories:**
 ```groovy
 jcenter()
+mavenCentral()
+maven { url 'https://jitpack.io' }
 ```
 
 **The dependency:**
@@ -45,12 +49,16 @@ implementation 'net.axay:KSpigot:VERSION_HERE'
 <summary><b>Maven</b></summary>
 <p>
 
-**The repository:**
+**The repositories:**
 ```xml
 <repository>
     <id>jcenter</id>
     <name>jcenter</name>
     <url>https://jcenter.bintray.com</url>
+</repository>
+<repository>
+    <id>jitpack.io</id>
+    <url>https://jitpack.io</url>
 </repository>
 ```
 
