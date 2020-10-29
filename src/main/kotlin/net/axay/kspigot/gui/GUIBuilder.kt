@@ -267,7 +267,6 @@ class GUIPageBuilder<T : ForInventory>(
         GUISpaceCompoundScrollButton(
             icon,
             compound,
-            compound.compoundWidth,
             scrollTimes,
             reverse
         )
