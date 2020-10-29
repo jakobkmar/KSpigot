@@ -2,6 +2,7 @@
 
 [ ![Latest version](https://img.shields.io/bintray/v/bluefireoly/KSpigot/KSpigot?color=pink&label=latest%20version&style=for-the-badge) ](https://bintray.com/bluefireoly/KSpigot/KSpigot/_latestVersion)
 [ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ)
+[ ![Guide](https://img.shields.io/badge/guide-read-%23c2ff73?style=for-the-badge) ](https://bluefireoly.gitbook.io/kspigot/)
 [ ![Documentation](https://img.shields.io/website?down_color=%23ff4040&down_message=offline&label=DOCS&style=for-the-badge&up_color=%2352ffa0&up_message=view&url=https%3A%2F%2Fbluefireoly.github.io%2FKSpigot%2F-k-spigot%2Findex.html) ](https://bluefireoly.github.io/KSpigot/-k-spigot/index.html) <br>
 [ ![Downloads](https://img.shields.io/bintray/dt/bluefireoly/KSpigot/KSpigot?color=gr%C3%BCn&style=flat-square) ](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot)
 
