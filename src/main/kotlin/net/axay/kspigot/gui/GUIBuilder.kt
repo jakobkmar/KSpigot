@@ -189,12 +189,27 @@ class GUIPageBuilder<T : ForInventory>(
     ) = GUISpaceCompound(type, iconGenerator, onClick)
 
     /**
+     * Defines an area where the content of the given compound
+     * is displayed.
+     */
+    fun <E> compoundSpace(
+        slots: InventorySlotCompound<T>,
+        compound: GUISpaceCompound<T, E>
+    ) {
+        compound.addSlots(slots)
+        defineSlots(
+            slots,
+            GUISpaceCompoundElement(compound)
+        )
+    }
+
+    /**
      * Creates a new compound, holding data which can be displayed
      * in any compound space.
      * This compound is strictly a rectangle.
      * The space is automatically defined.
      */
-    fun <E> createCompound(
+    fun <E> createRectCompound(
         fromSlot: SingleInventorySlot<out T>,
         toSlot: SingleInventorySlot<out T>,
         iconGenerator: (E) -> ItemStack,
@@ -213,21 +228,6 @@ class GUIPageBuilder<T : ForInventory>(
                 GUISpaceCompoundElement(this)
             )
         }
-    }
-
-    /**
-     * Defines an area where the content of the given compound
-     * is displayed.
-     */
-    fun <E> compoundSpace(
-        slots: InventorySlotCompound<T>,
-        compound: AbstractGUISpaceCompound<T, E>
-    ) {
-        compound.addSlots(slots)
-        defineSlots(
-            slots,
-            GUISpaceCompoundElement(compound)
-        )
     }
 
     /**
