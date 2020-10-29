@@ -8,7 +8,7 @@ import org.bukkit.entity.Player
 import org.bukkit.util.Vector
 
 /**
- * @param particle The type of [Particle].
+ * @param particle The type of the particle.
  * @param amount The amount of particles.
  * @param offset The offset at which particles should appear.
  * @param extra Particle specific data, often specifying an aspect like speed.
