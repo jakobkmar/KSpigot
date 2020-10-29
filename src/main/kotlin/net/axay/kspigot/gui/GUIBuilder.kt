@@ -243,13 +243,7 @@ class GUIPageBuilder<T : ForInventory>(
         reverse: Boolean = false
     ) = defineSlots(
         slots,
-        GUISpaceCompoundScrollButton(
-            icon,
-            compound,
-            scrollDistance.absoluteValue,
-            scrollTimes,
-            reverse
-        )
+        GUISpaceCompoundScrollButton(icon, compound, scrollDistance.absoluteValue, scrollTimes, reverse)
     )
 
     /**
@@ -264,12 +258,7 @@ class GUIPageBuilder<T : ForInventory>(
         reverse: Boolean = false
     ) = defineSlots(
         slots,
-        GUISpaceCompoundScrollButton(
-            icon,
-            compound,
-            scrollTimes,
-            reverse
-        )
+        GUISpaceCompoundScrollButton(icon, compound, scrollTimes, reverse)
     )
 
 }
