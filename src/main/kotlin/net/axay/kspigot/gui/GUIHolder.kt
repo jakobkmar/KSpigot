@@ -3,8 +3,7 @@ package net.axay.kspigot.gui
 import net.axay.kspigot.event.listen
 import net.axay.kspigot.extensions.bukkit.closeForViewers
 import org.bukkit.entity.Player
-import org.bukkit.event.inventory.InventoryAction
-import org.bukkit.event.inventory.InventoryClickEvent
+import org.bukkit.event.inventory.*
 import org.bukkit.inventory.Inventory
 
 object GUIHolder : AutoCloseable {
@@ -25,26 +24,63 @@ object GUIHolder : AutoCloseable {
 
             val clickedInv = it.clickedInventory ?: return@listen
 
-            val inv = registered[clickedInv] ?: return@listen
+            val gui = registered[clickedInv] ?: return@listen
 
-            val player = it.whoClicked as? Player ?: kotlin.run {
-                it.isCancelled = true
-                return@listen
-            }
+            val player = it.playerOrCancel ?: return@listen
 
-            if (inv.isInMove) {
+            if (gui.isInMove) {
                 it.isCancelled = true
                 return@listen
             }
 
             if (it.action.isGUIClick)
-                inv.currentPage.slots[it.slot]?.onClick(GUIClickEvent(it, inv, player)) ?: kotlin.run {
+                gui.currentPage.slots[it.slot]?.onClick(GUIClickEvent(it, gui, player)) ?: kotlin.run {
                     it.isCancelled = true
                 }
             else
                 it.isCancelled = true
 
         }
+
+        listen<InventoryDragEvent> {
+
+            val inv = it.inventory
+            val gui = registered[inv] ?: return@listen
+
+            val player = it.playerOrCancel ?: return@listen
+
+            var ifCancel = false
+
+            for (slotIndex in it.inventorySlots) {
+
+                val slot = gui.currentPage.slots[slotIndex]
+                if (slot == null) {
+                    ifCancel = true
+                    break
+                }
+
+                val clickEvent = InventoryClickEvent(
+                    it.view,
+                    it.view.getSlotType(slotIndex),
+                    slotIndex,
+                    ClickType.UNKNOWN,
+                    InventoryAction.UNKNOWN
+                )
+
+                slot.onClick(GUIClickEvent(clickEvent, gui, player))
+
+                if (clickEvent.isCancelled) {
+                    ifCancel = true
+                    break
+                }
+
+            }
+
+            if (ifCancel)
+                it.isCancelled = true
+
+        }
+
     }
 
     override fun close() {
@@ -56,3 +92,9 @@ object GUIHolder : AutoCloseable {
 
 private val InventoryAction.isGUIClick
     get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF
+
+private val InventoryInteractEvent.playerOrCancel: Player?
+    get() = (whoClicked as? Player) ?: kotlin.run {
+        isCancelled = true
+        return null
+    }
