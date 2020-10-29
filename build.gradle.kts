@@ -46,7 +46,6 @@ plugins {
  */
 
 repositories {
-    mavenCentral()
     jcenter()
     maven("https://jitpack.io")
 
