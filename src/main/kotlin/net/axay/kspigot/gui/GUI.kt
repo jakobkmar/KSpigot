@@ -217,8 +217,16 @@ class GUIInstance<T : ForInventory>(
      * Stops KSpigot from listening to actions in this
      * GUI anymore.
      */
-    @Suppress("UNCHECKED_CAST")
-    fun unregister() = GUIHolder.unregister(this as GUIInstance<ForInventory>)
+    fun unregister() {
+
+        @Suppress("UNCHECKED_CAST")
+        GUIHolder.unregister(this as GUIInstance<ForInventory>)
+
+        // unregister this inv from all elements
+        currentElements.forEach { it.stopUsing(this) }
+        currentElements.clear()
+
+    }
 
     /**
      * @return True, if the [inventory] belongs to this GUI.
