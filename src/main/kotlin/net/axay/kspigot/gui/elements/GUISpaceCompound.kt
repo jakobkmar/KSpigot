@@ -156,7 +156,7 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     /**
      * Adds new elements to the compound.
      */
-    fun addContent(elements: Collection<E>) {
+    fun addContent(elements: Iterable<E>) {
 
         content += elements
         contentSort.invoke()
