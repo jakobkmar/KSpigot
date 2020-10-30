@@ -85,6 +85,20 @@ fun Player.appear() {
 }
 
 /**
+ * Hides all online players from this player.
+ */
+fun Player.hideOnlinePlayers() {
+    onlinePlayers.filter { it != this }.forEach { this.hidePlayer(KSpigotMainInstance, it) }
+}
+
+/**
+ * Shows all online players to this player.
+ */
+fun Player.showOnlinePlayers() {
+    onlinePlayers.filter { it != this }.forEach { this.showPlayer(KSpigotMainInstance, it) }
+}
+
+/**
  * Kicks the player from the server.
  */
 fun Player.kick(reason: String? = "You got kicked!") {
