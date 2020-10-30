@@ -93,7 +93,7 @@ val sourcesJar by tasks.creating(Jar::class) {
 }
 
 artifacts {
-    add("archives", sourcesJar)
+    archives(sourcesJar)
 }
 
 /*
