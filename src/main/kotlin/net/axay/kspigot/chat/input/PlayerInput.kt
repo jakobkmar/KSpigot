@@ -7,6 +7,7 @@ import net.axay.kspigot.chat.input.implementations.PlayerInputBookComprehensive
 import net.axay.kspigot.chat.input.implementations.PlayerInputBookPaged
 import net.axay.kspigot.chat.input.implementations.PlayerInputChat
 import net.axay.kspigot.event.unregister
+import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.taskRunLater
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
@@ -84,7 +85,9 @@ internal abstract class PlayerInput<T>(
         if (!received) {
             inputListeners.forEach { it.unregister() }
             received = true
-            callback.invoke(PlayerInputResult(input))
+            sync {
+                callback.invoke(PlayerInputResult(input))
+            }
         }
     }
 
