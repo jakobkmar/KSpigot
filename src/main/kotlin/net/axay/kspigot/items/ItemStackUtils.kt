@@ -3,6 +3,10 @@ package net.axay.kspigot.items
 import net.axay.kspigot.chat.KColors
 import net.md_5.bungee.api.ChatColor
 
+/**
+ * Converts this string into a list of strings, which
+ * can be used for minecraft lorelists.
+ */
 @Suppress("RemoveRedundantSpreadOperator")
 fun String.toLoreList(lineLength: Int = 40, lineColor: ChatColor = KColors.RESET)
         = toLoreList(lineLength, *arrayOf(lineColor))
