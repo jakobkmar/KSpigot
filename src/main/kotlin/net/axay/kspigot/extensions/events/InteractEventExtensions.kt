@@ -25,6 +25,16 @@ val PlayerInteractEntityEvent.interactItem: ItemStack?
         }
     }
 
+/**
+ * @return True, if the action was a left mouse button click.
+ */
+val PlayerInteractEvent.isLeftClick get() = action == Action.LEFT_CLICK_BLOCK || action == Action.LEFT_CLICK_AIR
+
+/**
+ * @return True, if the action was a right mouse button click.
+ */
+val PlayerInteractEvent.isRightClick get() = action == Action.RIGHT_CLICK_BLOCK || action == Action.RIGHT_CLICK_AIR
+
 @UnsafeImplementation
 val PlayerInteractEvent.clickedBlockExceptAir: Block?
     get() {
