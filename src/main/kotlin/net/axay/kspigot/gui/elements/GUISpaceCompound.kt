@@ -25,7 +25,7 @@ class GUISpaceCompoundElement<T : ForInventory, E> internal constructor(
 class GUIRectSpaceCompound<T : ForInventory, E>(
     invType: GUIType<T>,
     iconGenerator: (E) -> ItemStack,
-    onClick: (GUIClickEvent<T>, E) -> Unit,
+    onClick: ((GUIClickEvent<T>, E) -> Unit)?,
     internal val compoundWidth: Int
 ) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
 
@@ -37,7 +37,7 @@ class GUIRectSpaceCompound<T : ForInventory, E>(
 class GUISpaceCompound<T : ForInventory, E>(
     invType: GUIType<T>,
     iconGenerator: (E) -> ItemStack,
-    onClick: (GUIClickEvent<T>, E) -> Unit
+    onClick: ((GUIClickEvent<T>, E) -> Unit)?
 ) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
 
     override fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int) = false
@@ -47,7 +47,7 @@ class GUISpaceCompound<T : ForInventory, E>(
 abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructor(
     val guiType: GUIType<T>,
     private val iconGenerator: (E) -> ItemStack,
-    private val onClick: (GUIClickEvent<T>, E) -> Unit
+    private val onClick: ((GUIClickEvent<T>, E) -> Unit)?
 ) {
 
     private val content = ArrayList<E>()
@@ -112,7 +112,7 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
             clickEvent.bukkitEvent.isCancelled = true
             return
         }
-        onClick.invoke(clickEvent, element)
+        onClick?.invoke(clickEvent, element)
     }
 
     internal fun addSlots(slots: InventorySlotCompound<T>) {

@@ -185,7 +185,7 @@ class GUIPageBuilder<T : ForInventory>(
      */
     fun <E> createCompound(
         iconGenerator: (E) -> ItemStack,
-        onClick: (clickEvent: GUIClickEvent<T>, element: E) -> Unit
+        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null
     ) = GUISpaceCompound(type, iconGenerator, onClick)
 
     /**
@@ -213,7 +213,7 @@ class GUIPageBuilder<T : ForInventory>(
         fromSlot: SingleInventorySlot<out T>,
         toSlot: SingleInventorySlot<out T>,
         iconGenerator: (E) -> ItemStack,
-        onClick: (clickEvent: GUIClickEvent<T>, element: E) -> Unit
+        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null
     ): GUIRectSpaceCompound<T, E> {
         val rectSlotCompound = fromSlot rectTo toSlot
         return GUIRectSpaceCompound(
