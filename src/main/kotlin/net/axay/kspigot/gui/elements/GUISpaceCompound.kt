@@ -16,6 +16,10 @@ class GUISpaceCompoundElement<T : ForInventory, E> internal constructor(
         compound.onClickElement(clickEvent)
     }
 
+    // the following to methods register and unregister the instance
+    // for each compound element, but that is ok because it gets
+    // added/removed to/from a HashSet
+
     override fun startUsing(gui: GUIInstance<*>) = compound.registerGUI(gui)
 
     override fun stopUsing(gui: GUIInstance<*>) = compound.unregisterGUI(gui)
