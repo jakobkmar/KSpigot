@@ -12,7 +12,7 @@ class GetIPIntel(
     private val contactEmail: String = "foo@bar.com"
 ) : BadIPDetectionService("getipintel.net") {
 
-    override fun requestString(ip: String) = "http://check.getipintel.net/check.php?ip=$ip&contact=$contactEmail"
+    override fun requestString(ip: String) = "http://check.getipintel.net/check.php?ip=$ip&contact=$contactEmail&format=json"
 
     override fun interpreteResult(result: JSONObject): BadIPDetectionResult {
         val probability = result.getStringOrNull("result")?.toFloatOrNull()
