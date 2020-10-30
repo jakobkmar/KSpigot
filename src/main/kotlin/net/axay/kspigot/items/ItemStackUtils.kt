@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatColor
  */
 fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lineLength: Int = 40): List<String> {
 
-    val lineColor = lineColors.joinToString()
+    val lineColor = lineColors.joinToString(separator = "")
 
     val loreList = ArrayList<String>()
 
