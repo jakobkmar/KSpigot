@@ -180,6 +180,14 @@ class GUIPageBuilder<T : ForInventory>(
     )
 
     /**
+     * Creates a new compound, holding simple compound elements.
+     */
+    fun createSimpleCompound() = createCompound<GUICompoundElement<T>>(
+        iconGenerator = { it.icon },
+        onClick = { clickEvent, element -> element.onClick?.invoke(clickEvent) }
+    )
+
+    /**
      * Creates a new compound, holding data which can be displayed
      * in any compound space.
      */
@@ -204,8 +212,28 @@ class GUIPageBuilder<T : ForInventory>(
     }
 
     /**
-     * Creates a new compound, holding data which can be displayed
-     * in any compound space.
+     * Creates a new compound, holding simple compound elements.
+     * This compound is strictly a rectangle.
+     * The space is automatically defined.
+     *
+     * This method sets the element type to
+     * [GUICompoundElement]. The iconGenerator and onClick callback
+     * are automatically defined.
+     */
+    fun createSimpleRectCompound(
+        fromSlot: SingleInventorySlot<out T>,
+        toSlot: SingleInventorySlot<out T>
+    ) = createRectCompound<GUICompoundElement<T>>(
+
+        fromSlot, toSlot,
+
+        iconGenerator = { it.icon },
+        onClick = { clickEvent, element -> element.onClick?.invoke(clickEvent) }
+
+    )
+
+    /**
+     * Creates a new compound, holding custom element data.
      * This compound is strictly a rectangle.
      * The space is automatically defined.
      */

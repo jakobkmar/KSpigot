@@ -164,3 +164,15 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     }
 
 }
+
+/**
+ * A simple compound element, covering the most common
+ * compound use cases.
+ *
+ * @see GUIPageBuilder.createSimpleCompound
+ * @see GUIPageBuilder.createSimpleRectCompound
+ */
+class GUICompoundElement<T : ForInventory>(
+    internal val icon: ItemStack,
+    internal val onClick: ((GUIClickEvent<T>) -> Unit)? = null
+)
