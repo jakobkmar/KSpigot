@@ -227,6 +227,10 @@ class InventoryCornerSlots<T : ForInventory> internal constructor(
 
 }
 
+class InventoryAllSlots<T : ForInventory> : InventorySlotCompound<T>  {
+    override fun withInvType(invType: GUIType<T>) = invType.dimensions.invSlots
+}
+
 // SLOT TYPE SAFETY
 
 // COLUMNS
@@ -373,5 +377,8 @@ object Slots {
     val CornerBottomRight = InventoryCornerSlots<ForEveryInventory>(ifBottomRight = true)
     val CornerTopLeft = InventoryCornerSlots<ForEveryInventory>(ifTopLeft = true)
     val CornerTopRight = InventoryCornerSlots<ForEveryInventory>(ifTopRight = true)
+
+    // ALL
+    val All = InventoryAllSlots<ForEveryInventory>()
 
 }
