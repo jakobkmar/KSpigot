@@ -7,15 +7,7 @@ import net.md_5.bungee.api.ChatColor
  * Converts this string into a list of strings, which
  * can be used for minecraft lorelists.
  */
-@Suppress("RemoveRedundantSpreadOperator")
-fun String.toLoreList(lineLength: Int = 40, lineColor: ChatColor = KColors.RESET)
-        = toLoreList(lineLength, *arrayOf(lineColor))
-
-/**
- * Converts this string into a list of strings, which
- * can be used for minecraft lorelists.
- */
-fun String.toLoreList(lineLength: Int = 40, vararg lineColors: ChatColor = arrayOf(KColors.RESET)): List<String> {
+fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lineLength: Int = 40): List<String> {
 
     val lineColor = lineColors.joinToString()
 
