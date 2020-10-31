@@ -13,6 +13,11 @@ private const val IP_API_FIELDS =
     "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
 
 /**
+ * @return The players ip address.
+ */
+val Player.ipAddressOrNull get() = address?.hostString
+
+/**
  * @see ipAddressData
  */
 val Player.ipAddressData get() = ipAddressData()
