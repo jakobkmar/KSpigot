@@ -21,6 +21,9 @@ import kotlin.reflect.KProperty
  *
  * @param T The class type of the config.
  * @param file The path to the config.
+ * @param saveAfterLoad If true, the loaded config will be saved
+ * immediately. This is useful, if the config structure was changed
+ * and new default parameters were applied.
  * @param default Optional default config, which will be
  * used if there is no config file and a new one should
  * be created.
@@ -29,8 +32,9 @@ import kotlin.reflect.KProperty
  */
 inline fun <reified T : Any> kSpigotJsonConfig(
     file: File,
+    saveAfterLoad: Boolean,
     noinline default: (() -> T)? = null,
-) = ConfigDelegate(T::class, file, default)
+) = ConfigDelegate(T::class, file, saveAfterLoad, default)
 
 /**
  * @see kSpigotJsonConfig
@@ -38,6 +42,7 @@ inline fun <reified T : Any> kSpigotJsonConfig(
 class ConfigDelegate<T : Any>(
     private val configClass: KClass<T>,
     private val file: File,
+    private val saveAfterLoad: Boolean,
     private val defaultCallback: (() -> T)?
 ) {
 
@@ -73,10 +78,20 @@ class ConfigDelegate<T : Any>(
         internalConfig = toSave
     }
 
-    private fun loadIt() = if (defaultCallback == null)
-        GsonConfigManager.loadConfig(file, configClass)
-    else
-        GsonConfigManager.loadOrCreateDefault(file, configClass, true, defaultCallback)
+    private fun loadIt(): T {
+
+        val loaded = if (defaultCallback == null)
+            GsonConfigManager.loadConfig(file, configClass)
+        else
+            GsonConfigManager.loadOrCreateDefault(file, configClass, true, defaultCallback)
+
+
+        if (saveAfterLoad)
+            saveIt(loaded)
+
+        return loaded
+
+    }
 
 }
 
