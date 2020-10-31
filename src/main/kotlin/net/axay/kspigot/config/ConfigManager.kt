@@ -32,7 +32,7 @@ import kotlin.reflect.KProperty
  */
 inline fun <reified T : Any> kSpigotJsonConfig(
     file: File,
-    saveAfterLoad: Boolean,
+    saveAfterLoad: Boolean = false,
     noinline default: (() -> T)? = null,
 ) = ConfigDelegate(T::class, file, saveAfterLoad, default)
 
