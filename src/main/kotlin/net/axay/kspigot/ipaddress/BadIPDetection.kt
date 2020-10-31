@@ -57,10 +57,7 @@ class BadIPDetector(
 
     companion object {
         val DEFAULT = BadIPDetector(
-            listOf(
-                GetIPIntel(),
-                IPHub()
-            )
+            listOf(GetIPIntel())
         )
     }
 
@@ -101,11 +98,17 @@ abstract class BadIPDetectionService(
 ) {
 
     protected abstract fun requestString(ip: String): String
+    protected open fun requestHeaders() = emptyMap<String, String>()
 
     protected abstract fun interpreteResult(result: JSONObject): BadIPDetectionResult
 
     fun isBad(ip: String): BadIPDetectionResult {
-        val response = khttp.get(requestString(ip))
+
+        val response = khttp.get(
+            requestString(ip),
+            headers = requestHeaders()
+        )
+
         if (response.statusCode == 429)
             return BadIPDetectionResult.LIMIT
         else {
@@ -123,6 +126,7 @@ abstract class BadIPDetectionService(
             }
 
         }
+
     }
 
 }
