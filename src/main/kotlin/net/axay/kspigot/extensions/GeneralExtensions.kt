@@ -3,6 +3,8 @@ package net.axay.kspigot.extensions
 import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
+import org.bukkit.command.CommandSender
+import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
 /**
@@ -10,6 +12,12 @@ import org.bukkit.entity.Player
  * @see Bukkit.getOnlinePlayers
  */
 val onlinePlayers: Collection<Player> get() = Bukkit.getOnlinePlayers()
+
+/**
+ * Shortcut to get a collection of all
+ * online players plus the console command sender.
+ */
+val onlineSenders: Collection<CommandSender> get() = Bukkit.getOnlinePlayers().plus(Bukkit.getConsoleSender())
 
 /**
  * Shortcut to get the Server.
