@@ -5,6 +5,10 @@ import org.bukkit.inventory.Inventory
 
 fun Inventory.closeForViewers() = viewers.forEach { it.closeInventory() }
 
+/**
+ * @return True, if the action was a simple inventory click.
+ * (a mouse click, where items were picked up or placed)
+ */
 val InventoryAction.isSimple
     get() = when (this) {
         InventoryAction.PLACE_ALL, InventoryAction.PLACE_ONE,
