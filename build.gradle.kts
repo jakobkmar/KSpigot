@@ -17,7 +17,7 @@ val JVM_VERSION_STRING = JVM_VERSION.versionString
  */
 
 group = "net.axay"
-version = "v1.16.3_R18"
+version = "v1.16.4_R18"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
@@ -55,8 +55,8 @@ repositories {
 dependencies {
 
     // SPIGOT
-    compileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.16.3-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.16.4-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.16.4-R0.1-SNAPSHOT")
 
     // KHTTP
     api("khttp", "khttp", "1.0.0")
