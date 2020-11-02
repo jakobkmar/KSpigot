@@ -6,9 +6,8 @@ import org.bukkit.plugin.messaging.PluginMessageListener
 import java.io.ByteArrayInputStream
 import java.io.DataInputStream
 
-internal data class BungeePluginMessageResponseCallback(
+internal class BungeePluginMessageResponseCallback(
     val subChannel: String,
-    val player: Player,
     val timeoutSeconds: Int,
     val onResponse: (message: DataInputStream) -> Unit
 ) {
@@ -38,7 +37,7 @@ private object BungeePluginMessageReceiver : PluginMessageListener {
 
         val subChannel = msgin.readUTF()
 
-        val callback = registered.find { it.subChannel == subChannel && it.player == player }
+        val callback = registered.find { it.subChannel == subChannel }
         if (callback != null) {
             registered -= callback
             callback.onResponse.invoke(msgin)
