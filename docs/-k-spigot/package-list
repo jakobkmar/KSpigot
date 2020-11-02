@@ -21,6 +21,7 @@ net.axay.kspigot.languageextensions.kotlinextensions
 net.axay.kspigot.localization
 net.axay.kspigot.main
 net.axay.kspigot.particles
+net.axay.kspigot.pluginmessages
 net.axay.kspigot.runnables
 net.axay.kspigot.serialization
 net.axay.kspigot.serialization.serializables
