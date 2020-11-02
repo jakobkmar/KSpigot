@@ -1,7 +1,7 @@
 package net.axay.kspigot.data
 
 import net.axay.kspigot.annotations.NMS_General
-import net.minecraft.server.v1_16_R2.*
+import net.minecraft.server.v1_16_R3.*
 
 @NMS_General
 interface NBTDataType<T> {
