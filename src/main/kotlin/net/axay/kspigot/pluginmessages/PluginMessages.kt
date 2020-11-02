@@ -62,7 +62,7 @@ fun sendPluginMessageToBungeeCord(
     }
 
     if (onResponse != null)
-        BungeePluginMessageResponseCallback(subChannel, player, responseTimeout, onResponse)
+        BungeePluginMessageResponseCallback(subChannel, responseTimeout, onResponse)
 
     player.sendPluginMessage(KSpigotMainInstance, "BungeeCord", msgbytes.toByteArray())
 
