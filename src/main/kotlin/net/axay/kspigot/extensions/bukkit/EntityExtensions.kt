@@ -4,6 +4,7 @@ import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.chat.chatComponent
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.pluginmessages.PluginMessageConnect
 import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
 import org.bukkit.Material
@@ -151,4 +152,12 @@ fun Player.getHandItem(hand: EquipmentSlot?) = when (hand) {
  */
 fun Player.actionBar(text: String) {
     spigot().sendMessage(ChatMessageType.ACTION_BAR, *chatComponent { legacyText(text) })
+}
+
+/**
+ * Sends the player to the given server in the
+ * BungeeCord network.
+ */
+fun Player.sendToServer(servername: String) {
+    PluginMessageConnect(servername).sendWithPlayer(this)
 }
