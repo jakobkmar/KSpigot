@@ -3,8 +3,12 @@ package net.axay.kspigot.gui
 import org.bukkit.entity.Player
 import org.bukkit.inventory.InventoryView
 
-fun Player.openGUI(gui: GUI<*>, page: Int? = null): InventoryView? {
-    closeInventory()
+fun Player.openGUI(
+    gui: GUI<*>,
+    page: Int? = null,
+    resetCursor: Boolean = false
+): InventoryView? {
+    if (resetCursor) closeInventory()
     return openGUIInstance(gui.getInstance(this), page)
 }
 
