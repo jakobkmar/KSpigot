@@ -6,7 +6,7 @@ import java.net.URL
 
 internal fun JsonObject.getStringOrNull(key: String): String? {
     return try {
-        this[key].toString()
+        this[key].asString
     } catch (exc: Exception) {
         null
     }
