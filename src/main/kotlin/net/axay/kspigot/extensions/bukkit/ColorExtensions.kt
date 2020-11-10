@@ -42,3 +42,23 @@ val java.awt.Color.bukkitColor
  */
 val java.awt.Color.bungeeColor: net.md_5.bungee.api.ChatColor
     get() = net.md_5.bungee.api.ChatColor.of(this)
+
+// FROM BUKKIT CHAT COLOR
+
+/**
+ * Returns the corresponding Bukkit Color object.
+ */
+val org.bukkit.ChatColor.bukkitColor
+    get() = bungeeColor.bukkitColor
+
+/**
+ * Returns the corresponding Bungee Color object.
+ */
+val org.bukkit.ChatColor.bungeeColor: net.md_5.bungee.api.ChatColor
+    get() = net.md_5.bungee.api.ChatColor.of(name)
+
+/**
+ * Returns the corresponding Java Color object.
+ */
+val org.bukkit.ChatColor.javaAwtColor: java.awt.Color
+    get() = bungeeColor.javaAwtColor
