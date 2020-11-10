@@ -12,6 +12,7 @@ import org.bukkit.attribute.Attribute
 import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
 import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
+import org.bukkit.inventory.ItemStack
 
 /**
  * Checks if the entity is completely in water.
@@ -161,3 +162,9 @@ fun Player.actionBar(text: String) {
 fun Player.sendToServer(servername: String) {
     PluginMessageConnect(servername).sendWithPlayer(this)
 }
+
+/**
+ * Adds the given ItemStacks to the player's inventory.
+ * @return The items that did not fit into the player's inventory.
+ */
+fun Player.give(vararg itemStacks: ItemStack) = inventory.addItem(*itemStacks)
