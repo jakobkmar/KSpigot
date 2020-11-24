@@ -47,8 +47,8 @@ class KSpigotComponentBuilder {
 
     // SPECIAL
 
-    fun legacyText(text: String, color: ChatColor = ChatColor.WHITE) {
-        this += TextComponent.fromLegacyText(text, color)
+    fun legacyText(text: String, color: ChatColor = ChatColor.WHITE, builder: BaseComponent.() -> Unit = { }) {
+        this += TextComponent.fromLegacyText(text, color).onEach { it.apply(builder) }
     }
 
     operator fun plusAssign(baseComponent: BaseComponent) {
