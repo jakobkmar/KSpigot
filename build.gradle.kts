@@ -29,15 +29,15 @@ plugins {
 
     `java-library`
 
-    kotlin("jvm") version "1.4.10"
+    kotlin("jvm") version "1.4.21"
 
     `maven-publish`
 
     id("com.jfrog.bintray") version "1.8.5"
 
-    id("org.jetbrains.dokka") version "1.4.10.2"
+    id("org.jetbrains.dokka") version "1.4.20"
 
-    kotlin("plugin.serialization") version "1.4.10"
+    kotlin("plugin.serialization") version "1.4.21"
 
 }
 
