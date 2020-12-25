@@ -35,7 +35,7 @@ class SimpleLocationPair(loc1: Location, loc2: Location) {
             loc.z >= minSimpleLoc.z - tolerance && loc.z <= maxSimpleLoc.z + tolerance
         ) {
             // checking y
-            if (check3d) loc.y >= minSimpleLoc.x - tolerance && loc.y <= maxSimpleLoc.y + tolerance else true
+            if (check3d) loc.y >= minSimpleLoc.y - tolerance && loc.y <= maxSimpleLoc.y + tolerance else true
         } else false
 
     }
