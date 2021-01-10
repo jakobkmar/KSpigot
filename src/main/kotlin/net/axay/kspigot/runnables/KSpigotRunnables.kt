@@ -46,6 +46,8 @@ abstract class KSpigotRunnable(
  * even if the server shuts down or the runnable ends prematurely
  * @param endCallback code that should always be executed when the runnable ends
  * @param runnable the runnable which should be executed each repetition
+ *
+ * @return the [KSpigotRunnable]
  */
 fun task(
     sync: Boolean = true,
@@ -55,9 +57,9 @@ fun task(
     safe: Boolean = false,
     endCallback: (() -> Unit)? = null,
     runnable: ((KSpigotRunnable) -> Unit)? = null
-) {
+): KSpigotRunnable? {
 
-    if (howOften != null && howOften == 0L) return
+    if (howOften != null && howOften == 0L) return null
 
     val bukkitRunnable = object : KSpigotRunnable() {
 
@@ -102,6 +104,8 @@ fun task(
     else
         if (sync) bukkitRunnable.runTaskLater(KSpigotMainInstance, delay)
         else bukkitRunnable.runTaskLaterAsynchronously(KSpigotMainInstance, delay)
+
+    return bukkitRunnable
 
 }
 
