@@ -6,8 +6,6 @@
 [ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ) <br>
 [ ![Downloads](https://img.shields.io/bintray/dt/bluefireoly/KSpigot/KSpigot?color=gr%C3%BCn&style=flat-square) ](https://bintray.com/beta/#/bluefireoly/KSpigot/KSpigot)
 
-Currently I'm not actively working on this project, but it's not abandoned! If you are planning to use this API and you run into a problem or need a new feature, please don't hesitate to let me know - I'll try to help you.
-
 ## Dependency
 
 Read the [guide](https://bluefireoly.gitbook.io/kspigot/) to get started!
