@@ -33,7 +33,7 @@ internal class PlayerInputAnvilInv(
                     AnvilGUI.Response.text("Type here...")
             }
             .title("${KColors.ORANGERED}$invTitle")
-            .item(
+            .itemLeft(
                 itemStack(Material.PAPER) {
                     meta {
                         lore = renameItemDescription.map { "${KColors.INDIANRED}$it" }
