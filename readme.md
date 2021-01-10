@@ -137,7 +137,9 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
     page(2) {
         // placeholders are there to block any player action while displaying a specific item
         placeholder(Slots.RowOneSlotOne rectTo Slots.RowFiveSlotNine, ItemStack(Material.PINK_GLAZED_TERRACOTTA))
-        previousPage(Slots.RowThreeSlotFive, ItemStack(Material.DIAMOND))
+
+        // change to a specific page
+        pageChanger(Slots.RowThreeSlotFive, ItemStack(Material.DIAMOND), 1)
     }
 
 }
