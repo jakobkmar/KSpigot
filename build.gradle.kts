@@ -66,7 +66,7 @@ dependencies {
 
     // KOTLINX
     // serialization
-    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.0.0")
+    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.0.1")
 
 }
 
