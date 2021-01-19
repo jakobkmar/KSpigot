@@ -126,6 +126,7 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
 
         // a button with a custom callback
         button(Slots.RowThreeSlotFive, ItemStack(Material.REPEATER)) {
+            // change content of the current view
             it.guiInstance[Slots.RowTwoSlotFive] = ItemStack(Material.values().random(), (1..64).random())
         }
 
