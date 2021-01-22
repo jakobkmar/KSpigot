@@ -40,7 +40,9 @@ infix fun Location.reduceXZ(distance: Number) = substract(distance, 0.0, distanc
 // extensions
 
 fun Location.add(x: Number, y: Number, z: Number) = add(x.toDouble(), y.toDouble(), z.toDouble())
+@Deprecated("Use subtract instead")
 fun Location.substract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
+fun Location.subtract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
 
 val Location.blockLoc: Location get() = Location(world, blockX.toDouble(), blockY.toDouble(), blockZ.toDouble())
 
