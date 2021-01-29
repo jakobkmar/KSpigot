@@ -3,7 +3,10 @@ package net.axay.kspigot.extensions.bukkit
 import org.bukkit.event.inventory.InventoryAction
 import org.bukkit.inventory.Inventory
 
-fun Inventory.closeForViewers() = viewers.forEach { it.closeInventory() }
+/**
+ * Closes the inventory for all viewers.
+ */
+fun Inventory.closeForViewers() = HashSet(viewers).forEach { it.closeInventory() }
 
 /**
  * @return True, if the action was a simple inventory click.
