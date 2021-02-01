@@ -149,22 +149,47 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     /**
      * Adds a new element to the compound.
      */
-    fun addContent(element: E) {
-        addContent(listOf(element))
-    }
+    fun addContent(element: E) = addContent(listOf(element))
 
     /**
      * Adds new elements to the compound.
      */
     fun addContent(elements: Iterable<E>) {
-
         content += elements
+        refreshAfterContentChange()
+    }
+
+    /**
+     * Removes this element from the compound.
+     */
+    fun removeContent(element: E) = removeContent(listOf(element))
+
+    /**
+     * Removes these elements from the compound.
+     */
+    fun removeContent(elements: Iterable<E>) {
+        content -= elements
+        refreshAfterContentChange()
+    }
+
+    /**
+     * Set the content of the compound to this single element.
+     */
+    fun setContent(element: E) = setContent(listOf(element))
+
+    /**
+     * Set the content of the compound to these elements.
+     */
+    fun setContent(elements: Iterable<E>) {
+        content.clear()
+        content += elements
+        refreshAfterContentChange()
+    }
+
+    private fun refreshAfterContentChange() {
         contentSort.invoke()
-
         recalculateCurrentContent()
-
         updateOpenGUIs()
-
     }
 
 }
