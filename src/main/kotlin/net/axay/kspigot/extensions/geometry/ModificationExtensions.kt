@@ -25,23 +25,22 @@ infix fun Location.increaseXZ(distance: Number) = add(distance, 0.0, distance)
 
 // REDUCE
 // all
-infix fun Location.reduce(distance: Number) = substract(distance, distance, distance)
+infix fun Location.reduce(distance: Number) = subtract(distance, distance, distance)
 
 // single
-infix fun Location.reduceX(distance: Number) = substract(distance, 0.0, 0.0)
-infix fun Location.reduceY(distance: Number) = substract(0.0, distance, 0.0)
-infix fun Location.reduceZ(distance: Number) = substract(0.0, 0.0, distance)
+infix fun Location.reduceX(distance: Number) = subtract(distance, 0.0, 0.0)
+infix fun Location.reduceY(distance: Number) = subtract(0.0, distance, 0.0)
+infix fun Location.reduceZ(distance: Number) = subtract(0.0, 0.0, distance)
 
 // pair
-infix fun Location.reduceXY(distance: Number) = substract(distance, distance, 0.0)
-infix fun Location.reduceYZ(distance: Number) = substract(0.0, distance, distance)
-infix fun Location.reduceXZ(distance: Number) = substract(distance, 0.0, distance)
+infix fun Location.reduceXY(distance: Number) = subtract(distance, distance, 0.0)
+infix fun Location.reduceYZ(distance: Number) = subtract(0.0, distance, distance)
+infix fun Location.reduceXZ(distance: Number) = subtract(distance, 0.0, distance)
 
 // extensions
 
 fun Location.add(x: Number, y: Number, z: Number) = add(x.toDouble(), y.toDouble(), z.toDouble())
-@Deprecated("Use subtract instead")
-fun Location.substract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
+
 fun Location.subtract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
 
 val Location.blockLoc: Location get() = Location(world, blockX.toDouble(), blockY.toDouble(), blockZ.toDouble())
