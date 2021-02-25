@@ -1,13 +1,12 @@
 @file:Suppress("PropertyName")
 
-import java.util.*
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 /*
  * BUILD CONSTANTS
  */
 
-val GITHUB_URL = "https://github.com/bluefireoly/KSpigot"
+val GITHUB_REPO = "bluefireoly/KSpigot"
 
 val JVM_VERSION = JavaVersion.VERSION_1_8
 val JVM_VERSION_STRING = JVM_VERSION.versionString
@@ -17,7 +16,7 @@ val JVM_VERSION_STRING = JVM_VERSION.versionString
  */
 
 group = "net.axay"
-version = "v1.16.5_R24"
+version = "1.16.24"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
@@ -29,11 +28,10 @@ plugins {
 
     `java-library`
 
-    kotlin("jvm") version "1.4.21"
+    kotlin("jvm") version "1.4.30"
 
     `maven-publish`
-
-    id("com.jfrog.bintray") version "1.8.5"
+    signing
 
     id("org.jetbrains.dokka") version "1.4.20"
 
@@ -107,42 +105,26 @@ tasks.dokkaHtml.configure {
  * PUBLISHING
  */
 
-bintray {
-
-    user = project.findProperty("bintray.username") as? String ?: ""
-    key = project.findProperty("bintray.api_key") as? String ?: ""
-
-    setPublications("KSpigot")
-
-    pkg.apply {
-
-        version.apply {
-            name = project.version.toString()
-            released = Date().toString()
-        }
-
-        repo = project.name
-        name = project.name
-
-        setLicenses("Apache-2.0")
-
-        vcsUrl = GITHUB_URL
-
-    }
-
-}
-
 publishing {
 
+    repositories {
+        maven("https://oss.sonatype.org/service/local/staging/deploy/maven2") {
+            credentials {
+                username = property("ossrh.username") as String
+                password = property("ossrh.password") as String
+            }
+        }
+    }
+
     publications {
-        create<MavenPublication>("KSpigot") {
+        create<MavenPublication>(project.name) {
 
             from(components["java"])
 
             artifact(sourcesJar)
 
             this.groupId = project.group.toString()
-            this.artifactId = project.name
+            this.artifactId = project.name.toLowerCase()
             this.version = project.version.toString()
 
             pom {
@@ -156,14 +138,29 @@ publishing {
                     }
                 }
 
-                url.set(GITHUB_URL)
-                scm { url.set(GITHUB_URL) }
+                licenses {
+                    license {
+                        name.set("The Apache License, Version 2.0")
+                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                    }
+                }
+
+                url.set("https://github.com/${GITHUB_REPO}")
+
+                scm {
+                    connection.set("scm:git:git://github.com/${GITHUB_REPO}.git")
+                    url.set("https://github.com/${GITHUB_REPO}/tree/main")
+                }
 
             }
 
         }
     }
 
+}
+
+signing {
+    sign(publishing.publications)
 }
 
 /*
