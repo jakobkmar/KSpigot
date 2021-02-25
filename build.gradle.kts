@@ -72,8 +72,6 @@ dependencies {
  * BUILD
  */
 
-// JVM VERSION
-
 java.sourceCompatibility = JVM_VERSION
 java.targetCompatibility = JVM_VERSION
 
@@ -82,20 +80,10 @@ tasks {
     compileTestKotlin.configureJvmVersion()
 }
 
-// SOURCE CODE
-
-val sourcesJar by tasks.creating(Jar::class) {
-    archiveClassifier.set("sources")
-    from(sourceSets["main"].allSource)
+java {
+    withSourcesJar()
+    withJavadocJar()
 }
-
-artifacts {
-    archives(sourcesJar)
-}
-
-/*
- * DOCUMENTATION
- */
 
 tasks.dokkaHtml.configure {
     outputDirectory.set(projectDir.resolve("docs"))
@@ -120,8 +108,6 @@ publishing {
         create<MavenPublication>(project.name) {
 
             from(components["java"])
-
-            artifact(sourcesJar)
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.toLowerCase()
