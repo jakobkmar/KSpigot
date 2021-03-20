@@ -64,10 +64,7 @@ tasks.dokkaHtml.configure {
 publishing {
     repositories {
         maven("https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-            credentials {
-                username = property("ossrh.username") as String
-                password = property("ossrh.password") as String
-            }
+            credentials(PasswordCredentials::class)
         }
     }
 
