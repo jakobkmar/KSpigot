@@ -34,16 +34,12 @@ repositories {
 }
 
 dependencies {
-    // SPIGOT
     compileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
     testCompileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
 
-    // ANVIL GUI
     api("com.github.WesJD.AnvilGUI", "anvilgui", "master-SNAPSHOT")
-
-    // KOTLINX
-    // serialization
     api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.1.0")
+    api("org.json", "json", "20210307")
 }
 
 java.sourceCompatibility = jvmVersion
