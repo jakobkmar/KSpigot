@@ -8,6 +8,12 @@
 
 ## Dependency
 
+KSpigot is available on Maven Central.
+
+Gradle:
+```kt
+implementation("net.axay:kspigot:insertversion")
+```
 Read the [guide](https://bluefireoly.gitbook.io/kspigot/) to get started!
 
 ## About
