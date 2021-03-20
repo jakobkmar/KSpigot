@@ -1,9 +1,10 @@
-src/test/
-build/
-gradle/
+# project
 .idea/
+build/
 .gradle/
+
+# not needed yet
+src/test/
+
+# not needed
 logs/
-gradle.properties
-gradlew
-gradlew.bat
