@@ -36,6 +36,13 @@ enum class InventoryChangeEffect(
     INSTANT(PageChangeEffect.INSTANT)
 }
 
+fun GUIInstance<*>.gotoPage(page: Int, overrideEffect: PageChangeEffect? = null) {
+    val fromPage = currentPage
+    val toPage = getPage(page) ?: return
+    val effect = overrideEffect ?: toPage.transitionTo ?: PageChangeEffect.INSTANT
+    changePage(effect, fromPage, toPage)
+}
+
 internal fun GUIInstance<*>.changePage(
     effect: PageChangeEffect,
     fromPage: GUIPage<*>,

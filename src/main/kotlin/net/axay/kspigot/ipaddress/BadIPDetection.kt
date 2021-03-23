@@ -1,10 +1,11 @@
 package net.axay.kspigot.ipaddress
 
 import net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel
-import net.axay.kspigot.ipaddress.badipdetectionservices.IPHub
 import org.bukkit.entity.Player
 import org.json.JSONException
 import org.json.JSONObject
+import java.net.HttpURLConnection
+import java.net.URL
 
 /**
  * Checks if the IP address of the player is not a
@@ -104,17 +105,17 @@ abstract class BadIPDetectionService(
 
     fun isBad(ip: String): BadIPDetectionResult {
 
-        val response = khttp.get(
-            requestString(ip),
-            headers = requestHeaders()
-        )
+        val con = URL(requestString(ip)).openConnection() as HttpURLConnection
+        con.requestMethod = "GET"
+        requestHeaders().forEach { (field, value) -> con.setRequestProperty(field, value) }
+        con.connect()
 
-        if (response.statusCode == 429)
+        if (con.responseCode == 429)
             return BadIPDetectionResult.LIMIT
         else {
 
             val result = try {
-                response.jsonObject
+                con.inputStream.use { JSONObject(it.readAllBytes().decodeToString()) }
             } catch (exc: JSONException) {
                 null
             } ?: return BadIPDetectionResult.ERROR
