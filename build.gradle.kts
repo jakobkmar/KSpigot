@@ -11,7 +11,7 @@ val jvmVersionString = jvmVersion.majorVersion.let {
 }
 
 group = "net.axay"
-version = "1.16.25"
+version = "1.16.26"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
