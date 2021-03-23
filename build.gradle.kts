@@ -28,7 +28,6 @@ plugins {
 
 repositories {
     jcenter()
-    maven("https://jitpack.io")
     maven(" https://repo.codemc.io/repository/maven-snapshots/")
 
     mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
