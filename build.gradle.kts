@@ -28,7 +28,7 @@ plugins {
 
 repositories {
     jcenter()
-    maven("https://jitpack.io")
+    maven("https://repo.codemc.io/repository/maven-snapshots/")
 
     mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }
@@ -37,7 +37,8 @@ dependencies {
     compileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
     testCompileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
 
-    api("com.github.WesJD.AnvilGUI", "anvilgui", "master-SNAPSHOT")
+    api("net.wesjd", "anvilgui", "1.5.0-SNAPSHOT")
+
     api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.1.0")
     api("org.json", "json", "20210307")
 }
