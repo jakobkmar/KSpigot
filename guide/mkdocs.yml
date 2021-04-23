@@ -24,6 +24,8 @@ markdown_extensions:
 repo_url: https://github.com/bluefireoly/KSpigot
 repo_name: bluefireoly/KSpigot
 
+edit_uri: edit/master/guide/docs/
+
 nav:
   - Home: index.md
   - Setup:
