@@ -26,5 +26,6 @@ repo_name: bluefireoly/KSpigot
 nav:
   - Home: index.md
   - Setup:
+      - For absolute beginners: setup/beginners.md
       - For Spigot beginners: setup/spigot.md
       - Setup using Gradle: setup/gradle.md
