@@ -14,6 +14,7 @@ theme:
     accent: amber
 
 markdown_extensions:
+  - pymdownx.details
   - pymdownx.highlight
   - pymdownx.superfences
   - toc:
@@ -27,5 +28,6 @@ nav:
   - Home: index.md
   - Setup:
       - For absolute beginners: setup/beginners.md
-      - For Spigot beginners: setup/spigot.md
+      - Starting a new project: setup/project.md
       - Setup using Gradle: setup/gradle.md
+      - Entrypoint to your plugin: setup/entrypoint.md
