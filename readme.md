@@ -12,7 +12,7 @@ Gradle:
 ```kt
 implementation("net.axay:kspigot:insertversion")
 ```
-Read the [guide](https://bluefireoly.gitbook.io/kspigot/) to get started!
+Read the [guide](https://bluefireoly.github.io/KSpigot/) to get started!
 
 ## About
 
