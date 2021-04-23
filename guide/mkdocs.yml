@@ -31,3 +31,5 @@ nav:
       - Starting a new project: setup/project.md
       - Setup using Gradle: setup/gradle.md
       - Entrypoint to your plugin: setup/entrypoint.md
+  - Extensions:
+      - Event listener: extensions/listener.md
