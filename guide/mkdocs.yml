@@ -33,3 +33,4 @@ nav:
       - Entrypoint to your plugin: setup/entrypoint.md
   - Extensions:
       - Event listener: extensions/listener.md
+      - Tasks: extensions/tasks.md
