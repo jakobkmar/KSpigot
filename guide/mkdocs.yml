@@ -1,0 +1,33 @@
+site_name: KSpigot
+site_description: Extended Spigot and Bukkit API for Kotlin
+site_author: Jakob Kretzschmar
+copyright: Copyright © (2021) - Jakob Kretzschmar
+
+theme:
+  name: material
+  language: en
+  icon:
+    repo: fontawesome/brands/github
+  palette:
+    scheme: preference
+    primary: deep orange
+    accent: amber
+
+markdown_extensions:
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.superfences
+  - toc:
+      permalink: true
+      toc_depth: 4
+
+repo_url: https://github.com/bluefireoly/KSpigot
+repo_name: bluefireoly/KSpigot
+
+nav:
+  - Home: index.md
+  - Setup:
+      - For absolute beginners: setup/beginners.md
+      - Starting a new project: setup/project.md
+      - Setup using Gradle: setup/gradle.md
+      - Entrypoint to your plugin: setup/entrypoint.md
