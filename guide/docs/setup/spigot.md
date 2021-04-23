@@ -25,3 +25,9 @@ Now select `Java` and `Kotlin/JVM` as your frameworks.
 After that, you can create your project.
 
 You may now continue with the [Setup using Gradle](gradle.md) guide.
+
+## Add the Spigot `plugin.yml`
+
+Create a new file called `plugin.yml` in the `resources` directory of your project.
+
+[Read the official documentation](https://www.spigotmc.org/wiki/plugin-yml/) for the Spigot plugin.yml file.
