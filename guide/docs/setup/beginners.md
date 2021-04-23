@@ -15,3 +15,5 @@ You should be able to use Gradle as your build system, although you do not have 
 ## Spigot
 
 Spigot is just an API, meaning that if you are able to use Kotlin, you will be able to use an API like Spigot and KSpigot. Nevertheless, it is good to know at least something about the Spigot API.
+
+The Spigot API documentation can be found [here](https://hub.spigotmc.org/javadocs/bukkit/).
