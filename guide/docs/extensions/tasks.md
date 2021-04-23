@@ -34,3 +34,29 @@ task(
     println(it.counterDownToZero) // starting from howOften - 1
 }
 ```
+
+## Switch between synchronous and asynchronous execution
+
+You can simply use the `sync` and `async` function.
+
+```kotlin
+sync {
+    println("now sync")
+    async {
+        println("now async")
+        sync {
+            println("now sync again")
+        }
+    }
+}
+```
+
+Alternatively, if you want to specify rather a task should be executed sync or async using a parameter, you can use the `taskRun` function, which has a `sync` parameter.
+
+## Other (simpler) task functions
+
+### Run a task later
+
+You can use `taskRunLater`.
+
+This function executes the given `runnable` with the given `delay`. Either sync or async (specified by the `sync` parameter).
