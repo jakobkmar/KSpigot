@@ -27,8 +27,9 @@ repo_name: bluefireoly/KSpigot
 nav:
   - Home: index.md
   - Setup:
-      - For absolute beginners: setup/beginners.md
-      - Starting a new project: setup/project.md
+      - For absolute beginners:
+          - Requirements: setup/beginners.md
+          - Starting a new project: setup/project.md
       - Setup using Gradle: setup/gradle.md
       - Entrypoint to your plugin: setup/entrypoint.md
   - Extensions:
