@@ -51,7 +51,7 @@ sync {
 }
 ```
 
-Alternatively, if you want to specify rather a task should be executed sync or async using a parameter, you can use the `taskRun` function, which has a `sync` parameter.
+Alternatively, if you want to specify wether a task should be executed sync or async using a parameter, you can use the `taskRun` function, which has a `sync` parameter.
 
 ## Other (simpler) task functions
 
