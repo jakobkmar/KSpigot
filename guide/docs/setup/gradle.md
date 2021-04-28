@@ -126,4 +126,4 @@ Replace `YOURMAINGROUP` with the main package structure you use (e.g. `org.examp
 
 ## Build your final plugin
 
-Run the Gradle task called `shadowJar`. Using IntelliJ IDEA, this can be done using the Gradle sidebar, where your can find the task under `Tasks > Shadow > shadowJar`. Alternatively, you can also run `./gradlew shadowJar` in your terminal.
+Run the Gradle task called `shadowJar`. Using IntelliJ IDEA, this can be done using the Gradle sidebar, where you can find the task under `Tasks > Shadow > shadowJar`. Alternatively, you can also run `./gradlew shadowJar` in your terminal.
