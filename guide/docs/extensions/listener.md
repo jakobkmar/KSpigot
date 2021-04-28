@@ -34,9 +34,9 @@ taskRunLater(20 * 5) {
 }
 ```
 
-### Registering an existing `Listener` instance
+### Register an existing `Listener` instance
 
-There is an extension functions which registers a `Listener` instance:
+There is an extension function which registers a `Listener` instance:
 
 ```kotlin
 listenerInstance.register()
