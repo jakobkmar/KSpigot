@@ -61,7 +61,7 @@ inline fun <reified T : Event> SingleListener<T>.register(
  * @param T the type of event to listen to
  * @param priority the priority when multiple listeners handle this event
  * @param ignoreCancelled if manual cancellation should be ignored
- * @param register if the event should be registered
+ * @param register if the event should be registered immediately
  * @param onEvent the event callback
  */
 inline fun <reified T : Event> listen(
