@@ -66,11 +66,12 @@ inline fun <reified T : Event> SingleListener<T>.register(
 inline fun <reified T : Event> listen(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
+    register: Boolean = true,
     crossinline onEvent: (event: T) -> Unit
 ): SingleListener<T> {
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)
     }
-    listener.register(priority, ignoreCancelled)
+    if(register) listener.register(priority, ignoreCancelled)
     return listener
 }
