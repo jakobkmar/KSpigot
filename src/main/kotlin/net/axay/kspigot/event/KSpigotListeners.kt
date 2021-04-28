@@ -61,16 +61,18 @@ inline fun <reified T : Event> SingleListener<T>.register(
  * @param T the type of event to listen to
  * @param priority the priority when multiple listeners handle this event
  * @param ignoreCancelled if manual cancellation should be ignored
+ * @param register if the event should be registered immediately
  * @param onEvent the event callback
  */
 inline fun <reified T : Event> listen(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
+    register: Boolean = true,
     crossinline onEvent: (event: T) -> Unit
 ): SingleListener<T> {
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)
     }
-    listener.register(priority, ignoreCancelled)
+    if (register) listener.register(priority, ignoreCancelled)
     return listener
 }
