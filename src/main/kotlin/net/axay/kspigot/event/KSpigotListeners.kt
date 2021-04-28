@@ -73,6 +73,6 @@ inline fun <reified T : Event> listen(
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)
     }
-    if(register) listener.register(priority, ignoreCancelled)
+    if (register) listener.register(priority, ignoreCancelled)
     return listener
 }
