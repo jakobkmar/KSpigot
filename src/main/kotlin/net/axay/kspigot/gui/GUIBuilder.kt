@@ -113,15 +113,29 @@ class GUIPageBuilder<T : ForInventory>(
      * This is a button which loads the specified
      * [toPage] if clicked.
      */
+    @Deprecated("Use the new function instead.", ReplaceWith("pageChanger(slots, icon, toPage, null, onChange)"))
     fun pageChanger(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         toPage: Int,
         onChange: ((GUIClickEvent<T>) -> Unit)? = null
+    ) = pageChanger(slots, icon, toPage, null, onChange)
+
+    /**
+     * This is a button which loads the specified
+     * [toPage] if clicked.
+     */
+    fun pageChanger(
+        slots: InventorySlotCompound<T>,
+        icon: ItemStack,
+        toPage: Int,
+        shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
             GUIPageChangeCalculator.GUIConsistentPageCalculator(toPage),
+            shouldChange,
             onChange
         )
     )
@@ -131,14 +145,28 @@ class GUIPageBuilder<T : ForInventory>(
      * page if clicked, and if a previous page
      * exists it is loaded.
      */
+    @Deprecated("Use the new function instead.", ReplaceWith("previousPage(slots, icon, null, onChange)"))
     fun previousPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+    ) = previousPage(slots, icon, null, onChange)
+
+    /**
+     * This button always tries to find the previous
+     * page if clicked, and if a previous page
+     * exists it is loaded.
+     */
+    fun previousPage(
+        slots: InventorySlotCompound<T>,
+        icon: ItemStack,
+        shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
         onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
             GUIPageChangeCalculator.GUIPreviousPageCalculator,
+            shouldChange,
             onChange
         )
     )
@@ -148,14 +176,28 @@ class GUIPageBuilder<T : ForInventory>(
      * page if clicked, and if a next page
      * exists it is loaded.
      */
+    @Deprecated("Use the new function instead.", ReplaceWith("nextPage(slots, icon, null, onChange)"))
     fun nextPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+    ) = nextPage(slots, icon, null, onChange)
+
+    /**
+     * This button always tries to find the next
+     * page if clicked, and if a next page
+     * exists it is loaded.
+     */
+    fun nextPage(
+        slots: InventorySlotCompound<T>,
+        icon: ItemStack,
+        shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
         onChange: ((GUIClickEvent<T>) -> Unit)? = null
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
             GUIPageChangeCalculator.GUINextPageCalculator,
+            shouldChange,
             onChange
         )
     )

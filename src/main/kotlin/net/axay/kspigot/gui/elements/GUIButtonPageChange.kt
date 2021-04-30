@@ -6,8 +6,8 @@ import org.bukkit.inventory.ItemStack
 class GUIButtonPageChange<T : ForInventory>(
     icon: ItemStack,
     calculator: GUIPageChangeCalculator,
-    beforeChange: ((GUIClickEvent<T>) -> Boolean)?,
-    afterChange: ((GUIClickEvent<T>) -> Unit)?
+    shouldChange: ((GUIClickEvent<T>) -> Boolean)?,
+    onChange: ((GUIClickEvent<T>) -> Unit)?
 ) : GUIButton<T>(icon, {
 
     val currentPage = it.guiInstance.currentPage
@@ -19,14 +19,14 @@ class GUIButtonPageChange<T : ForInventory>(
     )
     if (newPage != null) {
 
-        val changePage = beforeChange?.invoke(it) ?: true
+        val changePage = shouldChange?.invoke(it) ?: true
 
         if (changePage) {
             val effect = (newPage.transitionTo ?: currentPage.transitionFrom)
                 ?: PageChangeEffect.INSTANT
 
             it.guiInstance.changePage(effect, currentPage, newPage)
-            afterChange?.invoke(it)
+            onChange?.invoke(it)
         }
     }
 
