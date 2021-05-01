@@ -1,11 +1,11 @@
 ## Create an itemStack
 
-Spigots ItemBuilder is often painful to use and confusing, especially for beginners. 
+The default way of building complex `ItemStack`s using just Spigot is often painful to use and confusing for beginners. 
 
-With KSpigot itemBuilders you have an easy to use ItemBuilder and you don´t have to worry about things like itemMeta again.
+With KSpigot's item builder you have an easy to use builder DSL. Additionally, it provides an easy way to update the `ItemMeta` of an `ItemStack`, which is often needed.
 
+### Example use of the item builder
 
-### Create a simple item
 ```kotlin
 val sword = itemStack(Material.GOLDEN_SWORD) {
     amount = 3
@@ -22,6 +22,6 @@ val sword = itemStack(Material.GOLDEN_SWORD) {
     }
 } 
 ```
-### This results in following item
+### This creates the following item
 
 ![](img/sword.png)
