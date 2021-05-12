@@ -31,7 +31,7 @@ dependencies {
 
     api("net.wesjd", "anvilgui", "1.5.0-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.1.0")
+    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.2.0")
     api("org.json", "json", "20210307")
 }
 
