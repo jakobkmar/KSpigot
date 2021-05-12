@@ -1,14 +1,6 @@
-@file:Suppress("PropertyName")
-
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val GITHUB_REPO = "bluefireoly/KSpigot"
-
-val jvmVersion = JavaVersion.VERSION_1_8
-val jvmVersionString = jvmVersion.majorVersion.let {
-    val version = it.toInt()
-    if (version <= 10) "1.$it" else it
-}
+val githubRepo = "bluefireoly/KSpigot"
 
 group = "net.axay"
 version = "1.16.26"
@@ -43,23 +35,28 @@ dependencies {
     api("org.json", "json", "20210307")
 }
 
-java.sourceCompatibility = jvmVersion
-java.targetCompatibility = jvmVersion
-
 tasks {
-    compileKotlin.configureJvmVersion()
-    compileTestKotlin.configureJvmVersion()
-}
+    withType<JavaCompile> {
+        options.encoding = "UTF-8"
+        options.release.set(8)
+    }
 
-fun TaskProvider<KotlinCompile>.configureJvmVersion() { get().kotlinOptions.jvmTarget = jvmVersionString }
+    withType<KotlinCompile> {
+        kotlinOptions.jvmTarget = "1.8"
+    }
+
+    dokkaHtml.configure {
+        outputDirectory.set(projectDir.resolve("docs"))
+    }
+}
 
 java {
     withSourcesJar()
     withJavadocJar()
 }
 
-tasks.dokkaHtml.configure {
-    outputDirectory.set(projectDir.resolve("docs"))
+signing {
+    sign(publishing.publications)
 }
 
 publishing {
@@ -91,21 +88,17 @@ publishing {
                 licenses {
                     license {
                         name.set("The Apache License, Version 2.0")
-                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
                     }
                 }
 
-                url.set("https://github.com/${GITHUB_REPO}")
+                url.set("https://github.com/${githubRepo}")
 
                 scm {
-                    connection.set("scm:git:git://github.com/${GITHUB_REPO}.git")
-                    url.set("https://github.com/${GITHUB_REPO}/tree/main")
+                    connection.set("scm:git:git://github.com/${githubRepo}.git")
+                    url.set("https://github.com/${githubRepo}/tree/main")
                 }
             }
         }
     }
-}
-
-signing {
-    sign(publishing.publications)
 }
