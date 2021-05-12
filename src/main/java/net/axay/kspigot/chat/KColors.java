@@ -6,7 +6,6 @@ import java.awt.*;
 
 @SuppressWarnings("unused")
 public class KColors {
-
     // DEFAULT CODES
 
     public static final ChatColor MAGIC = ChatColor.MAGIC;
@@ -877,5 +876,4 @@ public class KColors {
      * <div style="border:1px solid black;width:120px;height:120px;background-color:#9ACD32;float:right;margin: 0 10px 0 0"></div>
      */
     public static final ChatColor YELLOWGREEN = ChatColor.of(new Color(0.6039216f, 0.8039216f, 0.19607843f));
-
 }

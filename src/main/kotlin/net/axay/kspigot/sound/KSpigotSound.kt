@@ -11,9 +11,8 @@ data class KSpigotSound(
     val sound: Sound,
     var volume: Float = 1f,
     var pitch: Float = 1f,
-    var category: SoundCategory? = null
+    var category: SoundCategory? = null,
 ) {
-
     /**
      * Plays the sound at the location. It
      * will be audible for everyone near it.
@@ -37,7 +36,6 @@ data class KSpigotSound(
         else
             player.playSound(player.location, sound, volume, pitch)
     }
-
 }
 
 /**

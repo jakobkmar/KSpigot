@@ -14,9 +14,8 @@ fun <T : ForInventory> kSpigotGUI(
 
 class GUIBuilder<T : ForInventory>(
     val type: GUIType<T>,
-    private val guiCreator: GUICreator<T>
+    private val guiCreator: GUICreator<T>,
 ) {
-
     /**
      * The title of this GUI.
      * This title will be visible for every page of
@@ -42,9 +41,7 @@ class GUIBuilder<T : ForInventory>(
      * GUI instance.
      */
     var defaultPage = 1
-
     private val guiSlots = HashMap<Int, GUIPage<T>>()
-
     private var onClickElement: ((GUIClickEvent<T>) -> Unit)? = null
 
     /**
@@ -67,21 +64,16 @@ class GUIBuilder<T : ForInventory>(
     internal fun build() = guiCreator.createInstance(
         GUIData(type, title, guiSlots, defaultPage, transitionTo, transitionFrom, onClickElement)
     )
-
 }
 
 class GUIPageBuilder<T : ForInventory>(
     private val type: GUIType<T>,
-    val page: Int
+    val page: Int,
 ) {
-
     private val guiSlots = HashMap<Int, GUISlot<T>>()
-
     var transitionTo: PageChangeEffect? = null
     var transitionFrom: PageChangeEffect? = null
-
     internal fun build() = GUIPage(page, guiSlots, transitionTo, transitionFrom)
-
     private fun defineSlots(slots: InventorySlotCompound<T>, element: GUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
@@ -118,7 +110,7 @@ class GUIPageBuilder<T : ForInventory>(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         toPage: Int,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = pageChanger(slots, icon, toPage, null, onChange)
 
     /**
@@ -130,7 +122,7 @@ class GUIPageBuilder<T : ForInventory>(
         icon: ItemStack,
         toPage: Int,
         shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
@@ -149,7 +141,7 @@ class GUIPageBuilder<T : ForInventory>(
     fun previousPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = previousPage(slots, icon, null, onChange)
 
     /**
@@ -161,7 +153,7 @@ class GUIPageBuilder<T : ForInventory>(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
@@ -180,7 +172,7 @@ class GUIPageBuilder<T : ForInventory>(
     fun nextPage(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = nextPage(slots, icon, null, onChange)
 
     /**
@@ -192,7 +184,7 @@ class GUIPageBuilder<T : ForInventory>(
         slots: InventorySlotCompound<T>,
         icon: ItemStack,
         shouldChange: ((GUIClickEvent<T>) -> Boolean)? = null,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = defineSlots(
         slots, GUIButtonPageChange(
             icon,
@@ -211,7 +203,7 @@ class GUIPageBuilder<T : ForInventory>(
         icon: ItemStack,
         newGUI: () -> GUI<*>,
         newPage: Int? = null,
-        onChange: ((GUIClickEvent<T>) -> Unit)? = null
+        onChange: ((GUIClickEvent<T>) -> Unit)? = null,
     ) = defineSlots(
         slots, GUIButtonInventoryChange(
             icon,
@@ -235,7 +227,7 @@ class GUIPageBuilder<T : ForInventory>(
      */
     fun <E> createCompound(
         iconGenerator: (E) -> ItemStack,
-        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null
+        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null,
     ) = GUISpaceCompound(type, iconGenerator, onClick)
 
     /**
@@ -244,7 +236,7 @@ class GUIPageBuilder<T : ForInventory>(
      */
     fun <E> compoundSpace(
         slots: InventorySlotCompound<T>,
-        compound: GUISpaceCompound<T, E>
+        compound: GUISpaceCompound<T, E>,
     ) {
         compound.addSlots(slots)
         defineSlots(
@@ -264,14 +256,11 @@ class GUIPageBuilder<T : ForInventory>(
      */
     fun createSimpleRectCompound(
         fromSlot: SingleInventorySlot<out T>,
-        toSlot: SingleInventorySlot<out T>
+        toSlot: SingleInventorySlot<out T>,
     ) = createRectCompound<GUICompoundElement<T>>(
-
         fromSlot, toSlot,
-
         iconGenerator = { it.icon },
         onClick = { clickEvent, element -> element.onClick?.invoke(clickEvent) }
-
     )
 
     /**
@@ -283,7 +272,7 @@ class GUIPageBuilder<T : ForInventory>(
         fromSlot: SingleInventorySlot<out T>,
         toSlot: SingleInventorySlot<out T>,
         iconGenerator: (E) -> ItemStack,
-        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null
+        onClick: ((clickEvent: GUIClickEvent<T>, element: E) -> Unit)? = null,
     ): GUIRectSpaceCompound<T, E> {
         val rectSlotCompound = fromSlot rectTo toSlot
         return GUIRectSpaceCompound(
@@ -310,7 +299,7 @@ class GUIPageBuilder<T : ForInventory>(
         compound: GUISpaceCompound<T, *>,
         scrollDistance: Int = 1,
         scrollTimes: Int = 1,
-        reverse: Boolean = false
+        reverse: Boolean = false,
     ) = defineSlots(
         slots,
         GUISpaceCompoundScrollButton(icon, compound, scrollDistance.absoluteValue, scrollTimes, reverse)
@@ -325,10 +314,9 @@ class GUIPageBuilder<T : ForInventory>(
         icon: ItemStack,
         compound: GUIRectSpaceCompound<T, *>,
         scrollTimes: Int = 1,
-        reverse: Boolean = false
+        reverse: Boolean = false,
     ) = defineSlots(
         slots,
         GUISpaceCompoundScrollButton(icon, compound, scrollTimes, reverse)
     )
-
 }

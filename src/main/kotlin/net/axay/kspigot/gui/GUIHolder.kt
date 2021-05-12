@@ -7,9 +7,7 @@ import org.bukkit.event.inventory.*
 import org.bukkit.inventory.Inventory
 
 object GUIHolder : AutoCloseable {
-
     private val registered = HashMap<Inventory, GUIInstance<ForInventory>>()
-
     fun register(guiInstance: GUIInstance<ForInventory>) {
         registered[guiInstance.bukkitInventory] = guiInstance
     }
@@ -19,13 +17,9 @@ object GUIHolder : AutoCloseable {
     }
 
     init {
-
         listen<InventoryClickEvent> {
-
             val clickedInv = it.clickedInventory ?: return@listen
-
             val gui = registered[clickedInv] ?: return@listen
-
             val player = it.playerOrCancel ?: return@listen
 
             if (gui.isInMove) {
@@ -39,26 +33,20 @@ object GUIHolder : AutoCloseable {
                 }
             else
                 it.isCancelled = true
-
         }
 
         listen<InventoryDragEvent> {
-
             val inv = it.inventory
             val gui = registered[inv] ?: return@listen
-
             val player = it.playerOrCancel ?: return@listen
-
             var ifCancel = false
 
             for (slotIndex in it.inventorySlots) {
-
                 val slot = gui.currentPage.slots[slotIndex]
                 if (slot == null) {
                     ifCancel = true
                     break
                 }
-
                 val clickEvent = InventoryClickEvent(
                     it.view,
                     it.view.getSlotType(slotIndex),
@@ -73,26 +61,21 @@ object GUIHolder : AutoCloseable {
                     ifCancel = true
                     break
                 }
-
             }
 
             if (ifCancel)
                 it.isCancelled = true
-
         }
-
     }
 
     override fun close() {
         registered.keys.forEach { it.closeForViewers() }
         registered.clear()
     }
-
 }
 
 private val InventoryAction.isGUIClick
     get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF
-
 private val InventoryInteractEvent.playerOrCancel: Player?
     get() = (whoClicked as? Player) ?: kotlin.run {
         isCancelled = true

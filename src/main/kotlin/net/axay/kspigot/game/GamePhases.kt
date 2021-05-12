@@ -18,13 +18,11 @@ fun buildCounterMessageCallback(
     secondPlural: String = "s",
     hourSingular: String = hourPlural,
     minuteSingular: String = minutePlural,
-    secondSingular: String = secondPlural
+    secondSingular: String = secondPlural,
 ): (Long) -> String = { curSeconds ->
-
     StringBuilder().apply {
         if (beforeTime != null)
             append(beforeTime)
-
         val hourTime = (curSeconds / 3600)
         val minuteTime = ((curSeconds % 3600) / 60)
         val secondsTime = (curSeconds % 60)
@@ -46,14 +44,13 @@ fun buildCounterMessageCallback(
         if (afterTime != null)
             append(afterTime)
     }.toString()
-
 }
 
 class GamePhase(
     val length: Long,
     val start: (() -> Unit)?,
     val end: (() -> Unit)?,
-    val counterMessage: ((secondsLeft: Long) -> String)?
+    val counterMessage: ((secondsLeft: Long) -> String)?,
 ) {
     fun startIt(phaseQueue: MutableList<GamePhase>) {
         start?.invoke()
@@ -61,21 +58,17 @@ class GamePhase(
             period = 20,
             howOften = (length / 20) + 1,
             endCallback = {
-
                 end?.invoke()
 
                 if (phaseQueue.isNotEmpty())
                     phaseQueue.removeAt(0).startIt(phaseQueue)
-
             }
         ) {
-
             if (counterMessage != null) {
                 val currentCounter = it.counterDownToZero
                 if (currentCounter?.isCounterValue == true)
                     broadcast(counterMessage.invoke(currentCounter))
             }
-
         }
     }
 }

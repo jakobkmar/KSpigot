@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta
  * aswell.
  */
 data class CustomItemIdentifier(val customModelData: Int, val placeHolderMaterial: Material) {
-
     constructor(itemStack: ItemStack) :
             this(
                 kotlin.run {
@@ -38,5 +37,4 @@ data class CustomItemIdentifier(val customModelData: Int, val placeHolderMateria
                 itemStack
             } else null
         }
-
 }

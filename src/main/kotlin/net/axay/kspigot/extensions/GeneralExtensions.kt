@@ -4,7 +4,6 @@ import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.command.CommandSender
-import org.bukkit.entity.Entity
 import org.bukkit.entity.Player
 
 /**

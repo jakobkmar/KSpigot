@@ -9,10 +9,8 @@ fun Player.openGUI(gui: GUI<*>, page: Int? = null): InventoryView? {
 }
 
 internal fun Player.openGUIInstance(guiInstance: GUIInstance<*>, page: Int? = null): InventoryView? {
-
     if (page != null)
         guiInstance.loadPageUnsafe(page)
 
     return openInventory(guiInstance.bukkitInventory)
-
 }

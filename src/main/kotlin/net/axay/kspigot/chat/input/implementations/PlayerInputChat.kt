@@ -12,7 +12,7 @@ internal class PlayerInputChat(
     player: Player,
     callback: (PlayerInputResult<String>) -> Unit,
     timeoutSeconds: Int,
-    question: String
+    question: String,
 ) : PlayerInput<String>(player, callback, timeoutSeconds) {
 
     init {
@@ -27,5 +27,4 @@ internal class PlayerInputChat(
             }
         }
     )
-
 }

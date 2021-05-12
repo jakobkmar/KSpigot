@@ -28,11 +28,8 @@ val Player.ipAddressData get() = ipAddressData()
  * be found out about the IP address of the player.
  */
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
-
     return try {
-
         val hostString = address?.hostString ?: return null
-
         val jsonObject = ValueHolder.getGson().fromUrlJson(
             "$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}"
         ) ?: return null
@@ -40,11 +37,9 @@ fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage
         if (jsonObject["status"].toString() == "fail") return null
 
         IPAddressData(jsonObject)
-
     } catch (exc: Exception) {
         null
     }
-
 }
 
 enum class IPAddressDataLanguage(val code: String) {
@@ -59,7 +54,6 @@ enum class IPAddressDataLanguage(val code: String) {
 }
 
 class IPAddressData(private val json: JsonObject) {
-
     val ip get() = json.getStringOrNull("query")
 
     // region
@@ -81,5 +75,4 @@ class IPAddressData(private val json: JsonObject) {
     // information
     val internetServiceProvider get() = json.getStringOrNull("isp")
     val organisation get() = json.getStringOrNull("org")
-
 }

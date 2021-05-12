@@ -19,7 +19,7 @@ fun sendPluginMessageToBungeeCordRandomPlayer(
     subChannel: String,
     content: List<String>? = null,
     responseTimeout: Int = 20,
-    onResponse: ((message: DataInputStream) -> Unit)? = null
+    onResponse: ((message: DataInputStream) -> Unit)? = null,
 ): Boolean {
     val randomPlayer = onlinePlayers.randomOrNull()
     return if (randomPlayer != null) {
@@ -43,20 +43,17 @@ fun sendPluginMessageToBungeeCord(
     subChannel: String,
     content: List<String>? = null,
     responseTimeout: Int = 20,
-    onResponse: ((message: DataInputStream) -> Unit)? = null
+    onResponse: ((message: DataInputStream) -> Unit)? = null,
 ) {
-
     val msgbytes = ByteArrayOutputStream()
     val msgout = DataOutputStream(msgbytes)
 
     try {
-
         msgout.writeUTF(subChannel)
 
         if (content != null)
             for (messagePart in content)
                 msgout.writeUTF(messagePart)
-
     } catch (e: IOException) {
         e.printStackTrace()
     }
@@ -65,5 +62,4 @@ fun sendPluginMessageToBungeeCord(
         BungeePluginMessageResponseCallback(subChannel, responseTimeout, onResponse)
 
     player.sendPluginMessage(KSpigotMainInstance, "BungeeCord", msgbytes.toByteArray())
-
 }

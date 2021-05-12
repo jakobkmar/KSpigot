@@ -30,7 +30,7 @@ fun Player.hasBadIP(detector: BadIPDetector = BadIPDetector.DEFAULT) =
  */
 fun Player.checkIP(
     detector: BadIPDetector = BadIPDetector.DEFAULT,
-    breakOnHit: Boolean = true
+    breakOnHit: Boolean = true,
 ): Map<BadIPDetectionService, BadIPDetectionResult> {
     val ip = address?.hostString ?: return emptyMap()
     return detector.checkIP(ip, breakOnHit)
@@ -47,9 +47,8 @@ fun Player.checkIP(
  *  - [net.axay.kspigot.ipaddress.badipdetectionservices.VPNBlocker]
  */
 class BadIPDetector(
-    val services: List<BadIPDetectionService>
+    val services: List<BadIPDetectionService>,
 ) {
-
     /**
      * Alternative constructor.
      * @see BadIPDetector
@@ -65,46 +64,35 @@ class BadIPDetector(
     fun checkIP(ip: String, breakOnHit: Boolean = true) =
         HashMap<BadIPDetectionService, BadIPDetectionResult>().apply {
             for (it in services) {
-
                 val curResult = it.isBad(ip)
                 this[it] = curResult
 
                 if (curResult.isBad && breakOnHit) break
-
             }
         }
-
 }
 
 enum class BadIPDetectionResult(
     val isBad: Boolean,
-    val typeName: String
+    val typeName: String,
 ) {
-
     GENERAL_BAD(true, "bad ip"),
-
     VPN(true, "vpn"),
     PROXY(true, "proxy"),
     TOR(true, "tor network"),
     HOSTING(true, "hosting"),
-
     GOOD(false, "valid ip"),
     ERROR(false, "error"),
     LIMIT(false, "limit");
-
 }
 
 abstract class BadIPDetectionService(
-    val name: String
+    val name: String,
 ) {
-
     protected abstract fun requestString(ip: String): String
     protected open fun requestHeaders() = emptyMap<String, String>()
-
     protected abstract fun interpreteResult(result: JSONObject): BadIPDetectionResult
-
     fun isBad(ip: String): BadIPDetectionResult {
-
         val con = URL(requestString(ip)).openConnection() as HttpURLConnection
         con.requestMethod = "GET"
         requestHeaders().forEach { (field, value) -> con.setRequestProperty(field, value) }
@@ -113,7 +101,6 @@ abstract class BadIPDetectionService(
         if (con.responseCode == 429)
             return BadIPDetectionResult.LIMIT
         else {
-
             val result = try {
                 con.inputStream.use { JSONObject(it.readAllBytes().decodeToString()) }
             } catch (exc: JSONException) {
@@ -125,9 +112,6 @@ abstract class BadIPDetectionService(
             } catch (exc: Exception) {
                 return BadIPDetectionResult.ERROR
             }
-
         }
-
     }
-
 }

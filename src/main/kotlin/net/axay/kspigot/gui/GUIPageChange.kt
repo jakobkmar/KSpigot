@@ -3,7 +3,6 @@ package net.axay.kspigot.gui
 import net.axay.kspigot.runnables.task
 
 abstract class GUIPageChangeCalculator {
-
     abstract fun calculateNewPage(currentPage: Int, pages: Collection<Int>): Int?
 
     object GUIPreviousPageCalculator : GUIPageChangeCalculator() {
@@ -19,7 +18,6 @@ abstract class GUIPageChangeCalculator {
     class GUIConsistentPageCalculator(private val toPage: Int) : GUIPageChangeCalculator() {
         override fun calculateNewPage(currentPage: Int, pages: Collection<Int>) = toPage
     }
-
 }
 
 enum class PageChangeEffect {
@@ -31,7 +29,7 @@ enum class PageChangeEffect {
 }
 
 enum class InventoryChangeEffect(
-    val effect: PageChangeEffect
+    val effect: PageChangeEffect,
 ) {
     INSTANT(PageChangeEffect.INSTANT)
 }
@@ -46,18 +44,14 @@ fun GUIInstance<*>.gotoPage(page: Int, overrideEffect: PageChangeEffect? = null)
 internal fun GUIInstance<*>.changePage(
     effect: PageChangeEffect,
     fromPage: GUIPage<*>,
-    toPage: GUIPage<*>
+    toPage: GUIPage<*>,
 ) {
-
     val fromPageInt = fromPage.number
     val toPageInt = toPage.number
 
     when (effect) {
-
         PageChangeEffect.INSTANT -> loadPageUnsafe(toPage)
-
         PageChangeEffect.SLIDE_HORIZONTALLY -> {
-
             val width = gui.data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
@@ -69,11 +63,8 @@ internal fun GUIInstance<*>.changePage(
                     loadPageUnsafe(toPage, offsetHorizontally = width - currentOffset)
                 }
             }
-
         }
-
         PageChangeEffect.SLIDE_VERTICALLY -> {
-
             val height = gui.data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
@@ -85,11 +76,8 @@ internal fun GUIInstance<*>.changePage(
                     loadPageUnsafe(toPage, offsetVertically = height - currentOffset)
                 }
             }
-
         }
-
         PageChangeEffect.SWIPE_HORIZONTALLY -> {
-
             val width = gui.data.guiType.dimensions.width
 
             changePageEffect(fromPageInt, toPageInt, width) { currentOffset, ifInverted ->
@@ -99,11 +87,8 @@ internal fun GUIInstance<*>.changePage(
                     loadPageUnsafe(toPage, offsetHorizontally = width - currentOffset)
                 }
             }
-
         }
-
         PageChangeEffect.SWIPE_VERTICALLY -> {
-
             val height = gui.data.guiType.dimensions.height
 
             changePageEffect(fromPageInt, toPageInt, height) { currentOffset, ifInverted ->
@@ -113,16 +98,14 @@ internal fun GUIInstance<*>.changePage(
                     loadPageUnsafe(toPage, offsetVertically = height - currentOffset)
                 }
             }
-
         }
-
     }
 }
 
 internal fun GUIInstance<*>.changeGUI(
     effect: InventoryChangeEffect,
     fromPage: GUIPage<*>,
-    toPage: GUIPage<*>
+    toPage: GUIPage<*>,
 ) = changePage(effect.effect, fromPage, toPage)
 
 private inline fun changePageEffect(
@@ -131,20 +114,15 @@ private inline fun changePageEffect(
     doFor: Int,
     crossinline effect: (currentOffset: Int, ifInverted: Boolean) -> Unit,
 ) {
-
     val ifInverted = fromPage >= toPage
-
     var currentOffset = 1
     task(
         sync = true,
         period = 1,
         howOften = doFor.toLong()
     ) {
-
         effect.invoke(currentOffset, ifInverted)
 
         currentOffset++
-
     }
-
 }

@@ -7,78 +7,58 @@ import org.bukkit.Material
 import org.bukkit.inventory.ItemStack
 
 class GUISpaceCompoundElement<T : ForInventory, E> internal constructor(
-    private val compound: AbstractGUISpaceCompound<T, E>
+    private val compound: AbstractGUISpaceCompound<T, E>,
 ) : GUIElement<T>() {
-
     override fun getItemStack(slot: Int) = compound.getItemStack(slot)
-
     override fun onClickElement(clickEvent: GUIClickEvent<T>) {
         compound.onClickElement(clickEvent)
     }
-
     // the following two methods register and unregister the instance
     // for each compound element, but that is ok because it gets
     // added/removed to/from a HashSet
-
     override fun startUsing(gui: GUIInstance<*>) = compound.registerGUI(gui)
-
     override fun stopUsing(gui: GUIInstance<*>) = compound.unregisterGUI(gui)
-
 }
 
 class GUIRectSpaceCompound<T : ForInventory, E>(
     invType: GUIType<T>,
     iconGenerator: (E) -> ItemStack,
     onClick: ((GUIClickEvent<T>, E) -> Unit)?,
-    internal val compoundWidth: Int
+    internal val compoundWidth: Int,
 ) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
-
     override fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int) =
         (internalSlotsSize + newProgress <= contentSize + (compoundWidth - (contentSize % compoundWidth)))
-
 }
 
 class GUISpaceCompound<T : ForInventory, E>(
     invType: GUIType<T>,
     iconGenerator: (E) -> ItemStack,
-    onClick: ((GUIClickEvent<T>, E) -> Unit)?
+    onClick: ((GUIClickEvent<T>, E) -> Unit)?,
 ) : AbstractGUISpaceCompound<T, E>(invType, iconGenerator, onClick) {
-
     override fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int) = false
-
 }
 
 abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructor(
     val guiType: GUIType<T>,
     private val iconGenerator: (E) -> ItemStack,
-    private val onClick: ((GUIClickEvent<T>, E) -> Unit)?
+    private val onClick: ((GUIClickEvent<T>, E) -> Unit)?,
 ) {
-
     private val content = ArrayList<E>()
     private var currentContent: List<E> = emptyList()
-
     private val internalSlots: MutableList<Int> = ArrayList()
-
     private var scrollProgress: Int = 0
-
     private var contentSort: () -> Unit = { }
-
     private val registeredGUIs = HashSet<GUIInstance<*>>()
-
     private fun contentAtSlot(slot: Int) = currentContent.getOrNull(internalSlots.indexOf(slot))
-
     private fun recalculateCurrentContent() {
-
         if (scrollProgress > content.size)
             throw IllegalStateException("The scrollProgress is greater than the content size.")
-
         // avoid IndexOutOfBoundsException
         var sliceUntil = internalSlots.size + scrollProgress
         if (sliceUntil > content.lastIndex)
             sliceUntil = content.size
 
         currentContent = content.slice(scrollProgress until sliceUntil)
-
     }
 
     private fun updateOpenGUIs() {
@@ -88,7 +68,6 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     internal fun scroll(distance: Int): Boolean {
         val value = scrollProgress + distance
         return if (value >= 0) {
-
             // always scroll if the end of the content is not reached
             val ifScroll = if (internalSlots.size + value <= content.size) true
             // scroll further if the width of the compound is defined and the last line can be filled up
@@ -100,12 +79,10 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
                 updateOpenGUIs()
                 true
             } else false
-
         } else false
     }
 
     internal abstract fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int): Boolean
-
     internal fun getItemStack(slot: Int): ItemStack {
         return contentAtSlot(slot)?.let { return@let iconGenerator.invoke(it) }
             ?: ItemStack(Material.AIR)
@@ -191,7 +168,6 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
         recalculateCurrentContent()
         updateOpenGUIs()
     }
-
 }
 
 /**
@@ -203,5 +179,5 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
  */
 open class GUICompoundElement<T : ForInventory>(
     internal val icon: ItemStack,
-    internal val onClick: ((GUIClickEvent<T>) -> Unit)? = null
+    internal val onClick: ((GUIClickEvent<T>) -> Unit)? = null,
 )

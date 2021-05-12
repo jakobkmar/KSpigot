@@ -5,11 +5,9 @@ package net.axay.kspigot.runnables
 import kotlin.reflect.KClass
 
 abstract class ChainedRunnablePart<T, R>(
-    val sync: Boolean
+    val sync: Boolean,
 ) {
-
     var next: ChainedRunnablePart<R, *>? = null
-
     protected abstract fun invoke(data: T): R
 
     /**
@@ -27,7 +25,7 @@ abstract class ChainedRunnablePart<T, R>(
      */
     inline fun <reified E : Exception> executeCatching(
         exceptionSync: Boolean = true,
-        noinline exceptionHandler: ((E) -> Unit)? = null
+        noinline exceptionHandler: ((E) -> Unit)? = null,
     ) {
         executeCatchingImpl(E::class, exceptionSync, exceptionHandler)
     }
@@ -74,42 +72,35 @@ abstract class ChainedRunnablePart<T, R>(
             next?.startCatching(result, exceptionClass, exceptionSync, exceptionHandler)
         }
     }
-
 }
 
 class ChainedRunnablePartFirst<R>(
     val runnable: () -> R,
-    sync: Boolean
+    sync: Boolean,
 ) : ChainedRunnablePart<Unit, R>(sync) {
-
     override fun execute() = start(Unit)
-
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,
-        exceptionHandler: ((E) -> Unit)?
+        exceptionHandler: ((E) -> Unit)?,
     ) = startCatching(Unit, exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: Unit) = runnable.invoke()
-
 }
 
 class ChainedRunnablePartThen<T, R>(
     val runnable: (T) -> R,
     sync: Boolean,
-    val previous: ChainedRunnablePart<*, T>
+    val previous: ChainedRunnablePart<*, T>,
 ) : ChainedRunnablePart<T, R>(sync) {
-
     override fun execute() = previous.execute()
-
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,
-        exceptionHandler: ((E) -> Unit)?
+        exceptionHandler: ((E) -> Unit)?,
     ) = previous.executeCatchingImpl(exceptionClass, exceptionSync, exceptionHandler)
 
     override fun invoke(data: T) = runnable.invoke(data)
-
 }
 
 // FIRST

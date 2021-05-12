@@ -9,15 +9,12 @@ import org.bukkit.Material
 import org.bukkit.entity.EntityType
 
 private fun circleEdgeLocations(radius: Number) = HashSet<SimpleLocation2D>().apply {
-
     val currentRadius = radius.toDouble()
-
     var d = -currentRadius
     var x = currentRadius
     var y = 0
 
     while (y <= x) {
-
         addSimpleLoc2D(x, y)
         addSimpleLoc2D(x, -y)
         addSimpleLoc2D(-x, y)
@@ -34,9 +31,7 @@ private fun circleEdgeLocations(radius: Number) = HashSet<SimpleLocation2D>().ap
             d += -2 * x + 2
             x--
         }
-
     }
-
 }
 
 private fun MutableSet<SimpleLocation2D>.addSimpleLoc2D(first: Number, second: Number) {
@@ -44,11 +39,8 @@ private fun MutableSet<SimpleLocation2D>.addSimpleLoc2D(first: Number, second: N
 }
 
 abstract class Circle(val radius: Number) {
-
     protected abstract val data: StructureData
-
     val fillLocations by lazy {
-
         var currentRadius = radius.toDouble()
 
         HashSet<SimpleLocation2D>().apply {
@@ -70,17 +62,12 @@ abstract class Circle(val radius: Number) {
                 currentRadius--
             }
         }
-
     }
-
     val edgeLocations by lazy {
         circleEdgeLocations(radius)
     }
-
     val filledStructure by lazy { structure(true) }
-
     val edgeStructure by lazy { structure(false) }
-
     fun structure(filled: Boolean) = Structure(
         HashSet<SingleStructureData>().apply {
             val locations = if (filled) fillLocations else edgeLocations
@@ -88,7 +75,6 @@ abstract class Circle(val radius: Number) {
                 this += SingleStructureData(SimpleLocation3D(it.x, 0, it.y), data)
         }
     )
-
 }
 
 class MaterialCircle(radius: Number, material: Material) : Circle(radius) {

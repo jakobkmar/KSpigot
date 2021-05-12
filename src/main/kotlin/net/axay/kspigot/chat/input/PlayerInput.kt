@@ -19,7 +19,7 @@ import org.bukkit.event.Listener
 fun Player.awaitChatInput(
     question: String = "Type your input in the chat!",
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<String>) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit,
 ) {
     PlayerInputChat(this, callback, timeoutSeconds, question)
 }
@@ -36,7 +36,7 @@ fun Player.awaitAnvilInput(
         "submit your input!"
     ),
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<String>) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit,
 ) {
     PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
@@ -48,7 +48,7 @@ fun Player.awaitAnvilInput(
  */
 fun Player.awaitBookInputAsString(
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<String>) -> Unit
+    callback: (PlayerInputResult<String>) -> Unit,
 ) {
     PlayerInputBookComprehensive(this, callback, timeoutSeconds)
 }
@@ -61,7 +61,7 @@ fun Player.awaitBookInputAsString(
  */
 fun Player.awaitBookInputAsList(
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<List<String>>) -> Unit
+    callback: (PlayerInputResult<List<String>>) -> Unit,
 ) {
     PlayerInputBookPaged(this, callback, timeoutSeconds)
 }
@@ -70,17 +70,13 @@ fun Player.awaitBookInputAsList(
  * @param input The input the player gave. Null on timeout or invalid input.
  */
 class PlayerInputResult<T> internal constructor(val input: T?)
-
 internal abstract class PlayerInput<T>(
     protected val player: Player,
     private val callback: (PlayerInputResult<T>) -> Unit,
-    timeoutSeconds: Int
+    timeoutSeconds: Int,
 ) {
-
     private var received = false
-
     protected abstract val inputListeners: List<Listener>
-
     protected fun onReceive(input: T?) {
         if (!received) {
             inputListeners.forEach { it.unregister() }
@@ -99,5 +95,4 @@ internal abstract class PlayerInput<T>(
             onReceive(null)
         }
     }
-
 }

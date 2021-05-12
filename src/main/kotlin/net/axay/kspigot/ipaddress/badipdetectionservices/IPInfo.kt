@@ -6,11 +6,9 @@ import net.axay.kspigot.languageextensions.getStringOrNull
 import org.json.JSONObject
 
 class IPInfo(
-    private val token: String
+    private val token: String,
 ) : BadIPDetectionService("ipinfo.io") {
-
     override fun requestString(ip: String) = "https://ipinfo.io/$ip/privacy?token=$token"
-
     override fun interpreteResult(result: JSONObject): BadIPDetectionResult {
         return when {
             result.getStringOrNull("vpn").toBoolean() -> BadIPDetectionResult.VPN
@@ -20,5 +18,4 @@ class IPInfo(
             else -> BadIPDetectionResult.GOOD
         }
     }
-
 }

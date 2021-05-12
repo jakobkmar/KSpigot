@@ -21,9 +21,8 @@ data class KSpigotParticle(
     var offset: Vector? = null,
     var extra: Number = 1.0,
     var data: Any? = null,
-    var force: Boolean = false
+    var force: Boolean = false,
 ) {
-
     /**
      * Spawns the particle at the location. It
      * will be visible for everyone near it.
@@ -58,7 +57,6 @@ data class KSpigotParticle(
             data
         )
     }
-
 }
 
 /**

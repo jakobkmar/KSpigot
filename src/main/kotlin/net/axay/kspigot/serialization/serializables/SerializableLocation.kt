@@ -11,14 +11,16 @@ data class SerializableLocation(
     val x: Double,
     val y: Double,
     val z: Double,
-    val direction: SerializableVector
+    val direction: SerializableVector,
 ) : SpigotSerializable<Location> {
-
     companion object : SpigotSerializableCompanion<SerializableLocation>
 
-    constructor(loc: Location) : this(loc.world?.let { SerializableWorld(it) }, loc.x, loc.y, loc.z, SerializableVector(loc.direction))
+    constructor(loc: Location) : this(loc.world?.let { SerializableWorld(it) },
+        loc.x,
+        loc.y,
+        loc.z,
+        SerializableVector(loc.direction))
 
     override fun toSpigot() = Location(world?.toSpigot(), x, y, z)
         .apply { direction = this@SerializableLocation.direction.toSpigot() }
-
 }

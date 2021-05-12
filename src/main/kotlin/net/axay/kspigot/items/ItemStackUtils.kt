@@ -8,20 +8,15 @@ import net.md_5.bungee.api.ChatColor
  * can be used for minecraft lorelists.
  */
 fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lineLength: Int = 40): List<String> {
-
     val lineColor = lineColors.joinToString(separator = "")
-
     val loreList = ArrayList<String>()
-
     val lineBuilder = StringBuilder()
-
     fun submitLine() {
         loreList += "$lineColor$lineBuilder"
         lineBuilder.clear()
     }
 
     fun addWord(word: String) {
-
         if (lineBuilder.lengthWithoutMinecraftColour + word.lengthWithoutMinecraftColour > lineLength)
             submitLine()
 
@@ -29,7 +24,6 @@ fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lin
             lineBuilder.append(" ")
 
         lineBuilder.append(word)
-
     }
 
     split(" ").forEach { addWord(it) }
@@ -38,38 +32,33 @@ fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lin
         submitLine()
 
     return loreList
-
 }
 
 /**
  * Returns the length of this sequence, ignoring
  * all minecraft colour codes.
  */
-val CharSequence.lengthWithoutMinecraftColour: Int get() {
+val CharSequence.lengthWithoutMinecraftColour: Int
+    get() {
+        var count = 0
+        var isPreviousColourCode = false
 
-    var count = 0
+        this.forEachIndexed { index, char ->
+            if (isPreviousColourCode) {
+                isPreviousColourCode = false
+                return@forEachIndexed
+            }
 
-    var isPreviousColourCode = false
-
-    this.forEachIndexed { index, char ->
-
-        if (isPreviousColourCode) {
-            isPreviousColourCode = false
-            return@forEachIndexed
+            if (char == '§') {
+                if (lastIndex >= index + 1) {
+                    val nextChar = this[index + 1]
+                    if (nextChar.isLetter() || nextChar.isDigit())
+                        isPreviousColourCode = true
+                    else
+                        count++
+                }
+            } else count++
         }
 
-        if (char == '§') {
-            if (lastIndex >= index + 1) {
-                val nextChar = this[index + 1]
-                if (nextChar.isLetter() || nextChar.isDigit())
-                    isPreviousColourCode = true
-                else
-                    count++
-            }
-        } else count++
-
+        return count
     }
-
-    return count
-
-}

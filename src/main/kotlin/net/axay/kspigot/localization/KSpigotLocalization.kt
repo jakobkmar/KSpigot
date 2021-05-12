@@ -5,7 +5,6 @@ import org.bukkit.entity.Player
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets
 import java.util.*
-import kotlin.collections.HashMap
 
 /**
  * Handles localization of strings using java [ResourceBundle]s.
@@ -23,7 +22,6 @@ object Localization {
      * is advisable in many cases.
      */
     var localeProvider: (Player) -> Locale = { Locale.US }
-
     private val bundles: MutableMap<Locale, ResourceBundle> = HashMap()
 
     /**

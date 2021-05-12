@@ -40,16 +40,12 @@ val PlayerInteractEvent.clickedBlockExceptAir: Block?
     get() {
         return clickedBlock ?: kotlin.run {
             return@run if (this.action == Action.RIGHT_CLICK_AIR) {
-
                 val p: Player = this.player
-
                 // check for sight blocking entities
                 for (nearbyEntity: Entity in p.getNearbyEntities(5.0, 5.0, 5.0))
                     if (p.hasLineOfSight(nearbyEntity)) return@run null
-
                 // get first block in line of sight which is not air
                 p.getLineOfSight(null, 5).find { block -> !block.type.isAir }
-
             } else null
         }
     }

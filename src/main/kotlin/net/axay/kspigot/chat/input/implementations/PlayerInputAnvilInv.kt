@@ -19,9 +19,8 @@ internal class PlayerInputAnvilInv(
     timeoutSeconds: Int,
     invTitle: String,
     startText: String,
-    renameItemDescription: List<String>
+    renameItemDescription: List<String>,
 ) : PlayerInput<String>(player, callback, timeoutSeconds) {
-
     private val anvilInv =
         AnvilGUI.Builder().plugin(KSpigotMainInstance)
             .onClose { onReceive(null) }
@@ -42,7 +41,6 @@ internal class PlayerInputAnvilInv(
             )
             .text("${KColors.ORANGERED}$startText")
             .open(player)
-
     override val inputListeners = listOf(
         listen<InventoryClickEvent> {
             if (it.clickedInventory == anvilInv.inventory)
@@ -53,5 +51,4 @@ internal class PlayerInputAnvilInv(
     override fun onTimeout() {
         anvilInv.inventory.closeForViewers()
     }
-
 }

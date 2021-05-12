@@ -9,16 +9,12 @@ import org.bukkit.inventory.meta.ItemMeta
 /*
     ITEM STACK
  */
-
 // creation
-
 /**
  * Creates a new [ItemStack] and opens a builder for it.
  */
 inline fun itemStack(material: Material, builder: ItemStack.() -> Unit) = ItemStack(material).apply(builder)
-
 // extensions
-
 /**
  * Opens a builder with the current meta.
  * @param T the specific type of the meta
@@ -48,13 +44,10 @@ inline fun <reified T : ItemMeta> ItemStack.setMeta(builder: T.() -> Unit) {
 /** @see setMeta */
 @JvmName("simpleSetMeta")
 inline fun ItemStack.setMeta(builder: ItemMeta.() -> Unit) = setMeta<ItemMeta>(builder)
-
 /*
     ITEM META
  */
-
 // creation
-
 /**
  * Creates new a [ItemMeta] instance of the given material and opens a builder for it.
  * @param T the specific type of the meta
@@ -67,9 +60,7 @@ inline fun <reified T : ItemMeta> itemMeta(material: Material, builder: T.() -> 
 /** @see itemMeta */
 @JvmName("simpleItemMeta")
 inline fun itemMeta(material: Material, builder: ItemMeta.() -> Unit) = itemMeta<ItemMeta>(material, builder)
-
 // extensions
-
 /**
  * Sets the lore (description) of the item.
  */

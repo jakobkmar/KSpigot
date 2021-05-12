@@ -133,7 +133,7 @@ fun Player.title(
     subText: String? = null,
     fadeIn: Int = 10,
     stay: Int = 70,
-    fadeOut: Int = 20
+    fadeOut: Int = 20,
 ) {
     sendTitle(mainText, subText, fadeIn, stay, fadeOut)
 }

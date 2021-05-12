@@ -9,11 +9,9 @@ import org.bukkit.inventory.InventoryHolder
 
 class GUIType<in T : ForInventory>(
     val dimensions: InventoryDimensions,
-    val bukkitType: InventoryType? = null
+    val bukkitType: InventoryType? = null,
 ) {
-
     companion object {
-
         val ONE_BY_NINE = GUIType<ForInventoryOneByNine>(InventoryDimensions(9, 1))
         val TWO_BY_NINE = GUIType<ForInventoryTwoByNine>(InventoryDimensions(9, 2))
         val THREE_BY_NINE = GUIType<ForInventoryThreeByNine>(InventoryDimensions(9, 3))
@@ -24,7 +22,6 @@ class GUIType<in T : ForInventory>(
             GUIType<ForInventoryOneByFive>(InventoryDimensions(5, 1), bukkitType = InventoryType.HOPPER)
         val THREE_BY_THREE =
             GUIType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
-
     }
 
     fun createBukkitInv(holder: InventoryHolder? = null, title: String? = null): Inventory {
@@ -34,13 +31,9 @@ class GUIType<in T : ForInventory>(
             else -> Bukkit.createInventory(holder, dimensions.slotAmount, realTitle)
         }
     }
-
 }
-
 // INVENTORY TYPE SAFETY
-
 interface ForInventory
-
 interface ForInventoryThreeByThree : ForInventoryThreeByNine
 interface ForInventoryOneByFive : ForInventoryOneByNine
 interface ForInventoryOneByNine : ForInventoryTwoByNine
@@ -49,7 +42,6 @@ interface ForInventoryThreeByNine : ForInventoryFourByNine
 interface ForInventoryFourByNine : ForInventoryFiveByNine
 interface ForInventoryFiveByNine : ForInventorySixByNine
 interface ForInventorySixByNine : ForInventory
-
 interface ForEveryInventory
     : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
     ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine,

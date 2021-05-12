@@ -9,14 +9,12 @@ import org.bukkit.block.BlockFace
  * vertical directions (pitch).
  */
 enum class VerticalDirection {
-
     UP, DOWN, STRAIGHT;
 
     val facing: BlockFace?
         get() = Enums.getIfPresent(BlockFace::class.java, this.name).orNull()
 
     companion object {
-
         fun fromLocation(location: Location): VerticalDirection {
             val pitch: Float = location.pitch
             return when {
@@ -25,9 +23,7 @@ enum class VerticalDirection {
                 else -> STRAIGHT
             }
         }
-
     }
-
 }
 
 /**
@@ -35,14 +31,12 @@ enum class VerticalDirection {
  * cardinal directions (yaw).
  */
 enum class CardinalDirection {
-
     NORTH, EAST, SOUTH, WEST;
 
     val facing: BlockFace?
         get() = Enums.getIfPresent(BlockFace::class.java, this.name).orNull()
 
     companion object {
-
         fun fromLocation(location: Location): CardinalDirection {
             var yaw: Float = location.yaw
             if (yaw < 0) yaw += 360f
@@ -54,7 +48,5 @@ enum class CardinalDirection {
                 else -> NORTH
             }
         }
-
     }
-
 }

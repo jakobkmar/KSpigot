@@ -17,7 +17,7 @@ import org.bukkit.persistence.PersistentDataType
 internal class PlayerInputBookComprehensive(
     player: Player,
     callback: (PlayerInputResult<String>) -> Unit,
-    timeoutSeconds: Int
+    timeoutSeconds: Int,
 ) : PlayerInputBook<String>(player, callback, timeoutSeconds) {
     override fun loadBookContent(bookMeta: BookMeta) = bookMeta.content
 }
@@ -25,7 +25,7 @@ internal class PlayerInputBookComprehensive(
 internal class PlayerInputBookPaged(
     player: Player,
     callback: (PlayerInputResult<List<String>>) -> Unit,
-    timeoutSeconds: Int
+    timeoutSeconds: Int,
 ) : PlayerInputBook<List<String>>(player, callback, timeoutSeconds) {
     override fun loadBookContent(bookMeta: BookMeta): List<String> = bookMeta.pages
 }
@@ -33,9 +33,8 @@ internal class PlayerInputBookPaged(
 internal abstract class PlayerInputBook<T>(
     player: Player,
     callback: (PlayerInputResult<T>) -> Unit,
-    timeoutSeconds: Int
+    timeoutSeconds: Int,
 ) : PlayerInput<T>(player, callback, timeoutSeconds) {
-
     private val id = getID()
 
     init {
@@ -47,7 +46,6 @@ internal abstract class PlayerInputBook<T>(
     }
 
     abstract fun loadBookContent(bookMeta: BookMeta): T
-
     override val inputListeners = listOf(
         listen<PlayerEditBookEvent> {
             val meta = it.newBookMeta
@@ -64,16 +62,12 @@ internal abstract class PlayerInputBook<T>(
     }
 
     companion object {
-
         val idKey = NamespacedKey(KSpigotMainInstance, "kspigot_bookinput_id")
-
         internal val usedIDs = ArrayList<Int>()
         fun getID(): Int {
             var returnID = (0..Int.MAX_VALUE).random()
             while (usedIDs.contains(returnID)) returnID = (0..Int.MAX_VALUE).random()
             return returnID
         }
-
     }
-
 }

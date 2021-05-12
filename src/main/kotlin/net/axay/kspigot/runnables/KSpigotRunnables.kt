@@ -7,7 +7,6 @@ import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
 internal object KRunnableHolder : AutoCloseable {
-
     /**
      * [BukkitRunnable] for tracking the responsible runnable.
      * [Pair] of callback for the endCallback code and [Boolean]
@@ -15,7 +14,6 @@ internal object KRunnableHolder : AutoCloseable {
      * or not.
      */
     private val runnableEndCallbacks = HashMap<BukkitRunnable, Pair<() -> Unit, Boolean>>()
-
     override fun close() {
         runnableEndCallbacks.values.forEach { if (it.second) it.first.invoke() }
         runnableEndCallbacks.clear()
@@ -26,13 +24,12 @@ internal object KRunnableHolder : AutoCloseable {
 
     fun remove(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)
     fun activate(runnable: BukkitRunnable) = runnableEndCallbacks.remove(runnable)?.first?.invoke()
-
 }
 
 abstract class KSpigotRunnable(
     var counterUp: Long? = null,
     var counterDownToOne: Long? = null,
-    var counterDownToZero: Long? = null
+    var counterDownToZero: Long? = null,
 ) : BukkitRunnable()
 
 /**
@@ -56,20 +53,14 @@ fun task(
     howOften: Long? = null,
     safe: Boolean = false,
     endCallback: (() -> Unit)? = null,
-    runnable: ((KSpigotRunnable) -> Unit)? = null
+    runnable: ((KSpigotRunnable) -> Unit)? = null,
 ): KSpigotRunnable? {
-
     if (howOften != null && howOften == 0L) return null
-
     val bukkitRunnable = object : KSpigotRunnable() {
-
         private var curCounter = 0L
-
         override fun run() {
-
             var ranOut = false
             if (howOften != null) {
-
                 counterDownToOne = howOften - curCounter
                 counterDownToZero = counterDownToOne?.minus(1)
 
@@ -78,7 +69,6 @@ fun task(
                     ranOut = true
 
                 counterUp = curCounter
-
             }
 
             runnable?.invoke(this)
@@ -91,9 +81,7 @@ fun task(
                 else
                     KRunnableHolder.remove(this)
             }
-
         }
-
     }
 
     if (endCallback != null) KRunnableHolder.add(bukkitRunnable, endCallback, safe)
@@ -106,7 +94,6 @@ fun task(
         else bukkitRunnable.runTaskLaterAsynchronously(KSpigotMainInstance, delay)
 
     return bukkitRunnable
-
 }
 
 /**

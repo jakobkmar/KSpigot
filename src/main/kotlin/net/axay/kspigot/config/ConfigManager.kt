@@ -43,11 +43,9 @@ class ConfigDelegate<T : Any>(
     private val configClass: KClass<T>,
     private val file: File,
     private val saveAfterLoad: Boolean,
-    private val defaultCallback: (() -> T)?
+    private val defaultCallback: (() -> T)?,
 ) {
-
     private var internalConfig: T = loadIt()
-
     var data: T
         get() = internalConfig
         set(value) {
@@ -55,7 +53,6 @@ class ConfigDelegate<T : Any>(
         }
 
     operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
-
     operator fun setValue(thisRef: Any?, property: KProperty<*>, config: T): Boolean {
         internalConfig = config
         return true
@@ -79,7 +76,6 @@ class ConfigDelegate<T : Any>(
     }
 
     private fun loadIt(): T {
-
         val loaded = if (defaultCallback == null)
             GsonConfigManager.loadConfig(file, configClass)
         else
@@ -90,13 +86,10 @@ class ConfigDelegate<T : Any>(
             saveIt(loaded)
 
         return loaded
-
     }
-
 }
 
 internal object GsonConfigManager {
-
     fun <T : Any> loadConfig(file: File, configClass: KClass<T>): T =
         FileReader(file).use { reader -> return getGson().fromJson(reader, configClass.java) }
 
@@ -111,7 +104,7 @@ internal object GsonConfigManager {
         file: File,
         configClass: KClass<T>,
         pretty: Boolean = true,
-        default: () -> T
+        default: () -> T,
     ): T {
         try {
             return loadConfig(file, configClass)
@@ -122,5 +115,4 @@ internal object GsonConfigManager {
             }
         }
     }
-
 }

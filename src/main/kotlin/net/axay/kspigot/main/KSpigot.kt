@@ -19,11 +19,9 @@ import org.bukkit.plugin.java.JavaPlugin
  * - [shutdown()] (called in the "end")
  */
 abstract class KSpigot : JavaPlugin() {
-
     // lazy properties
     private val kRunnableHolderProperty = lazy { KRunnableHolder }
     private val guiHolderProperty = lazy { GUIHolder }
-
     internal val kRunnableHolder by kRunnableHolderProperty
     internal val guiHolder by guiHolderProperty
 
@@ -41,7 +39,6 @@ abstract class KSpigot : JavaPlugin() {
      * Called when the plugin gets disabled
      */
     open fun shutdown() {}
-
     final override fun onLoad() {
         KSpigotMainInstance = this
         load()
@@ -52,15 +49,11 @@ abstract class KSpigot : JavaPlugin() {
     }
 
     final override fun onDisable() {
-
         shutdown()
-
         // avoid unnecessary load of lazy properties
         kRunnableHolderProperty.closeIfInitialized()
         guiHolderProperty.closeIfInitialized()
-
     }
-
 }
 
 lateinit var KSpigotMainInstance: KSpigot private set

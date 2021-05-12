@@ -28,7 +28,7 @@ fun Listener.unregister() = HandlerList.unregisterAll(this)
 inline fun <reified T : Event> Listener.register(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
-    noinline executor: (Listener, Event) -> Unit
+    noinline executor: (Listener, Event) -> Unit,
 ) {
     pluginManager.registerEvent(T::class.java, this, priority, executor, KSpigotMainInstance, ignoreCancelled)
 }
@@ -50,7 +50,7 @@ interface SingleListener<T : Event> : Listener {
  */
 inline fun <reified T : Event> SingleListener<T>.register(
     priority: EventPriority = EventPriority.NORMAL,
-    ignoreCancelled: Boolean = false
+    ignoreCancelled: Boolean = false,
 ) {
     register<T>(priority, ignoreCancelled) { _, event ->
         (event as? T)?.let { this.onEvent(it) }
@@ -68,7 +68,7 @@ inline fun <reified T : Event> listen(
     priority: EventPriority = EventPriority.NORMAL,
     ignoreCancelled: Boolean = false,
     register: Boolean = true,
-    crossinline onEvent: (event: T) -> Unit
+    crossinline onEvent: (event: T) -> Unit,
 ): SingleListener<T> {
     val listener = object : SingleListener<T> {
         override fun onEvent(event: T) = onEvent.invoke(event)

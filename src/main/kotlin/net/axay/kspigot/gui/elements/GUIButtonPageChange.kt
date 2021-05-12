@@ -7,9 +7,8 @@ class GUIButtonPageChange<T : ForInventory>(
     icon: ItemStack,
     calculator: GUIPageChangeCalculator,
     shouldChange: ((GUIClickEvent<T>) -> Boolean)?,
-    onChange: ((GUIClickEvent<T>) -> Unit)?
+    onChange: ((GUIClickEvent<T>) -> Unit)?,
 ) : GUIButton<T>(icon, {
-
     val currentPage = it.guiInstance.currentPage
     val newPage = it.guiInstance.getPage(
         calculator.calculateNewPage(
@@ -18,7 +17,6 @@ class GUIButtonPageChange<T : ForInventory>(
         )
     )
     if (newPage != null) {
-
         val changePage = shouldChange?.invoke(it) ?: true
 
         if (changePage) {
@@ -29,5 +27,4 @@ class GUIButtonPageChange<T : ForInventory>(
             onChange?.invoke(it)
         }
     }
-
 })

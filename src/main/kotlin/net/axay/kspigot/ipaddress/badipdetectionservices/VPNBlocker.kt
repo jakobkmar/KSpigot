@@ -6,9 +6,7 @@ import net.axay.kspigot.languageextensions.getStringOrNull
 import org.json.JSONObject
 
 class VPNBlocker : BadIPDetectionService("vpnblocker.net") {
-
     override fun requestString(ip: String) = "http://api.vpnblocker.net/v2/json/$ip"
-
     override fun interpreteResult(result: JSONObject): BadIPDetectionResult {
         val isBad = result.getStringOrNull("host-ip")
         return when {
@@ -20,5 +18,4 @@ class VPNBlocker : BadIPDetectionService("vpnblocker.net") {
             }
         }
     }
-
 }

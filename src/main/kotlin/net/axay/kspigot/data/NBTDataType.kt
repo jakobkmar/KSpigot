@@ -5,12 +5,10 @@ import net.minecraft.server.v1_16_R3.*
 
 @NMS_General
 interface NBTDataType<T> {
-
     fun decodeNMS(nbtBase: NBTBase): T?
     fun writeToCompound(key: String, data: T, compound: NBTTagCompound)
 
     companion object {
-
         val COMPOUND = nbtDataType<NBTData, NBTTagCompound>({ NBTData(it) },
             { key, data, compound -> compound.set(key, data.nbtTagCompound) })
         val BYTE =
@@ -32,9 +30,7 @@ interface NBTDataType<T> {
             nbtDataType<Short, NBTTagShort>({ it.asShort() }, { key, data, compound -> compound.setShort(key, data) })
         val STRING = nbtDataType<String, NBTTagString>({ it.asString() },
             { key, data, compound -> compound.setString(key, data) })
-
     }
-
 }
 
 /**
@@ -43,16 +39,11 @@ interface NBTDataType<T> {
  */
 private inline fun <T, reified E> nbtDataType(
     crossinline decodeNMS: (E) -> T,
-    crossinline writeToCompound: (key: String, data: T, compound: NBTTagCompound) -> Unit
+    crossinline writeToCompound: (key: String, data: T, compound: NBTTagCompound) -> Unit,
 ): NBTDataType<T> {
-
     return object : NBTDataType<T> {
-
         override fun decodeNMS(nbtBase: NBTBase) = if (nbtBase is E) decodeNMS.invoke(nbtBase) else null
-
         override fun writeToCompound(key: String, data: T, compound: NBTTagCompound) =
             writeToCompound.invoke(key, data, compound)
-
     }
-
 }

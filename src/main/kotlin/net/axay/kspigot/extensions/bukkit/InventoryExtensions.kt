@@ -15,7 +15,7 @@ fun Inventory.closeForViewers() = HashSet(viewers).forEach { it.closeInventory()
 val InventoryAction.isSimple
     get() = when (this) {
         InventoryAction.PLACE_ALL, InventoryAction.PLACE_ONE,
-        InventoryAction.PICKUP_ALL, InventoryAction.PICKUP_HALF, InventoryAction.PICKUP_ONE
+        InventoryAction.PICKUP_ALL, InventoryAction.PICKUP_HALF, InventoryAction.PICKUP_ONE,
         -> true
         else -> false
     }

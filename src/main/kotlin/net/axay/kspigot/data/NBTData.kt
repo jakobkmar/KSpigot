@@ -8,7 +8,6 @@ import net.minecraft.server.v1_16_R3.NBTTagCompound
 
 @NMS_General
 class NBTData {
-
     val nbtTagCompound: NBTTagCompound
 
     constructor(nbtTagCompound: NBTTagCompound?) {
@@ -60,9 +59,6 @@ class NBTData {
     operator fun minusAssign(key: String) = remove(key)
 
     companion object {
-
         fun deserialize(nbtString: String) = NBTData(nbtString)
-
     }
-
 }

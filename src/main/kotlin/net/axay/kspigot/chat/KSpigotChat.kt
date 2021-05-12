@@ -13,11 +13,8 @@ inline fun chatComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out
 }
 
 class KSpigotComponentBuilder {
-
     private val components = ArrayList<BaseComponent>()
-
     // COMPONENTS
-
     inline fun text(text: String, builder: TextComponent.() -> Unit = { }) {
         this += TextComponent(text).apply(builder)
     }
@@ -40,13 +37,11 @@ class KSpigotComponentBuilder {
     inline fun translatable(
         translatable: String,
         with: Array<BaseComponent>,
-        builder: TranslatableComponent.() -> Unit = { }
+        builder: TranslatableComponent.() -> Unit = { },
     ) {
         this += TranslatableComponent(translatable, with).apply(builder)
     }
-
     // SPECIAL
-
     fun legacyText(text: String, color: ChatColor = ChatColor.WHITE, builder: BaseComponent.() -> Unit = { }) {
         this += TextComponent.fromLegacyText(text, color).onEach { it.apply(builder) }
     }
@@ -60,15 +55,11 @@ class KSpigotComponentBuilder {
     }
 
     fun create() = components.toTypedArray()
-
 }
-
 /*
  * BASE COMPONENT
  */
-
 // extensions
-
 inline fun BaseComponent.hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
     hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
 }
@@ -84,7 +75,6 @@ fun BaseComponent.hoverEventEntity(type: String, id: String, baseComponent: Base
 fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
     clickEvent = ClickEvent(action, value)
 }
-
 /*
  * GLOBAL SHORTCUTS
  */
