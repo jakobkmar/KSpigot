@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val githubRepo = "bluefireoly/KSpigot"
 
 group = "net.axay"
-version = "1.16.26"
+version = "1.16.27"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
