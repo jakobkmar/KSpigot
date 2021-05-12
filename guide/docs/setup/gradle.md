@@ -105,8 +105,8 @@ plugins {
 }
 ```
 
-Replace `VERSION` with the version number from the following badge: <br>
-![latest shadow plugin version](https://api.bintray.com/packages/johnrengelman/gradle-plugins/gradle-shadow-plugin/images/download.png)
+Replace `VERSION` with the version number from the following badge (without the `v`): <br>
+![latest shadow plugin version](https://img.shields.io/github/v/release/johnrengelman/shadow?label=latest%20version)
 
 #### Relocate KSpigot during the shadow process
 
