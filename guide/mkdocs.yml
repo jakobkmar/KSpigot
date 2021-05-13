@@ -37,4 +37,4 @@ nav:
   - Extensions:
       - Event listener: extensions/listener.md
       - Tasks: extensions/tasks.md
-      - Item Builder: extensions/itemBuilder.md
+      - Item builder: extensions/itembuilder.md
