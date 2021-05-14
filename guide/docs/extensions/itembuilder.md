@@ -1,4 +1,4 @@
-## Create an itemStack
+## Create an ItemStack
 
 The default way of building complex `ItemStack`s using just Spigot is often painful to use and confusing for beginners. 
 
