@@ -1,6 +1,6 @@
 ## Create a new compound
 
-In this example, let's create a simple gui which lists all existing materials. Also, we want to display the name of the material when the user clicks on the icon.
+In this example, let's create a simple gui which lists all existing materials. Also, we want to send a chat message with the name of the material when the user clicks on the icon.
 
 You can create a compound inside a page builder scope. The recommended way of doing so is to use the `createRectCompound`.
 
@@ -53,7 +53,7 @@ compound.sortContentBy { it.name }
 
 ## Add scroll buttons
 
-If the content of the compound won't fit in on one page of the GUI, **do not** create multiple pages, even if this is what you might think of at first.
+If the content of the compound won't fit on one page of the GUI, **do not** create multiple pages, even if this is what you might think of at first.
 
 Instead, add scroll buttons to the same page!
 
@@ -78,7 +78,7 @@ You can use the `reverse` parameter and set it to true to create a button that s
 
 ### Instant (hard) scrolling
 
-Instant (or hard) scrollinng means that no scrolling animation will be displayed.
+Instant (or hard) scrolling means that no scrolling animation will be displayed.
 
 To implement instant scrolling, leave `scrollTimes` at its default value (1) and instead modify the `scrollDistance` value.
 
