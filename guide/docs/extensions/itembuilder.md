@@ -14,8 +14,8 @@ val sword = itemStack(Material.GOLDEN_SWORD) {
         name = "${KColors.GOLD}Magic Sword"
         isUnbreakable = true
         addLore {
-            + "This sword is truly special."
-            + "Try it!"
+            +"This sword is truly special."
+            +"Try it!"
         }
         customModel = 1001
         flag(ItemFlag.HIDE_UNBREAKABLE)
