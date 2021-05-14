@@ -2,7 +2,7 @@
 
 In this example, let's create a simple gui which lists all existing materials. Also, we want to send a chat message with the name of the material when the user clicks on the icon.
 
-You can create a compound inside a page builder scope. The recommended way of doing so is to use the `createRectCompound`.
+You can create a compound inside a page builder scope. The recommended way of doing so is to use the `createRectCompound` function.
 
 ```kotlin
 page(1) {
