@@ -16,6 +16,8 @@ class GUIBuilder<T : ForInventory>(
     val type: GUIType<T>,
     private val guiCreator: GUICreator<T>,
 ) {
+    private val guiPages = HashMap<Int, GUIPage<T>>()
+
     /**
      * The title of this GUI.
      * This title will be visible for every page of
@@ -41,7 +43,7 @@ class GUIBuilder<T : ForInventory>(
      * GUI instance.
      */
     var defaultPage = 1
-    private val guiSlots = HashMap<Int, GUIPage<T>>()
+
     private var onClickElement: ((GUIClickEvent<T>) -> Unit)? = null
 
     /**
@@ -50,7 +52,7 @@ class GUIBuilder<T : ForInventory>(
      * @param page The index of the page.
      */
     fun page(page: Int, builder: GUIPageBuilder<T>.() -> Unit) {
-        guiSlots[page] = GUIPageBuilder(type, page).apply(builder).build()
+        guiPages[page] = GUIPageBuilder(type, page).apply(builder).build()
     }
 
     /**
@@ -62,7 +64,7 @@ class GUIBuilder<T : ForInventory>(
     }
 
     internal fun build() = guiCreator.createInstance(
-        GUIData(type, title, guiSlots, defaultPage, transitionTo, transitionFrom, onClickElement)
+        GUIData(type, title, guiPages, defaultPage, transitionTo, transitionFrom, onClickElement)
     )
 }
 
@@ -71,9 +73,12 @@ class GUIPageBuilder<T : ForInventory>(
     val page: Int,
 ) {
     private val guiSlots = HashMap<Int, GUISlot<T>>()
+
     var transitionTo: PageChangeEffect? = null
     var transitionFrom: PageChangeEffect? = null
+
     internal fun build() = GUIPage(page, guiSlots, transitionTo, transitionFrom)
+
     private fun defineSlots(slots: InventorySlotCompound<T>, element: GUISlot<T>) =
         slots.withInvType(type).forEach { curSlot ->
             curSlot.realSlotIn(type.dimensions)?.let { guiSlots[it] = element }
@@ -302,7 +307,13 @@ class GUIPageBuilder<T : ForInventory>(
         reverse: Boolean = false,
     ) = defineSlots(
         slots,
-        GUISpaceCompoundScrollButton(icon, compound, scrollDistance.absoluteValue, scrollTimes, reverse)
+        GUISpaceCompoundScrollButton(
+            icon,
+            compound,
+            scrollDistance = scrollDistance.absoluteValue,
+            scrollTimes = scrollTimes,
+            reverse
+        )
     )
 
     /**
@@ -314,9 +325,16 @@ class GUIPageBuilder<T : ForInventory>(
         icon: ItemStack,
         compound: GUIRectSpaceCompound<T, *>,
         scrollTimes: Int = 1,
+        scrollLines: Int = 1,
         reverse: Boolean = false,
     ) = defineSlots(
         slots,
-        GUISpaceCompoundScrollButton(icon, compound, scrollTimes, reverse)
+        GUISpaceCompoundScrollButton(
+            icon,
+            compound,
+            scrollTimes = scrollTimes,
+            scrollLines = scrollLines,
+            reverse
+        )
     )
 }

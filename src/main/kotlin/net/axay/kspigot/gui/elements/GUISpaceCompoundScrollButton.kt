@@ -26,6 +26,7 @@ class GUISpaceCompoundScrollButton<T : ForInventory>(
         icon: ItemStack,
         compound: GUIRectSpaceCompound<T, *>,
         scrollTimes: Int = 1,
+        scrollLines: Int = 1,
         reverse: Boolean = false,
-    ) : this(icon, compound, compound.compoundWidth, scrollTimes, reverse)
+    ) : this(icon, compound, scrollDistance = compound.compoundWidth * scrollLines, scrollTimes, reverse)
 }
