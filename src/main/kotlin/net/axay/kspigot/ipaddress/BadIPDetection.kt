@@ -1,9 +1,11 @@
 package net.axay.kspigot.ipaddress
 
+import kotlinx.serialization.SerializationException
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
 import net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel
 import org.bukkit.entity.Player
-import org.json.JSONException
-import org.json.JSONObject
 import java.net.HttpURLConnection
 import java.net.URL
 
@@ -47,7 +49,7 @@ fun Player.checkIP(
  *  - [net.axay.kspigot.ipaddress.badipdetectionservices.VPNBlocker]
  */
 class BadIPDetector(
-    val services: List<BadIPDetectionService>,
+    private val services: List<BadIPDetectionService>,
 ) {
     /**
      * Alternative constructor.
@@ -91,7 +93,9 @@ abstract class BadIPDetectionService(
 ) {
     protected abstract fun requestString(ip: String): String
     protected open fun requestHeaders() = emptyMap<String, String>()
-    protected abstract fun interpreteResult(result: JSONObject): BadIPDetectionResult
+
+    protected abstract fun interpreteResult(result: JsonObject): BadIPDetectionResult
+
     fun isBad(ip: String): BadIPDetectionResult {
         val con = URL(requestString(ip)).openConnection() as HttpURLConnection
         con.requestMethod = "GET"
@@ -102,8 +106,8 @@ abstract class BadIPDetectionService(
             return BadIPDetectionResult.LIMIT
         else {
             val result = try {
-                con.inputStream.use { JSONObject(it.readAllBytes().decodeToString()) }
-            } catch (exc: JSONException) {
+                con.inputStream.use { Json.decodeFromString<JsonObject>(it.readAllBytes().decodeToString()) }
+            } catch (exc: SerializationException) {
                 null
             } ?: return BadIPDetectionResult.ERROR
 

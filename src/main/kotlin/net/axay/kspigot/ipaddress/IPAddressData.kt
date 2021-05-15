@@ -2,15 +2,34 @@
 
 package net.axay.kspigot.ipaddress
 
-import com.google.gson.JsonObject
-import net.axay.kspigot.languageextensions.fromUrlJson
-import net.axay.kspigot.languageextensions.getStringOrNull
-import net.axay.kspigot.main.ValueHolder
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.json.Json
+import kotlinx.serialization.json.JsonObject
+import kotlinx.serialization.json.jsonPrimitive
 import org.bukkit.entity.Player
 
+@Suppress("HttpUrlsUsage")
 private const val IP_API = "http://ip-api.com/json/"
-private const val IP_API_FIELDS =
-    "status,message,continent,continentCode,country,countryCode,region,regionName,city,district,zip,lat,lon,timezone,currency,isp,org,query"
+private val IP_API_FIELDS = listOf(
+    "status",
+    "message",
+    "continent",
+    "continentCode",
+    "country",
+    "countryCode",
+    "region",
+    "regionName",
+    "city",
+    "district",
+    "zip",
+    "lat",
+    "lon",
+    "timezone",
+    "currency",
+    "isp",
+    "org",
+    "query"
+).joinToString(",")
 
 /**
  * @return The players ip address.
@@ -30,11 +49,11 @@ val Player.ipAddressData get() = ipAddressData()
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
     return try {
         val hostString = address?.hostString ?: return null
-        val jsonObject = ValueHolder.getGson().fromUrlJson(
+        val jsonObject = Json.decodeFromString<JsonObject>(
             "$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}"
-        ) ?: return null
+        )
 
-        if (jsonObject["status"].toString() == "fail") return null
+        if (jsonObject["status"]?.jsonPrimitive?.toString() == "fail") return null
 
         IPAddressData(jsonObject)
     } catch (exc: Exception) {
@@ -54,25 +73,25 @@ enum class IPAddressDataLanguage(val code: String) {
 }
 
 class IPAddressData(private val json: JsonObject) {
-    val ip get() = json.getStringOrNull("query")
+    val ip by lazy { json["query"]?.jsonPrimitive?.toString() }
 
     // region
-    val continent get() = json.getStringOrNull("continent")
-    val continentCode get() = json.getStringOrNull("continentCode")
-    val country get() = json.getStringOrNull("country")
-    val countryCode get() = json.getStringOrNull("countryCode")
-    val region get() = json.getStringOrNull("regionName")
-    val regionCode get() = json.getStringOrNull("region")
-    val city get() = json.getStringOrNull("city")
-    val district get() = json.getStringOrNull("district")
-    val postalCode get() = json.getStringOrNull("zip")
-    val timezone get() = json.getStringOrNull("timezone")
+    val continent by lazy { json["continent"]?.jsonPrimitive?.toString() }
+    val continentCode by lazy { json["continentCode"]?.jsonPrimitive?.toString() }
+    val country by lazy { json["country"]?.jsonPrimitive?.toString() }
+    val countryCode by lazy { json["countryCode"]?.jsonPrimitive?.toString() }
+    val region by lazy { json["regionName"]?.jsonPrimitive?.toString() }
+    val regionCode by lazy { json["region"]?.jsonPrimitive?.toString() }
+    val city by lazy { json["city"]?.jsonPrimitive?.toString() }
+    val district by lazy { json["district"]?.jsonPrimitive?.toString() }
+    val postalCode by lazy { json["zip"]?.jsonPrimitive?.toString() }
+    val timezone by lazy { json["timezone"]?.jsonPrimitive?.toString() }
 
     // position
-    val latitude get() = json.getStringOrNull("lat")
-    val longitude get() = json.getStringOrNull("lon")
+    val latitude by lazy { json["lat"]?.jsonPrimitive?.toString() }
+    val longitude by lazy { json["lon"]?.jsonPrimitive?.toString() }
 
     // information
-    val internetServiceProvider get() = json.getStringOrNull("isp")
-    val organisation get() = json.getStringOrNull("org")
+    val internetServiceProvider by lazy { json["isp"]?.jsonPrimitive?.toString() }
+    val organisation by lazy { json["org"]?.jsonPrimitive?.toString() }
 }
