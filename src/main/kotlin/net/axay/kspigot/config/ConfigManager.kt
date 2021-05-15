@@ -2,12 +2,11 @@
 
 package net.axay.kspigot.config
 
+import kotlinx.serialization.decodeFromString
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 import net.axay.kspigot.languageextensions.kotlinextensions.createIfNotExists
-import net.axay.kspigot.main.ValueHolder.getGson
 import java.io.File
-import java.io.FileReader
-import java.io.FileWriter
-import kotlin.reflect.KClass
 import kotlin.reflect.KProperty
 
 /**
@@ -27,24 +26,16 @@ import kotlin.reflect.KProperty
  * @param default Optional default config, which will be
  * used if there is no config file and a new one should
  * be created.
+ * @param json The json instance to use for serialization.
  * @throws java.io.FileNotFoundException If the file does not
  * exist and no default config is specified.
  */
 inline fun <reified T : Any> kSpigotJsonConfig(
     file: File,
     saveAfterLoad: Boolean = false,
+    json: Json = Json,
     noinline default: (() -> T)? = null,
-) = ConfigDelegate(T::class, file, saveAfterLoad, default)
-
-/**
- * @see kSpigotJsonConfig
- */
-class ConfigDelegate<T : Any>(
-    private val configClass: KClass<T>,
-    private val file: File,
-    private val saveAfterLoad: Boolean,
-    private val defaultCallback: (() -> T)?,
-) {
+) = object : ConfigDelegate<T>(file, saveAfterLoad, default) {
     private var internalConfig: T = loadIt()
     var data: T
         get() = internalConfig
@@ -52,35 +43,28 @@ class ConfigDelegate<T : Any>(
             internalConfig = value
         }
 
-    operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
-    operator fun setValue(thisRef: Any?, property: KProperty<*>, config: T): Boolean {
+    override operator fun getValue(thisRef: Any?, property: KProperty<*>) = internalConfig
+    override operator fun setValue(thisRef: Any?, property: KProperty<*>, config: T): Boolean {
         internalConfig = config
         return true
     }
 
-    /**
-     * Saves the config object in its current state to disk.
-     */
-    fun save() = saveIt(internalConfig)
+    override fun save() = saveIt(internalConfig)
 
-    /**
-     * Loads the current state of the config on disk to the config object.
-     */
-    fun reload() {
+    override fun reload() {
         loadIt()
     }
 
-    private fun saveIt(toSave: T) {
-        GsonConfigManager.saveConfig(file, toSave, true)
+    override fun saveIt(toSave: T) {
+        JsonConfigManager.saveConfig(file, toSave, json)
         internalConfig = toSave
     }
 
-    private fun loadIt(): T {
-        val loaded = if (defaultCallback == null)
-            GsonConfigManager.loadConfig(file, configClass)
+    override fun loadIt(): T {
+        val loaded = if (default == null)
+            JsonConfigManager.loadConfig(file, json)
         else
-            GsonConfigManager.loadOrCreateDefault(file, configClass, true, defaultCallback)
-
+            JsonConfigManager.loadOrCreateDefault(file, json, default)
 
         if (saveAfterLoad)
             saveIt(loaded)
@@ -89,28 +73,52 @@ class ConfigDelegate<T : Any>(
     }
 }
 
-internal object GsonConfigManager {
-    fun <T : Any> loadConfig(file: File, configClass: KClass<T>): T =
-        FileReader(file).use { reader -> return getGson().fromJson(reader, configClass.java) }
+/**
+ * @see kSpigotJsonConfig
+ */
+abstract class ConfigDelegate<T : Any>(
+    private val file: File,
+    private val saveAfterLoad: Boolean,
+    private val defaultCallback: (() -> T)?,
+) {
+    abstract operator fun getValue(thisRef: Any?, property: KProperty<*>): T
+    abstract operator fun setValue(thisRef: Any?, property: KProperty<*>, config: T): Boolean
 
-    fun <T : Any> saveConfig(file: File, config: T, pretty: Boolean = true) {
-        file.createIfNotExists()
-        FileWriter(file).use { writer ->
-            getGson(pretty).toJson(config, writer)
-        }
+    /**
+     * Saves the config object in its current state to disk.
+     */
+    abstract fun save()
+
+    /**
+     * Loads the current state of the config on disk to the config object.
+     */
+    abstract fun reload()
+
+    abstract fun saveIt(toSave: T)
+
+    protected abstract fun loadIt(): T
+}
+
+object JsonConfigManager {
+    inline fun <reified T : Any> loadConfig(file: File, json: Json = Json): T {
+        return Json.decodeFromString(file.readText())
     }
 
-    fun <T : Any> loadOrCreateDefault(
+    inline fun <reified T : Any> saveConfig(file: File, config: T, json: Json = Json) {
+        file.createIfNotExists()
+        file.writeText(Json.encodeToString(config))
+    }
+
+    inline fun <reified T : Any> loadOrCreateDefault(
         file: File,
-        configClass: KClass<T>,
-        pretty: Boolean = true,
+        json: Json = Json,
         default: () -> T,
     ): T {
         try {
-            return loadConfig(file, configClass)
+            return loadConfig(file, json)
         } catch (exc: Exception) {
             default.invoke().let {
-                saveConfig(file, it, pretty)
+                saveConfig(file, it, json)
                 return it
             }
         }
