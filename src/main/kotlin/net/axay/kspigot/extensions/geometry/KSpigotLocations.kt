@@ -32,6 +32,7 @@ data class SimpleChunkLocation(
     val x: Int,
     val z: Int,
 )
+
 // CONVERTER
 fun Location.toSimple() = SimpleLocation3D(x, y, z)
 fun Chunk.toSimple() = SimpleChunkLocation(x, z)

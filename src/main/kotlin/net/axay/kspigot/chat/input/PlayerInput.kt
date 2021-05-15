@@ -76,7 +76,9 @@ internal abstract class PlayerInput<T>(
     timeoutSeconds: Int,
 ) {
     private var received = false
+
     protected abstract val inputListeners: List<Listener>
+
     protected fun onReceive(input: T?) {
         if (!received) {
             inputListeners.forEach { it.unregister() }

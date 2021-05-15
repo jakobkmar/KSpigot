@@ -30,8 +30,7 @@ fun LocationArea.loadStructure(includeBlocks: Boolean = true, includeEntities: B
  * Sorted by their coordinates.
  */
 val LocationArea.fillBlocks: Set<Block>
-    get()
-    = LinkedHashSet<Block>().apply {
+    get() = LinkedHashSet<Block>().apply {
         (minLoc.blockX until maxLoc.blockX + 1).forEach { x ->
             (minLoc.blockY until maxLoc.blockY + 1).forEach { y ->
                 (minLoc.blockZ until maxLoc.blockZ + 1).forEach { z ->
@@ -45,8 +44,7 @@ val LocationArea.fillBlocks: Set<Block>
  * @return All entities in the given [LocationArea].
  */
 val LocationArea.entities: Set<Entity>
-    get()
-    = HashSet<Entity>().apply {
+    get() = HashSet<Entity>().apply {
         touchedChunks.forEach {
             it.entities.forEach { en ->
                 if (simpleLocationPair.isInArea(en.location))

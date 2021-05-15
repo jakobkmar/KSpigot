@@ -8,6 +8,7 @@ abstract class ChainedRunnablePart<T, R>(
     val sync: Boolean,
 ) {
     var next: ChainedRunnablePart<R, *>? = null
+
     protected abstract fun invoke(data: T): R
 
     /**
@@ -79,6 +80,7 @@ class ChainedRunnablePartFirst<R>(
     sync: Boolean,
 ) : ChainedRunnablePart<Unit, R>(sync) {
     override fun execute() = start(Unit)
+
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,
@@ -94,6 +96,7 @@ class ChainedRunnablePartThen<T, R>(
     val previous: ChainedRunnablePart<*, T>,
 ) : ChainedRunnablePart<T, R>(sync) {
     override fun execute() = previous.execute()
+
     override fun <E : Exception> executeCatchingImpl(
         exceptionClass: KClass<E>,
         exceptionSync: Boolean,

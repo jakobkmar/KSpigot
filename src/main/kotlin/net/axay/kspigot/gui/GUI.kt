@@ -39,6 +39,7 @@ abstract class GUI<T : ForInventory>(
      * all instances.
      */
     abstract fun closeGUI()
+
     protected fun unregisterAndClose() {
         getAllInstances().forEach {
             it.bukkitInventory.closeForViewers()
@@ -58,7 +59,9 @@ class GUIShared<T : ForInventory>(
         }
 
     override fun getInstance(player: Player) = singleInstance
+
     override fun getAllInstances() = _singleInstance?.let { listOf(it) } ?: emptyList()
+
     override fun closeGUI() {
         unregisterAndClose()
         _singleInstance = null
@@ -71,10 +74,12 @@ class GUIIndividual<T : ForInventory>(
     resetOnQuit: Boolean,
 ) : GUI<T>(guiData) {
     private val playerInstances = HashMap<Player, GUIInstance<T>>()
+
     override fun getInstance(player: Player) =
         playerInstances[player] ?: createInstance(player)
 
     override fun getAllInstances() = playerInstances.values
+
     private fun createInstance(player: Player) =
         GUIInstance(this, player).apply {
             playerInstances[player] = this
@@ -82,6 +87,7 @@ class GUIIndividual<T : ForInventory>(
         }
 
     fun deleteInstance(player: Player) = playerInstances.remove(player)?.unregister()
+
     override fun closeGUI() {
         unregisterAndClose()
         playerInstances.clear()
@@ -107,8 +113,11 @@ class GUIInstance<T : ForInventory>(
     holder: Player?,
 ) {
     internal val bukkitInventory = gui.data.guiType.createBukkitInv(holder, gui.data.title)
+
     private val currentElements = HashSet<GUIElement<*>>()
+
     internal var isInMove: Boolean = false
+
     var currentPageInt: Int = gui.data.defaultPage; private set
     val currentPage
         get() = getPage(currentPageInt)

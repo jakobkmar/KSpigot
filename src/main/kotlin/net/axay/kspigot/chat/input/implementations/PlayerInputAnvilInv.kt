@@ -41,6 +41,7 @@ internal class PlayerInputAnvilInv(
             )
             .text("${KColors.ORANGERED}$startText")
             .open(player)
+
     override val inputListeners = listOf(
         listen<InventoryClickEvent> {
             if (it.clickedInventory == anvilInv.inventory)

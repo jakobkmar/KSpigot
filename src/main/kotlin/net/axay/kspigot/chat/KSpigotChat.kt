@@ -7,6 +7,7 @@ import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Entity
 import net.md_5.bungee.api.chat.hover.content.Item
 import net.md_5.bungee.api.chat.hover.content.Text
+import java.awt.Color
 
 inline fun chatComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out BaseComponent> {
     return KSpigotComponentBuilder().apply(builder).create()
@@ -14,7 +15,7 @@ inline fun chatComponent(builder: KSpigotComponentBuilder.() -> Unit): Array<out
 
 class KSpigotComponentBuilder {
     private val components = ArrayList<BaseComponent>()
-    // COMPONENTS
+
     inline fun text(text: String, builder: TextComponent.() -> Unit = { }) {
         this += TextComponent(text).apply(builder)
     }
@@ -41,7 +42,7 @@ class KSpigotComponentBuilder {
     ) {
         this += TranslatableComponent(translatable, with).apply(builder)
     }
-    // SPECIAL
+
     fun legacyText(text: String, color: ChatColor = ChatColor.WHITE, builder: BaseComponent.() -> Unit = { }) {
         this += TextComponent.fromLegacyText(text, color).onEach { it.apply(builder) }
     }
@@ -56,10 +57,7 @@ class KSpigotComponentBuilder {
 
     fun create() = components.toTypedArray()
 }
-/*
- * BASE COMPONENT
- */
-// extensions
+
 inline fun BaseComponent.hoverEventText(builder: KSpigotComponentBuilder.() -> Unit) {
     hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(KSpigotComponentBuilder().apply(builder).create()))
 }
@@ -75,8 +73,7 @@ fun BaseComponent.hoverEventEntity(type: String, id: String, baseComponent: Base
 fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
     clickEvent = ClickEvent(action, value)
 }
-/*
- * GLOBAL SHORTCUTS
- */
 
 fun col(hex: String): ChatColor = ChatColor.of(hex)
+
+fun col(rgb: Int): ChatColor = ChatColor.of(Color(rgb))

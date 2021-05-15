@@ -17,6 +17,7 @@ object KSpigotFirework {
 class KSpigotFireworkBuilder {
     val effects = ArrayList<FireworkEffect>()
     var power: Int? = null
+
     inline fun effect(builder: FireworkEffectBuilder.() -> Unit) {
         effects += FireworkEffectBuilder().apply(builder).fireworkEffect
     }
@@ -32,9 +33,11 @@ class KSpigotFireworkBuilder {
 
 class FireworkEffectBuilder {
     private val fireworkBuilder = FireworkEffect.builder()
+
     var type: FireworkEffect.Type? = null
     var trail: Boolean? = null
     var flicker: Boolean? = null
+
     fun fade(vararg colors: Color) {
         fireworkBuilder.withFade(*colors)
     }

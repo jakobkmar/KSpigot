@@ -33,7 +33,7 @@ fun PersistentDataHolder.unmark(key: String) {
  * this objects' markings.
  */
 fun PersistentDataHolder.hasMark(key: String) = persistentDataContainer.has(markerKey(key), PersistentDataType.BYTE)
-// quick access for ItemStacks
+
 /** @see PersistentDataHolder.mark */
 fun ItemStack.mark(key: String) = meta { mark(key) }
 

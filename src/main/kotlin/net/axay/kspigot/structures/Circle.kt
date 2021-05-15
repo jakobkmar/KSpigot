@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType
 
 private fun circleEdgeLocations(radius: Number) = HashSet<SimpleLocation2D>().apply {
     val currentRadius = radius.toDouble()
+
     var d = -currentRadius
     var x = currentRadius
     var y = 0
@@ -40,6 +41,7 @@ private fun MutableSet<SimpleLocation2D>.addSimpleLoc2D(first: Number, second: N
 
 abstract class Circle(val radius: Number) {
     protected abstract val data: StructureData
+
     val fillLocations by lazy {
         var currentRadius = radius.toDouble()
 
@@ -66,8 +68,10 @@ abstract class Circle(val radius: Number) {
     val edgeLocations by lazy {
         circleEdgeLocations(radius)
     }
+
     val filledStructure by lazy { structure(true) }
     val edgeStructure by lazy { structure(false) }
+
     fun structure(filled: Boolean) = Structure(
         HashSet<SingleStructureData>().apply {
             val locations = if (filled) fillLocations else edgeLocations

@@ -10,9 +10,11 @@ class GUISpaceCompoundElement<T : ForInventory, E> internal constructor(
     private val compound: AbstractGUISpaceCompound<T, E>,
 ) : GUIElement<T>() {
     override fun getItemStack(slot: Int) = compound.getItemStack(slot)
+
     override fun onClickElement(clickEvent: GUIClickEvent<T>) {
         compound.onClickElement(clickEvent)
     }
+
     // the following two methods register and unregister the instance
     // for each compound element, but that is ok because it gets
     // added/removed to/from a HashSet
@@ -44,12 +46,19 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     private val onClick: ((GUIClickEvent<T>, E) -> Unit)?,
 ) {
     private val content = ArrayList<E>()
+
     private var currentContent: List<E> = emptyList()
+
     private val internalSlots: MutableList<Int> = ArrayList()
+
     private var scrollProgress: Int = 0
+
     private var contentSort: () -> Unit = { }
+
     private val registeredGUIs = HashSet<GUIInstance<*>>()
+
     private fun contentAtSlot(slot: Int) = currentContent.getOrNull(internalSlots.indexOf(slot))
+
     private fun recalculateCurrentContent() {
         if (scrollProgress > content.size)
             throw IllegalStateException("The scrollProgress is greater than the content size.")
@@ -83,6 +92,7 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
     }
 
     internal abstract fun handleScrollEndReached(newProgress: Int, internalSlotsSize: Int, contentSize: Int): Boolean
+
     internal fun getItemStack(slot: Int): ItemStack {
         return contentAtSlot(slot)?.let { return@let iconGenerator.invoke(it) }
             ?: ItemStack(Material.AIR)

@@ -24,10 +24,12 @@ object ItemMetaSerializer : KSerializerForBukkit<ItemMeta>(ItemMeta::class)
 object ItemStackSerializer : KSerializerForBukkit<ItemStack>(ItemStack::class)
 object LocationSerializer : KSerializerForBukkit<Location>(Location::class)
 object VectorSerializer : KSerializerForBukkit<Vector>(Vector::class)
+
 open class KSerializerForBukkit<T : ConfigurationSerializable>(
     private val kClass: KClass<T>,
 ) : KSerializer<T> {
     override val descriptor = ByteArraySerializer().descriptor
+
     override fun serialize(encoder: Encoder, value: T) {
         val bytes = ByteArrayOutputStream()
         BukkitObjectOutputStream(bytes).use {

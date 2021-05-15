@@ -32,6 +32,7 @@ class GUIType<in T : ForInventory>(
         }
     }
 }
+
 // INVENTORY TYPE SAFETY
 interface ForInventory
 interface ForInventoryThreeByThree : ForInventoryThreeByNine
@@ -42,8 +43,7 @@ interface ForInventoryThreeByNine : ForInventoryFourByNine
 interface ForInventoryFourByNine : ForInventoryFiveByNine
 interface ForInventoryFiveByNine : ForInventorySixByNine
 interface ForInventorySixByNine : ForInventory
-interface ForEveryInventory
-    : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
+interface ForEveryInventory : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine,
     ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine,
     ForInventoryThreeByThree, ForInventoryOneByFive
 

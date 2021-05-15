@@ -14,7 +14,6 @@ internal class PlayerInputChat(
     timeoutSeconds: Int,
     question: String,
 ) : PlayerInput<String>(player, callback, timeoutSeconds) {
-
     init {
         player.sendMessage("${KColors.ORANGERED}$question")
     }

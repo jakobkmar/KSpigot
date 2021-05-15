@@ -36,6 +36,7 @@ infix fun Location.reduceZ(distance: Number) = subtract(0.0, 0.0, distance)
 infix fun Location.reduceXY(distance: Number) = subtract(distance, distance, 0.0)
 infix fun Location.reduceYZ(distance: Number) = subtract(0.0, distance, distance)
 infix fun Location.reduceXZ(distance: Number) = subtract(distance, 0.0, distance)
+
 // extensions
 fun Location.add(x: Number, y: Number, z: Number) = add(x.toDouble(), y.toDouble(), z.toDouble())
 fun Location.subtract(x: Number, y: Number, z: Number) = subtract(x.toDouble(), y.toDouble(), z.toDouble())
@@ -83,9 +84,11 @@ infix fun Location.increase(loc: Location) = add(loc)
 infix fun Location.reduce(loc: Location) = subtract(loc)
 infix fun Location.increase(loc: SimpleLocation3D) = add(loc.x, loc.y, loc.z)
 infix fun Location.reduce(loc: SimpleLocation3D) = subtract(loc.x, loc.y, loc.z)
+
 /*
  * VECTOR
  */
+
 val Vector.isFinite: Boolean get() = x.isFinite() && y.isFinite() && z.isFinite()
 
 // fast construct

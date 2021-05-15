@@ -15,11 +15,6 @@ import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 
 /**
- * Checks if the entity is completely in water.
- */
-val LivingEntity.isInWater: Boolean get() = isFeetInWater && isHeadInWater
-
-/**
  * Checks if the entities' head is in water.
  */
 val LivingEntity.isHeadInWater: Boolean get() = this.eyeLocation.block.type == Material.WATER

@@ -8,6 +8,7 @@ import org.bukkit.inventory.Inventory
 
 object GUIHolder : AutoCloseable {
     private val registered = HashMap<Inventory, GUIInstance<ForInventory>>()
+
     fun register(guiInstance: GUIInstance<ForInventory>) {
         registered[guiInstance.bukkitInventory] = guiInstance
     }
@@ -39,6 +40,7 @@ object GUIHolder : AutoCloseable {
             val inv = it.inventory
             val gui = registered[inv] ?: return@listen
             val player = it.playerOrCancel ?: return@listen
+
             var ifCancel = false
 
             for (slotIndex in it.inventorySlots) {

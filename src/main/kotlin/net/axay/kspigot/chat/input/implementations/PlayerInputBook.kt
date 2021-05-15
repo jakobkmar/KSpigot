@@ -46,6 +46,7 @@ internal abstract class PlayerInputBook<T>(
     }
 
     abstract fun loadBookContent(bookMeta: BookMeta): T
+
     override val inputListeners = listOf(
         listen<PlayerEditBookEvent> {
             val meta = it.newBookMeta
@@ -63,7 +64,9 @@ internal abstract class PlayerInputBook<T>(
 
     companion object {
         val idKey = NamespacedKey(KSpigotMainInstance, "kspigot_bookinput_id")
+
         internal val usedIDs = ArrayList<Int>()
+
         fun getID(): Int {
             var returnID = (0..Int.MAX_VALUE).random()
             while (usedIDs.contains(returnID)) returnID = (0..Int.MAX_VALUE).random()

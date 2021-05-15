@@ -7,6 +7,7 @@ import net.axay.kspigot.languageextensions.kotlinextensions.MinMaxPair
 // INVENTORY
 data class InventoryDimensions(val width: Int, val height: Int) {
     val slotAmount = width * height
+
     val invSlots by lazy {
         ArrayList<InventorySlot>().apply {
             (1..height).forEach { row ->
@@ -60,6 +61,7 @@ data class InventorySlot(val row: Int, val slotInRow: Int) : Comparable<Inventor
 
 interface InventorySlotCompound<out T : ForInventory> {
     fun withInvType(invType: GUIType<T>): Collection<InventorySlot>
+
     fun realSlotsWithInvType(invType: GUIType<T>) =
         withInvType(invType).mapNotNull { it.realSlotIn(invType.dimensions) }
 }
@@ -70,6 +72,7 @@ open class SingleInventorySlot<T : ForInventory> internal constructor(
     constructor(row: Int, slotInRow: Int) : this(InventorySlot(row, slotInRow))
 
     private val slotAsList = listOf(inventorySlot)
+
     override fun withInvType(invType: GUIType<T>) = slotAsList
 }
 
@@ -194,8 +197,10 @@ class InventoryCornerSlots<T : ForInventory> internal constructor(
 class InventoryAllSlots<T : ForInventory> : InventorySlotCompound<T> {
     override fun withInvType(invType: GUIType<T>) = invType.dimensions.invSlots
 }
+
 // SLOT TYPE SAFETY
-// COLUMNS
+
+// columns
 interface ForColumnOne : ForInventoryWidthThree, ForInventoryWidthFive, ForInventoryWidthNine
 interface ForColumnTwo : ForInventoryWidthThree, ForInventoryWidthFive, ForInventoryWidthNine
 interface ForColumnThree : ForInventoryWidthThree, ForInventoryWidthFive, ForInventoryWidthNine
@@ -205,7 +210,7 @@ interface ForColumnSix : ForInventoryWidthNine
 interface ForColumnSeven : ForInventoryWidthNine
 interface ForColumnEight : ForInventoryWidthNine
 interface ForColumnNine : ForInventoryWidthNine
-// ROWS
+// rows
 interface ForRowOne : ForInventoryOneByNine, ForInventoryTwoByNine, ForInventoryThreeByNine, ForInventoryFourByNine,
     ForInventoryFiveByNine, ForInventorySixByNine
 
@@ -216,22 +221,19 @@ interface ForRowThree : ForInventoryThreeByNine, ForInventoryFourByNine, ForInve
 interface ForRowFour : ForInventoryFourByNine, ForInventoryFiveByNine, ForInventorySixByNine
 interface ForRowFive : ForInventoryFiveByNine, ForInventorySixByNine
 interface ForRowSix : ForInventorySixByNine
-
-// EDGE CASES:
-// ROW ONE
+// edge cases:
+// row one
 interface ForRowOneSlotOneToThree : ForRowOne, ForInventoryOneByFive, ForInventoryThreeByThree
 interface ForRowOneSlotFourToFive : ForRowOne, ForInventoryOneByFive
-
-// ROW TWO
+// row two
 interface ForRowTwoSlotOneToThree : ForRowTwo, ForInventoryThreeByThree
-
-// ROW THREE
+// row three
 interface ForRowThreeSlotOneToThree : ForRowThree, ForInventoryThreeByThree
-
-// COMPLETE ROWS (including the edge cases)
+// complete rows (including the edge cases)
 interface ForCompleteRowOne : ForRowOne, ForRowOneSlotOneToThree, ForRowOneSlotFourToFive
 interface ForCompleteRowTwo : ForRowTwo, ForRowTwoSlotOneToThree
 interface ForCompleteRowThree : ForRowThree, ForRowThreeSlotOneToThree
+
 object Slots {
     // ROW ONE
     val RowOneSlotOne = SingleInventorySlot<ForRowOneSlotOneToThree>(1, 1)

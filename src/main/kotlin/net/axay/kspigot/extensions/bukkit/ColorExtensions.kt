@@ -1,5 +1,7 @@
 package net.axay.kspigot.extensions.bukkit
+
 // FROM BUNGEE COLOR
+
 /**
  * Returns the corresponding Bukkit Color object.
  */
@@ -12,7 +14,9 @@ val net.md_5.bungee.api.ChatColor.bukkitColor
  */
 val net.md_5.bungee.api.ChatColor.javaAwtColor: java.awt.Color
     get() = color
+
 // FROM BUKKIT COLOR
+
 /**
  * Returns the corresponding Bungee Color object.
  */
@@ -24,7 +28,9 @@ val org.bukkit.Color.bungeeColor: net.md_5.bungee.api.ChatColor
  */
 val org.bukkit.Color.javaAwtColor: java.awt.Color
     get() = java.awt.Color(asRGB())
+
 // FROM JAVA AWT COLOR
+
 /**
  * Returns the corresponding Bukkit Color object.
  */
@@ -36,7 +42,9 @@ val java.awt.Color.bukkitColor
  */
 val java.awt.Color.bungeeColor: net.md_5.bungee.api.ChatColor
     get() = net.md_5.bungee.api.ChatColor.of(this)
+
 // FROM BUKKIT CHAT COLOR
+
 /**
  * Returns the corresponding Bukkit Color object.
  */

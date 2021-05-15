@@ -23,6 +23,7 @@ fun buildCounterMessageCallback(
     StringBuilder().apply {
         if (beforeTime != null)
             append(beforeTime)
+
         val hourTime = (curSeconds / 3600)
         val minuteTime = ((curSeconds % 3600) / 60)
         val secondsTime = (curSeconds % 60)

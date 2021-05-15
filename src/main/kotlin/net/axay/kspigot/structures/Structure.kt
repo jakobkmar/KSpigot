@@ -28,9 +28,6 @@ data class Structure(
     constructor(vararg structureDataSets: Set<SingleStructureData>)
             : this(structureDataSets.flatMapTo(HashSet()) { it })
 }
-/*
- * Structure data implementations.
- */
 
 data class StructureDataMaterial(
     val material: Material,
