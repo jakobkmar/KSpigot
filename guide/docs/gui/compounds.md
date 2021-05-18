@@ -80,7 +80,7 @@ You can use the `reverse` parameter and set it to true to create a button that s
 
 Instant (or hard) scrolling means that no scrolling animation will be displayed.
 
-To implement instant scrolling, leave `scrollTimes` at its default value (1) and instead modify the `scrollLines` value.
+To implement instant scrolling, leave `scrollTimes` at its default value (1) and instead modify the `scrollLines` parameter.
 Set `scrollLines` to the amount of lines you want to instantly scroll by pressing the button.
 If you want to scroll "page by page", set `scrollLines` to the height of the compound.
 
