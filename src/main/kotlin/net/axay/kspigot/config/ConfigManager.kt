@@ -2,12 +2,24 @@
 
 package net.axay.kspigot.config
 
+import kotlinx.serialization.StringFormat
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.axay.kspigot.languageextensions.kotlinextensions.createIfNotExists
 import java.io.File
 import kotlin.reflect.KProperty
+
+@Deprecated("Use the kSpigotConfig method instead, as it is more universal.", replaceWith = ReplaceWith("kSpigotConfig"))
+/**
+ * @see kSpigotConfig
+ */
+inline fun <reified T : Any> kSpigotJsonConfig(
+    file: File,
+    saveAfterLoad: Boolean = false,
+    stringFormat: Json = Json,
+    noinline default: (() -> T)? = null,
+) = kSpigotConfig(file, saveAfterLoad, stringFormat, default)
 
 /**
  * Creates a new ConfigDelegate object.
@@ -30,10 +42,10 @@ import kotlin.reflect.KProperty
  * @throws java.io.FileNotFoundException If the file does not
  * exist and no default config is specified.
  */
-inline fun <reified T : Any> kSpigotJsonConfig(
+inline fun <reified T : Any> kSpigotConfig(
     file: File,
     saveAfterLoad: Boolean = false,
-    json: Json = Json,
+    stringFormat: StringFormat = Json,
     noinline default: (() -> T)? = null,
 ) = object : ConfigDelegate<T>(file, saveAfterLoad, default) {
     private var internalConfig: T = loadIt()
@@ -56,15 +68,15 @@ inline fun <reified T : Any> kSpigotJsonConfig(
     }
 
     override fun saveIt(toSave: T) {
-        JsonConfigManager.saveConfig(file, toSave, json)
+        JsonConfigManager.saveConfig(file, toSave, stringFormat)
         internalConfig = toSave
     }
 
     override fun loadIt(): T {
         val loaded = if (default == null)
-            JsonConfigManager.loadConfig(file, json)
+            JsonConfigManager.loadConfig(file, stringFormat)
         else
-            JsonConfigManager.loadOrCreateDefault(file, json, default)
+            JsonConfigManager.loadOrCreateDefault(file, stringFormat, default)
 
         if (saveAfterLoad)
             saveIt(loaded)
@@ -100,25 +112,25 @@ abstract class ConfigDelegate<T : Any>(
 }
 
 object JsonConfigManager {
-    inline fun <reified T : Any> loadConfig(file: File, json: Json = Json): T {
-        return Json.decodeFromString(file.readText())
+    inline fun <reified T : Any> loadConfig(file: File, stringFormat: StringFormat): T {
+        return stringFormat.decodeFromString(file.readText())
     }
 
-    inline fun <reified T : Any> saveConfig(file: File, config: T, json: Json = Json) {
+    inline fun <reified T : Any> saveConfig(file: File, config: T, stringFormat: StringFormat) {
         file.createIfNotExists()
-        file.writeText(Json.encodeToString(config))
+        file.writeText(stringFormat.encodeToString(config))
     }
 
     inline fun <reified T : Any> loadOrCreateDefault(
         file: File,
-        json: Json = Json,
+        stringFormat: StringFormat,
         default: () -> T,
     ): T {
         try {
-            return loadConfig(file, json)
+            return loadConfig(file, stringFormat)
         } catch (exc: Exception) {
             default.invoke().let {
-                saveConfig(file, it, json)
+                saveConfig(file, it, stringFormat)
                 return it
             }
         }
