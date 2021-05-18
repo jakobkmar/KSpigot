@@ -5,7 +5,5 @@ import java.io.File
 
 class PluginFile(path: String, child: String? = null) : File(
     "${KSpigotMainInstance.dataFolder}",
-    run {
-        if (child == null) path else File(path, child).path
-    }
+    if (child == null) path else File(path, child).path
 )
