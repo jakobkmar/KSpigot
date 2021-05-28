@@ -9,6 +9,7 @@ import net.axay.kspigot.chat.input.implementations.PlayerInputChat
 import net.axay.kspigot.event.unregister
 import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.taskRunLater
+import net.axay.kspigot.utils.mark
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
@@ -49,9 +50,7 @@ fun Player.awaitAnvilInput(
 fun Player.awaitBookInputAsString(
     timeoutSeconds: Int = 1 * 60,
     callback: (PlayerInputResult<String>) -> Unit,
-) {
-    PlayerInputBookComprehensive(this, callback, timeoutSeconds)
-}
+) = PlayerInputBookComprehensive(this, callback, timeoutSeconds).bookItemStack
 
 /**
  * Opens a book and uses the text the player inserted
@@ -62,14 +61,13 @@ fun Player.awaitBookInputAsString(
 fun Player.awaitBookInputAsList(
     timeoutSeconds: Int = 1 * 60,
     callback: (PlayerInputResult<List<String>>) -> Unit,
-) {
-    PlayerInputBookPaged(this, callback, timeoutSeconds)
-}
+) = PlayerInputBookPaged(this, callback, timeoutSeconds).bookItemStack
 
 /**
  * @param input The input the player gave. Null on timeout or invalid input.
  */
 class PlayerInputResult<T> internal constructor(val input: T?)
+
 internal abstract class PlayerInput<T>(
     protected val player: Player,
     private val callback: (PlayerInputResult<T>) -> Unit,

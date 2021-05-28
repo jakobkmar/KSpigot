@@ -37,12 +37,14 @@ internal abstract class PlayerInputBook<T>(
 ) : PlayerInput<T>(player, callback, timeoutSeconds) {
     private val id = getID()
 
+    val bookItemStack = itemStack(Material.WRITABLE_BOOK) {
+        meta {
+            persistentDataContainer[idKey, PersistentDataType.INTEGER] = id
+        }
+    }
+
     init {
-        player.openBook(itemStack(Material.WRITABLE_BOOK) {
-            meta {
-                persistentDataContainer[idKey, PersistentDataType.INTEGER] = id
-            }
-        })
+        player.inventory.addItem(bookItemStack)
     }
 
     abstract fun loadBookContent(bookMeta: BookMeta): T
@@ -53,6 +55,8 @@ internal abstract class PlayerInputBook<T>(
             if (meta.persistentDataContainer[idKey, PersistentDataType.INTEGER] == id) {
                 onReceive(loadBookContent(meta))
                 usedIDs -= id
+                it.isCancelled = true
+                player.inventory.removeItem(bookItemStack)
             }
         }
     )
