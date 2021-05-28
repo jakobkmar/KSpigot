@@ -8,14 +8,14 @@ version = "1.16.27"
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
 plugins {
-    kotlin("jvm") version "1.5.0"
+    kotlin("jvm") version "1.5.10"
 
     `java-library`
     `maven-publish`
     signing
 
     id("org.jetbrains.dokka") version "1.4.32"
-    kotlin("plugin.serialization") version "1.5.0"
+    kotlin("plugin.serialization") version "1.5.10"
 }
 
 repositories {
@@ -31,7 +31,7 @@ dependencies {
 
     api("net.wesjd", "anvilgui", "1.5.0-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.2.0")
+    api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.2.1")
 }
 
 tasks {
