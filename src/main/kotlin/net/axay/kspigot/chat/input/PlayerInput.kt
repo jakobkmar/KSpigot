@@ -2,14 +2,12 @@
 
 package net.axay.kspigot.chat.input
 
-import net.axay.kspigot.chat.input.implementations.PlayerInputAnvilInv
 import net.axay.kspigot.chat.input.implementations.PlayerInputBookComprehensive
 import net.axay.kspigot.chat.input.implementations.PlayerInputBookPaged
 import net.axay.kspigot.chat.input.implementations.PlayerInputChat
 import net.axay.kspigot.event.unregister
 import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.taskRunLater
-import net.axay.kspigot.utils.mark
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
@@ -23,23 +21,6 @@ fun Player.awaitChatInput(
     callback: (PlayerInputResult<String>) -> Unit,
 ) {
     PlayerInputChat(this, callback, timeoutSeconds, question)
-}
-
-/**
- * Opens an anvil GUI and uses the new name of the
- * renamed item as the players' input.
- */
-fun Player.awaitAnvilInput(
-    invTitle: String = "Type your input!",
-    startText: String = "RENAME ME",
-    renameItemDescription: List<String> = listOf(
-        "Rename this item to",
-        "submit your input!"
-    ),
-    timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<String>) -> Unit,
-) {
-    PlayerInputAnvilInv(this, callback, timeoutSeconds, invTitle, startText, renameItemDescription)
 }
 
 /**
