@@ -8,6 +8,12 @@ import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
+ * The main plugin instance.
+ */
+lateinit var KSpigotMainInstance: KSpigot
+    private set
+
+/**
  * This is the main instance of KSpigot.
  *
  * This class replaces (and inherits from) the
@@ -43,7 +49,10 @@ abstract class KSpigot : JavaPlugin() {
     open fun shutdown() {}
 
     final override fun onLoad() {
-        internalMainInstance = this
+        if (::KSpigotMainInstance.isInitialized) {
+            console.warn("The main instance of KSpigot has been modified, even though it has already been set by another plugin!")
+        }
+        KSpigotMainInstance = this
         load()
     }
 
@@ -58,13 +67,3 @@ abstract class KSpigot : JavaPlugin() {
         guiHolderProperty.closeIfInitialized()
     }
 }
-
-private var internalMainInstance: KSpigot? = null
-    set(value) {
-        if (field != null) {
-            console.warn("The main instance of KSpigot has been modified, even though it has already been set by another plugin!")
-        }
-        field = value
-    }
-
-val KSpigotMainInstance = internalMainInstance!!
