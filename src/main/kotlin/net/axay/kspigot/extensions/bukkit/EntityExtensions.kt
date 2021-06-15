@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld
 import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
