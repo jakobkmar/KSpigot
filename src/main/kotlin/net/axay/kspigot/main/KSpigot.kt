@@ -39,6 +39,7 @@ abstract class KSpigot : JavaPlugin() {
      * Called when the plugin gets disabled
      */
     open fun shutdown() {}
+
     final override fun onLoad() {
         KSpigotMainInstance = this
         load()
