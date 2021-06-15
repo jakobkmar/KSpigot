@@ -4,6 +4,7 @@ package net.axay.kspigot.gui
 
 import net.axay.kspigot.event.listen
 import net.axay.kspigot.extensions.bukkit.closeForViewers
+import net.axay.kspigot.main.KSpigotMainInstance
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -186,7 +187,7 @@ class GUIInstance<T : ForInventory>(
      * (KSpigot will listen for actions in the inventory.)
      */
     @Suppress("UNCHECKED_CAST")
-    fun register() = GUIHolder.register(this as GUIInstance<ForInventory>)
+    fun register() = KSpigotMainInstance.guiHolder.register(this as GUIInstance<ForInventory>)
 
     /**
      * Stops KSpigot from listening to actions in this
@@ -194,7 +195,7 @@ class GUIInstance<T : ForInventory>(
      */
     fun unregister() {
         @Suppress("UNCHECKED_CAST")
-        GUIHolder.unregister(this as GUIInstance<ForInventory>)
+        KSpigotMainInstance.guiHolder.unregister(this as GUIInstance<ForInventory>)
         // unregister this inv from all elements
         currentElements.forEach { it.stopUsing(this) }
         currentElements.clear()

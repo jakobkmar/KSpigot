@@ -77,14 +77,14 @@ fun task(
 
             if (isCancelled) {
                 if (safe || ranOut)
-                    KRunnableHolder.activate(this)
+                    KSpigotMainInstance.kRunnableHolder.activate(this)
                 else
-                    KRunnableHolder.remove(this)
+                    KSpigotMainInstance.kRunnableHolder.remove(this)
             }
         }
     }
 
-    if (endCallback != null) KRunnableHolder.add(bukkitRunnable, endCallback, safe)
+    if (endCallback != null) KSpigotMainInstance.kRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
     if (period != null)
         if (sync) bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period)
