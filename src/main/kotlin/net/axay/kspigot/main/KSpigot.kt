@@ -1,5 +1,7 @@
 package net.axay.kspigot.main
 
+import net.axay.kspigot.extensions.bukkit.warn
+import net.axay.kspigot.extensions.console
 import net.axay.kspigot.gui.GUIHolder
 import net.axay.kspigot.languageextensions.kotlinextensions.closeIfInitialized
 import net.axay.kspigot.runnables.KRunnableHolder
@@ -41,7 +43,7 @@ abstract class KSpigot : JavaPlugin() {
     open fun shutdown() {}
 
     final override fun onLoad() {
-        KSpigotMainInstance = this
+        internalMainInstance = this
         load()
     }
 
@@ -57,4 +59,12 @@ abstract class KSpigot : JavaPlugin() {
     }
 }
 
-lateinit var KSpigotMainInstance: KSpigot private set
+private var internalMainInstance: KSpigot? = null
+    set(value) {
+        if (field != null) {
+            console.warn("The main instance of KSpigot has been modified, even though it has already been set by another plugin!")
+        }
+        field = value
+    }
+
+val KSpigotMainInstance = internalMainInstance!!
