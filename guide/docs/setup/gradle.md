@@ -1,5 +1,7 @@
 The following code snippets can be used in your `build.gradle.kts` file.
 
+An example of a final configuration file [is also available](gradle_example.md).
+
 ## Gradle configuration
 
 ### Java version

@@ -33,6 +33,7 @@ nav:
           - Requirements: setup/beginners.md
           - Starting a new project: setup/project.md
       - Setup using Gradle: setup/gradle.md
+      - Build script example: setup/gradle_example.md
       - Entrypoint to your plugin: setup/entrypoint.md
   - Extensions:
       - Event listener: extensions/listener.md
