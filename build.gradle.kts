@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val githubRepo = "bluefireoly/KSpigot"
 
 group = "net.axay"
-version = "1.16.29"
+version = "1.17.0"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
@@ -19,17 +19,13 @@ plugins {
 }
 
 repositories {
-    jcenter()
-    maven("https://repo.codemc.io/repository/maven-snapshots/")
-
+    mavenCentral()
     mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }
 
 dependencies {
-    compileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.16.5-R0.1-SNAPSHOT")
-
-    api("net.wesjd", "anvilgui", "1.5.0-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
 
     api("org.jetbrains.kotlinx", "kotlinx-serialization-json", "1.2.1")
 }
@@ -37,11 +33,11 @@ dependencies {
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release.set(8)
+        options.release.set(16)
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "16"
     }
 
     dokkaHtml.configure {
