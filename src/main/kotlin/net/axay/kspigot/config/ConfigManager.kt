@@ -2,7 +2,6 @@
 
 package net.axay.kspigot.config
 
-import kotlinx.serialization.StringFormat
 import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -45,7 +44,7 @@ inline fun <reified T : Any> kSpigotJsonConfig(
 inline fun <reified T : Any> kSpigotConfig(
     file: File,
     saveAfterLoad: Boolean = false,
-    stringFormat: StringFormat = Json,
+    stringFormat: Json = Json,
     noinline default: (() -> T)? = null,
 ) = object : ConfigDelegate<T>(file, saveAfterLoad, default) {
     private var internalConfig: T = loadIt()
@@ -112,18 +111,18 @@ abstract class ConfigDelegate<T : Any>(
 }
 
 object JsonConfigManager {
-    inline fun <reified T : Any> loadConfig(file: File, stringFormat: StringFormat): T {
+    inline fun <reified T : Any> loadConfig(file: File, stringFormat: Json): T {
         return stringFormat.decodeFromString(file.readText())
     }
 
-    inline fun <reified T : Any> saveConfig(file: File, config: T, stringFormat: StringFormat) {
+    inline fun <reified T : Any> saveConfig(file: File, config: T, stringFormat: Json) {
         file.createIfNotExists()
         file.writeText(stringFormat.encodeToString(config))
     }
 
     inline fun <reified T : Any> loadOrCreateDefault(
         file: File,
-        stringFormat: StringFormat,
+        stringFormat: Json,
         default: () -> T,
     ): T {
         try {
