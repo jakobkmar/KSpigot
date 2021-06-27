@@ -15,7 +15,8 @@ import net.minecraft.commands.CommandListenerWrapper
  * Create a new command.
  *
  * @param name the name of the root command
- * @param register if true, the command will automatically be registered
+ * @param register if true, the command will be automatically registered
+ * when the plugin is fully enabled
  */
 inline fun command(
     name: String,
