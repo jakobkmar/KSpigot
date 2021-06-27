@@ -72,6 +72,23 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
     }
 
     /**
+     * Append the given legacy text to the parent. This
+     * allows you to use legacy color codes (e.g. `§c` for red).
+     * It is **not** recommended to use this.
+     *
+     * @param text the text instance
+     * @param builder the builder which can be used to set the style and add child text components
+     */
+    inline fun legacyText(
+        text: String,
+        builder: LiteralTextBuilder.() -> Unit = { }
+    ) {
+        TextComponent.fromLegacyText(text).forEach {
+            siblingText.addExtra(LiteralTextBuilder(it).apply(builder).build())
+        }
+    }
+
+    /**
      * Sets the text which should be displayed when hovering
      * over the text in the chat.
      *
