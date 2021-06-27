@@ -74,6 +74,16 @@ fun BaseComponent.clickEvent(action: ClickEvent.Action, value: String) {
     clickEvent = ClickEvent(action, value)
 }
 
+/**
+ * Creates a new [ChatColor] instance from the provided
+ * hex code.
+ * Format example: `"#4BD6CB"`
+ */
 fun col(hex: String): ChatColor = ChatColor.of(hex)
 
+/**
+ * Creates a new [ChatColor] instance from the provided
+ * hex code.
+ * Format example: `0x4BD6CB`
+ */
 fun col(rgb: Int): ChatColor = ChatColor.of(Color(rgb))
