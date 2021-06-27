@@ -16,7 +16,7 @@ annotation class UnsafeImplementation
  * unstable and should be checked every time
  * with a version change.
  */
-annotation class NMS_1_16_1
+annotation class NMS_1_17
 
 /**
  * This element uses [net.minecraft.server]
