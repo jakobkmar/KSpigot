@@ -8,6 +8,7 @@ import net.axay.kspigot.annotations.NMS_1_17
 import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.extensions.server
+import net.axay.kspigot.utils.reflectField
 import net.minecraft.commands.CommandListenerWrapper
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
@@ -39,10 +40,7 @@ object BrigardierSupport {
     @NMS_1_17
     val commandDispatcher by lazy {
         // g = the command dispatcher
-        val dispatcherField = net.minecraft.commands.CommandDispatcher::class.java.getDeclaredField("g")
-        dispatcherField.isAccessible = true
-        @Suppress("UNCHECKED_CAST")
-        dispatcherField.get(commandManager) as CommandDispatcher<CommandListenerWrapper>
+        commandManager.reflectField<CommandDispatcher<CommandListenerWrapper>>("g")
     }
 
     @NMS_General
