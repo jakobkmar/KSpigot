@@ -35,7 +35,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
      * e.g. Medium turquoise:
      *  - `color = col(0x4BD6CB)`
      *  - `color = col(4970187)`
-     *  - `color = col("#4970187")`
+     *  - `color = col("#4BD6CB")`
      *  - `color = KColors.MEDIUMTURQUOISE`
      */
     var color: ChatColor? = null
