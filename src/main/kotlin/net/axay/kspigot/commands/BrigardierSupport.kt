@@ -1,23 +1,80 @@
+@file:Suppress("MemberVisibilityCanBePrivate")
+
 package net.axay.kspigot.commands
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
+import net.axay.kspigot.annotations.NMS_1_17
+import net.axay.kspigot.annotations.NMS_General
+import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.extensions.server
 import net.minecraft.commands.CommandListenerWrapper
 import org.bukkit.craftbukkit.v1_17_R1.CraftServer
+import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 
+/**
+ * This class provides Brigardier support. It does that
+ * by using reflection once. Additionally, this class is
+ * using some obfuscated functions.
+ */
 object BrigardierSupport {
     @PublishedApi
-    internal val commands = ArrayList<LiteralArgumentBuilder<CommandListenerWrapper>>()
+    internal val commands = LinkedHashSet<LiteralArgumentBuilder<CommandListenerWrapper>>()
 
-    fun registerAll() {
-        val commandManager = (server as CraftServer).server.commandDispatcher
+    private var executedDefaultRegistration = false
 
+    /**
+     * The command manager is used to hold the command dispatcher,
+     * and to manage and dispatch the brigardier commands for
+     * all players on the server.
+     */
+    @NMS_General
+    val commandManager: net.minecraft.commands.CommandDispatcher by lazy {
+        (server as CraftServer).server.commandDispatcher
+    }
+
+    /**
+     * The command dispatcher is used to register brigardier commands.
+     */
+    @NMS_1_17
+    val commandDispatcher by lazy {
+        // g = the command dispatcher
         val dispatcherField = net.minecraft.commands.CommandDispatcher::class.java.getDeclaredField("g")
         dispatcherField.isAccessible = true
         @Suppress("UNCHECKED_CAST")
-        val dispatcher = dispatcherField.get(commandManager) as CommandDispatcher<CommandListenerWrapper>
+        dispatcherField.get(commandManager) as CommandDispatcher<CommandListenerWrapper>
+    }
 
-        commands.forEach { dispatcher.register(it) }
+    @NMS_General
+    internal fun registerAll() {
+        commands.forEach { commandDispatcher.register(it) }
+        updateCommandTree()
+        executedDefaultRegistration = true
+    }
+
+    @NMS_1_17
+    fun updateCommandTree() {
+        onlinePlayers.forEach {
+            // send the command treee
+            commandManager.a((it as CraftPlayer).handle)
+        }
+    }
+
+    /**
+     * Registers this command at the [CommandDispatcher] of the server.
+     *
+     * @param sendToPlayers whether the new command tree should be send to
+     * all players, this is true by default, but you can disable it if you are
+     * calling this function as the server is starting
+     */
+    @NMS_General
+    fun LiteralArgumentBuilder<CommandListenerWrapper>.register(sendToPlayers: Boolean = true) {
+        if (!executedDefaultRegistration)
+            commands += this
+        else {
+            commandDispatcher.register(this)
+            if (sendToPlayers)
+                updateCommandTree()
+        }
     }
 }
