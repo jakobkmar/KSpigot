@@ -1,5 +1,6 @@
 package net.axay.kspigot.main
 
+import net.axay.kspigot.commands.BrigardierSupport
 import net.axay.kspigot.extensions.bukkit.warn
 import net.axay.kspigot.extensions.console
 import net.axay.kspigot.gui.GUIHolder
@@ -58,6 +59,7 @@ abstract class KSpigot : JavaPlugin() {
 
     final override fun onEnable() {
         startup()
+        BrigardierSupport.registerAll()
     }
 
     final override fun onDisable() {

@@ -46,8 +46,9 @@ object BrigardierSupport {
     @NMS_General
     internal fun registerAll() {
         commands.forEach { commandDispatcher.register(it) }
-        updateCommandTree()
         executedDefaultRegistration = true
+        if (onlinePlayers.isNotEmpty())
+            updateCommandTree()
     }
 
     @NMS_1_17
