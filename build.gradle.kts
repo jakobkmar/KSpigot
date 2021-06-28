@@ -8,14 +8,14 @@ version = "1.17.2"
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.5.20"
 
     `java-library`
     `maven-publish`
     signing
 
     id("org.jetbrains.dokka") version "1.4.32"
-    kotlin("plugin.serialization") version "1.5.10"
+    kotlin("plugin.serialization") version "1.5.20"
 }
 
 repositories {
