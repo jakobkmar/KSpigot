@@ -1,14 +1,13 @@
 $dokka.format:html-v1
 $dokka.linkExtension:html
 $dokka.location:net.axay.kspigot.annotations////PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/index.html
-$dokka.location:net.axay.kspigot.annotations/NMS_1_16_1///PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_1_16_1/index.html
-$dokka.location:net.axay.kspigot.annotations/NMS_1_16_1/NMS_1_16_1/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_1_16_1/-n-m-s_1_16_1.html
+$dokka.location:net.axay.kspigot.annotations/NMS_1_17///PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_1_17/index.html
+$dokka.location:net.axay.kspigot.annotations/NMS_1_17/NMS_1_17/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_1_17/-n-m-s_1_17.html
 $dokka.location:net.axay.kspigot.annotations/NMS_General///PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_-general/index.html
 $dokka.location:net.axay.kspigot.annotations/NMS_General/NMS_General/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-n-m-s_-general/-n-m-s_-general.html
 $dokka.location:net.axay.kspigot.annotations/UnsafeImplementation///PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-unsafe-implementation/index.html
 $dokka.location:net.axay.kspigot.annotations/UnsafeImplementation/UnsafeImplementation/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.annotations/-unsafe-implementation/-unsafe-implementation.html
 $dokka.location:net.axay.kspigot.chat.input////PointingToDeclaration/-k-spigot/net.axay.kspigot.chat.input/index.html
-$dokka.location:net.axay.kspigot.chat.input//awaitAnvilInput/org.bukkit.entity.Player#kotlin.String#kotlin.String#kotlin.collections.List[kotlin.String]#kotlin.Int#kotlin.Function1[net.axay.kspigot.chat.input.PlayerInputResult[kotlin.String],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat.input/await-anvil-input.html
 $dokka.location:net.axay.kspigot.chat.input//awaitBookInputAsList/org.bukkit.entity.Player#kotlin.Int#kotlin.Function1[net.axay.kspigot.chat.input.PlayerInputResult[kotlin.collections.List[kotlin.String]],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat.input/await-book-input-as-list.html
 $dokka.location:net.axay.kspigot.chat.input//awaitBookInputAsString/org.bukkit.entity.Player#kotlin.Int#kotlin.Function1[net.axay.kspigot.chat.input.PlayerInputResult[kotlin.String],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat.input/await-book-input-as-string.html
 $dokka.location:net.axay.kspigot.chat.input//awaitChatInput/org.bukkit.entity.Player#kotlin.String#kotlin.Int#kotlin.Function1[net.axay.kspigot.chat.input.PlayerInputResult[kotlin.String],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat.input/await-chat-input.html
@@ -22,8 +21,10 @@ $dokka.location:net.axay.kspigot.chat//col/#kotlin.String/PointingToDeclaration/
 $dokka.location:net.axay.kspigot.chat//hoverEventEntity/net.md_5.bungee.api.chat.BaseComponent#kotlin.String#kotlin.String#net.md_5.bungee.api.chat.BaseComponent/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/hover-event-entity.html
 $dokka.location:net.axay.kspigot.chat//hoverEventItem/net.md_5.bungee.api.chat.BaseComponent#kotlin.String#kotlin.Int#net.md_5.bungee.api.chat.ItemTag/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/hover-event-item.html
 $dokka.location:net.axay.kspigot.chat//hoverEventText/net.md_5.bungee.api.chat.BaseComponent#kotlin.Function1[net.axay.kspigot.chat.KSpigotComponentBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/hover-event-text.html
+$dokka.location:net.axay.kspigot.chat//literalText/#kotlin.String#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/literal-text.html
 $dokka.location:net.axay.kspigot.chat//sendMessage/org.bukkit.command.CommandSender#kotlin.Array[net.md_5.bungee.api.chat.BaseComponent]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/send-message.html
 $dokka.location:net.axay.kspigot.chat//sendMessage/org.bukkit.command.CommandSender#kotlin.Function1[net.axay.kspigot.chat.KSpigotComponentBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/send-message.html
+$dokka.location:net.axay.kspigot.chat//sendText/org.bukkit.command.CommandSender#kotlin.String#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/send-text.html
 $dokka.location:net.axay.kspigot.chat/KColors///PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-colors/index.html
 $dokka.location:net.axay.kspigot.chat/KColors/ALICEBLUE/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-colors/-a-l-i-c-e-b-l-u-e.html
 $dokka.location:net.axay.kspigot.chat/KColors/ANTIQUEWHITE/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-colors/-a-n-t-i-q-u-e-w-h-i-t-e.html
@@ -185,7 +186,44 @@ $dokka.location:net.axay.kspigot.chat/KSpigotComponentBuilder/score/#kotlin.Stri
 $dokka.location:net.axay.kspigot.chat/KSpigotComponentBuilder/selector/#kotlin.String#kotlin.Function1[net.md_5.bungee.api.chat.SelectorComponent,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-spigot-component-builder/selector.html
 $dokka.location:net.axay.kspigot.chat/KSpigotComponentBuilder/text/#kotlin.String#kotlin.Function1[net.md_5.bungee.api.chat.TextComponent,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-spigot-component-builder/text.html
 $dokka.location:net.axay.kspigot.chat/KSpigotComponentBuilder/translatable/#kotlin.String#kotlin.Array[net.md_5.bungee.api.chat.BaseComponent]#kotlin.Function1[net.md_5.bungee.api.chat.TranslatableComponent,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-k-spigot-component-builder/translatable.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder///PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/index.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/LiteralTextBuilder/#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/-literal-text-builder.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/LiteralTextBuilder/#net.md_5.bungee.api.chat.BaseComponent/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/-literal-text-builder.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/bold/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/bold.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/build/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/build.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/clickEvent/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/click-event.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/color/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/color.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/emptyLine/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/empty-line.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/hoverEvent/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/hover-event.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/hoverText/#kotlin.String#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/hover-text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/internalText/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/internal-text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/italic/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/italic.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/legacyText/#kotlin.String#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/legacy-text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/newLine/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/new-line.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/obfuscate/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/obfuscate.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/onClickCommand/#kotlin.String#kotlin.Boolean/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/on-click-command.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/onClickCopy/#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/on-click-copy.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/siblingText/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/sibling-text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/strikethrough/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/strikethrough.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/text/#kotlin.String#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/text/#net.md_5.bungee.api.chat.BaseComponent#kotlin.Function1[net.axay.kspigot.chat.LiteralTextBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/text.html
+$dokka.location:net.axay.kspigot.chat/LiteralTextBuilder/underline/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.chat/-literal-text-builder/underline.html
+$dokka.location:net.axay.kspigot.commands////PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/index.html
+$dokka.location:net.axay.kspigot.commands//argument/com.mojang.brigadier.builder.ArgumentBuilder[net.minecraft.commands.CommandListenerWrapper,*]#kotlin.String#com.mojang.brigadier.arguments.ArgumentType[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[com.mojang.brigadier.builder.RequiredArgumentBuilder[net.minecraft.commands.CommandListenerWrapper,TypeParam(bounds=[kotlin.Any?])],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/argument.html
+$dokka.location:net.axay.kspigot.commands//bukkitWorld/net.minecraft.commands.CommandListenerWrapper#/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/bukkit-world.html
+$dokka.location:net.axay.kspigot.commands//command/#kotlin.String#kotlin.Boolean#kotlin.Function1[com.mojang.brigadier.builder.LiteralArgumentBuilder[net.minecraft.commands.CommandListenerWrapper],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/command.html
+$dokka.location:net.axay.kspigot.commands//getArgument/com.mojang.brigadier.context.CommandContext[net.minecraft.commands.CommandListenerWrapper]#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/get-argument.html
+$dokka.location:net.axay.kspigot.commands//literal/com.mojang.brigadier.builder.ArgumentBuilder[net.minecraft.commands.CommandListenerWrapper,*]#kotlin.String#kotlin.Function1[com.mojang.brigadier.builder.LiteralArgumentBuilder[net.minecraft.commands.CommandListenerWrapper],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/literal.html
+$dokka.location:net.axay.kspigot.commands//player/net.minecraft.commands.CommandListenerWrapper#/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/player.html
+$dokka.location:net.axay.kspigot.commands//simpleExecutes/com.mojang.brigadier.builder.ArgumentBuilder[TypeParam(bounds=[kotlin.Any?]),*]#kotlin.Function1[com.mojang.brigadier.context.CommandContext[TypeParam(bounds=[kotlin.Any?])],kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/simple-executes.html
+$dokka.location:net.axay.kspigot.commands//simpleSuggests/com.mojang.brigadier.builder.RequiredArgumentBuilder[TypeParam(bounds=[kotlin.Any?]),*]#kotlin.coroutines.SuspendFunction1[com.mojang.brigadier.context.CommandContext[TypeParam(bounds=[kotlin.Any?])],kotlin.collections.Iterable[kotlin.Any?]?]/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/simple-suggests.html
+$dokka.location:net.axay.kspigot.commands/BrigardierSupport///PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/-brigardier-support/index.html
+$dokka.location:net.axay.kspigot.commands/BrigardierSupport/commandDispatcher/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/-brigardier-support/command-dispatcher.html
+$dokka.location:net.axay.kspigot.commands/BrigardierSupport/commandManager/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/-brigardier-support/command-manager.html
+$dokka.location:net.axay.kspigot.commands/BrigardierSupport/register/com.mojang.brigadier.builder.LiteralArgumentBuilder[net.minecraft.commands.CommandListenerWrapper]#kotlin.Boolean/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/-brigardier-support/register.html
+$dokka.location:net.axay.kspigot.commands/BrigardierSupport/updateCommandTree/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.commands/-brigardier-support/update-command-tree.html
 $dokka.location:net.axay.kspigot.config////PointingToDeclaration/-k-spigot/net.axay.kspigot.config/index.html
+$dokka.location:net.axay.kspigot.config//kSpigotConfig/#java.io.File#kotlin.Boolean#kotlinx.serialization.json.Json#kotlin.Function0[TypeParam(bounds=[kotlin.Any])]?/PointingToDeclaration/-k-spigot/net.axay.kspigot.config/k-spigot-config.html
 $dokka.location:net.axay.kspigot.config//kSpigotJsonConfig/#java.io.File#kotlin.Boolean#kotlinx.serialization.json.Json#kotlin.Function0[TypeParam(bounds=[kotlin.Any])]?/PointingToDeclaration/-k-spigot/net.axay.kspigot.config/k-spigot-json-config.html
 $dokka.location:net.axay.kspigot.config/ConfigDelegate///PointingToDeclaration/-k-spigot/net.axay.kspigot.config/-config-delegate/index.html
 $dokka.location:net.axay.kspigot.config/ConfigDelegate/ConfigDelegate/#java.io.File#kotlin.Boolean#kotlin.Function0[TypeParam(bounds=[kotlin.Any])]?/PointingToDeclaration/-k-spigot/net.axay.kspigot.config/-config-delegate/-config-delegate.html
@@ -208,7 +246,7 @@ $dokka.location:net.axay.kspigot.data/NBTData.Companion/deserialize/#kotlin.Stri
 $dokka.location:net.axay.kspigot.data/NBTData///PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/index.html
 $dokka.location:net.axay.kspigot.data/NBTData/NBTData/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/-n-b-t-data.html
 $dokka.location:net.axay.kspigot.data/NBTData/NBTData/#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/-n-b-t-data.html
-$dokka.location:net.axay.kspigot.data/NBTData/NBTData/#net.minecraft.server.v1_16_R3.NBTTagCompound?/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/-n-b-t-data.html
+$dokka.location:net.axay.kspigot.data/NBTData/NBTData/#net.minecraft.nbt.NBTTagCompound?/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/-n-b-t-data.html
 $dokka.location:net.axay.kspigot.data/NBTData/get/#kotlin.String#net.axay.kspigot.data.NBTDataType[TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/get.html
 $dokka.location:net.axay.kspigot.data/NBTData/minusAssign/#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/minus-assign.html
 $dokka.location:net.axay.kspigot.data/NBTData/nbtTagCompound/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data/nbt-tag-compound.html
@@ -228,16 +266,18 @@ $dokka.location:net.axay.kspigot.data/NBTDataType.Companion/LONG_ARRAY/#/Pointin
 $dokka.location:net.axay.kspigot.data/NBTDataType.Companion/SHORT/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/-companion/-s-h-o-r-t.html
 $dokka.location:net.axay.kspigot.data/NBTDataType.Companion/STRING/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/-companion/-s-t-r-i-n-g.html
 $dokka.location:net.axay.kspigot.data/NBTDataType///PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/index.html
-$dokka.location:net.axay.kspigot.data/NBTDataType/decodeNMS/#net.minecraft.server.v1_16_R3.NBTBase/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/decode-n-m-s.html
-$dokka.location:net.axay.kspigot.data/NBTDataType/writeToCompound/#kotlin.String#TypeParam(bounds=[kotlin.Any?])#net.minecraft.server.v1_16_R3.NBTTagCompound/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/write-to-compound.html
+$dokka.location:net.axay.kspigot.data/NBTDataType/decodeNMS/#net.minecraft.nbt.NBTBase/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/decode-n-m-s.html
+$dokka.location:net.axay.kspigot.data/NBTDataType/writeToCompound/#kotlin.String#TypeParam(bounds=[kotlin.Any?])#net.minecraft.nbt.NBTTagCompound/PointingToDeclaration/-k-spigot/net.axay.kspigot.data/-n-b-t-data-type/write-to-compound.html
 $dokka.location:net.axay.kspigot.event////PointingToDeclaration/-k-spigot/net.axay.kspigot.event/index.html
 $dokka.location:net.axay.kspigot.event//listen/#org.bukkit.event.EventPriority#kotlin.Boolean#kotlin.Boolean#kotlin.Function1[TypeParam(bounds=[org.bukkit.event.Event]),kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/listen.html
-$dokka.location:net.axay.kspigot.event//register/net.axay.kspigot.event.SingleListener[TypeParam(bounds=[org.bukkit.event.Event])]#org.bukkit.event.EventPriority#kotlin.Boolean/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/register.html
-$dokka.location:net.axay.kspigot.event//register/org.bukkit.event.Listener#/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/register.html
+$dokka.location:net.axay.kspigot.event//register/net.axay.kspigot.event.SingleListener[TypeParam(bounds=[org.bukkit.event.Event])]#/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/register.html
 $dokka.location:net.axay.kspigot.event//register/org.bukkit.event.Listener#org.bukkit.event.EventPriority#kotlin.Boolean#kotlin.Function2[org.bukkit.event.Listener,org.bukkit.event.Event,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/register.html
 $dokka.location:net.axay.kspigot.event//unregister/org.bukkit.event.Listener#/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/unregister.html
 $dokka.location:net.axay.kspigot.event/SingleListener///PointingToDeclaration/-k-spigot/net.axay.kspigot.event/-single-listener/index.html
+$dokka.location:net.axay.kspigot.event/SingleListener/SingleListener/#org.bukkit.event.EventPriority#kotlin.Boolean/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/-single-listener/-single-listener.html
+$dokka.location:net.axay.kspigot.event/SingleListener/ignoreCancelled/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/-single-listener/ignore-cancelled.html
 $dokka.location:net.axay.kspigot.event/SingleListener/onEvent/#TypeParam(bounds=[org.bukkit.event.Event])/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/-single-listener/on-event.html
+$dokka.location:net.axay.kspigot.event/SingleListener/priority/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.event/-single-listener/priority.html
 $dokka.location:net.axay.kspigot.extensions.bukkit////PointingToDeclaration/-k-spigot/net.axay.kspigot.extensions.bukkit/index.html
 $dokka.location:net.axay.kspigot.extensions.bukkit//actionBar/org.bukkit.entity.Player#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.extensions.bukkit/action-bar.html
 $dokka.location:net.axay.kspigot.extensions.bukkit//allBlocks/org.bukkit.Chunk#/PointingToDeclaration/-k-spigot/net.axay.kspigot.extensions.bukkit/all-blocks.html
@@ -917,7 +957,10 @@ $dokka.location:net.axay.kspigot.items/ItemMetaLoreBuilder/ItemMetaLoreBuilder/#
 $dokka.location:net.axay.kspigot.items/ItemMetaLoreBuilder/lorelist/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.items/-item-meta-lore-builder/lorelist.html
 $dokka.location:net.axay.kspigot.items/ItemMetaLoreBuilder/unaryPlus/kotlin.String#/PointingToDeclaration/-k-spigot/net.axay.kspigot.items/-item-meta-lore-builder/unary-plus.html
 $dokka.location:net.axay.kspigot.languageextensions.kotlinextensions////PointingToDeclaration/-k-spigot/net.axay.kspigot.languageextensions.kotlinextensions/index.html
+$dokka.location:net.axay.kspigot.languageextensions.kotlinextensions//closeIfInitialized/kotlin.Lazy[java.lang.AutoCloseable]#/PointingToDeclaration/-k-spigot/net.axay.kspigot.languageextensions.kotlinextensions/close-if-initialized.html
 $dokka.location:net.axay.kspigot.languageextensions.kotlinextensions//createIfNotExists/java.io.File#/PointingToDeclaration/-k-spigot/net.axay.kspigot.languageextensions.kotlinextensions/create-if-not-exists.html
+$dokka.location:net.axay.kspigot.languageextensions.kotlinextensions//ifInitialized/kotlin.Lazy[TypeParam(bounds=[kotlin.Any?])]#kotlin.Function1[TypeParam(bounds=[kotlin.Any?]),TypeParam(bounds=[kotlin.Any?])]/PointingToDeclaration/-k-spigot/net.axay.kspigot.languageextensions.kotlinextensions/if-initialized.html
+$dokka.location:net.axay.kspigot.languageextensions.kotlinextensions//valueIfInitialized/kotlin.Lazy[TypeParam(bounds=[kotlin.Any?])]#/PointingToDeclaration/-k-spigot/net.axay.kspigot.languageextensions.kotlinextensions/value-if-initialized.html
 $dokka.location:net.axay.kspigot.localization////PointingToDeclaration/-k-spigot/net.axay.kspigot.localization/index.html
 $dokka.location:net.axay.kspigot.localization//localize/org.bukkit.entity.Player#kotlin.String#kotlin.Array[kotlin.Pair[kotlin.String,kotlin.Any?]]/PointingToDeclaration/-k-spigot/net.axay.kspigot.localization/localize.html
 $dokka.location:net.axay.kspigot.localization//localize/org.bukkit.entity.Player#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.localization/localize.html
@@ -1099,6 +1142,7 @@ $dokka.location:net.axay.kspigot.utils//hasMark/org.bukkit.inventory.ItemStack#k
 $dokka.location:net.axay.kspigot.utils//hasMark/org.bukkit.persistence.PersistentDataHolder#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/has-mark.html
 $dokka.location:net.axay.kspigot.utils//mark/org.bukkit.inventory.ItemStack#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/mark.html
 $dokka.location:net.axay.kspigot.utils//mark/org.bukkit.persistence.PersistentDataHolder#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/mark.html
+$dokka.location:net.axay.kspigot.utils//reflectField/kotlin.Any#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/reflect-field.html
 $dokka.location:net.axay.kspigot.utils//unmark/org.bukkit.inventory.ItemStack#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/unmark.html
 $dokka.location:net.axay.kspigot.utils//unmark/org.bukkit.persistence.PersistentDataHolder#kotlin.String/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/unmark.html
 $dokka.location:net.axay.kspigot.utils/CardinalDirection.Companion///PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-cardinal-direction/-companion/index.html
@@ -1138,6 +1182,13 @@ $dokka.location:net.axay.kspigot.utils/KSpigotFireworkBuilder/applyTo/#org.bukki
 $dokka.location:net.axay.kspigot.utils/KSpigotFireworkBuilder/effect/#kotlin.Function1[net.axay.kspigot.utils.FireworkEffectBuilder,kotlin.Unit]/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-k-spigot-firework-builder/effect.html
 $dokka.location:net.axay.kspigot.utils/KSpigotFireworkBuilder/effects/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-k-spigot-firework-builder/effects.html
 $dokka.location:net.axay.kspigot.utils/KSpigotFireworkBuilder/power/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-k-spigot-firework-builder/power.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap///PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/index.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap/OnlinePlayerMap/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/-online-player-map.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap/get/#org.bukkit.entity.Player/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/get.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap/internalMap/#/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/internal-map.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap/minusAssign/#org.bukkit.entity.Player/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/minus-assign.html
+$dokka.location:net.axay.kspigot.utils/OnlinePlayerMap/set/#org.bukkit.entity.Player#TypeParam(bounds=[kotlin.Any?])/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-online-player-map/set.html
+$dokka.location:net.axay.kspigot.utils/PlayerMapHolder///PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-player-map-holder/index.html
 $dokka.location:net.axay.kspigot.utils/VerticalDirection.Companion///PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-vertical-direction/-companion/index.html
 $dokka.location:net.axay.kspigot.utils/VerticalDirection.Companion/fromLocation/#org.bukkit.Location/PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-vertical-direction/-companion/from-location.html
 $dokka.location:net.axay.kspigot.utils/VerticalDirection.DOWN///PointingToDeclaration/-k-spigot/net.axay.kspigot.utils/-vertical-direction/-d-o-w-n/index.html
@@ -1157,6 +1208,7 @@ $dokka.location:net.axay.kspigot.utils/VerticalDirection/facing/#/PointingToDecl
 net.axay.kspigot.annotations
 net.axay.kspigot.chat
 net.axay.kspigot.chat.input
+net.axay.kspigot.commands
 net.axay.kspigot.config
 net.axay.kspigot.data
 net.axay.kspigot.event
