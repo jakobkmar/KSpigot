@@ -117,3 +117,15 @@ literalText("base text") {
     }
 }
 ```
+
+## Add legacy chat components
+
+You can add legacy text if you want to use the old color codes for some reason.
+
+```kotlin
+literalText("base text") {
+    legacyText("§cthis text is red") {
+        // optional text body to format the legacy text
+    }
+}
+```
