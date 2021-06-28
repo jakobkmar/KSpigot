@@ -39,6 +39,7 @@ nav:
       - Event listener: extensions/listener.md
       - Tasks: extensions/tasks.md
       - Item builder: extensions/itembuilder.md
+      - Literal text: extensions/literal_text.md
   - Gui:
       - Compounds: gui/compounds.md
   - Commands:
