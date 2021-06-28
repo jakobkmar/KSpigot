@@ -4,92 +4,42 @@
 [ ![Guide](https://img.shields.io/badge/guide-read-%23c2ff73?style=for-the-badge) ](https://bluefireoly.github.io/KSpigot/)
 [ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ) <br>
 
+KSpigot is a Kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft. It adds
+lots of useful features, builders and extensions for the Spigot API itself - but KSpigot also brings new things like an
+Inventory GUI API, or Brigardier support.
+
 ## Dependency
 
 KSpigot is available on Maven Central.
 
 Gradle:
+
 ```kt
-implementation("net.axay:kspigot:insertversion")
+implementation("net.axay:kspigot:$kspigotVersion")
 ```
-Read the [guide](https://bluefireoly.github.io/KSpigot/) to get started!
 
-## About
+Read the [setup guide](https://bluefireoly.github.io/KSpigot/setup/gradle.html) to get started!
 
-KSpigot is a kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft.
+## Guide
 
-KSpigot adds functionality missing in spigot and makes it possible to do things the kotlin way.
-
-<details>
-<summary><b>Notice</b></summary>
-<p>
-
-Extensions marked with the annotation `@NMS_GENERAL` are unstable. 
-
-Extensions marked with the `@UnsafeImplementaion` annotation do not promise to always give the correct result, but are still useful and therefore included in the project. This readme does not contain any unsafe parts of KSpigot.
-
-Please keep in mind that this extensions is still in a more early stage of development - some parts of the API may change in future versions.
-
-</p>
-</details>
+You will find the best information about KSpigot in the [guide](https://bluefireoly.github.io/KSpigot/).
 
 ## Contact
 
 Join our Discord Server (click on the badge above)
 
-## First of all
+## Old tutorials
 
-**Inherit from `KSpigot` instead of `JavaPlugin` in your main class** <br>
-```kotlin
-class MyPluginMain : KSpigot()
-```
+The following content consist of some features which haven't already been migrated to the new
+[guide](https://bluefireoly.github.io/KSpigot/).
 
-**Replaced methods:**
-(override these instead)
-```kotlin
-onLoad() with load()
-onEnable() with startup()
-onDisable() with shutdown()
-```
+### Chainable runnables
 
-## Examples
-
-### Simple runnables and schedulers:
+This makes it possible to do resource intensive tasks asynchronous and then doing something with the result
+synchronous (e.g. because Spigot forces you) in a simple way.
 
 ```kotlin
-async { /* short form for async tasks */ }
-```
-```kotlin
-sync { /* sync some code to bukkits main thread */ }
-```
-
-```kotlin
-task(
-    sync = false,
-    delay = 25,
-    period = 20,
-    howOften = 5
-) { 
-    // runnable code...
-
-    // you can access the following counter variables in here
-    println(counterUp) // starting from zero
-    println(counterDownToOne) // starting from howOften
-    println(counterDownToZero) // starting from howOften - 1
-}
-```
-NOTE: The counters are nullable, because howOften is (when null) infinite.
-
-#### Safe runnables
-
-With the `kSpigot.task()` method you have the possibility to set the parameter `safe = true`. When doing this, the defined `endCallback` will be executed under any circumstances (except a major server crash). If you define `endCallback`, but do not set `safe = true` the `endCallback` will only be executed when the task ends, because the limit of `howOften` was reached.
-
-#### Chainable runnables
-
-This makes it possible to do resource intensive tasks asynchronous and then doing something with the result synchronous (e.g. because Spigot forces you) in a simple way.
-
-```kotlin
-firstAsync { 
+firstAsync {
     // do a resource intensive task
     ArrayList<Block>() // -> this will be forwarded to the next part of the chain as "it"
 }.thenSync {
@@ -102,11 +52,12 @@ firstAsync {
 
 ### Inventory GUI API
 
-Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot Inventory GUI API provides an easy way to build inventory GUIs the way you would expect such an API to be. In addition, it offers full type safety for slots.
+Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot
+Inventory GUI API provides an easy way to build inventory GUIs the way you would expect such an API to be. In addition,
+it offers full type safety for slots.
 
 ```kotlin
 val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
-
     title = "Example Inventory"
 
     page(0) {
@@ -116,7 +67,6 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
     }
 
     page(1) {
-
         // define fancy transitions
         transitionFrom = PageChangeEffect.SLIDE_HORIZONTALLY
         transitionTo = PageChangeEffect.SLIDE_HORIZONTALLY
@@ -136,7 +86,6 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
 
         // a slot where player interaction is permitted
         freeSlot(Slots.RowTwoSlotFive)
-
     }
 
     page(2) {
@@ -146,77 +95,54 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
         // change to a specific page
         pageChanger(Slots.RowThreeSlotFive, ItemStack(Material.DIAMOND), 1)
     }
-
 }
 ```
-This example: _This inventory has three pages. On page 1, there is a button for generating random ItemStacks. The player can take out this ItemStack and move it to his own inventory._
+
+This example: _This inventory has three pages. On page 1, there is a button for generating random ItemStacks. The player
+can take out this ItemStack and move it to his own inventory._
 
 Then you can open the GUI for any player.
+
 ```kotlin
 player.openGUI(gui)
 ```
 
-### Item Builder
-
-```kotlin
-val wand = itemStack(Material.GOLD_BLOCK) {
-           
-    amount = 3
-    
-    addEnchantment(Enchantment.KNOCKBACK, 2)
-    
-    meta {
-    
-       name = "${ChatColor.GOLD}Magic wand"
-       isUnbreakable = true
-    
-       addLore {
-           + "This wand is truly special."
-           + "Try it!"
-       }
-    
-       customModel = 1001
-    
-       flag(ItemFlag.HIDE_UNBREAKABLE)
-    
-    }
-           
-}
-```
-
 ### Complex chat components
 
-Creating chat components can get very messy quickly. However, creating a component with KSpigot is much more developer-friendly.
+**DEPRECATED** Use `literalText` instead. More info will be available in the guide soon.
+
+Creating chat components can get very messy quickly. However, creating a component with KSpigot is much more
+developer-friendly.
 
 ```kotlin
 val component = chatComponent {
-
     text("You got a friend request! ") {
         color = col("#4FEA40")
         isBold = true
     }
-    
-    text("[Accept]") { 
+
+    text("[Accept]") {
         color = ChatColor.WHITE
         clickEvent(ClickEvent.Action.RUN_COMMAND, "friend accept Foo")
-        hoverEventText { 
+        hoverEventText {
             text("Click here to accept the friend request!") { color = ChatColor.RED }
         }
     }
-
 }
 ```
 
 You can also access the builder and immediately send the message.
+
 ```kotlin
 commandSender.sendMessage { /* same in here as above */ }
 ```
 
 ### Firework API
 
-Tutorial coming soon... (after Firework API overhaul)
+Tutorial still missing, both here and in the guide
 
 ### NBTData support
+
 Typesafe and consistent
 
 ```kotlin
@@ -241,7 +167,7 @@ val deserializeMethod1 = NBTData(serializedString)
 val deserializeMethod2 = NBTData.deserialize(serializedString)
 ```
 
-### Simple extension methods / values (with kotlin getters)
+### Simple extension functions and values
 
 ```kotlin
 livingEntity.isInWater // checks if both feet and head are in water
@@ -262,6 +188,7 @@ prepareItemCraftEvent.cancel() // cancels the PrepareItemCraftEvent
 ```
 
 ### Direction API
+
 Handles the hassle of struggling with direction angles for you.
 
 ```kotlin
@@ -273,8 +200,10 @@ val blockFace = cardinal.facing
 ```
 
 ### CustomItemIdentifiers
+
 You want to mess with resourcepacks and extend your possibilities? <br>
-Spigot is lacking a representation of custom items (via custom model data). This is what the data class `CustomItemIdentifier` is for.
+Spigot is lacking a representation of custom items (via custom model data). This is what the data
+class `CustomItemIdentifier` is for.
 
 ```kotlin
 val identifier = CustomItemIdentifier(itemStack)
@@ -286,7 +215,9 @@ val stack = identifier.itemStack
 ```
 
 ### Flexible and chainable geometry syntax
-Makes complex modification of locations and vectors more intuitive. Also, you can use any type of number (`Short`, `Int`, `Long`, `Float`, `Double`) you want. You do not have to mess with different data types.
+
+Makes complex modification of locations and vectors more intuitive. Also, you can use any type of number (`Short`, `Int`
+, `Long`, `Float`, `Double`) you want. You do not have to mess with different data types.
 
 ```kotlin
 loc increaseX 3 reduce vec(3.0, 1.5f, 3) increaseYZ 5.7
@@ -294,27 +225,9 @@ loc + vecXY(3, 7f) - vecZ(3)
 loc - vec(x = 3, z = 5.6f) * 3 * vecXZ(7, 3.1)
 ```
 
-### Listeners made easy
-Kotlins' language design allows you to create listeners in a very short way.
-
-```kotlin
-listen<PlayerMoveEvent> {
-    it.player.kick("Do not move!")
-}
-```
-NOTE:
- - This method automatically registers the listener.
- - The `listen<Event>` method returns the listener instance.
-
-The following extension methods can be used on any listener:
-```kotlin
-listener.register()
-listener.unregister()
-```
-
 ### Structures
 
-A structure is a set of data defining what is inside of a specific area.
+A structure is a set of data defining what is inside a specific area.
 
 #### LocationArea
 
@@ -334,6 +247,7 @@ area.entities.forEach { /* execute task for each entity in the area*/ }
 #### Loading a structure
 
 A structure can be loaded from any given LocationArea:
+
 ```kotlin
 val structure = area.loadStructure(includeBlocks = true, includeEntities = false)
 ```
@@ -364,7 +278,7 @@ val circle = ParticleCircle(radius, particle(Particle.HEART) { amount = 5 })
 val circle = EntityCircle(radius, EntityType.COW)
 ```
 
-A circle can be filled or it can only consist of its border (edge).
+A circle can be filled, or it can only consist of its border (edge).
 
 ```kotlin
 // get all circle locations
@@ -378,7 +292,8 @@ circle.edgeStructure
 
 ### IP Address API
 
-This API allows you to easily get some data from the IP address of a player. Please note that it is not promised that this always returns data: _After exceeding a certain amount of request per minute, the request will return null._
+This API allows you to easily get some data from the IP address of a player. Please note that it is not promised that
+this always returns data: _After exceeding a certain amount of request per minute, the request will return null._
 
 ```kotlin
 player.ipAddressData
@@ -387,6 +302,7 @@ player.ipAddressData(IPAddressDataLanguage.GERMAN)
 ```
 
 What kind of data is available?
+
 ```kotlin
 ipData ?: return
 
@@ -416,6 +332,7 @@ particle.spawnFor(player)
 ```
 
 You can also access the builder as follows (and instantly spawn the particle).
+
 ```kotlin
 loc.particle(Particle.HEART) { }
 player.particle(Particle.HEART) { }
@@ -423,13 +340,12 @@ player.particle(Particle.HEART) { }
 
 ### GamePhase API
 
-Game phases are commonly used with minigames. This is why KSpigot provides a general way to create such a game phase system quickly.
+Game phases are commonly used with minigames. This is why KSpigot provides a general way to create such a game phase
+system quickly.
 
 ```kotlin
 val game = buildGame {
-
     phase(length) {
-
         counterMessage("The game will start in", "seconds", "second", ">>", ".")
 
         end {
@@ -438,7 +354,6 @@ val game = buildGame {
     }
 
     phase(length) {
-
         // alternative counterMessage implementation
         counterMessage {
             ">> The special event will start in $it seconds."
@@ -446,15 +361,10 @@ val game = buildGame {
 
         start { /* do something in the beginning of the gamephase */ }
         end { /* e.g. start the event */ }
-
     }
-
 }
 
 game.begin()
 ```
+
 Idle phases are still in development.
-
-<br>
-
-> Any questions? Feel free to contact me!
