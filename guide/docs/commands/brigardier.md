@@ -10,7 +10,7 @@ command("mycommand") {
 
 ## Register the command
 
-The command will be automatically register by default, **if you are initializing it before the end of the `startup` call
+The command will be automatically registered by default, **if you are initializing it before the end of the `startup` call
 to your plugin.**
 
 Otherwise, you can register it manually using the `command.register()` function (where command is the command instance
