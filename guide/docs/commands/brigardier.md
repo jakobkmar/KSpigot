@@ -98,7 +98,7 @@ You can provide argument suggestions using the `simpleSuggests` function. It is 
 `suggests` function.
 
 ```kotlin
-simpleSuggests { Material.values().map { it.name } }
+simpleSuggests { Material.values().toList() }
 ```
 
 It is okay to do heavy operations inside this function. Suggestions are asynchronous. The body of the `simpleSuggests`
