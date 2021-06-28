@@ -107,6 +107,26 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
     }
 
     /**
+     * Sets the command which should be executed by the Player if he clicks
+     * on the text.
+     *
+     * @param command the command which should be executed, the `/ should be added here
+     * @param onlySuggest if true, the command won't be executed immediately,
+     * instead it will be suggested in the command prompt
+     */
+    fun onClickCommand(command: String, onlySuggest: Boolean = false) {
+        clickEvent = ClickEvent(if (onlySuggest) ClickEvent.Action.SUGGEST_COMMAND else ClickEvent.Action.RUN_COMMAND, command)
+    }
+
+    /**
+     * Sets the String which should be copied to the clipboard if the
+     * Player clicks on this text.
+     */
+    fun onClickCopy(copyText: String) {
+        clickEvent = ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText)
+    }
+
+    /**
      * Adds a line break.
      */
     fun newLine() {
