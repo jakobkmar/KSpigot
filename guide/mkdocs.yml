@@ -43,5 +43,6 @@ nav:
       - Compounds: gui/compounds.md
   - Commands:
       - Brigardier: commands/brigardier.md
+      - Brigardier example: commands/brigardier_example.md
   - Migration:
       - "1.16 -> 1.17": migration/1_16_to_1_17.md
