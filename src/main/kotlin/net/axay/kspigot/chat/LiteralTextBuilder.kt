@@ -129,7 +129,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         this@LiteralTextBuilder.clickEvent?.let { clickEvent = it }
         this@LiteralTextBuilder.hoverEvent?.let { hoverEvent = it }
 
-        if (siblingText.extra.isNotEmpty())
+        if (siblingText.extra?.isNotEmpty() == true)
             addExtra(siblingText)
     }
 }
