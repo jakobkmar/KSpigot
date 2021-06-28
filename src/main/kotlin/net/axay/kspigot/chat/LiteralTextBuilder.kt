@@ -27,6 +27,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
     var italic: Boolean? = null
     var underline: Boolean? = null
     var strikethrough: Boolean? = null
+    var obfuscate: Boolean? = null
 
     /**
      * The text color.
@@ -125,6 +126,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         this@LiteralTextBuilder.italic?.let { isItalic = it }
         this@LiteralTextBuilder.underline?.let { isUnderlined = it }
         this@LiteralTextBuilder.strikethrough?.let { isStrikethrough = it }
+        this@LiteralTextBuilder.obfuscate?.let { isObfuscated = it }
         this@LiteralTextBuilder.color?.let { color = it }
         this@LiteralTextBuilder.clickEvent?.let { clickEvent = it }
         this@LiteralTextBuilder.hoverEvent?.let { hoverEvent = it }
