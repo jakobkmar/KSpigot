@@ -5,11 +5,15 @@ import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
+import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.future.asCompletableFuture
 import net.minecraft.commands.CommandListenerWrapper
+import net.minecraft.network.chat.ChatMessage
+import org.bukkit.World
+import org.bukkit.entity.Player
 
 /**
  * Create a new command.
@@ -21,7 +25,7 @@ import net.minecraft.commands.CommandListenerWrapper
 inline fun command(
     name: String,
     register: Boolean = true,
-    builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit
+    builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit,
 ): LiteralArgumentBuilder<CommandListenerWrapper> =
     LiteralArgumentBuilder.literal<CommandListenerWrapper>(name).apply(builder).apply {
         if (register)
@@ -32,7 +36,7 @@ inline fun command(
  * Add custom execution logic for this command.
  */
 inline fun <S> ArgumentBuilder<S, *>.simpleExecutes(
-    crossinline executor: (CommandContext<S>) -> Unit
+    crossinline executor: (CommandContext<S>) -> Unit,
 ) {
     executes wrapped@{
         executor.invoke(it)
@@ -47,7 +51,7 @@ inline fun <S> ArgumentBuilder<S, *>.simpleExecutes(
  */
 inline fun ArgumentBuilder<CommandListenerWrapper, *>.literal(
     name: String,
-    builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit
+    builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit,
 ) {
     then(command(name, false, builder))
 }
@@ -61,7 +65,7 @@ inline fun ArgumentBuilder<CommandListenerWrapper, *>.literal(
 inline fun <T> ArgumentBuilder<CommandListenerWrapper, *>.argument(
     name: String,
     type: ArgumentType<T>,
-    builder: RequiredArgumentBuilder<CommandListenerWrapper, T>.() -> Unit
+    builder: RequiredArgumentBuilder<CommandListenerWrapper, T>.() -> Unit,
 ) {
     then(RequiredArgumentBuilder.argument<CommandListenerWrapper, T>(name, type).apply(builder))
 }
@@ -72,7 +76,7 @@ private val argumentCoroutineScope = CoroutineScope(Dispatchers.IO)
  * Add custom suspending suggestion logic for an argument.
  */
 fun <S> RequiredArgumentBuilder<S, *>.simpleSuggests(
-    suggestionBuilder: suspend (CommandContext<S>) -> Iterable<Any?>?
+    suggestionBuilder: suspend (CommandContext<S>) -> Iterable<Any?>?,
 ) {
     suggests { context, builder ->
         argumentCoroutineScope.async {
@@ -92,3 +96,16 @@ fun <S> RequiredArgumentBuilder<S, *>.simpleSuggests(
  */
 inline fun <reified T> CommandContext<CommandListenerWrapper>.getArgument(name: String): T =
     getArgument(name, T::class.java)
+
+private val REQUIRES_PLAYER_EXCEPTION = SimpleCommandExceptionType(ChatMessage("permissions.requires.player"))
+
+/**
+ * Returns the player who executed the command, or fails the command
+ * if it wasn't executed by a player.
+ */
+val CommandListenerWrapper.player get() = this.bukkitSender as? Player ?: throw REQUIRES_PLAYER_EXCEPTION.create()
+
+/**
+ * Returns the Bukkit world instance.
+ */
+val CommandListenerWrapper.bukkitWorld get() = world.world as World
