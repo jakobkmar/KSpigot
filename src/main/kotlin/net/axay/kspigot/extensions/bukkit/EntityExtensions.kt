@@ -1,7 +1,7 @@
 package net.axay.kspigot.extensions.bukkit
 
 import net.axay.kspigot.annotations.NMS_General
-import net.axay.kspigot.chat.chatComponent
+import net.axay.kspigot.chat.literalText
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.KSpigotMainInstance
 import net.axay.kspigot.pluginmessages.PluginMessageConnect
@@ -147,7 +147,7 @@ fun Player.getHandItem(hand: EquipmentSlot?) = when (hand) {
  * Sends the given [text] as an action bar message.
  */
 fun Player.actionBar(text: String) {
-    spigot().sendMessage(ChatMessageType.ACTION_BAR, *chatComponent { legacyText(text) })
+    spigot().sendMessage(ChatMessageType.ACTION_BAR, literalText { legacyText(text) })
 }
 
 /**
