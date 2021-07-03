@@ -30,8 +30,10 @@ nav:
   - Home: index.md
   - Setup:
       - For absolute beginners:
-          - Requirements: setup/beginners.md
-          - Starting a new project: setup/project.md
+          - Requirements: setup/beginners/beginners.md
+          - Starting a new project: setup/beginners/project.md
+          - Configure Java version: setup/beginners/java_version.md
+          - Add the Spigot dependency: setup/beginners/spigot_dependency.md
       - Setup using Gradle: setup/gradle.md
       - Build script example: setup/gradle_example.md
       - Entrypoint to your plugin: setup/entrypoint.md
