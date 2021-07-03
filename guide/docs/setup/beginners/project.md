@@ -7,6 +7,7 @@ You will need to have the JDK (Java Development Kit) installed.
 If you do not already have a JDK installed, you have several options:
 
 - [Windows](https://adoptopenjdk.net/)
+    - or using [Scoop](https://scoop.sh/) you can do [this](https://github.com/lukesampson/scoop/wiki/Java)
 - Arch `pacman -S jdk-openjdk` (refer to the [archwiki](https://wiki.archlinux.org/index.php/Java#OpenJDK) for other versions)
 - Debian `apt install default-jdk` (refer to the [Debian Wiki](https://wiki.debian.org/Java/) for other versions)
 
