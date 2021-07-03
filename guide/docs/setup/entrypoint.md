@@ -26,6 +26,11 @@ class InternalMainClass : KSpigot() {
     - `onEnable` becomes `startup`
     - `onDisable` becomes `shutdown`
 
+???+ warning "Be careful with the `load` function"
+    The `load()` function is called earlier than the safe `startup()` function.
+    During that time not all functionality of Spigot is available to your plugin, therefore you should prefer the
+    `startup()` function if possible.
+
 ### Make it globally available
 
 As noted above you cannot use `object` for the main class. Fortunately, due to the fact that there should always only exist one instance of your main class, you can provide it globally by building the main class as follows:
