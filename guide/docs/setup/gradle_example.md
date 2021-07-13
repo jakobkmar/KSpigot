@@ -4,10 +4,10 @@ An example for a `build.gradle.kts` file of a project using KSpigot would be:
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.10"
+    kotlin("jvm") version "1.5.21"
 }
 
-group = "net.axay"
+group = "your.group"
 version = "1.0-SNAPSHOT"
 
 repositories {
@@ -17,7 +17,7 @@ repositories {
 
 dependencies {
     compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
-    implementation("net.axay:kspigot:1.17.1")
+    implementation("net.axay:kspigot:1.17.2")
 }
 
 tasks {
