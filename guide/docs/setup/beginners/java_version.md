@@ -9,11 +9,12 @@ You can configure the Java version using Gradle:
 ```kotlin
 // set the Java version you are using, Java 16 is the minimum required version for Minecraft
 
-tasks.compileJava {
-    options.release.set(16)
-}
-
-tasks.compileKotlin {
-    kotlinOptions.jvmTarget = "16"
+tasks {
+    compileJava {
+        options.release.set(16)
+    }
+    compileKotlin {
+        kotlinOptions.jvmTarget = "16"
+    }
 }
 ```
