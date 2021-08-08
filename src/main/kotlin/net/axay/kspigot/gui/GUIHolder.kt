@@ -77,7 +77,7 @@ object GUIHolder : AutoCloseable {
 }
 
 private val InventoryAction.isGUIClick
-    get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF
+    get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF || this == InventoryAction.PICKUP_SOME || this == InventoryAction.PICKUP_ONE
 private val InventoryInteractEvent.playerOrCancel: Player?
     get() = (whoClicked as? Player) ?: kotlin.run {
         isCancelled = true
