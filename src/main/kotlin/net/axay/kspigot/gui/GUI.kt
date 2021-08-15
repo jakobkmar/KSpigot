@@ -19,6 +19,7 @@ class GUIData<T : ForInventory>(
     val transitionTo: InventoryChangeEffect?,
     val transitionFrom: InventoryChangeEffect?,
     internal val generalOnClick: ((GUIClickEvent<T>) -> Unit)?,
+    internal val onClose: ((InventoryCloseEvent) -> Unit)?
 )
 
 abstract class GUI<T : ForInventory>(
@@ -95,9 +96,15 @@ class GUIIndividual<T : ForInventory>(
     }
 
     init {
-        if (resetOnClose) {
+        if (resetOnClose || data.onClose != null) {
             listen<InventoryCloseEvent> {
-                deleteInstance(it.player as? Player ?: return@listen)
+                if (data.onClose != null && playerInstances[it.player]?.bukkitInventory == it.inventory) {
+                    data.onClose.invoke(it)
+                }
+
+                if (resetOnClose) {
+                    deleteInstance(it.player as? Player ?: return@listen)
+                }
             }
         }
 
