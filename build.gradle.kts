@@ -24,8 +24,8 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
 
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")

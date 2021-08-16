@@ -3,6 +3,7 @@
 package net.axay.kspigot.gui
 
 import net.axay.kspigot.gui.elements.*
+import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 
@@ -46,6 +47,8 @@ class GUIBuilder<T : ForInventory>(
 
     private var onClickElement: ((GUIClickEvent<T>) -> Unit)? = null
 
+    private var onClose: ((GUICloseEvent<T>) -> Unit)? = null
+
     /**
      * Opens the builder for a new page and adds
      * the new page to the GUI.
@@ -63,8 +66,16 @@ class GUIBuilder<T : ForInventory>(
         onClickElement = onClick
     }
 
+    /**
+     * A callback executed when the user closes
+     * the inventory.
+     */
+    fun onClose(onClose: (GUICloseEvent<T>) -> Unit) {
+        this.onClose = onClose
+    }
+
     internal fun build() = guiCreator.createInstance(
-        GUIData(type, title, guiPages, defaultPage, transitionTo, transitionFrom, onClickElement)
+        GUIData(type, title, guiPages, defaultPage, transitionTo, transitionFrom, onClickElement, onClose)
     )
 }
 
