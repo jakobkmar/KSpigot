@@ -47,7 +47,7 @@ class GUIBuilder<T : ForInventory>(
 
     private var onClickElement: ((GUIClickEvent<T>) -> Unit)? = null
 
-    private var onClose: ((InventoryCloseEvent) -> Unit)? = null
+    private var onClose: ((GUICloseEvent<T>) -> Unit)? = null
 
     /**
      * Opens the builder for a new page and adds
@@ -66,7 +66,11 @@ class GUIBuilder<T : ForInventory>(
         onClickElement = onClick
     }
 
-    fun onClose(onClose: (InventoryCloseEvent) -> Unit) {
+    /**
+     * A callback executed when the user closes
+     * the inventory.
+     */
+    fun onClose(onClose: (GUICloseEvent<T>) -> Unit) {
         this.onClose = onClose
     }
 
