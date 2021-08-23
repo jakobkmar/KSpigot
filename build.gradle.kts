@@ -1,6 +1,6 @@
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val githubRepo = "bluefireoly/KSpigot"
+val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
 version = "1.17.2"
