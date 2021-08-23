@@ -29,8 +29,9 @@ object BrigardierSupport {
      * and to manage and dispatch the brigardier commands for
      * all players on the server.
      */
+    @Suppress("HasPlatformType") // do not refer non-lazily to the type in this class
     @NMS_General
-    val commandManager: net.minecraft.commands.CommandDispatcher by lazy {
+    val commandManager by lazy {
         (server as CraftServer).server.commandDispatcher
     }
 
@@ -45,10 +46,13 @@ object BrigardierSupport {
 
     @NMS_General
     internal fun registerAll() {
-        commands.forEach { commandDispatcher.register(it) }
         executedDefaultRegistration = true
-        if (onlinePlayers.isNotEmpty())
-            updateCommandTree()
+
+        if (commands.isNotEmpty()) {
+            commands.forEach { commandDispatcher.register(it) }
+            if (onlinePlayers.isNotEmpty())
+                updateCommandTree()
+        }
     }
 
     @NMS_1_17
