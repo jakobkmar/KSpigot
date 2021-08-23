@@ -10,8 +10,6 @@ import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.extensions.server
 import net.axay.kspigot.utils.reflectField
 import net.minecraft.commands.CommandListenerWrapper
-import org.bukkit.craftbukkit.v1_17_R1.CraftServer
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer
 
 /**
  * This class provides Brigardier support. It does that
@@ -32,7 +30,7 @@ object BrigardierSupport {
     @Suppress("HasPlatformType") // do not refer non-lazily to the type in this class
     @NMS_General
     val commandManager by lazy {
-        (server as CraftServer).server.commandDispatcher
+        (server as org.bukkit.craftbukkit.v1_17_R1.CraftServer).server.commandDispatcher
     }
 
     /**
@@ -58,8 +56,8 @@ object BrigardierSupport {
     @NMS_1_17
     fun updateCommandTree() {
         onlinePlayers.forEach {
-            // send the command treee
-            commandManager.a((it as CraftPlayer).handle)
+            // send the command tree
+            commandManager.a((it as org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer).handle)
         }
     }
 
