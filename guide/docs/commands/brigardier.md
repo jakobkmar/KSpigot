@@ -1,5 +1,9 @@
 # Brigardier support
 
+???+ warning "Brigardier dependency for spigot-api users"
+    (You do only have to do the following if you are using the `spigot-api` instead of the `spigot` dependency!) <br>
+    Whilst Spigot itself depends on [Brigardier](https://github.com/Mojang/brigadier#gradle) the Spigot API doesn't so in order for this feature to work you need to add Brigardier as a `compileOnly` dependency. More information on that can be found here: [https://github.com/Mojang/brigadier#gradle](https://github.com/Mojang/brigadier#gradle)
+
 ## Create a command
 
 ```kotlin
