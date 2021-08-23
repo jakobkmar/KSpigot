@@ -2,7 +2,7 @@
 
 package net.axay.kspigot.runnables
 
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.Bukkit
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -77,21 +77,21 @@ fun task(
 
             if (isCancelled) {
                 if (safe || ranOut)
-                    KSpigotMainInstance.kRunnableHolder.activate(this)
+                    PluginInstance.kRunnableHolder.activate(this)
                 else
-                    KSpigotMainInstance.kRunnableHolder.remove(this)
+                    PluginInstance.kRunnableHolder.remove(this)
             }
         }
     }
 
-    if (endCallback != null) KSpigotMainInstance.kRunnableHolder.add(bukkitRunnable, endCallback, safe)
+    if (endCallback != null) PluginInstance.kRunnableHolder.add(bukkitRunnable, endCallback, safe)
 
     if (period != null)
-        if (sync) bukkitRunnable.runTaskTimer(KSpigotMainInstance, delay, period)
-        else bukkitRunnable.runTaskTimerAsynchronously(KSpigotMainInstance, delay, period)
+        if (sync) bukkitRunnable.runTaskTimer(PluginInstance, delay, period)
+        else bukkitRunnable.runTaskTimerAsynchronously(PluginInstance, delay, period)
     else
-        if (sync) bukkitRunnable.runTaskLater(KSpigotMainInstance, delay)
-        else bukkitRunnable.runTaskLaterAsynchronously(KSpigotMainInstance, delay)
+        if (sync) bukkitRunnable.runTaskLater(PluginInstance, delay)
+        else bukkitRunnable.runTaskLaterAsynchronously(PluginInstance, delay)
 
     return bukkitRunnable
 }
@@ -102,9 +102,9 @@ fun task(
  */
 fun taskRunLater(delay: Long, sync: Boolean = true, runnable: () -> Unit) {
     if (sync)
-        Bukkit.getScheduler().runTaskLater(KSpigotMainInstance, runnable, delay)
+        Bukkit.getScheduler().runTaskLater(PluginInstance, runnable, delay)
     else
-        Bukkit.getScheduler().runTaskLaterAsynchronously(KSpigotMainInstance, runnable, delay)
+        Bukkit.getScheduler().runTaskLaterAsynchronously(PluginInstance, runnable, delay)
 }
 
 /**
@@ -122,9 +122,9 @@ fun taskRun(sync: Boolean = true, runnable: () -> Unit) {
 /**
  * Starts a synchronous task.
  */
-fun sync(runnable: () -> Unit) = Bukkit.getScheduler().runTask(KSpigotMainInstance, runnable)
+fun sync(runnable: () -> Unit) = Bukkit.getScheduler().runTask(PluginInstance, runnable)
 
 /**
  * Starts an asynchronous task.
  */
-fun async(runnable: () -> Unit) = Bukkit.getScheduler().runTaskAsynchronously(KSpigotMainInstance, runnable)
+fun async(runnable: () -> Unit) = Bukkit.getScheduler().runTaskAsynchronously(PluginInstance, runnable)

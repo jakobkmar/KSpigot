@@ -9,9 +9,14 @@ import net.axay.kspigot.runnables.KRunnableHolder
 import org.bukkit.plugin.java.JavaPlugin
 
 /**
- * The main plugin instance.
+ * The main plugin instance. Available with public visibility.
  */
-lateinit var KSpigotMainInstance: KSpigot
+val KSpigotMainInstance: KSpigot get() = PluginInstance
+
+/**
+ * The main plugin instance. Less complicated name for internal usage.
+ */
+internal lateinit var PluginInstance: KSpigot
     private set
 
 /**
@@ -50,10 +55,10 @@ abstract class KSpigot : JavaPlugin() {
     open fun shutdown() {}
 
     final override fun onLoad() {
-        if (::KSpigotMainInstance.isInitialized) {
+        if (::PluginInstance.isInitialized) {
             console.warn("The main instance of KSpigot has been modified, even though it has already been set by another plugin!")
         }
-        KSpigotMainInstance = this
+        PluginInstance = this
         load()
     }
 

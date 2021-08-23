@@ -6,7 +6,7 @@ import net.axay.kspigot.event.listen
 import net.axay.kspigot.extensions.bukkit.content
 import net.axay.kspigot.items.itemStack
 import net.axay.kspigot.items.meta
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -67,7 +67,7 @@ internal abstract class PlayerInputBook<T>(
     }
 
     companion object {
-        val idKey = NamespacedKey(KSpigotMainInstance, "kspigot_bookinput_id")
+        val idKey = NamespacedKey(PluginInstance, "kspigot_bookinput_id")
 
         internal val usedIDs = ArrayList<Int>()
 

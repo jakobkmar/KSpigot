@@ -1,7 +1,7 @@
 package net.axay.kspigot.event
 
 import net.axay.kspigot.extensions.pluginManager
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.event.Event
 import org.bukkit.event.EventPriority
 import org.bukkit.event.HandlerList
@@ -25,7 +25,7 @@ inline fun <reified T : Event> Listener.register(
     ignoreCancelled: Boolean = false,
     noinline executor: (Listener, Event) -> Unit,
 ) {
-    pluginManager.registerEvent(T::class.java, this, priority, executor, KSpigotMainInstance, ignoreCancelled)
+    pluginManager.registerEvent(T::class.java, this, priority, executor, PluginInstance, ignoreCancelled)
 }
 
 /**
@@ -52,7 +52,7 @@ inline fun <reified T : Event> SingleListener<T>.register() {
         this,
         priority,
         { _, event -> (event as? T)?.let { this.onEvent(it) } },
-        KSpigotMainInstance,
+        PluginInstance,
         ignoreCancelled
     )
 }

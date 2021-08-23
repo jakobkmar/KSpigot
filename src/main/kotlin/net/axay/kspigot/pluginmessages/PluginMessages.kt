@@ -1,7 +1,7 @@
 package net.axay.kspigot.pluginmessages
 
 import net.axay.kspigot.extensions.onlinePlayers
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.entity.Player
 import java.io.ByteArrayOutputStream
 import java.io.DataInputStream
@@ -61,5 +61,5 @@ fun sendPluginMessageToBungeeCord(
     if (onResponse != null)
         BungeePluginMessageResponseCallback(subChannel, responseTimeout, onResponse)
 
-    player.sendPluginMessage(KSpigotMainInstance, "BungeeCord", msgbytes.toByteArray())
+    player.sendPluginMessage(PluginInstance, "BungeeCord", msgbytes.toByteArray())
 }

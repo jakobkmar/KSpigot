@@ -1,6 +1,6 @@
 package net.axay.kspigot.extensions.bukkit
 
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.TabCompleter
 
@@ -10,7 +10,7 @@ import org.bukkit.command.TabCompleter
  * @return If the command was registered successfully.
  */
 fun CommandExecutor.register(commandName: String): Boolean {
-    KSpigotMainInstance.getCommand(commandName)?.let {
+    PluginInstance.getCommand(commandName)?.let {
         it.setExecutor(this)
         if (this is TabCompleter)
             it.tabCompleter = this

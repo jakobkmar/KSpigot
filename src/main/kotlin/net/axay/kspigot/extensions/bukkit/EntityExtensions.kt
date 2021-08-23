@@ -3,7 +3,7 @@ package net.axay.kspigot.extensions.bukkit
 import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.chat.literalText
 import net.axay.kspigot.extensions.onlinePlayers
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import net.axay.kspigot.pluginmessages.PluginMessageConnect
 import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
@@ -73,28 +73,28 @@ fun Player.feedSaturate() {
  * Hides the player for all [onlinePlayers].
  */
 fun Player.disappear() {
-    onlinePlayers.filter { it != this }.forEach { it.hidePlayer(KSpigotMainInstance, this) }
+    onlinePlayers.filter { it != this }.forEach { it.hidePlayer(PluginInstance, this) }
 }
 
 /**
  * Shows the player for all [onlinePlayers].
  */
 fun Player.appear() {
-    onlinePlayers.filter { it != this }.forEach { it.showPlayer(KSpigotMainInstance, this) }
+    onlinePlayers.filter { it != this }.forEach { it.showPlayer(PluginInstance, this) }
 }
 
 /**
  * Hides all online players from this player.
  */
 fun Player.hideOnlinePlayers() {
-    onlinePlayers.filter { it != this }.forEach { this.hidePlayer(KSpigotMainInstance, it) }
+    onlinePlayers.filter { it != this }.forEach { this.hidePlayer(PluginInstance, it) }
 }
 
 /**
  * Shows all online players to this player.
  */
 fun Player.showOnlinePlayers() {
-    onlinePlayers.filter { it != this }.forEach { this.showPlayer(KSpigotMainInstance, it) }
+    onlinePlayers.filter { it != this }.forEach { this.showPlayer(PluginInstance, it) }
 }
 
 /**

@@ -1,6 +1,6 @@
 package net.axay.kspigot.extensions
 
-import net.axay.kspigot.main.KSpigotMainInstance
+import net.axay.kspigot.main.PluginInstance
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.command.CommandSender
@@ -46,4 +46,4 @@ val console get() = Bukkit.getConsoleSender()
 /**
  * Shortcut for creating a new [NamespacedKey]
  */
-fun pluginKey(key: String) = NamespacedKey(KSpigotMainInstance, key)
+fun pluginKey(key: String) = NamespacedKey(PluginInstance, key)
