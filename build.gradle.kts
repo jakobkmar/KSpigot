@@ -3,19 +3,19 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
-version = "1.17.2"
+version = "1.17.3"
 
 description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
 
 plugins {
-    kotlin("jvm") version "1.5.20"
+    kotlin("jvm") version "1.5.21"
 
     `java-library`
     `maven-publish`
     signing
 
-    id("org.jetbrains.dokka") version "1.4.32"
-    kotlin("plugin.serialization") version "1.5.20"
+    id("org.jetbrains.dokka") version "1.5.0"
+    kotlin("plugin.serialization") version "1.5.21"
 }
 
 repositories {
@@ -24,12 +24,12 @@ repositories {
 }
 
 dependencies {
-    compileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.17-R0.1-SNAPSHOT")
+    compileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
+    testCompileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.1")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.0")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.1")
 }
 
 tasks {
