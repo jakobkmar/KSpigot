@@ -30,6 +30,8 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.1")
+
+    api("me.lucko:commodore:1.10")
 }
 
 tasks {

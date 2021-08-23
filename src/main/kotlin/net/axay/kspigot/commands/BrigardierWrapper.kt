@@ -6,6 +6,7 @@ import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import com.mojang.brigadier.builder.RequiredArgumentBuilder
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
+import com.mojang.brigadier.tree.LiteralCommandNode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -26,10 +27,10 @@ inline fun command(
     name: String,
     register: Boolean = true,
     builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit,
-): LiteralArgumentBuilder<CommandListenerWrapper> =
-    LiteralArgumentBuilder.literal<CommandListenerWrapper>(name).apply(builder).apply {
+): LiteralCommandNode<CommandListenerWrapper> =
+    LiteralArgumentBuilder.literal<CommandListenerWrapper>(name).apply(builder).build().apply {
         if (register)
-            BrigardierSupport.commands += this
+            BrigardierSupport.register(name, this)
     }
 
 /**
