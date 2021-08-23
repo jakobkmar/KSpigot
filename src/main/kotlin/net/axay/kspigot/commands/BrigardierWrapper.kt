@@ -9,6 +9,7 @@ import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
 import com.mojang.brigadier.tree.LiteralCommandNode
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
 import kotlinx.coroutines.async
 import kotlinx.coroutines.future.asCompletableFuture
 import net.minecraft.commands.CommandListenerWrapper
@@ -53,9 +54,7 @@ inline fun <S> ArgumentBuilder<S, *>.simpleExecutes(
 inline fun ArgumentBuilder<CommandListenerWrapper, *>.literal(
     name: String,
     builder: LiteralArgumentBuilder<CommandListenerWrapper>.() -> Unit,
-) {
-    then(command(name, false, builder))
-}
+) = command(name, false, builder).also { then(it) }
 
 /**
  * Add an argument.
@@ -67,11 +66,10 @@ inline fun <T> ArgumentBuilder<CommandListenerWrapper, *>.argument(
     name: String,
     type: ArgumentType<T>,
     builder: RequiredArgumentBuilder<CommandListenerWrapper, T>.() -> Unit,
-) {
-    then(RequiredArgumentBuilder.argument<CommandListenerWrapper, T>(name, type).apply(builder))
-}
+): RequiredArgumentBuilder<CommandListenerWrapper, T> =
+    RequiredArgumentBuilder.argument<CommandListenerWrapper, T>(name, type).apply(builder).also { then(it) }
 
-private val argumentCoroutineScope = CoroutineScope(Dispatchers.IO)
+private val argumentCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 /**
  * Add custom suspending suggestion logic for an argument.
