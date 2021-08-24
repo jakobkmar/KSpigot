@@ -64,6 +64,17 @@ inline fun <T> ArgumentBuilder<CommandListenerWrapper, *>.argument(
 ): RequiredArgumentBuilder<CommandListenerWrapper, T> =
     RequiredArgumentBuilder.argument<CommandListenerWrapper, T>(name, type).apply(builder).also { then(it) }
 
+/**
+ * Add an argument.
+ *
+ * @param name the name of the argument
+ */
+inline fun <reified T> ArgumentBuilder<CommandListenerWrapper, *>.argument(
+    name: String,
+    builder: RequiredArgumentBuilder<CommandListenerWrapper, T>.() -> Unit,
+): RequiredArgumentBuilder<CommandListenerWrapper, T> =
+    RequiredArgumentBuilder.argument<CommandListenerWrapper, T>(name, ArgumentTypeUtils.fromReifiedType<T>()).apply(builder).also { then(it) }
+
 private val argumentCoroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
 /**
