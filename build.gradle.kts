@@ -19,6 +19,7 @@ plugins {
 }
 
 repositories {
+    maven("https://libraries.minecraft.net")
     mavenCentral()
     mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }

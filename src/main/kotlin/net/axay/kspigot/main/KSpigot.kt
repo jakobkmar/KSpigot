@@ -1,6 +1,5 @@
 package net.axay.kspigot.main
 
-import net.axay.kspigot.commands.BrigardierSupport
 import net.axay.kspigot.extensions.bukkit.warn
 import net.axay.kspigot.extensions.console
 import net.axay.kspigot.gui.GUIHolder
@@ -16,6 +15,7 @@ val KSpigotMainInstance: KSpigot get() = PluginInstance
 /**
  * The main plugin instance. Less complicated name for internal usage.
  */
+@PublishedApi
 internal lateinit var PluginInstance: KSpigot
     private set
 
@@ -64,7 +64,6 @@ abstract class KSpigot : JavaPlugin() {
 
     final override fun onEnable() {
         startup()
-        BrigardierSupport.registerAll()
     }
 
     final override fun onDisable() {
