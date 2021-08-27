@@ -30,6 +30,11 @@ val Entity.isFeetInWater: Boolean get() = this.location.block.type == Material.W
 val Entity.isGroundSolid: Boolean get() = this.location.add(0.0, -0.01, 0.0).block.type.isSolid
 
 /**
+ * Returns the material that is present under the feet of this entity.
+ */
+val Entity.groundMaterial get() = this.location.add(0.0, -0.01, 0.0).block.type
+
+/**
  * Kills the damageable.
  */
 fun Damageable.kill() {

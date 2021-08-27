@@ -3,6 +3,7 @@ package net.axay.kspigot.extensions
 import net.axay.kspigot.main.PluginInstance
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
+import org.bukkit.World
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 
@@ -47,3 +48,8 @@ val console get() = Bukkit.getConsoleSender()
  * Shortcut for creating a new [NamespacedKey]
  */
 fun pluginKey(key: String) = NamespacedKey(PluginInstance, key)
+
+/**
+ * Shortcut to get a collection of all worlds
+ */
+val worlds: List<World> get() = Bukkit.getWorlds()
