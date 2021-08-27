@@ -18,11 +18,11 @@ Gradle:
 implementation("net.axay:kspigot:$kspigotVersion")
 ```
 
-Read the [setup guide](https://bluefireoly.github.io/KSpigot/setup/gradle.html) to get started!
+Read the [setup guide](https://jakobkmar.github.io/KSpigot/setup/gradle.html) to get started!
 
 ## Guide
 
-You will find the best information about KSpigot in the [guide](https://bluefireoly.github.io/KSpigot/).
+You will find the best information about KSpigot in the [guide](https://jakobkmar.github.io/KSpigot/).
 
 ## Contact
 
