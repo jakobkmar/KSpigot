@@ -2,6 +2,7 @@ package net.axay.kspigot.extensions.bukkit
 
 import net.axay.kspigot.main.PluginInstance
 import net.md_5.bungee.api.ChatColor
+import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.plugin.Plugin
 
@@ -30,3 +31,9 @@ fun CommandSender.error(text: String, plugin: Plugin? = PluginInstance) =
  */
 fun CommandSender.printColoredPrefix(text: String, textColor: ChatColor, prefix: String, prefixColor: ChatColor) =
     sendMessage("${prefixColor}[${prefix}]${textColor} $text")
+
+/**
+ * Dispatches a command sent by Console
+ */
+fun dispatchCommand(commandLine: String) = Bukkit.dispatchCommand(Bukkit.getConsoleSender(), commandLine)
+
