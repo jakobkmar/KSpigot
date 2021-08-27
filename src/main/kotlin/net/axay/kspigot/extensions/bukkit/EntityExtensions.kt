@@ -30,10 +30,9 @@ val Entity.isFeetInWater: Boolean get() = this.location.block.type == Material.W
 val Entity.isGroundSolid: Boolean get() = this.location.add(0.0, -0.01, 0.0).block.type.isSolid
 
 /**
- * Checks if the entity stands on a specific material.
- * @param material the material you are looking for
+ * Returns the material that is present under the feet of this entity.
  */
-fun Entity.isOnMaterial(material: Material): Boolean = location.block.type == material
+val Entity.groundMaterial get() = this.location.add(0.0, -0.01, 0.0).block.type
 
 /**
  * Kills the damageable.

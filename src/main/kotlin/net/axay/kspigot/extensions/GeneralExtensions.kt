@@ -52,5 +52,4 @@ fun pluginKey(key: String) = NamespacedKey(PluginInstance, key)
 /**
  * Shortcut to get a collection of all worlds
  */
-val worlds: Collection<World> get() = Bukkit.getWorlds()
-
+val worlds: List<World> get() = Bukkit.getWorlds()

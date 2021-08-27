@@ -40,5 +40,8 @@ fun SimpleLocation3D.withWorld(world: World) = Location(world, x, y, z).apply { 
 fun SimpleChunkLocation.withWorld(world: World) = world.getChunkAt(x, z)
 fun Vector.toSimpleLoc() = SimpleLocation3D(x, y, z)
 fun SimpleLocation3D.toVector() = Vector(x, y, z)
-fun Location.printSimple(): String = "[$x, $y, $z]"
 
+/**
+ * Returns a simple string in the format of `[x, y, z]`.
+ */
+fun Location.toSimpleString() = "[$x, $y, $z]"

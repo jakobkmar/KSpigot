@@ -1,6 +1,5 @@
 package net.axay.kspigot.extensions.bukkit
 
-import net.axay.kspigot.extensions.console
 import net.axay.kspigot.main.PluginInstance
 import net.md_5.bungee.api.ChatColor
 import org.bukkit.Bukkit
@@ -34,7 +33,9 @@ fun CommandSender.printColoredPrefix(text: String, textColor: ChatColor, prefix:
     sendMessage("${prefixColor}[${prefix}]${textColor} $text")
 
 /**
- * Dispatches a command sent by Console
+ * Dispatches the command given by [commandLine].
+ *
+ * @param commandLine the command without a leading /
  */
-fun dispatchCommand(commandLine: String) = Bukkit.dispatchCommand(console, commandLine)
-
+fun CommandSender.dispatchCommand(commandLine: String) =
+    Bukkit.dispatchCommand(this, commandLine)
