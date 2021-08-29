@@ -4,7 +4,7 @@
 [ ![Guide](https://img.shields.io/badge/guide-read-%23c2ff73?style=for-the-badge) ](https://jakobkmar.github.io/KSpigot/)
 [ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ) <br>
 
-KSpigot is a Kotlin extension for the popular [spigot server software](https://spigotmc.org/) for minecraft. It adds
+KSpigot is a Kotlin library for the popular [spigot server software](https://spigotmc.org/) for minecraft. It adds
 lots of useful features, builders and extensions for the Spigot API itself - but KSpigot also brings new things like an
 Inventory GUI API, or Brigardier support.
 
