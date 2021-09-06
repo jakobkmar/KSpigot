@@ -2,14 +2,14 @@ package net.axay.kspigot.commands
 
 import com.mojang.brigadier.context.CommandContext
 import com.mojang.brigadier.exceptions.SimpleCommandExceptionType
-import net.minecraft.commands.CommandListenerWrapper
+import net.axay.kspigot.commands.internal.ServerCommandSource
 import net.minecraft.network.chat.ChatMessage
 import org.bukkit.Location
 import org.bukkit.Server
 import org.bukkit.World
 import org.bukkit.entity.Player
 
-class CommandContext(val nmsContext: CommandContext<CommandListenerWrapper>) {
+class CommandContext(val nmsContext: CommandContext<ServerCommandSource>) {
     companion object {
         private val REQUIRES_PLAYER_EXCEPTION = SimpleCommandExceptionType(ChatMessage("permissions.requires.player"))
     }

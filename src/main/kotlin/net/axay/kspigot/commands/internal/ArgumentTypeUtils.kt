@@ -1,4 +1,4 @@
-package net.axay.kspigot.commands
+package net.axay.kspigot.commands.internal
 
 import com.mojang.brigadier.arguments.*
 
