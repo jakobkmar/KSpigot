@@ -66,7 +66,7 @@ abstract class KSpigot : JavaPlugin() {
     final override fun onEnable() {
         startup()
 
-        // Only register the listeners, when the plugin is still enabled and didn't get disabled in the shutdown method
+        // only register the commands if the plugin has not disabled itself
         if (this.isEnabled) {
             BrigardierSupport.registerAll()
         }
