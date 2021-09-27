@@ -61,7 +61,7 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
 
     private fun recalculateCurrentContent() {
         if (scrollProgress > content.size)
-            throw IllegalStateException("The scrollProgress is greater than the content size.")
+            scrollProgress = content.size
         // avoid IndexOutOfBoundsException
         var sliceUntil = internalSlots.size + scrollProgress
         if (sliceUntil > content.lastIndex)
