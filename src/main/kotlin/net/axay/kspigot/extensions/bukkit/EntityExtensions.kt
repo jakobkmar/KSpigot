@@ -9,7 +9,7 @@ import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld
+import org.bukkit.craftbukkit.v1_18_R1.CraftWorld
 import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -116,7 +116,7 @@ fun Player.kick(reason: String? = "You got kicked!") {
 fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
     val craftWorld = world as? CraftWorld ?: return null
     return craftWorld.createEntity(this, entityType.entityClass)?.let {
-        craftWorld.handle.addEntity(it)
+        craftWorld.handle.b(it)
         return@let it.bukkitEntity
     }
 }

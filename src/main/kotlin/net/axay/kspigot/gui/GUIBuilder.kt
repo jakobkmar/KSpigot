@@ -3,7 +3,6 @@
 package net.axay.kspigot.gui
 
 import net.axay.kspigot.gui.elements.*
-import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 

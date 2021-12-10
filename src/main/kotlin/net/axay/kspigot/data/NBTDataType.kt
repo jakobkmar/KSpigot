@@ -11,47 +11,47 @@ interface NBTDataType<T> {
     companion object {
         val COMPOUND = nbtDataType<NBTData, NBTTagCompound>(
             { NBTData(it) },
-            { key, data, compound -> compound.set(key, data.nbtTagCompound) }
+            { key, data, compound -> compound.a(key, data.nbtTagCompound) }
         )
         val BYTE = nbtDataType<Byte, NBTTagByte>(
-            { it.asByte() },
-            { key, data, compound -> compound.setByte(key, data) }
+            { it.a() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val BYTE_ARRAY = nbtDataType<ByteArray, NBTTagByteArray>(
-            { it.bytes },
-            { key, data, compound -> compound.setByteArray(key, data) }
+            { it.d() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val DOUBLE = nbtDataType<Double, NBTTagDouble>(
-            { it.asDouble() },
-            { key, data, compound -> compound.setDouble(key, data) }
+            { it.i() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val FLOAT = nbtDataType<Float, NBTTagFloat>(
-            { it.asFloat() },
-            { key, data, compound -> compound.setFloat(key, data) }
+            { it.j() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val INT = nbtDataType<Int, NBTTagInt>(
-            { it.asInt() },
-            { key, data, compound -> compound.setInt(key, data) }
+            { it.f() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val INT_ARRAY = nbtDataType<IntArray, NBTTagIntArray>(
-            { it.ints },
-            { key, data, compound -> compound.setIntArray(key, data) }
+            { it.f() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val LONG = nbtDataType<Long, NBTTagLong>(
-            { it.asLong() },
-            { key, data, compound -> compound.setLong(key, data) }
+            { it.e() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val LONG_ARRAY = nbtDataType<LongArray, NBTTagLongArray>(
-            { it.longs },
-            { key, data, compound -> compound.set(key, NBTTagLongArray(data)) }
+            { it.f() },
+            { key, data, compound -> compound.a(key, NBTTagLongArray(data)) }
         )
         val SHORT = nbtDataType<Short, NBTTagShort>(
-            { it.asShort() },
-            { key, data, compound -> compound.setShort(key, data) }
+            { it.g() },
+            { key, data, compound -> compound.a(key, data) }
         )
         val STRING = nbtDataType<String, NBTTagString>(
-            { it.asString() },
-            { key, data, compound -> compound.setString(key, data) }
+            { it.e_() },
+            { key, data, compound -> compound.a(key, data) }
         )
     }
 }

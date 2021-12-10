@@ -46,7 +46,7 @@ object BrigardierSupport {
     @Suppress("HasPlatformType") // do not refer non-lazily to the type in this class
     @NMS_General
     val commandManager by lazy {
-        (server as org.bukkit.craftbukkit.v1_17_R1.CraftServer).server.vanillaCommandDispatcher
+        (server as org.bukkit.craftbukkit.v1_18_R1.CraftServer).server.vanillaCommandDispatcher
     }
 
     /**
@@ -76,7 +76,7 @@ object BrigardierSupport {
     fun updateCommandTree() {
         onlinePlayers.forEach {
             // send the command tree
-            commandManager.a((it as org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer).handle)
+            commandManager.a((it as org.bukkit.craftbukkit.v1_18_R1.entity.CraftPlayer).handle)
         }
     }
 }

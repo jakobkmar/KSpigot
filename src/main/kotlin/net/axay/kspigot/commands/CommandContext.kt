@@ -38,17 +38,17 @@ class CommandContext(val nmsContext: CommandContext<ServerCommandSource>) {
      * these cases are rare (e.g. command called by a datapack function), therefore
      * this property is not nullable for convenience
      */
-    val world get() = nmsContext.source.world.world as World
+    val world get() = nmsContext.source.e().world as World
 
     /**
      * The position of the source of this command.
      */
-    val position get() = with(nmsContext.source.position) {
-        Location(nmsContext.source.world.world as? World?, x, y, z)
+    val position get() = with(nmsContext.source.d()) {
+        Location(nmsContext.source.e().world as? World?, a(), b(), c())
     }
 
     /**
      * The current server instance.
      */
-    val server get() = nmsContext.source.server.server as Server
+    val server get() = nmsContext.source.e() as Server
 }
