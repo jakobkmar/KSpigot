@@ -2,7 +2,7 @@ package net.axay.kspigot.commands
 
 import com.mojang.brigadier.Command
 import com.mojang.brigadier.builder.ArgumentBuilder
-import net.axay.kspigot.commands.internal.ServerCommandSource
+import net.minecraft.commands.CommandSourceStack
 
 /**
  * Adds execution logic to this command. The place where this function
@@ -11,7 +11,7 @@ import net.axay.kspigot.commands.internal.ServerCommandSource
  *
  * @see com.mojang.brigadier.builder.ArgumentBuilder.executes
  */
-inline infix fun ArgumentBuilder<ServerCommandSource, *>.runs(
+inline infix fun ArgumentBuilder<CommandSourceStack, *>.runs(
     crossinline executor: CommandContext.() -> Unit,
 ) = this.apply {
     executes wrapped@{
@@ -39,6 +39,6 @@ infix fun <S> ArgumentBuilder<S, *>.runs(executor: Command<S>) =
     "The name 'simpleExecutes' has been superseded by 'runs'.",
     ReplaceWith("runs { executor.invoke() }")
 )
-inline infix fun ArgumentBuilder<ServerCommandSource, *>.simpleExecutes(
+inline infix fun ArgumentBuilder<CommandSourceStack, *>.simpleExecutes(
     crossinline executor: CommandContext.() -> Unit,
 ) = runs(executor)

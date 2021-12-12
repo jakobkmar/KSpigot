@@ -3,7 +3,7 @@ package net.axay.kspigot.commands
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.axay.kspigot.commands.internal.BrigardierSupport
-import net.axay.kspigot.commands.internal.ServerCommandSource
+import net.minecraft.commands.CommandSourceStack
 
 /**
  * Creates a new command.
@@ -14,9 +14,9 @@ import net.axay.kspigot.commands.internal.ServerCommandSource
 inline fun command(
     name: String,
     register: Boolean = true,
-    builder: LiteralArgumentBuilder<ServerCommandSource>.() -> Unit
-): LiteralArgumentBuilder<ServerCommandSource> =
-    LiteralArgumentBuilder.literal<ServerCommandSource>(name).apply(builder).apply {
+    builder: LiteralArgumentBuilder<CommandSourceStack>.() -> Unit
+): LiteralArgumentBuilder<CommandSourceStack> =
+    LiteralArgumentBuilder.literal<CommandSourceStack>(name).apply(builder).apply {
         if (register)
             BrigardierSupport.commands += this
     }
@@ -26,7 +26,7 @@ inline fun command(
  *
  * @param name the name of the literal
  */
-inline fun ArgumentBuilder<ServerCommandSource, *>.literal(
+inline fun ArgumentBuilder<CommandSourceStack, *>.literal(
     name: String,
-    builder: LiteralArgumentBuilder<ServerCommandSource>.() -> Unit = {}
+    builder: LiteralArgumentBuilder<CommandSourceStack>.() -> Unit = {}
 ) = command(name, false, builder).also { then(it) }

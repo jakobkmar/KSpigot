@@ -4,7 +4,7 @@ import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
 import net.axay.kspigot.annotations.NMS_General
 import net.axay.kspigot.commands.internal.BrigardierSupport
-import net.minecraft.commands.CommandListenerWrapper
+import net.minecraft.commands.CommandSourceStack
 
 /**
  * Registers this command at the [CommandDispatcher] of the server.
@@ -14,11 +14,11 @@ import net.minecraft.commands.CommandListenerWrapper
  * calling this function as the server is starting
  */
 @NMS_General
-fun LiteralArgumentBuilder<CommandListenerWrapper>.register(sendToPlayers: Boolean = true) {
+fun LiteralArgumentBuilder<CommandSourceStack>.register(sendToPlayers: Boolean = true) {
     if (!BrigardierSupport.executedDefaultRegistration)
         BrigardierSupport.commands += this
     else {
-        BrigardierSupport.commandDispatcher.register(this)
+        BrigardierSupport.resolveCommandManager().dispatcher.register(this)
         if (sendToPlayers)
             BrigardierSupport.updateCommandTree()
     }

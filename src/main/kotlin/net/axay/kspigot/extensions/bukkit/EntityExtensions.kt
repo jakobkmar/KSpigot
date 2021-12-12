@@ -9,7 +9,6 @@ import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.craftbukkit.v1_17_R1.CraftWorld
 import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
@@ -103,20 +102,14 @@ fun Player.showOnlinePlayers() {
 }
 
 /**
- * Kicks the player from the server.
- */
-fun Player.kick(reason: String? = "You got kicked!") {
-    kickPlayer(reason)
-}
-
-/**
  * Spawns an entity without any variations in color, type etc...
  */
+@Deprecated("This function is unstable and it cannot be guaranteed that it will work at any time in the future.")
 @NMS_General
 fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
-    val craftWorld = world as? CraftWorld ?: return null
+    val craftWorld = world as? org.bukkit.craftbukkit.v1_18_R1.CraftWorld ?: return null
     return craftWorld.createEntity(this, entityType.entityClass)?.let {
-        craftWorld.handle.addEntity(it)
+        craftWorld.handle.addFreshEntity(it)
         return@let it.bukkitEntity
     }
 }
@@ -135,6 +128,7 @@ fun Player.title(
     stay: Int = 70,
     fadeOut: Int = 20,
 ) {
+    @Suppress("DEPRECATION")
     sendTitle(mainText, subText, fadeIn, stay, fadeOut)
 }
 

@@ -1,15 +1,16 @@
 package net.axay.kspigot.structures
 
 import net.axay.kspigot.annotations.NMS_General
-import net.axay.kspigot.data.NBTData
 import net.axay.kspigot.data.nbtData
 import net.axay.kspigot.extensions.bukkit.spawnCleanEntity
 import net.axay.kspigot.extensions.geometry.SimpleLocation3D
 import net.axay.kspigot.particles.KSpigotParticle
+import net.minecraft.nbt.CompoundTag
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
+import org.bukkit.craftbukkit.v1_18_R1.entity.CraftEntity
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 
@@ -54,13 +55,13 @@ data class StructureDataBlock(
 @NMS_General
 data class StructureDataEntity(
     val entityType: EntityType,
-    val nbtData: NBTData,
+    val nbtData: CompoundTag,
 ) : StructureData {
     constructor(entity: Entity) : this(entity.type, entity.nbtData)
-    constructor(entityType: EntityType) : this(entityType, NBTData())
+    constructor(entityType: EntityType) : this(entityType, CompoundTag())
 
     override fun createAt(loc: Location) {
-        loc.spawnCleanEntity(entityType)?.nbtData = nbtData
+        (loc.spawnCleanEntity(entityType) as CraftEntity).handle.load(nbtData)
     }
 }
 
