@@ -71,6 +71,8 @@ publishing {
     publications {
         create<MavenPublication>(project.name) {
             artifact(tasks.reobfJar)
+            artifact(tasks.named("javadocJar"))
+            artifact(tasks.named("sourcesJar"))
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.toLowerCase()
