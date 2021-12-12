@@ -47,4 +47,5 @@ nav:
       - Brigardier: commands/brigardier.md
       - Brigardier example: commands/brigardier_example.md
   - Migration:
-      - "1.16 -> 1.17": migration/1_16_to_1_17.md
+      - "1.17 to 1.18": migration/1_17_to_1_18.md
+      - "1.16 to 1.17": migration/1_16_to_1_17.md
