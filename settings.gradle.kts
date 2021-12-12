@@ -1,14 +1,8 @@
 rootProject.name = "KSpigot"
 
-/*
- * PLUGINS
- */
-
 pluginManagement {
-
     repositories {
         gradlePluginPortal()
-        jcenter()
+        maven("https://papermc.io/repo/repository/maven-public/")
     }
-
 }

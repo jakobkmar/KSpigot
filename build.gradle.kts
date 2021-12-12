@@ -3,43 +3,43 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
-version = "1.17.4"
+version = "1.18.0"
 
-description = "A Kotlin API for the Minecraft Server Software \"Spigot\"."
+description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.6.0"
 
     `java-library`
     `maven-publish`
     signing
 
-    id("org.jetbrains.dokka") version "1.5.0"
-    kotlin("plugin.serialization") version "1.5.21"
+    id("org.jetbrains.dokka") version "1.6.0"
+    kotlin("plugin.serialization") version "1.6.0"
+
+    id("io.papermc.paperweight.userdev") version "1.3.1"
 }
 
 repositories {
     mavenCentral()
-    mavenLocal() // to get the locally available binaries of spigot (use the BuildTools)
 }
 
 dependencies {
-    compileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
-    testCompileOnly("org.spigotmc", "spigot", "1.17.1-R0.1-SNAPSHOT")
+    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.2.2")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.5.1")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.5.1")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0-RC2")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0-RC2")
 }
 
 tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
-        options.release.set(16)
+        options.release.set(17)
     }
 
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
     }
 
     dokkaHtml.configure {
@@ -78,14 +78,14 @@ publishing {
 
                 developers {
                     developer {
-                        name.set("bluefireoly")
+                        name.set("jakobkmar")
                     }
                 }
 
                 licenses {
                     license {
-                        name.set("The Apache License, Version 2.0")
-                        url.set("https://www.apache.org/licenses/LICENSE-2.0.txt")
+                        name.set("GNU General Public License, Version 3")
+                        url.set("https://www.gnu.org/licenses/gpl-3.0.en.html")
                     }
                 }
 
