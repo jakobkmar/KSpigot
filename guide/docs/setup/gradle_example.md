@@ -1,10 +1,14 @@
-An example for a `build.gradle.kts` file of a project using KSpigot would be:
+An example for a Gradle build script of a project using KSpigot would be:
 
+*(please note that the version in the following examples might be outdated)*
+
+`build.gradle.kts`
 ```kotlin
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.5.21"
+    kotlin("jvm") version "1.6.0"
+    id("io.papermc.paperweight.userdev") version "1.3.1"
 }
 
 group = "your.group"
@@ -12,21 +16,35 @@ version = "1.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
-    maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots")
 }
 
 dependencies {
-    compileOnly("org.spigotmc:spigot-api:1.17-R0.1-SNAPSHOT")
-    implementation("net.axay:kspigot:1.17.2")
+    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
+    implementation("net.axay:kspigot:1.18.0")
 }
 
 tasks {
+    build {
+        dependsOn(reobfJar)
+    }
     compileJava {
-        options.release.set(16)
         options.encoding = "UTF-8"
+        options.release.set(17)
     }
     compileKotlin {
-        kotlinOptions.jvmTarget = "16"
+        kotlinOptions.jvmTarget = "17"
+    }
+}
+```
+
+`settings.gradle.kts`
+```kotlin
+rootProject.name = "projectname"
+
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        maven("https://papermc.io/repo/repository/maven-public/")
     }
 }
 ```

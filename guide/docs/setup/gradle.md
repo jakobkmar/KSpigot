@@ -8,10 +8,9 @@ An example of a final configuration file [is also available](gradle_example.md).
 
 Make sure that you have [configured the Java version](beginners/java_version.md) correctly. 
 
-### Add the Spigot dependency
+### Add paper (via paperweight)
 
-KSpigot does not replace Spigot, it is just an API which you can use together with Spigot. Therefore, please make sure
-that you have [added Spigot to your project as well](beginners/spigot_dependency.md).
+Add the paperweight Gradle plugin. Have a look at [the example](gradle_example.md).
 
 ## Add KSpigot
 

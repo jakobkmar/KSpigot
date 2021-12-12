@@ -17,7 +17,7 @@ class InternalMainClass : KSpigot() {
 }
 ```
 
-??? info "Coming from spigot?"
+??? info "Coming from Paper or Spigot?"
     When using KSpigot **do not inherit from `JavaPlugin`**, inherit from `KSpigot` instead.
 
     Also, please note that:
