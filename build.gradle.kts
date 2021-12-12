@@ -33,6 +33,10 @@ dependencies {
 }
 
 tasks {
+    build {
+        dependsOn(reobfJar)
+    }
+
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.release.set(17)
@@ -66,7 +70,7 @@ publishing {
 
     publications {
         create<MavenPublication>(project.name) {
-            from(components["java"])
+            artifact(tasks.reobfJar)
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.toLowerCase()
