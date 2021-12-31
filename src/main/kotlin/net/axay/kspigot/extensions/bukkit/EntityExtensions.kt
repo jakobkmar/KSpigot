@@ -12,6 +12,7 @@ import org.bukkit.attribute.Attribute
 import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import org.bukkit.potion.PotionEffectType
 
 /**
  * Checks if the entities' head is in water.
@@ -162,3 +163,13 @@ fun Player.sendToServer(servername: String) {
  * @return The items that did not fit into the player's inventory.
  */
 fun Player.give(vararg itemStacks: ItemStack) = inventory.addItem(*itemStacks)
+
+/**
+ * removes every potion effect if no param was provided
+ */
+fun LivingEntity.clearPotionEffects(vararg effects: PotionEffectType = emptyArray()) {
+    if (effects.isEmpty())
+        activePotionEffects.forEach { removePotionEffect(it.type) }
+    else
+        effects.forEach { removePotionEffect(it) }
+}
