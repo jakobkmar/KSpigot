@@ -167,7 +167,7 @@ fun Player.give(vararg itemStacks: ItemStack) = inventory.addItem(*itemStacks)
 /**
  * removes every potion effect if no param was provided
  */
-fun LivingEntity.clearPotionEffects(vararg effects: PotionEffectType = emptyArray()) {
+fun LivingEntity.clearPotionEffects(vararg effects) {
     if (effects.isEmpty())
         activePotionEffects.forEach { removePotionEffect(it.type) }
     else
