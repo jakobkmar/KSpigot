@@ -180,5 +180,4 @@ fun ArmorStand.lock(slot: EquipmentSlot) {
     for (lock in ArmorStand.LockType.values()) {
         addEquipmentLock(slot, lock)
     }
-
 }
