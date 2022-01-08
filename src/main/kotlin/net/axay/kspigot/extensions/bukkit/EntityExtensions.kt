@@ -162,3 +162,22 @@ fun Player.sendToServer(servername: String) {
  * @return The items that did not fit into the player's inventory.
  */
 fun Player.give(vararg itemStacks: ItemStack) = inventory.addItem(*itemStacks)
+
+/**
+ * Adds all equipment locks to every equipment slot
+ */
+fun ArmorStand.fullLock() {
+    for (slot in EquipmentSlot.values()) {
+        lock(slot)
+    }
+}
+
+/**
+ * Adds all equipment locks to the given slot
+ * @param slot the slot which gets locked
+ */
+fun ArmorStand.lock(slot: EquipmentSlot) {
+    for (lock in ArmorStand.LockType.values()) {
+        addEquipmentLock(slot, lock)
+    }
+}
