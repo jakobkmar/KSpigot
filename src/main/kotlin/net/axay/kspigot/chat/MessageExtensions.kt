@@ -1,12 +1,13 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "Unused")
 
 package net.axay.kspigot.chat
 
-import net.md_5.bungee.api.chat.BaseComponent
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.JoinConfiguration
 import org.bukkit.command.CommandSender
 
-fun CommandSender.sendMessage(vararg components: BaseComponent) {
-    this.spigot().sendMessage(*components)
+fun CommandSender.sendMessage(vararg components: Component) {
+    this.sendMessage(Component.join(JoinConfiguration.separator(Component.newline()), *components))
 }
 
 /**
@@ -18,7 +19,7 @@ fun CommandSender.sendMessage(vararg components: BaseComponent) {
 inline fun CommandSender.sendText(
     baseText: String = "",
     crossinline builder: LiteralTextBuilder.() -> Unit = { }
-) = this.spigot().sendMessage(literalText(baseText, builder))
+) = this.sendMessage(literalText(baseText, builder))
 
 @Suppress("DEPRECATION")
 @Deprecated(

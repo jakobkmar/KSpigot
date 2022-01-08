@@ -1,7 +1,8 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "CanBeParameter")
+@file:Suppress("MemberVisibilityCanBePrivate", "CanBeParameter", "Unused")
 
 package net.axay.kspigot.gui
 
+import net.kyori.adventure.text.Component.text
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -27,8 +28,8 @@ class GUIType<in T : ForInventory>(
     fun createBukkitInv(holder: InventoryHolder? = null, title: String? = null): Inventory {
         val realTitle = title ?: ""
         return when {
-            bukkitType != null -> Bukkit.createInventory(holder, bukkitType, realTitle)
-            else -> Bukkit.createInventory(holder, dimensions.slotAmount, realTitle)
+            bukkitType != null -> Bukkit.createInventory(holder, bukkitType, text(realTitle))
+            else -> Bukkit.createInventory(holder, dimensions.slotAmount, text(realTitle))
         }
     }
 }

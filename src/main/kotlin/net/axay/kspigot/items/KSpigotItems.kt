@@ -1,5 +1,11 @@
+@file:Suppress("Unused")
+
 package net.axay.kspigot.items
 
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.Component.translatable
+import net.kyori.adventure.text.TranslatableComponent
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.inventory.ItemFlag
@@ -58,16 +64,16 @@ inline fun itemMeta(material: Material, builder: ItemMeta.() -> Unit) = itemMeta
  * Sets the lore (description) of the item.
  */
 inline fun ItemMeta.setLore(builder: ItemMetaLoreBuilder.() -> Unit) {
-    lore = ItemMetaLoreBuilder().apply(builder).lorelist
+    lore(ItemMetaLoreBuilder().apply(builder).lorelist)
 }
 
 /**
  * Adds new lines to the lore (description) of the item.
  */
 inline fun ItemMeta.addLore(builder: ItemMetaLoreBuilder.() -> Unit) {
-    val newLore = lore ?: mutableListOf<String>()
+    val newLore = lore() ?: mutableListOf<Component>()
     newLore.addAll(ItemMetaLoreBuilder().apply(builder).lorelist)
-    lore = newLore
+    lore(newLore)
 }
 
 /**
@@ -75,9 +81,12 @@ inline fun ItemMeta.addLore(builder: ItemMetaLoreBuilder.() -> Unit) {
  * It exists to provide overloaded operator functions.
  */
 class ItemMetaLoreBuilder {
-    val lorelist = ArrayList<String>()
-    operator fun String.unaryPlus() {
+    val lorelist = ArrayList<Component>()
+    operator fun Component.unaryPlus() {
         lorelist += this
+    }
+    operator fun String.unaryPlus() {
+        lorelist += text(this)
     }
 }
 
@@ -104,9 +113,9 @@ fun ItemMeta.removeFlags(vararg itemFlag: ItemFlag) = removeItemFlags(*itemFlag)
 /**
  * Provides safe access to the items' displayName.
  */
-var ItemMeta.name: String?
-    get() = if (hasDisplayName()) displayName else null
-    set(value) = setDisplayName(if (value == null || value == "") " " else value)
+var ItemMeta.name: Component?
+    get() = if (hasDisplayName()) displayName() else null
+    set(value) = displayName(value ?: Component.space())
 
 /**
  * Provides safe access to the items' customModelData.
@@ -118,6 +127,6 @@ var ItemMeta.customModel: Int?
 /**
  * Provides more consistent access to the items' localizedName.
  */
-var ItemMeta.localName: String
-    get() = localizedName
-    set(value) = setLocalizedName(value)
+var ItemMeta.localName: TranslatableComponent
+    get() = if (hasDisplayName()) displayName() as TranslatableComponent else translatable("")
+    set(value) = displayName(value)

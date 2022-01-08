@@ -1,4 +1,4 @@
-@file:Suppress("MemberVisibilityCanBePrivate")
+@file:Suppress("MemberVisibilityCanBePrivate", "Unused")
 
 package net.axay.kspigot.chat.input
 
@@ -8,6 +8,8 @@ import net.axay.kspigot.chat.input.implementations.PlayerInputChat
 import net.axay.kspigot.event.unregister
 import net.axay.kspigot.runnables.sync
 import net.axay.kspigot.runnables.taskRunLater
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.text
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 
@@ -16,11 +18,23 @@ import org.bukkit.event.Listener
  * chat input of the player as his input.
  */
 fun Player.awaitChatInput(
-    question: String = "Type your input in the chat!",
+    question: Component = text("Type your input in the chat!"),
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<String>) -> Unit,
+    callback: (PlayerInputResult<Component>) -> Unit,
 ) {
     PlayerInputChat(this, callback, timeoutSeconds, question)
+}
+
+/**
+ * Asks the player a question and uses the next
+ * chat input of the player as his input.
+ */
+fun Player.awaitChatInput(
+    question: String = "Type your input in the chat!",
+    timeoutSeconds: Int = 1 * 60,
+    callback: (PlayerInputResult<Component>) -> Unit,
+) {
+    awaitChatInput(text(question), timeoutSeconds, callback)
 }
 
 /**
@@ -41,7 +55,7 @@ fun Player.awaitBookInputAsString(
  */
 fun Player.awaitBookInputAsList(
     timeoutSeconds: Int = 1 * 60,
-    callback: (PlayerInputResult<List<String>>) -> Unit,
+    callback: (PlayerInputResult<List<Component>>) -> Unit,
 ) = PlayerInputBookPaged(this, callback, timeoutSeconds).bookItemStack
 
 /**

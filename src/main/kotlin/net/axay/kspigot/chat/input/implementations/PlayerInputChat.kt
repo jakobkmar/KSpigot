@@ -1,28 +1,28 @@
 package net.axay.kspigot.chat.input.implementations
 
-import net.axay.kspigot.chat.KColors
+import io.papermc.paper.event.player.AsyncChatEvent
 import net.axay.kspigot.chat.input.PlayerInput
 import net.axay.kspigot.chat.input.PlayerInputResult
 import net.axay.kspigot.event.listen
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.EventPriority
-import org.bukkit.event.player.AsyncPlayerChatEvent
 
 internal class PlayerInputChat(
     player: Player,
-    callback: (PlayerInputResult<String>) -> Unit,
+    callback: (PlayerInputResult<Component>) -> Unit,
     timeoutSeconds: Int,
-    question: String,
-) : PlayerInput<String>(player, callback, timeoutSeconds) {
+    question: Component,
+) : PlayerInput<Component>(player, callback, timeoutSeconds) {
     init {
-        player.sendMessage("${KColors.ORANGERED}$question")
+        player.sendMessage(question)
     }
 
     override val inputListeners = listOf(
-        listen<AsyncPlayerChatEvent>(EventPriority.LOWEST) {
+        listen<AsyncChatEvent>(EventPriority.LOWEST) {
             if (it.player == player) {
+                onReceive(it.message())
                 it.isCancelled = true
-                onReceive(it.message)
             }
         }
     )

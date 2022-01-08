@@ -1,13 +1,18 @@
-@file:Suppress("MemberVisibilityCanBePrivate", "unused")
+@file:Suppress("MemberVisibilityCanBePrivate", "Unused")
 
 package net.axay.kspigot.chat
 
-import net.md_5.bungee.api.ChatColor
-import net.md_5.bungee.api.chat.BaseComponent
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.empty
+import net.kyori.adventure.text.Component.newline
+import net.kyori.adventure.text.event.ClickEvent
+import net.kyori.adventure.text.event.HoverEvent
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextColor.color
+import net.kyori.adventure.text.format.TextDecoration
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
+import org.bukkit.entity.Entity
+import org.bukkit.inventory.ItemStack
 
 /**
  * Opens a [LiteralTextBuilder].
@@ -18,10 +23,10 @@ import net.md_5.bungee.api.chat.hover.content.Text
 inline fun literalText(
     baseText: String = "",
     builder: LiteralTextBuilder.() -> Unit = { }
-) = LiteralTextBuilder(baseText).apply(builder).build() as TextComponent
+) = LiteralTextBuilder(baseText).apply(builder).build()
 
-class LiteralTextBuilder(val internalText: BaseComponent, ) {
-    constructor(text: String) : this(TextComponent(text))
+class LiteralTextBuilder(val internalText: Component) {
+    constructor(text: String) : this(Component.text(text))
 
     var bold: Boolean? = null
     var italic: Boolean? = null
@@ -39,12 +44,12 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
      *  - `color = col("#4BD6CB")`
      *  - `color = KColors.MEDIUMTURQUOISE`
      */
-    var color: ChatColor? = null
+    var color: TextColor? = null
 
     var clickEvent: ClickEvent? = null
-    var hoverEvent: HoverEvent? = null
+    var hoverEvent: HoverEvent<*>? = null
 
-    val siblingText = TextComponent("")
+    var siblingText = empty()
 
     /**
      * Append text to the parent.
@@ -56,20 +61,20 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         text: String = "",
         builder: LiteralTextBuilder.() -> Unit = { }
     ) {
-        siblingText.addExtra(LiteralTextBuilder(text).apply(builder).build())
+        siblingText = siblingText.append(LiteralTextBuilder(text).apply(builder).build())
     }
 
     /**
-     * Append text to the parent.
+     * Append a component to the parent.
      *
-     * @param text the text instance
+     * @param component the component
      * @param builder the builder which can be used to set the style and add child text components
      */
-    inline fun text(
-        text: BaseComponent,
+    inline fun component(
+        component: Component,
         builder: LiteralTextBuilder.() -> Unit = { }
     ) {
-        siblingText.addExtra(LiteralTextBuilder(text).apply(builder).build())
+        siblingText = siblingText.append(LiteralTextBuilder(component).apply(builder).build())
     }
 
     /**
@@ -84,9 +89,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         text: String,
         builder: LiteralTextBuilder.() -> Unit = { }
     ) {
-        TextComponent.fromLegacyText(text).forEach {
-            siblingText.addExtra(LiteralTextBuilder(it).apply(builder).build())
-        }
+        siblingText = siblingText.append(LiteralTextBuilder(LegacyComponentSerializer.legacy('§').deserialize(text)).apply(builder).build())
     }
 
     /**
@@ -100,10 +103,34 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         text: String = "",
         builder: LiteralTextBuilder.() -> Unit = { }
     ) {
-        hoverEvent = HoverEvent(
+        hoverEvent = HoverEvent.hoverEvent(
             HoverEvent.Action.SHOW_TEXT,
-            Text(arrayOf(LiteralTextBuilder(text).apply(builder).build()))
+            LiteralTextBuilder(text).apply(builder).build()
         )
+    }
+
+    /**
+     * Sets the item which should be displayed when hovering
+     * over the text in the chat.
+     *
+     * @param itemStack the ItemStack
+     */
+    fun hoverItem(
+        itemStack: ItemStack
+    ) {
+        hoverEvent = itemStack.asHoverEvent()
+    }
+
+    /**
+     * Sets the entity which should be displayed when hovering
+     * over the text in the chat.
+     *
+     * @param entity the Entity
+     */
+    fun hoverEntity(
+        entity: Entity
+    ) {
+        hoverEvent = entity.asHoverEvent()
     }
 
     /**
@@ -115,7 +142,7 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
      * instead it will be suggested in the command prompt
      */
     fun onClickCommand(command: String, onlySuggest: Boolean = false) {
-        clickEvent = ClickEvent(if (onlySuggest) ClickEvent.Action.SUGGEST_COMMAND else ClickEvent.Action.RUN_COMMAND, command)
+        clickEvent = if (onlySuggest) ClickEvent.suggestCommand(command) else ClickEvent.runCommand(command)
     }
 
     /**
@@ -123,14 +150,21 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
      * Player clicks on this text.
      */
     fun onClickCopy(copyText: String) {
-        clickEvent = ClickEvent(ClickEvent.Action.COPY_TO_CLIPBOARD, copyText)
+        clickEvent = ClickEvent.copyToClipboard(copyText)
+    }
+
+    /**
+     * Sets the Url which should be opened if the Player clicks on this text
+     */
+    fun onClickOpenURL(url: String) {
+        clickEvent = ClickEvent.openUrl(url)
     }
 
     /**
      * Adds a line break.
      */
     fun newLine() {
-        siblingText.addExtra(TextComponent("\n"))
+        siblingText = siblingText.append(newline())
     }
 
     /**
@@ -141,17 +175,24 @@ class LiteralTextBuilder(val internalText: BaseComponent, ) {
         newLine()
     }
 
-    fun build() = internalText.apply {
-        this@LiteralTextBuilder.bold?.let { isBold = it }
-        this@LiteralTextBuilder.italic?.let { isItalic = it }
-        this@LiteralTextBuilder.underline?.let { isUnderlined = it }
-        this@LiteralTextBuilder.strikethrough?.let { isStrikethrough = it }
-        this@LiteralTextBuilder.obfuscate?.let { isObfuscated = it }
-        this@LiteralTextBuilder.color?.let { color = it }
-        this@LiteralTextBuilder.clickEvent?.let { clickEvent = it }
-        this@LiteralTextBuilder.hoverEvent?.let { hoverEvent = it }
+    fun build(): Component {
+        var style = internalText.style()
+        val decorations = style.decorations().toMutableMap()
+        decorations[TextDecoration.BOLD] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.bold)
+        decorations[TextDecoration.ITALIC] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.italic)
+        decorations[TextDecoration.UNDERLINED] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.underline)
+        decorations[TextDecoration.STRIKETHROUGH] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.strikethrough)
+        decorations[TextDecoration.OBFUSCATED] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.obfuscate)
+        style = style.decorations(decorations)
+        this@LiteralTextBuilder.color?.let { style = style.color(color(it)) }
 
-        if (siblingText.extra?.isNotEmpty() == true)
-            addExtra(siblingText)
+        this@LiteralTextBuilder.clickEvent?.let { style = style.clickEvent(it) }
+        this@LiteralTextBuilder.hoverEvent?.let { style = style.hoverEvent(it) }
+
+        return if (siblingText.children().isNotEmpty()) {
+            internalText.append(siblingText).style(style)
+        } else {
+            internalText.style(style)
+        }
     }
 }
