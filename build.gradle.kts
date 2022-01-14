@@ -17,7 +17,7 @@ plugins {
     id("org.jetbrains.dokka") version "1.6.10"
     kotlin("plugin.serialization") version "1.6.10"
 
-    id("io.papermc.paperweight.userdev") version "1.3.4-SNAPSHOT"
+    id("io.papermc.paperweight.userdev") version "1.3.3"
 }
 
 repositories {
