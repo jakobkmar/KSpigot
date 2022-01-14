@@ -7,6 +7,7 @@ import net.axay.kspigot.extensions.bukkit.content
 import net.axay.kspigot.items.itemStack
 import net.axay.kspigot.items.meta
 import net.axay.kspigot.main.PluginInstance
+import net.kyori.adventure.text.Component
 import org.bukkit.Material
 import org.bukkit.NamespacedKey
 import org.bukkit.entity.Player
@@ -24,10 +25,10 @@ internal class PlayerInputBookComprehensive(
 
 internal class PlayerInputBookPaged(
     player: Player,
-    callback: (PlayerInputResult<List<String>>) -> Unit,
+    callback: (PlayerInputResult<List<Component>>) -> Unit,
     timeoutSeconds: Int,
-) : PlayerInputBook<List<String>>(player, callback, timeoutSeconds) {
-    override fun loadBookContent(bookMeta: BookMeta): List<String> = bookMeta.pages
+) : PlayerInputBook<List<Component>>(player, callback, timeoutSeconds) {
+    override fun loadBookContent(bookMeta: BookMeta): List<Component> = bookMeta.pages()
 }
 
 internal abstract class PlayerInputBook<T>(

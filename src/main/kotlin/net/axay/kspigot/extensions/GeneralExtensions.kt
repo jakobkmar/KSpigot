@@ -1,6 +1,9 @@
+@file:Suppress("Unused")
+
 package net.axay.kspigot.extensions
 
 import net.axay.kspigot.main.PluginInstance
+import net.kyori.adventure.text.Component.text
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
 import org.bukkit.World
@@ -36,7 +39,7 @@ val pluginManager get() = Bukkit.getPluginManager()
  * @return the number of recipients
  * @see Bukkit.broadcastMessage
  */
-fun broadcast(msg: String) = Bukkit.broadcastMessage(msg)
+fun broadcast(msg: String) = Bukkit.getServer().broadcast(text(msg))
 
 /**
  * Shortcut to get the ConsoleSender.

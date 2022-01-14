@@ -1,3 +1,5 @@
+@file:Suppress("Unused")
+
 package net.axay.kspigot.extensions.bukkit
 
 import net.axay.kspigot.annotations.NMS_General
@@ -5,7 +7,6 @@ import net.axay.kspigot.chat.literalText
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.PluginInstance
 import net.axay.kspigot.pluginmessages.PluginMessageConnect
-import net.md_5.bungee.api.ChatMessageType
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
@@ -146,7 +147,7 @@ fun Player.getHandItem(hand: EquipmentSlot?) = when (hand) {
  * Sends the given [text] as an action bar message.
  */
 fun Player.actionBar(text: String) {
-    spigot().sendMessage(ChatMessageType.ACTION_BAR, literalText { legacyText(text) })
+    sendActionBar(literalText { legacyText(text) })
 }
 
 /**
