@@ -8,7 +8,6 @@ import net.kyori.adventure.text.Component.newline
 import net.kyori.adventure.text.event.ClickEvent
 import net.kyori.adventure.text.event.HoverEvent
 import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.format.TextColor.color
 import net.kyori.adventure.text.format.TextDecoration
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import org.bukkit.entity.Entity
@@ -176,7 +175,15 @@ class LiteralTextBuilder(val internalText: Component) {
     }
 
     fun build(): Component {
-        var style = internalText.style()
+        return if (siblingText.children().isNotEmpty()) {
+            internalText.stylize().append(siblingText.stylize())
+        } else {
+            internalText.stylize()
+        }
+    }
+
+    private fun Component.stylize(): Component {
+        var style = style()
         val decorations = style.decorations().toMutableMap()
         decorations[TextDecoration.BOLD] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.bold)
         decorations[TextDecoration.ITALIC] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.italic)
@@ -184,15 +191,11 @@ class LiteralTextBuilder(val internalText: Component) {
         decorations[TextDecoration.STRIKETHROUGH] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.strikethrough)
         decorations[TextDecoration.OBFUSCATED] = TextDecoration.State.byBoolean(this@LiteralTextBuilder.obfuscate)
         style = style.decorations(decorations)
-        this@LiteralTextBuilder.color?.let { style = style.color(color(it)) }
+        this@LiteralTextBuilder.color?.let { style = style.color(it) }
 
         this@LiteralTextBuilder.clickEvent?.let { style = style.clickEvent(it) }
         this@LiteralTextBuilder.hoverEvent?.let { style = style.hoverEvent(it) }
 
-        return if (siblingText.children().isNotEmpty()) {
-            internalText.append(siblingText).style(style)
-        } else {
-            internalText.style(style)
-        }
+        return this.style(style)
     }
 }
