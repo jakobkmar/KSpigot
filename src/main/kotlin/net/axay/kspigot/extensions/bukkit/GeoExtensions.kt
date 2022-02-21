@@ -18,7 +18,7 @@ val Location.worldOrException: World
  */
 val Chunk.allBlocks
     get() = LinkedHashSet<Block>().apply {
-        for (y in -64 until 320) {
+        for (y in world.minHeight until world.maxHeight) {
             for (x in 0 until 16)
                 for (z in 0 until 16)
                     add(getBlock(x, y, z))
