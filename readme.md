@@ -18,7 +18,7 @@ Gradle:
 implementation("net.axay:kspigot:$kspigotVersion")
 ```
 
-Read the [setup guide](https://jakobkmar.github.io/KSpigot/setup/gradle.html) to get started!
+Read the [setup guide](https://jakobkmar.github.io/KSpigot/setup/gradle) to get started!
 
 ## Guide
 
