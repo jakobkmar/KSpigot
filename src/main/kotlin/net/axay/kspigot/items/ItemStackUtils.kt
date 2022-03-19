@@ -1,18 +1,21 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.items
 
 import net.axay.kspigot.chat.KColors
-import net.md_5.bungee.api.ChatColor
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.TextColor
+import net.kyori.adventure.text.format.TextDecoration
 
 /**
- * Converts this string into a list of strings, which
+ * Converts this string into a list of components, which
  * can be used for minecraft lorelists.
  */
-fun String.toLoreList(vararg lineColors: ChatColor = arrayOf(KColors.RESET), lineLength: Int = 40): List<String> {
-    val lineColor = lineColors.joinToString(separator = "")
-    val loreList = ArrayList<String>()
+fun String.toLoreList(lineColor: TextColor = KColors.WHITE, vararg lineDecorations: TextDecoration = arrayOf(), lineLength: Int = 40): List<Component> {
+    val loreList = ArrayList<Component>()
     val lineBuilder = StringBuilder()
     fun submitLine() {
-        loreList += "$lineColor$lineBuilder"
+        loreList += Component.text(lineBuilder.toString()).color(lineColor).decorations(lineDecorations.toMutableSet(), true)
         lineBuilder.clear()
     }
 

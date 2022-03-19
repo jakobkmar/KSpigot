@@ -1,9 +1,11 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.data
 
 import net.axay.kspigot.annotations.NMS_General
 import net.minecraft.nbt.CompoundTag
-import org.bukkit.craftbukkit.v1_18_R1.entity.CraftEntity
-import org.bukkit.craftbukkit.v1_18_R1.inventory.CraftItemStack
+import org.bukkit.craftbukkit.v1_18_R2.entity.CraftEntity
+import org.bukkit.craftbukkit.v1_18_R2.inventory.CraftItemStack
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 

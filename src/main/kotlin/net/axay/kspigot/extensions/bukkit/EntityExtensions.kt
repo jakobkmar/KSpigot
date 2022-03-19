@@ -108,7 +108,7 @@ fun Player.showOnlinePlayers() {
 @Deprecated("This function is unstable and it cannot be guaranteed that it will work at any time in the future.")
 @NMS_General
 fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
-    val craftWorld = world as? org.bukkit.craftbukkit.v1_18_R1.CraftWorld ?: return null
+    val craftWorld = world as? org.bukkit.craftbukkit.v1_18_R2.CraftWorld ?: return null
     return craftWorld.createEntity(this, entityType.entityClass)?.let {
         craftWorld.handle.addFreshEntity(it)
         return@let it.bukkitEntity

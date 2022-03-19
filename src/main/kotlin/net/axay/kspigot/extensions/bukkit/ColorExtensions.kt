@@ -1,64 +1,50 @@
+@file:Suppress("unused")
+
 package net.axay.kspigot.extensions.bukkit
 
-// FROM BUNGEE COLOR
+import net.kyori.adventure.text.format.TextColor
+import org.bukkit.Color as BukkitColor
+import java.awt.Color as JavaColor
+
+// FROM ADVENTURE TEXTCOLOR
 
 /**
  * Returns the corresponding Bukkit Color object.
  */
-val net.md_5.bungee.api.ChatColor.bukkitColor
-    get() = org.bukkit.Color.fromRGB(color.rgb)
+val TextColor.bukkitColor
+    get() = BukkitColor.fromRGB(value())
 
 /**
  * Returns the corresponding Java Color object.
  * @see net.md_5.bungee.api.ChatColor.color
  */
-val net.md_5.bungee.api.ChatColor.javaAwtColor: java.awt.Color
-    get() = color
+val TextColor.javaAwtColor: JavaColor
+    get() = JavaColor(value())
 
 // FROM BUKKIT COLOR
 
 /**
  * Returns the corresponding Bungee Color object.
  */
-val org.bukkit.Color.bungeeColor: net.md_5.bungee.api.ChatColor
-    get() = net.md_5.bungee.api.ChatColor.of(java.awt.Color(asRGB()))
+val BukkitColor.textColor: TextColor
+    get() = TextColor.color(asRGB())
 
 /**
  * Returns the corresponding Java Color object.
  */
-val org.bukkit.Color.javaAwtColor: java.awt.Color
-    get() = java.awt.Color(asRGB())
+val BukkitColor.javaAwtColor: JavaColor
+    get() = JavaColor(asRGB())
 
 // FROM JAVA AWT COLOR
 
 /**
  * Returns the corresponding Bukkit Color object.
  */
-val java.awt.Color.bukkitColor
-    get() = org.bukkit.Color.fromRGB(rgb)
+val JavaColor.bukkitColor
+    get() = BukkitColor.fromRGB(rgb)
 
 /**
  * Returns the corresponding Bungee Color object.
  */
-val java.awt.Color.bungeeColor: net.md_5.bungee.api.ChatColor
-    get() = net.md_5.bungee.api.ChatColor.of(this)
-
-// FROM BUKKIT CHAT COLOR
-
-/**
- * Returns the corresponding Bukkit Color object.
- */
-val org.bukkit.ChatColor.bukkitColor
-    get() = bungeeColor.bukkitColor
-
-/**
- * Returns the corresponding Bungee Color object.
- */
-val org.bukkit.ChatColor.bungeeColor: net.md_5.bungee.api.ChatColor
-    get() = net.md_5.bungee.api.ChatColor.of(name)
-
-/**
- * Returns the corresponding Java Color object.
- */
-val org.bukkit.ChatColor.javaAwtColor: java.awt.Color
-    get() = bungeeColor.javaAwtColor
+val JavaColor.textColor: TextColor
+    get() = TextColor.color(rgb)
