@@ -2,7 +2,8 @@
 
 package net.axay.kspigot.gui
 
-import net.kyori.adventure.text.Component.text
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.Component.empty
 import org.bukkit.Bukkit
 import org.bukkit.event.inventory.InventoryType
 import org.bukkit.inventory.Inventory
@@ -25,11 +26,10 @@ class GUIType<in T : ForInventory>(
             GUIType<ForInventoryThreeByThree>(InventoryDimensions(3, 3), bukkitType = InventoryType.DROPPER)
     }
 
-    fun createBukkitInv(holder: InventoryHolder? = null, title: String? = null): Inventory {
-        val realTitle = title ?: ""
+    fun createBukkitInv(holder: InventoryHolder? = null, title: Component = empty()): Inventory {
         return when {
-            bukkitType != null -> Bukkit.createInventory(holder, bukkitType, text(realTitle))
-            else -> Bukkit.createInventory(holder, dimensions.slotAmount, text(realTitle))
+            bukkitType != null -> Bukkit.createInventory(holder, bukkitType, title)
+            else -> Bukkit.createInventory(holder, dimensions.slotAmount, title)
         }
     }
 }

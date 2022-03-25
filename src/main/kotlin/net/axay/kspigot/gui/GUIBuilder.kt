@@ -3,7 +3,7 @@
 package net.axay.kspigot.gui
 
 import net.axay.kspigot.gui.elements.*
-import org.bukkit.event.inventory.InventoryCloseEvent
+import net.kyori.adventure.text.Component
 import org.bukkit.inventory.ItemStack
 import kotlin.math.absoluteValue
 
@@ -24,7 +24,7 @@ class GUIBuilder<T : ForInventory>(
      * This title will be visible for every page of
      * this GUI.
      */
-    var title: String = ""
+    var title: Component = Component.empty()
 
     /**
      * The transition applied, if another GUI redirects to

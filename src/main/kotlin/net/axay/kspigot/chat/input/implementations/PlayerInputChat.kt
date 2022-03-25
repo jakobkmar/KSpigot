@@ -21,8 +21,8 @@ internal class PlayerInputChat(
     override val inputListeners = listOf(
         listen<AsyncChatEvent>(EventPriority.LOWEST) {
             if (it.player == player) {
-                onReceive(it.message())
                 it.isCancelled = true
+                onReceive(it.message())
             }
         }
     )
