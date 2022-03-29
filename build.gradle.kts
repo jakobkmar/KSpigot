@@ -33,7 +33,7 @@ dependencies {
 }
 
 tasks {
-    build {
+    assemble {
         dependsOn(reobfJar)
     }
 
@@ -69,10 +69,9 @@ publishing {
     }
 
     publications {
-        create<MavenPublication>(project.name) {
-            artifact(tasks.reobfJar)
-            artifact(tasks.named("javadocJar"))
-            artifact(tasks.named("sourcesJar"))
+        register<MavenPublication>(project.name) {
+            from(components["java"])
+            artifact(tasks.jar.get().outputs.files.single())
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.toLowerCase()
