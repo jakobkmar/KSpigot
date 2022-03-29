@@ -5,6 +5,7 @@ package net.axay.kspigot.gui
 import net.axay.kspigot.event.listen
 import net.axay.kspigot.extensions.bukkit.closeForViewers
 import net.axay.kspigot.main.PluginInstance
+import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.event.inventory.InventoryCloseEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -13,7 +14,7 @@ import org.bukkit.inventory.ItemStack
 
 class GUIData<T : ForInventory>(
     val guiType: GUIType<T>,
-    val title: String?,
+    val title: Component,
     internal val pages: Map<Int, GUIPage<T>>,
     val defaultPage: Int,
     val transitionTo: InventoryChangeEffect?,

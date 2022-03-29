@@ -7,12 +7,20 @@ import net.axay.kspigot.chat.literalText
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.PluginInstance
 import net.axay.kspigot.pluginmessages.PluginMessageConnect
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.title.Title
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.entity.*
+import org.bukkit.entity.ArmorStand
+import org.bukkit.entity.Damageable
+import org.bukkit.entity.Entity
+import org.bukkit.entity.EntityType
+import org.bukkit.entity.LivingEntity
+import org.bukkit.entity.Player
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
+import java.time.Duration
 
 /**
  * Checks if the entities' head is in water.
@@ -123,14 +131,13 @@ fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
  * @param fadeOut time in ticks for titles to fade out
  */
 fun Player.title(
-    mainText: String? = null,
-    subText: String? = null,
-    fadeIn: Int = 10,
-    stay: Int = 70,
-    fadeOut: Int = 20,
+    mainText: Component = Component.empty(),
+    subText: Component = Component.empty(),
+    fadeIn: Duration = Duration.ofMillis(500),
+    stay: Duration = Duration.ofMillis(3500),
+    fadeOut: Duration = Duration.ofMillis(1000),
 ) {
-    @Suppress("DEPRECATION")
-    sendTitle(mainText, subText, fadeIn, stay, fadeOut)
+    showTitle(Title.title(mainText, subText, Title.Times.times(fadeIn, stay, fadeOut)))
 }
 
 /**

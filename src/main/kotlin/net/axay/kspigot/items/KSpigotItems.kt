@@ -82,9 +82,19 @@ inline fun ItemMeta.addLore(builder: ItemMetaLoreBuilder.() -> Unit) {
  */
 class ItemMetaLoreBuilder {
     val lorelist = ArrayList<Component>()
+
+    /**
+     * Adds a new line to the lore.
+     *
+     * Note: Render [TranslatableComponent]s before adding them to the lore.
+     */
     operator fun Component.unaryPlus() {
         lorelist += this
     }
+
+    /**
+     * Adds a new line to the lore.
+     */
     operator fun String.unaryPlus() {
         lorelist += text(this)
     }
@@ -112,6 +122,8 @@ fun ItemMeta.removeFlags(vararg itemFlag: ItemFlag) = removeItemFlags(*itemFlag)
 
 /**
  * Provides safe access to the items' displayName.
+ *
+ * Note: Render [TranslatableComponent]s before setting them as the displayName.
  */
 var ItemMeta.name: Component?
     get() = if (hasDisplayName()) displayName() else null

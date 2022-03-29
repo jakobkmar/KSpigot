@@ -38,9 +38,7 @@ class LiteralTextBuilder(val internalText: Component) {
      * This can be set in the following way:
      *
      * e.g. Medium turquoise:
-     *  - `color = col(0x4BD6CB)`
-     *  - `color = col(4970187)`
-     *  - `color = col("#4BD6CB")`
+     *  - `color = TextColor.color(72, 209, 204)`
      *  - `color = KColors.MEDIUMTURQUOISE`
      */
     var color: TextColor? = null

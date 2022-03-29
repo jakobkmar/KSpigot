@@ -3,6 +3,7 @@
 package net.axay.kspigot.extensions
 
 import net.axay.kspigot.main.PluginInstance
+import net.kyori.adventure.text.Component
 import net.kyori.adventure.text.Component.text
 import org.bukkit.Bukkit
 import org.bukkit.NamespacedKey
@@ -40,6 +41,13 @@ val pluginManager get() = Bukkit.getPluginManager()
  * @see Bukkit.broadcastMessage
  */
 fun broadcast(msg: String) = Bukkit.getServer().broadcast(text(msg))
+
+/**
+ * Broadcasts a message ([msg]) on the server.
+ * @return the number of recipients
+ * @see Bukkit.broadcastMessage
+ */
+fun broadcast(msg: Component) = Bukkit.getServer().broadcast(msg)
 
 /**
  * Shortcut to get the ConsoleSender.
