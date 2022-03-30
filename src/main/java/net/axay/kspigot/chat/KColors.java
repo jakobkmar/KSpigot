@@ -4,10 +4,7 @@ import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
@@ -739,14 +736,31 @@ public class KColors {
      */
     public static final TextColor YELLOWGREEN = TextColor.color(154, 205, 50);
 
-    public static List<TextColor> values() {
-        Field[] fields = KColors.class.getFields();
-        List<TextColor> finalList = new ArrayList<>(); //yes this could be done with a simple Arrays.stream but didn't work because java is stupid (because of the exception)
-        for (Field field : fields) {
-            try {
-                finalList.add((TextColor) field.get(null));
-            } catch (IllegalAccessException ignored) {}
-        }
-        return finalList;
+    public static List<TextColor> allColors() {
+        return Arrays.stream(KColors.class.getFields())
+                .filter(field -> field.getType() == TextColor.class)
+                .map(field -> {
+                    try {
+                        return (TextColor) field.get(null);
+                    } catch (IllegalArgumentException | IllegalAccessException ignored) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    public static List<TextDecoration> allDecorations() {
+        return Arrays.stream(KColors.class.getFields())
+                .filter(field -> field.getType() == TextDecoration.class)
+                .map(field -> {
+                    try {
+                        return (TextDecoration) field.get(null);
+                    } catch (IllegalArgumentException | IllegalAccessException ignored) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
 }
