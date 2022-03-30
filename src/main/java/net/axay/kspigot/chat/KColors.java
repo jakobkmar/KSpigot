@@ -3,6 +3,10 @@ package net.axay.kspigot.chat;
 import net.kyori.adventure.text.format.TextColor;
 import net.kyori.adventure.text.format.TextDecoration;
 
+import java.lang.reflect.Field;
+import java.util.*;
+import java.util.stream.Collectors;
+
 @SuppressWarnings("unused")
 public class KColors {
     public static final TextDecoration MAGIC = TextDecoration.OBFUSCATED;
@@ -731,4 +735,32 @@ public class KColors {
      * <div style="width:120px;height:120px;background-color:#9ACD32"></div>
      */
     public static final TextColor YELLOWGREEN = TextColor.color(154, 205, 50);
+
+    public static List<TextColor> allColors() {
+        return Arrays.stream(KColors.class.getFields())
+                .filter(field -> field.getType() == TextColor.class)
+                .map(field -> {
+                    try {
+                        return (TextColor) field.get(null);
+                    } catch (IllegalArgumentException | IllegalAccessException ignored) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
+
+    public static List<TextDecoration> allDecorations() {
+        return Arrays.stream(KColors.class.getFields())
+                .filter(field -> field.getType() == TextDecoration.class)
+                .map(field -> {
+                    try {
+                        return (TextDecoration) field.get(null);
+                    } catch (IllegalArgumentException | IllegalAccessException ignored) {
+                        return null;
+                    }
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
+    }
 }
