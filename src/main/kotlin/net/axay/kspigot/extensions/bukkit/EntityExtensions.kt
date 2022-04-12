@@ -43,6 +43,14 @@ val Entity.isGroundSolid: Boolean get() = this.location.add(0.0, -0.01, 0.0).blo
 val Entity.groundMaterial get() = this.location.add(0.0, -0.01, 0.0).block.type
 
 /**
+ * @return The max health of the entity
+ * @throws NullPointerException if the entity doesn't have a max health value
+ */
+val LivingEntity.realMaxHealth: Double
+    get() = getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
+        ?: throw NullPointerException("The entity does not have a max health value!")
+
+/**
  * Kills the damageable.
  */
 fun Damageable.kill() {
