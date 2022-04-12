@@ -185,39 +185,56 @@ enum class DefaultFontInfo(var char: Char, var length: Int){
  * Center a message
  * Only works for one line!
  * @return Component
+ * @param lines Content lines which will centered
+ */
+fun Player.sendCenteredMessage(lines: Array<String>){
+  for(content in lines){
+    val center_px = 154
+    var message_px = 0
+    var previousCode = false
+    var isBold = false
+    for(c in content.toCharArray()){
+      if(c == '§'){
+        previousCode = true
+        continue
+      }else if(previousCode){
+        previousCode = false
+        if(c.lowercaseChar() == 'l'){
+          isBold = true
+          continue
+        }else isBold = false
+      }else{
+        val defaultFontInfo = DefaultFontInfo.getDefaultFontInfo(c)
+        message_px += if (isBold) defaultFontInfo.boldLength() else defaultFontInfo.length
+        message_px++
+      }
+    }
+
+    val halvedMessageSize: Int = message_px / 2
+    val toCompensate: Int = center_px - halvedMessageSize
+    val spaceLength = DefaultFontInfo.SPACE.length + 1
+    var compensated = 0
+    val sb = StringBuilder()
+    while (compensated < toCompensate) {
+      sb.append(" ")
+      compensated += spaceLength
+    }
+    player?.sendMessage(sb.toString() + content)
+  }
+}
+
+/**
+ * Center a message
+ * Only works for one line!
+ * @return Component
  * @param content Content which will centered
  */
-fun centeredMessage(content: String): Component {
-  val center_px = 154
-  var message_px = 0
-  var previousCode = false
-  var isBold = false
-
-  for(c in content.toCharArray()){
-    if(c == '§'){
-      previousCode = true
-      continue
-    }else if(previousCode){
-      previousCode = false
-      if(c.lowercaseChar() == 'l'){
-        isBold = true
-        continue
-      }else isBold = false
-    }else{
-      val defaultFontInfo = DefaultFontInfo.getDefaultFontInfo(c)
-      message_px += if (isBold) defaultFontInfo.boldLength() else defaultFontInfo.length
-      message_px++
-    }
+fun Player.sendCenteredMessage(content: String) {
+  val lineSeparator = System.getProperty("line.separator")
+  if(content.contains(lineSeparator)){
+    sendCenteredMessage(content.split(lineSeparator).toTypedArray())
+    return
   }
 
-  val halvedMessageSize: Int = message_px / 2
-  val toCompensate: Int = center_px - halvedMessageSize
-  val spaceLength = DefaultFontInfo.SPACE.length + 1
-  var compensated = 0
-  val sb = StringBuilder()
-  while (compensated < toCompensate) {
-    sb.append(" ")
-    compensated += spaceLength
-  }
-  return text(sb.toString() + content)
+  sendCenteredMessage(arrayOf(content))
 }
