@@ -43,6 +43,14 @@ val Entity.isGroundSolid: Boolean get() = this.location.add(0.0, -0.01, 0.0).blo
 val Entity.groundMaterial get() = this.location.add(0.0, -0.01, 0.0).block.type
 
 /**
+ * @returns true if the entity is supported by a block.
+ * The method from bukkit is deprecated because it can be spoofed by the client.
+ * This can't be spoofed.
+ */
+val Entity.isStandingOnBlock: Boolean
+    get() = groundMaterial.isSolid
+
+/**
  * @return The max health of the entity
  * @throws NullPointerException if the entity doesn't have a max health value
  */
