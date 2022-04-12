@@ -43,6 +43,28 @@ val Entity.isGroundSolid: Boolean get() = this.location.add(0.0, -0.01, 0.0).blo
 val Entity.groundMaterial get() = this.location.add(0.0, -0.01, 0.0).block.type
 
 /**
+ * @returns true if the entity is supported by a block.
+ * The method from bukkit is deprecated because it can be spoofed by the client.
+ * This can't be spoofed.
+ */
+val Entity.isStandingOnBlock: Boolean
+    get() = groundMaterial.isSolid
+
+/**
+ * @returns true if the entity is standing in mid air.
+ */
+val Entity.isStandingInMidAir: Boolean
+    get() = !isStandingOnBlock && vehicle == null && !location.clone().add(0.0, 0.1, 0.0).block.type.isSolid && !location.block.type.isSolid
+
+/**
+ * @return The max health of the entity
+ * @throws NullPointerException if the entity doesn't have a max health value
+ */
+val LivingEntity.realMaxHealth: Double
+    get() = getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
+        ?: throw NullPointerException("The entity does not have a max health value!")
+
+/**
  * Kills the damageable.
  */
 fun Damageable.kill() {
