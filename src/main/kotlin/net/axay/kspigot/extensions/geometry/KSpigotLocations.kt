@@ -45,3 +45,4 @@ fun SimpleLocation3D.toVector() = Vector(x, y, z)
  * Returns a simple string in the format of `[x, y, z]`.
  */
 fun Location.toSimpleString() = "[$x, $y, $z]"
+fun Location.toSimpleBlockString() = "[$blockX, $blockY, $blockZ]"
