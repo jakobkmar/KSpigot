@@ -8,7 +8,7 @@ version = "1.19"
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
 plugins {
-    kotlin("jvm") version "1.6.21"
+    kotlin("jvm") version "1.7.0"
 
     `java-library`
     `maven-publish`
