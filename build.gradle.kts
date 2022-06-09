@@ -27,9 +27,9 @@ repositories {
 dependencies {
     paperDevBundle("1.19-R0.1-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.0")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.0")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
 }
 
 tasks {
