@@ -8,16 +8,16 @@ version = "1.18.2"
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
 plugins {
-    kotlin("jvm") version "1.6.10"
+    kotlin("jvm") version "1.6.21"
 
     `java-library`
     `maven-publish`
     signing
 
-    id("org.jetbrains.dokka") version "1.6.10"
-    kotlin("plugin.serialization") version "1.6.10"
+    id("org.jetbrains.dokka") version "1.6.21"
+    kotlin("plugin.serialization") version "1.6.21"
 
-    id("io.papermc.paperweight.userdev") version "1.3.5"
+    id("io.papermc.paperweight.userdev") version "1.3.6"
 }
 
 repositories {
