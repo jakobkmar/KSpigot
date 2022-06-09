@@ -42,8 +42,7 @@ Color:
 
 ```kotlin
 literalText("base text") {
-    color = col(0xFF7463)
-    color = col("#FF7463")
+    color = TextColor.color(255, 116, 99)
     color = KColors.INDIANRED
 }
 ```
@@ -56,7 +55,7 @@ literalText("base text") {
 
 ```kotlin
 literalText("base text") {
-    hoverEvent = HoverEvent(action, content)
+    hoverEvent = HoverEvent.hoverEvent(action, value)
 }
 ```
 
@@ -70,13 +69,29 @@ literalText("base text") {
 }
 ```
 
+#### Show hover Item
+
+```kotlin
+literalText("base text") {
+    hoverItem(item)
+}
+```
+
+#### Show hover Entity
+
+```kotlin
+literalText("base text") {
+    hoverEntity(entity)
+}
+```
+
 ### Click event
 
 #### General click event
 
 ```kotlin
 literalText("base text") {
-    clickEvent = ClickEvent(action, value)
+    clickEvent = ClickEvent.clickEvent(action, value)
 }
 ```
 
@@ -96,6 +111,14 @@ literalText("base text") {
 }
 ```
 
+#### Open a URL
+
+```kotlin
+literalText("base text") {
+    onClickOpenURL("https://github.com/bluefireoly/KSpigot")
+}
+```
+
 ## Special
 
 ```kotlin
@@ -107,12 +130,12 @@ literalText("base text") {
 }
 ```
 
-## Add bungee components
+## Add paper components
 
 ```kotlin
 literalText("base text") {
     // e.g. add a TranslatableComponent
-    text(TranslatableComponent("translation.key")) {
+    component(Component.translatable("translation.key")) {
         // optional text body
     }
 }
