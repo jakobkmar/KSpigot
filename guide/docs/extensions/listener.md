@@ -14,7 +14,7 @@ The event instance will be passed in as `it`, but you can change this:
 
 ```kotlin
 listen<PlayerMoveEvent> { moveEvent ->
-    moveEvent.player.kick("Do not move!")
+    moveEvent.player.kick(literalText("Do not move!"))
     broadcast("${moveEvent.player} moved :/")
 }
 ```
@@ -25,7 +25,7 @@ For example you could listen to a specific event temporarily:
 
 ```kotlin
 val moveEventListener = listen<PlayerMoveEvent> {
-    it.player.kick("Do not move!")
+    it.player.kick(literalText("Do not move!"))
 }
 
 // e.g. unregister the listener after some time

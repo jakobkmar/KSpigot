@@ -7,8 +7,8 @@ An example for a Gradle build script of a project using KSpigot would be:
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
-    kotlin("jvm") version "1.6.0"
-    id("io.papermc.paperweight.userdev") version "1.3.1"
+    kotlin("jvm") version "1.7.0"
+    id("io.papermc.paperweight.userdev") version "1.3.6"
 }
 
 group = "your.group"
@@ -19,8 +19,8 @@ repositories {
 }
 
 dependencies {
-    paperDevBundle("1.18.1-R0.1-SNAPSHOT")
-    implementation("net.axay:kspigot:1.18.0")
+    paperDevBundle("1.19-R0.1-SNAPSHOT")
+    implementation("net.axay:kspigot:1.19.0")
 }
 
 tasks {

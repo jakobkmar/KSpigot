@@ -11,7 +11,9 @@ val sword = itemStack(Material.GOLDEN_SWORD) {
     amount = 3
     addEnchantment(Enchantment.KNOCKBACK, 2)
     meta {
-        name = "${KColors.GOLD}Magic Sword"
+        name = literalText("Magic Sword") {
+            color = KColors.GOLD
+        }
         isUnbreakable = true
         addLore {
             +"This sword is truly special."
@@ -20,7 +22,7 @@ val sword = itemStack(Material.GOLDEN_SWORD) {
         customModel = 1001
         flag(ItemFlag.HIDE_UNBREAKABLE)
     }
-} 
+}
 ```
 ### This creates the following item
 
