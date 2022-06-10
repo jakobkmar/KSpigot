@@ -9,13 +9,13 @@ description = "A Kotlin API for Minecraft plugins using the Spigot or Paper tool
 
 plugins {
     kotlin("jvm") version "1.7.0"
+    kotlin("plugin.serialization") version "1.7.0"
 
     `java-library`
     `maven-publish`
     signing
 
     id("org.jetbrains.dokka") version "1.6.21"
-    kotlin("plugin.serialization") version "1.6.21"
 
     id("io.papermc.paperweight.userdev") version "1.3.6"
 }
