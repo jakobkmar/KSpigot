@@ -31,7 +31,7 @@ Join our Discord Server (click on the badge above)
 ## Old tutorials
 
 The following content consist of some features which haven't already been migrated to the new
-[guide](https://bluefireoly.github.io/KSpigot/).
+[guide](https://jakobkmar.github.io/KSpigot/).
 
 ### Chainable runnables
 
