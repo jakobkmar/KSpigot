@@ -58,22 +58,23 @@ it offers full type safety for slots.
 
 ```kotlin
 val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
-    title = "Example Inventory"
+    title = literalText("Example Inventory")
 
-    page(0) {
+    page(1) {
         // slot ranges like rectTo or linTo reduce the amount of code
         placeholder(Slots.RowOneSlotOne rectTo Slots.RowFiveSlotNine, ItemStack(Material.RED_STAINED_GLASS))
         nextPage(Slots.RowOneSlotNine, ItemStack(Material.PAPER))
     }
 
-    page(1) {
+    page(2) {
         // define fancy transitions
         transitionFrom = PageChangeEffect.SLIDE_HORIZONTALLY
         transitionTo = PageChangeEffect.SLIDE_HORIZONTALLY
 
         // get special slot compounds easily with constants like Slots.Border
         placeholder(Slots.Border, ItemStack(Material.GLASS_PANE))
-
+        
+        // the Slot is from bottom to top, so the page buttom will be at the bottom of GUI
         // page change buttons
         previousPage(Slots.RowTwoSlotTwo, ItemStack(Material.PAPER))
         nextPage(Slots.RowTwoSlotEight, ItemStack(Material.PAPER))
@@ -88,7 +89,7 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
         freeSlot(Slots.RowTwoSlotFive)
     }
 
-    page(2) {
+    page(3) {
         // placeholders are there to block any player action while displaying a specific item
         placeholder(Slots.RowOneSlotOne rectTo Slots.RowFiveSlotNine, ItemStack(Material.PINK_GLAZED_TERRACOTTA))
 
