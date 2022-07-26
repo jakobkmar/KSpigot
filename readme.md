@@ -54,7 +54,7 @@ firstAsync {
 
 Inventories are great for viewing GUI information. However, they are not designed for developing GUIs. The KSpigot
 Inventory GUI API provides an easy way to build inventory GUIs the way you would expect such an API to be. In addition,
-it offers full type safety for slots.
+it offers full type safety for slots. Attention, the Slots is designed from bottom to top, so the page button will be at the bottom of GUI
 
 ```kotlin
 val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
@@ -74,7 +74,6 @@ val gui = kSpigotGUI(GUIType.FIVE_BY_NINE) {
         // get special slot compounds easily with constants like Slots.Border
         placeholder(Slots.Border, ItemStack(Material.GLASS_PANE))
         
-        // the Slot is from bottom to top, so the page buttom will be at the bottom of GUI
         // page change buttons
         previousPage(Slots.RowTwoSlotTwo, ItemStack(Material.PAPER))
         nextPage(Slots.RowTwoSlotEight, ItemStack(Material.PAPER))
