@@ -3,21 +3,21 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
-version = "1.19.0"
+version = "1.19.1"
 
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
 plugins {
-    kotlin("jvm") version "1.7.0"
-    kotlin("plugin.serialization") version "1.7.0"
+    kotlin("jvm") version "1.7.22"
+    kotlin("plugin.serialization") version "1.7.22"
 
     `java-library`
     `maven-publish`
     signing
 
-    id("org.jetbrains.dokka") version "1.6.21"
+    id("org.jetbrains.dokka") version "1.7.20"
 
-    id("io.papermc.paperweight.userdev") version "1.3.6"
+    id("io.papermc.paperweight.userdev") version "1.4.0"
 }
 
 repositories {
@@ -25,11 +25,11 @@ repositories {
 }
 
 dependencies {
-    paperDevBundle("1.19-R0.1-SNAPSHOT")
+    paperDevBundle("1.19.3-R0.1-SNAPSHOT")
 
-    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.3")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.2")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.2")
+    api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.6.4")
 }
 
 tasks {
