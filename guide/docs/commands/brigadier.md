@@ -13,7 +13,7 @@ command("mycommand") {
 ```
 
 ???+ danger
-Do not add the command in your plugin.yml, this will interfere with Brigadier
+    Do not add the command in your plugin.yml, this will interfere with Brigadier
 
 ## Register the command
 
