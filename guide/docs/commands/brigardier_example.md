@@ -4,13 +4,13 @@ The following command illustrates how to use commands, subcommands, arguments an
 command("gaming") {
     literal("set") {
         argument("state", BoolArgumentType.bool()) {
-            simpleSuggests { listOf(true, false) }
-            simpleExecutes {
-                if (it.getArgument("state"))
-                    it.source.bukkitSender.sendMessage("yoo gaming has been activated")
+            suggestList { listOf(true, false) }
+            runs {
+                if (this.getArgument("state"))
+                    this.player.sendMessage("yoo gaming has been activated")
                 else {
-                    it.source.player.kill()
-                    it.source.player.sendText("gaming disabled") { color = KColors.INDIANRED }
+                    this.player.kill()
+                    this.player.sendText("gaming disabled"){ color = KColors.INDIANRED }
                 }
             }
         }

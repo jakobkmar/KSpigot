@@ -1,8 +1,8 @@
-# Brigardier support
+# Brigadier support
 
-???+ warning "Brigardier dependency for spigot-api users"
-    (You do only have to do the following if you are using the `spigot-api` instead of the `spigot` dependency!) <br>
-    Whilst Spigot itself depends on [Brigardier](https://github.com/Mojang/brigadier#gradle) the Spigot API doesn't so in order for this feature to work you need to add Brigardier as a `compileOnly` dependency. More information on that can be found here: [https://github.com/Mojang/brigadier#gradle](https://github.com/Mojang/brigadier#gradle)
+???+ warning "Brigadier dependency for spigot-api users"
+    (You only have to do the following if you are using the `spigot-api` instead of the `spigot` dependency!) <br>
+    Whilst Spigot itself depends on [Brigadier](https://github.com/Mojang/brigadier#gradle) the Spigot API doesn't so in order for this feature to work you need to add Brigadier as a `compileOnly` dependency. More information on that can be found here: [https://github.com/Mojang/brigadier#gradle](https://github.com/Mojang/brigadier#gradle)
 
 ## Create a command
 
@@ -11,6 +11,9 @@ command("mycommand") {
     // the command body
 }
 ```
+
+???+ danger
+Do not add the command in your plugin.yml, this will interfere with Brigadier
 
 ## Register the command
 
@@ -27,13 +30,32 @@ which the `command(name)` function returns).
     You can infinitely nest all these functions, resulting in complex command structures. <br>
 
 ### Execution handler
+You can define your execution logic using the `executes` (with a status code) or `runs` function.
 
-You provide your execution logic using the `executes` (with status code) or `simpleExecutes` (status code is always 1)
-function.
+#### Runs
+
+Setting the status code explicitly:
+```kotlin
+runs { context ->
+    context.bukkitSender.sendMessage("hey gamer ;)")
+    return@runs 1
+}
+```
+
+Alternatively you could use it as following:
+```kotlin
+runs { 
+    this.sender.bukkitSender.sendMessage("hey gamer ;)")
+}
+```
+Automatically returning the status code 1.
+
+#### Executes
 
 ```kotlin
-simpleExecutes { context ->
-    context.source.bukkitSender.sendMessage("hey gamer ;)")
+executes { context ->
+    context.bukkitSender.sendMessage("hey gamer ;)")
+    return@executes 1
 }
 ```
 
@@ -43,11 +65,13 @@ simpleExecutes { context ->
 
 #### The command context
 
-You can use the command context to get the command source. You can use the source for:
+You can use the command context in `executes` to get the command source. You can use the source for:
 
 - `source.bukkitSender` to get the `CommandSender`
 - `source.player` ensure that a player executed the command and get that `Player`
 - `source.bukkitWorld` to get the world of the executor
+
+If you are using `runs`, you can access these by using `sender` instead of `source`.
 
 ### Literals (subcommands)
 
@@ -70,8 +94,8 @@ execution handler.
 
 #### Argument type
 
-The second paramter of the argument function is the argument type. There are a lot of pre defined argument types by
-brigardier. 
+The second parameter of the argument function is the argument type. There are a lot of pre-defined argument types by
+brigadier. 
 
 The argument types for all primitives can be accessed in the following pattern: `NameArgumentType.name()` (where name is the name of the primitive)
 
@@ -88,22 +112,22 @@ The value of the argument can be retrieved from the command context.
 
 ```kotlin
 argument("argumentname", StringArgumentType.string()) {
-    simpleExecutes {
-        val argValue = it.getArgument<String>("argumentname")
+    runs {
+        val argValue = this.getArgument<String>("argumentname")
         // or using reified you can omit the type sometimes
-        mapWhereTheKeysAreStrings[it.getArgument("argumentname")]
+        mapWhereTheKeysAreStrings[this.getArgument("argumentname")]
     }
 }
 ```
 
 ### Suggestions
 
-You can provide argument suggestions using the `simpleSuggests` function. It is **not** recommended using the default 
+You can provide argument suggestions using the `suggestList` function. It is **not** recommended using the default 
 `suggests` function.
 
 ```kotlin
-simpleSuggests { Material.values().toList() }
+suggestList { Material.values().toList() }
 ```
 
-It is okay to do heavy operations inside this function. Suggestions are asynchronous. The body of the `simpleSuggests`
-function is suspending, meaning you can use kotlinx.coroutines in it.
+If you want to do heavy operations inside the suggest functions, you should use `suggestListSuspending`
+The body of the `suggestListSuspending` function is suspending, meaning you can use kotlinx.coroutines in it.
