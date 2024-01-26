@@ -33,7 +33,7 @@ object BrigardierSupport {
     }
 
     @Suppress("HasPlatformType")
-    fun resolveCommandManager() = (server as org.bukkit.craftbukkit.v1_20_R2.CraftServer)
+    fun resolveCommandManager() = (server as org.bukkit.craftbukkit.v1_20_R3.CraftServer)
         .server.vanillaCommandDispatcher
 
     internal fun registerAll() {
@@ -52,7 +52,7 @@ object BrigardierSupport {
     fun updateCommandTree() {
         onlinePlayers.forEach {
             // send the command tree
-            resolveCommandManager().sendCommands((it as org.bukkit.craftbukkit.v1_20_R2.entity.CraftPlayer).handle)
+            resolveCommandManager().sendCommands((it as org.bukkit.craftbukkit.v1_20_R3.entity.CraftPlayer).handle)
         }
     }
 }
