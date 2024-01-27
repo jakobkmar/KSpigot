@@ -15,7 +15,7 @@ fun Structure.buildAt(loc: Location) {
 }
 
 /** @see Structure.rotate */
-fun Structure.rotateAroundX(angle: Number) = rotate(angle) { it, rad -> it.rotateAroundZ(rad) }
+fun Structure.rotateAroundX(angle: Number) = rotate(angle) { it, rad -> it.rotateAroundX(rad) }
 
 /** @see Structure.rotate */
 fun Structure.rotateAroundY(angle: Number) = rotate(angle) { it, rad -> it.rotateAroundY(rad) }
