@@ -138,8 +138,8 @@ fun Player.showOnlinePlayers() {
 @Deprecated("This function is unstable and it cannot be guaranteed that it will work at any time in the future.")
 @NMS_General
 fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
-    val craftWorld = world as? org.bukkit.craftbukkit.v1_20_R2.CraftWorld ?: return null
-    return craftWorld.createEntity(this, entityType.entityClass)?.let {
+    val craftWorld = world as? org.bukkit.craftbukkit.v1_20_R3.CraftWorld ?: return null
+    return craftWorld.makeEntity(this, entityType.entityClass!!)?.let {
         craftWorld.handle.addFreshEntity(it)
         return@let it.bukkitEntity
     }
@@ -197,7 +197,7 @@ fun Player.give(vararg itemStacks: ItemStack) = inventory.addItem(*itemStacks)
  * Adds all equipment locks to every equipment slot
  */
 fun ArmorStand.fullLock() {
-    for (slot in EquipmentSlot.values()) {
+    for (slot in EquipmentSlot.entries) {
         lock(slot)
     }
 }
@@ -207,7 +207,7 @@ fun ArmorStand.fullLock() {
  * @param slot the slot which gets locked
  */
 fun ArmorStand.lock(slot: EquipmentSlot) {
-    for (lock in ArmorStand.LockType.values()) {
+    for (lock in ArmorStand.LockType.entries) {
         addEquipmentLock(slot, lock)
     }
 }
