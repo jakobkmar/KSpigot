@@ -105,6 +105,19 @@ fun Player.feedSaturate() {
 }
 
 /**
+ * Sets / gets the players's max health.
+ */
+var Player.maxHealth: Double
+    get() {
+        val attribute = this.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return 0.0
+        return attribute.baseValue
+    }
+    set(value) {
+        val attribute = this.getAttribute(Attribute.GENERIC_MAX_HEALTH) ?: return
+        attribute.baseValue = value.coerceAtLeast(0)
+    }
+
+/**
  * Hides the player for all [onlinePlayers].
  */
 fun Player.disappear() {
