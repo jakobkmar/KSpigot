@@ -29,8 +29,8 @@ dependencies {
     paperweight.paperDevBundle("1.20.6-R0.1-SNAPSHOT")
 
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0-RC")
-    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.9.0-RC")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
+    api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.1")
 }
 
 tasks {
