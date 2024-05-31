@@ -3,9 +3,10 @@
 package net.axay.kspigot.data
 
 import net.axay.kspigot.annotations.NMS_General
+import net.minecraft.core.component.DataComponents
 import net.minecraft.nbt.CompoundTag
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity
-import org.bukkit.craftbukkit.v1_20_R3.inventory.CraftItemStack
+import org.bukkit.craftbukkit.entity.CraftEntity
+import org.bukkit.craftbukkit.inventory.CraftItemStack
 import org.bukkit.entity.Entity
 import org.bukkit.inventory.ItemStack
 
@@ -22,8 +23,4 @@ var Entity.nbtData: CompoundTag
 
 @NMS_General
 val ItemStack.nbtData: CompoundTag
-    get() {
-        CraftItemStack.asNMSCopy(this).let {
-            return if (it.hasTag()) (it.tag ?: CompoundTag()) else CompoundTag()
-        }
-    }
+    get() = (this as? CraftItemStack)?.handle?.get(DataComponents.CUSTOM_DATA)?.copyTag() ?: CompoundTag()

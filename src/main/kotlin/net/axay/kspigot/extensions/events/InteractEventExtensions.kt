@@ -21,7 +21,7 @@ val PlayerInteractEntityEvent.interactItem: ItemStack?
         return when (this.hand) {
             EquipmentSlot.HAND -> p.inventory.itemInMainHand
             EquipmentSlot.OFF_HAND -> p.inventory.itemInOffHand
-            EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HEAD, EquipmentSlot.LEGS -> null
+            EquipmentSlot.CHEST, EquipmentSlot.FEET, EquipmentSlot.HEAD, EquipmentSlot.LEGS, EquipmentSlot.BODY -> null
         }
     }
 

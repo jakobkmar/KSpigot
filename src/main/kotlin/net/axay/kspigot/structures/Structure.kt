@@ -10,7 +10,7 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.block.data.BlockData
-import org.bukkit.craftbukkit.v1_20_R3.entity.CraftEntity
+import org.bukkit.craftbukkit.entity.CraftEntity
 import org.bukkit.entity.Entity
 import org.bukkit.entity.EntityType
 
