@@ -20,7 +20,11 @@ object GUIHolder : AutoCloseable {
     init {
         listen<InventoryClickEvent> {
             val clickedInv = it.clickedInventory ?: return@listen
-            val gui = registered[clickedInv] ?: return@listen
+            val gui = registered[clickedInv]
+            if (gui == null) {
+                if (registered[it.view.topInventory] != null && it.isShiftClick) it.isCancelled = true
+                return@listen
+            }
             val player = it.playerOrCancel ?: return@listen
 
             if (gui.isInMove) {
@@ -77,7 +81,7 @@ object GUIHolder : AutoCloseable {
 }
 
 private val InventoryAction.isGUIClick
-    get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF || this == InventoryAction.PICKUP_SOME || this == InventoryAction.PICKUP_ONE || this == InventoryAction.MOVE_TO_OTHER_INVENTORY
+    get() = this == InventoryAction.PICKUP_ALL || this == InventoryAction.PICKUP_HALF || this == InventoryAction.PICKUP_SOME || this == InventoryAction.PICKUP_ONE
 
 private val InventoryInteractEvent.playerOrCancel: Player?
     get() = (whoClicked as? Player) ?: kotlin.run {
