@@ -1,10 +1,10 @@
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val githubRepo = "jakobkmar/KSpigot"
+val githubRepo = "nzsttn/KSpigot"
 
-group = "net.axay"
-version = "1.20.4"
+group = "dev.thelecrafter"
+version = "1.20.5-fork"
 
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
@@ -63,8 +63,8 @@ signing {
 
 publishing {
     repositories {
-        maven("https://oss.sonatype.org/service/local/staging/deploy/maven2") {
-            name = "ossrh"
+        maven("https://maven.pkg.github.com/nzsttn/KSpigot") {
+            name = "GitHubPackages"
             credentials(PasswordCredentials::class)
         }
     }
@@ -85,6 +85,13 @@ publishing {
                 developers {
                     developer {
                         name.set("jakobkmar")
+                        roles.add("Original creator")
+                    }
+                    developer {
+                        name.set("Megan")
+                        url.set("https://github.com/TheLeCrafter")
+                        organization.set("nzsttn")
+                        organizationUrl.set("https://github.com/nzsttn")
                     }
                 }
 
