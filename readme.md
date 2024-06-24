@@ -1,5 +1,8 @@
 # KSpigot
 
+[ ![Latest version](https://img.shields.io/maven-central/v/net.axay/kspigot?color=pink&label=latest%20version&style=for-the-badge) ](https://repo1.maven.org/maven2/net/axay/kspigot/)
+[ ![Guide](https://img.shields.io/badge/guide-read-%23c2ff73?style=for-the-badge) ](https://jakobkmar.github.io/KSpigot/)
+[ ![Discord](https://img.shields.io/discord/771140534118383626?color=cyan&label=DISCORD&style=for-the-badge) ](https://discord.gg/CJDUVuJ) <br>
 
 KSpigot is a Kotlin library for the popular [spigot server software](https://spigotmc.org/) for minecraft. It adds
 lots of useful features, builders and extensions for the Spigot API itself - but KSpigot also brings new things like an
@@ -12,7 +15,7 @@ KSpigot is available on Maven Central.
 Gradle:
 
 ```kt
-implementation("dev.thelecrafter:kspigot:1.20.5-fork")
+implementation("net.axay:kspigot:$kspigotVersion")
 ```
 
 Read the [setup guide](https://jakobkmar.github.io/KSpigot/setup/gradle) to get started!
