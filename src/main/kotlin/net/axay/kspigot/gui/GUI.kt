@@ -99,7 +99,9 @@ class GUIIndividual<T : ForInventory>(
     init {
         if (resetOnClose || data.onClose != null) {
             listen<InventoryCloseEvent> {
-                if (data.onClose != null && playerInstances[it.player]?.bukkitInventory == it.inventory) {
+                if (playerInstances[it.player]?.bukkitInventory != it.inventory) return@listen
+
+                if (data.onClose != null) {
                     data.onClose.invoke(GUICloseEvent(it, playerInstances[it.player]!!, it.player as Player))
                 }
 
