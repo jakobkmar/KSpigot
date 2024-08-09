@@ -18,7 +18,7 @@ plugins {
 
     id("org.jetbrains.dokka") version "1.9.20"
 
-    id("io.papermc.paperweight.userdev") version "1.7.1"
+    id("io.papermc.paperweight.userdev") version "1.7.2"
 }
 
 repositories {
@@ -33,11 +33,12 @@ dependencies {
     api("org.jetbrains.kotlinx:kotlinx-coroutines-jdk8:1.8.1")
 }
 
-tasks {
-    assemble {
-        dependsOn(reobfJar)
-    }
+paperweight {
+    reobfArtifactConfiguration = io.papermc.paperweight.userdev
+        .ReobfArtifactConfiguration.MOJANG_PRODUCTION
+}
 
+tasks {
     withType<JavaCompile> {
         options.encoding = "UTF-8"
         options.release.set(21)
@@ -72,7 +73,6 @@ publishing {
     publications {
         register<MavenPublication>(project.name) {
             from(components["java"])
-            artifact(tasks.jar.get().outputs.files.single())
 
             this.groupId = project.group.toString()
             this.artifactId = project.name.lowercase()
