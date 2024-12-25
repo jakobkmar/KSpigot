@@ -15,9 +15,5 @@ annotation class UnsafeImplementation
  * in some way. Because of that, it is
  * unstable and should be checked every time
  * with a version change.
- *
- * This element uses some part of NMS
- * which is more likely to stay the same
- * over a long period of time.
  */
 annotation class NMS_General

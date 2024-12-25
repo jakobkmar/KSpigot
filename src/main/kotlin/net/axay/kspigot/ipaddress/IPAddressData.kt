@@ -48,6 +48,8 @@ val Player.ipAddressData get() = ipAddressData()
 fun Player.ipAddressData(language: IPAddressDataLanguage = IPAddressDataLanguage.ENGLISH): IPAddressData? {
     return try {
         val hostString = address?.hostString ?: return null
+
+        @Suppress("JsonStandardCompliance")
         val jsonObject = Json.decodeFromString<JsonObject>(
             "$IP_API${hostString}?fields=${IP_API_FIELDS}?lang=${language.code}"
         )

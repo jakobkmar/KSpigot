@@ -46,7 +46,7 @@ val Entity.isStandingOnBlock: Boolean
     get() = groundMaterial.isSolid
 
 /**
- * @returns true if the entity is standing in mid air.
+ * @returns true if the entity is standing in midair.
  */
 val Entity.isStandingInMidAir: Boolean
     get() = !isStandingOnBlock && vehicle == null && !location.clone().add(0.0, 0.1, 0.0).block.type.isSolid && !location.block.type.isSolid
@@ -159,7 +159,7 @@ fun Player.title(
 
 /**
  * Returns the itemInHand of the given [EquipmentSlot]
- * if it is an hand slot.
+ * if it is a hand slot.
  */
 fun Player.getHandItem(hand: EquipmentSlot?) = when (hand) {
     EquipmentSlot.HAND -> inventory.itemInMainHand
