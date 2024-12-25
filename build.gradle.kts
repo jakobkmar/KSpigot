@@ -1,24 +1,25 @@
+import io.papermc.paperweight.userdev.ReobfArtifactConfiguration
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
-version = "1.21.0"
+version = "1.21.4"
 
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
 plugins {
-    kotlin("jvm") version "1.9.24"
-    kotlin("plugin.serialization") version "1.9.24"
+    kotlin("jvm") version libs.versions.kotlin
+    kotlin("plugin.serialization") version libs.versions.kotlin
+
+    id("org.jetbrains.dokka") version "2.0.0"
 
     `java-library`
     `maven-publish`
     signing
 
-    id("org.jetbrains.dokka") version "1.9.20"
-
-    id("io.papermc.paperweight.userdev") version "1.7.2"
+    id("io.papermc.paperweight.userdev") version "2.0.0-beta.8"
 }
 
 repositories {
@@ -26,7 +27,7 @@ repositories {
 }
 
 dependencies {
-    paperweight.paperDevBundle("1.21-R0.1-SNAPSHOT")
+    paperweight.paperDevBundle("1.21.4-R0.1-SNAPSHOT")
 
     api("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     api("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.8.1")
@@ -34,8 +35,7 @@ dependencies {
 }
 
 paperweight {
-    reobfArtifactConfiguration = io.papermc.paperweight.userdev
-        .ReobfArtifactConfiguration.MOJANG_PRODUCTION
+    reobfArtifactConfiguration = ReobfArtifactConfiguration.MOJANG_PRODUCTION
 }
 
 tasks {
@@ -47,9 +47,11 @@ tasks {
     withType<KotlinCompile> {
         compilerOptions.jvmTarget.set(JvmTarget.JVM_21)
     }
+}
 
-    dokkaHtml.configure {
-        outputDirectory.set(projectDir.resolve("docs"))
+dokka {
+    dokkaPublications.html {
+        outputDirectory.set(layout.buildDirectory.dir("docs"))
     }
 }
 
