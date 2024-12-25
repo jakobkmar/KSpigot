@@ -15,12 +15,22 @@ val Location.worldOrException: World
 
 /**
  * @return All blocks in this chunk.
+ * @see Chunk.blocks if you want a sequence. (much faster)
  */
-val Chunk.allBlocks
-    get() = LinkedHashSet<Block>().apply {
+val Chunk.allBlocks: Set<Block>
+    get() = blocks.toSet()
+
+/**
+ * @return All blocks in this chunk as [Sequence].
+ * @see Chunk.allBlocks if you want a set.
+ */
+val Chunk.blocks: Sequence<Block>
+    get() = sequence {
         for (y in world.minHeight until world.maxHeight) {
-            for (x in 0 until 16)
-                for (z in 0 until 16)
-                    add(getBlock(x, y, z))
+            for (x in 0 until 16) {
+                for (z in 0 until 16) {
+                    yield(getBlock(x, y, z))
+                }
+            }
         }
     }
