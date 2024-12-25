@@ -2,7 +2,6 @@
 
 package net.axay.kspigot.config
 
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import net.axay.kspigot.languageextensions.kotlinextensions.createIfNotExists

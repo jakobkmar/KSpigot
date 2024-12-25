@@ -1,7 +1,6 @@
 package net.axay.kspigot.ipaddress
 
 import kotlinx.serialization.SerializationException
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel

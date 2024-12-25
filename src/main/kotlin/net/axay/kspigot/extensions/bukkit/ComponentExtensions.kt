@@ -6,7 +6,7 @@ import net.kyori.adventure.text.TranslatableComponent
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer
 import net.kyori.adventure.translation.GlobalTranslator
-import java.util.Locale
+import java.util.*
 
 /**
  * Returns a [Component] from a [String]
