@@ -155,7 +155,7 @@ abstract class AbstractGUISpaceCompound<T : ForInventory, E> internal constructo
      * Removes these elements from the compound.
      */
     fun removeContent(elements: Iterable<E>) {
-        content -= elements
+        content -= elements.toSet()
         refreshAfterContentChange()
     }
 
