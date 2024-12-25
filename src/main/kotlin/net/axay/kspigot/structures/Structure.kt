@@ -1,6 +1,6 @@
 package net.axay.kspigot.structures
 
-import net.axay.kspigot.annotations.NMS_General
+import net.axay.kspigot.annotations.NMS
 import net.axay.kspigot.data.nbtData
 import net.axay.kspigot.extensions.bukkit.spawnCleanEntity
 import net.axay.kspigot.extensions.geometry.SimpleLocation3D
@@ -52,7 +52,7 @@ data class StructureDataBlock(
     }
 }
 
-@NMS_General
+@NMS
 data class StructureDataEntity(
     val entityType: EntityType,
     val nbtData: CompoundTag,

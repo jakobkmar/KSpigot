@@ -2,7 +2,7 @@ package net.axay.kspigot.commands
 
 import com.mojang.brigadier.CommandDispatcher
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import net.axay.kspigot.annotations.NMS_General
+import net.axay.kspigot.annotations.NMS
 import net.axay.kspigot.commands.internal.BrigadierSupport
 import net.minecraft.commands.CommandSourceStack
 
@@ -13,7 +13,7 @@ import net.minecraft.commands.CommandSourceStack
  * all players, this is true by default, but you can disable it if you are
  * calling this function as the server is starting
  */
-@NMS_General
+@NMS
 fun LiteralArgumentBuilder<CommandSourceStack>.register(sendToPlayers: Boolean = true) {
     if (!BrigadierSupport.executedDefaultRegistration)
         BrigadierSupport.commands += this

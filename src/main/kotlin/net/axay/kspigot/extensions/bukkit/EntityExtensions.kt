@@ -2,7 +2,7 @@
 
 package net.axay.kspigot.extensions.bukkit
 
-import net.axay.kspigot.annotations.NMS_General
+import net.axay.kspigot.annotations.NMS
 import net.axay.kspigot.chat.literalText
 import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.main.PluginInstance
@@ -131,7 +131,7 @@ fun Player.showOnlinePlayers() {
  * Spawns an entity without any variations in color, type etc...
  */
 @Deprecated("This function is unstable and it cannot be guaranteed that it will work at any time in the future.")
-@NMS_General
+@NMS
 fun Location.spawnCleanEntity(entityType: EntityType): Entity? {
     val craftWorld = world as? org.bukkit.craftbukkit.CraftWorld ?: return null
     return craftWorld.makeEntity(this, entityType.entityClass!!)?.let {

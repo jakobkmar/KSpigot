@@ -1,5 +1,3 @@
-@file:Suppress("ClassName")
-
 package net.axay.kspigot.annotations
 
 /**
@@ -16,4 +14,4 @@ annotation class UnsafeImplementation
  * unstable and should be checked every time
  * with a version change.
  */
-annotation class NMS_General
+annotation class NMS
