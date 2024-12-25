@@ -39,7 +39,7 @@ fun String.toLoreList(lineColor: TextColor = KColors.WHITE, vararg lineDecoratio
 
 /**
  * Returns the length of this sequence, ignoring
- * all minecraft colour codes.
+ * all minecraft color codes.
  */
 val CharSequence.lengthWithoutMinecraftColour: Int
     get() {

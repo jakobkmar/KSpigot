@@ -23,7 +23,7 @@ object PlayerMapHolder {
 
 /**
  * A map where entries will be removed
- * atomatically when a player leaves the server.
+ * automatically when a player leaves the server.
  */
 class OnlinePlayerMap<V> {
     val internalMap = HashMap<UUID, V>()

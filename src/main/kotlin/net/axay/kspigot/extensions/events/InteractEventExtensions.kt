@@ -34,7 +34,7 @@ val PlayerInteractEvent.clickedBlockExceptAir: Block?
                 // check for sight blocking entities
                 for (nearbyEntity: Entity in p.getNearbyEntities(5.0, 5.0, 5.0))
                     if (p.hasLineOfSight(nearbyEntity)) return@run null
-                // get first block in line of sight which is not air
+                // get the first block in line of sight which is not air
                 p.getLineOfSight(null, 5).find { block -> !block.type.isAir }
             } else null
         }
