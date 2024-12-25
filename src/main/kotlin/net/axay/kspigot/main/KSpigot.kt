@@ -1,6 +1,6 @@
 package net.axay.kspigot.main
 
-import net.axay.kspigot.commands.internal.BrigardierSupport
+import net.axay.kspigot.commands.internal.BrigadierSupport
 import net.axay.kspigot.extensions.bukkit.warn
 import net.axay.kspigot.extensions.console
 import net.axay.kspigot.gui.GUIHolder
@@ -68,7 +68,7 @@ abstract class KSpigot : JavaPlugin() {
 
         // only register the commands if the plugin has not disabled itself
         if (this.isEnabled) {
-            BrigardierSupport.registerAll()
+            BrigadierSupport.registerAll()
         }
     }
 

@@ -11,11 +11,12 @@ import net.minecraft.commands.CommandSourceStack
 import org.bukkit.event.player.PlayerJoinEvent
 
 /**
- * This class provides Brigardier support. It does that
- * by using reflection once. Additionally, this class is
+ * This class provides Brigadier support.
+ * It does that by using reflection once.
+ * Additionally, this class is
  * using some obfuscated functions.
  */
-object BrigardierSupport {
+object BrigadierSupport {
     @PublishedApi
     internal val commands = LinkedHashSet<LiteralArgumentBuilder<CommandSourceStack>>()
 

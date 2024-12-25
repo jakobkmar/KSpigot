@@ -2,7 +2,7 @@ package net.axay.kspigot.commands
 
 import com.mojang.brigadier.builder.ArgumentBuilder
 import com.mojang.brigadier.builder.LiteralArgumentBuilder
-import net.axay.kspigot.commands.internal.BrigardierSupport
+import net.axay.kspigot.commands.internal.BrigadierSupport
 import net.minecraft.commands.CommandSourceStack
 
 /**
@@ -18,7 +18,7 @@ inline fun command(
 ): LiteralArgumentBuilder<CommandSourceStack> =
     LiteralArgumentBuilder.literal<CommandSourceStack>(name).apply(builder).apply {
         if (register)
-            BrigardierSupport.commands += this
+            BrigadierSupport.commands += this
     }
 
 /**
