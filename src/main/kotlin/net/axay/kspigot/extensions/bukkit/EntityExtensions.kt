@@ -12,12 +12,7 @@ import net.kyori.adventure.title.Title
 import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.attribute.Attribute
-import org.bukkit.entity.ArmorStand
-import org.bukkit.entity.Damageable
-import org.bukkit.entity.Entity
-import org.bukkit.entity.EntityType
-import org.bukkit.entity.LivingEntity
-import org.bukkit.entity.Player
+import org.bukkit.entity.*
 import org.bukkit.inventory.EquipmentSlot
 import org.bukkit.inventory.ItemStack
 import java.time.Duration
@@ -61,7 +56,7 @@ val Entity.isStandingInMidAir: Boolean
  * @throws NullPointerException if the entity doesn't have a max health value
  */
 val LivingEntity.realMaxHealth: Double
-    get() = getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
+    get() = getAttribute(Attribute.MAX_HEALTH)?.value
         ?: throw NullPointerException("The entity does not have a max health value!")
 
 /**
@@ -76,7 +71,7 @@ fun Damageable.kill() {
  * @throws NullPointerException if the entity does not have a max health value
  */
 fun LivingEntity.heal() {
-    health = getAttribute(Attribute.GENERIC_MAX_HEALTH)?.value
+    health = getAttribute(Attribute.MAX_HEALTH)?.value
         ?: throw NullPointerException("The entity does not have a max health value!")
 }
 
