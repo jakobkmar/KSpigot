@@ -8,7 +8,7 @@ import java.io.DataInputStream
 
 internal class BungeePluginMessageResponseCallback(
     val subChannel: String,
-    val timeoutSeconds: Int,
+    timeoutSeconds: Int,
     val onResponse: (message: DataInputStream) -> Unit,
 ) {
 

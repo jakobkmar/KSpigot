@@ -42,7 +42,7 @@ fun ItemStack.unmark(key: String) = meta { unmark(key) }
 
 /** @see PersistentDataHolder.hasMark */
 fun ItemStack.hasMark(key: String): Boolean {
-    var result: Boolean = false
+    var result = false
     meta { result = hasMark(key) }
     return result
 }

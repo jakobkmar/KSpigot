@@ -26,7 +26,6 @@ inline fun <T> ArgumentBuilder<CommandSourceStack, *>.argument(
  *
  * @param name the name of the argument
  */
-@Suppress("UNCHECKED_CAST")
 inline fun <reified T> ArgumentBuilder<CommandSourceStack, *>.argument(
     name: String,
     builder: RequiredArgumentBuilder<CommandSourceStack, T>.() -> Unit = {}
