@@ -1,6 +1,6 @@
 package net.axay.kspigot.localization
 
-import org.apache.commons.lang.text.StrSubstitutor
+import org.apache.commons.lang3.text.StrSubstitutor
 import org.bukkit.entity.Player
 import java.io.InputStreamReader
 import java.nio.charset.StandardCharsets

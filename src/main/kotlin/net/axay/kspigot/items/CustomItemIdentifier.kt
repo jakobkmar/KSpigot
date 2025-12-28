@@ -19,8 +19,8 @@ data class CustomItemIdentifier(val customModelData: Int, val placeHolderMateria
             this(
                 kotlin.run {
                     val itemMeta = itemStack.itemMeta
-                    if (itemMeta != null && itemMeta.hasCustomModelData()) {
-                        return@run itemMeta.customModelData
+                    if (itemMeta != null && itemMeta.hasCustomModelDataComponent()) {
+                        return@run itemMeta.customModel ?: 0
                     }
                     return@run 0
                 },
@@ -32,7 +32,7 @@ data class CustomItemIdentifier(val customModelData: Int, val placeHolderMateria
             val itemStack = ItemStack(placeHolderMaterial, 1)
             val itemMeta: ItemMeta? = itemStack.itemMeta
             return if (itemMeta != null) {
-                itemMeta.setCustomModelData(customModelData)
+                itemMeta.customModel = customModelData
                 itemStack.itemMeta = itemMeta
                 itemStack
             } else null

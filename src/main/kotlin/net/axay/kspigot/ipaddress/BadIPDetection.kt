@@ -7,6 +7,7 @@ import kotlinx.serialization.json.JsonObject
 import net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel
 import org.bukkit.entity.Player
 import java.net.HttpURLConnection
+import java.net.URI
 import java.net.URL
 
 /**
@@ -97,7 +98,7 @@ abstract class BadIPDetectionService(
     protected abstract fun interpreteResult(result: JsonObject): BadIPDetectionResult
 
     fun isBad(ip: String): BadIPDetectionResult {
-        val con = URL(requestString(ip)).openConnection() as HttpURLConnection
+        val con = URI.create(requestString(ip)).toURL().openConnection() as HttpURLConnection
         con.requestMethod = "GET"
         requestHeaders().forEach { (field, value) -> con.setRequestProperty(field, value) }
         con.connect()

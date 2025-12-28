@@ -8,6 +8,7 @@ import net.axay.kspigot.extensions.onlinePlayers
 import net.axay.kspigot.extensions.server
 import net.axay.kspigot.main.KSpigotMainInstance
 import net.minecraft.commands.CommandSourceStack
+import org.bukkit.event.EventPriority
 import org.bukkit.event.player.PlayerJoinEvent
 
 /**
@@ -23,7 +24,7 @@ object BrigardierSupport {
         private set
 
     init {
-        listen<PlayerJoinEvent> { event ->
+        listen<PlayerJoinEvent>(priority = EventPriority.HIGHEST) { event ->
             val player = event.player
             val permAttachment = player.addAttachment(KSpigotMainInstance)
             commands.forEach {
@@ -33,8 +34,7 @@ object BrigardierSupport {
     }
 
     @Suppress("HasPlatformType")
-    fun resolveCommandManager() = (server as org.bukkit.craftbukkit.CraftServer)
-        .server.commands
+    fun resolveCommandManager() = (server as org.bukkit.craftbukkit.CraftServer).server.commands
 
     internal fun registerAll() {
         executedDefaultRegistration = true
