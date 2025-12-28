@@ -1,0 +1,24 @@
+
+name: Publish release
+on:
+  push:
+    branches:
+      - publish
+jobs:
+  gradle:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4.2.2
+      - uses: actions/setup-java@v4.6.0
+        with:
+          distribution: "temurin"
+          java-version: "21"
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@4.2.2
+
+      - name: Execute Gradle build
+        run: ./gradlew build
+
+      - name: Publish to Ossrh
+        run: ./gradlew publishAllPublicationsToOssrhRepository -PossrhUsername=${{ secrets.OSSRH_USERNAME }} -PossrhPassword=${{ secrets.OSSRH_PASSWORD }}
