@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 val githubRepo = "jakobkmar/KSpigot"
 
 group = "net.axay"
-version = "1.21.0"
+version = "1.21.10"
 
 description = "A Kotlin API for Minecraft plugins using the Spigot or Paper toolchain"
 
