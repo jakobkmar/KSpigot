@@ -48,6 +48,7 @@ fun Player.checkIP(
  *  - [net.axay.kspigot.ipaddress.badipdetectionservices.GetIPIntel]
  *  - [net.axay.kspigot.ipaddress.badipdetectionservices.IPHub]
  *  - [net.axay.kspigot.ipaddress.badipdetectionservices.VPNBlocker]
+ *  - [net.axay.kspigot.ipaddress.badipdetectionservices.IP2LocationIO] (works without a key, 1,000 queries/day)
  */
 class BadIPDetector(
     private val services: List<BadIPDetectionService>,
